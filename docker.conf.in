@@ -1,0 +1,17 @@
+######################################################################
+# Docker image name. Normally the Git repo name.
+# ie: IMAGE_NAME="places-web"
+#
+IMAGE_NAME="my-app-web"
+
+######################################################################
+# Human readable image version.
+# i.e: IMAGE_VERSION="13.37"
+#
+IMAGE_VERSION="0.1"
+
+######################################################################
+# Add custom tags to be added to a built image. Separate tags by comma.
+# i.e: CUSTOM_TAGS="dev,java,feature-8"
+#
+# CUSTOM_TAGS="dev,ref,prod"

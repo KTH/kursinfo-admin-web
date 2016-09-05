@@ -1,0 +1,41 @@
+<h1>About {{{appName}}}</h1>
+<hr/>
+<table class="about">
+  <tr>
+    <td><b>Application version:</b></td>
+    <td>{{{appVersion}}}</td>
+  </tr>
+  <tr class="odd">
+    <td><b>Application description:</b></td>
+    <td>{{{appDescription}}}</td>
+  </tr>
+  <tr>
+    <td><b>Jenkins build id:</b></td>
+    <td>{{{jenkinsBuild}}}</td>
+  </tr>
+  <tr class="odd">
+    <td><b>Git branch:</b></td>
+    <td>{{{gitBranch}}}</td>
+  </tr>
+  <tr>
+    <td><b>Git commit hash:</b></td>
+    <td>{{{gitCommit}}}</td>
+  </tr>
+  <tr class="odd">
+    <td><b>Build date:</b></td>
+    <td>{{{jenkinsBuildDate}}}</td>
+  </tr>
+  <tr>
+    <td><b>Language:</b></td>
+    <td>{{{language}}}</td>
+  </tr>
+</table>
+<hr/>
+<dl>
+  <dt>System:</dt>
+  <dd>
+    <a href="{{ withProxyPrefixPath '/_monitor' }}">Monitor</a> |
+    <a href="/robots.txt">robots.txt</a>
+  </dd>
+</dl>
+<!-- env: {{env}} -->

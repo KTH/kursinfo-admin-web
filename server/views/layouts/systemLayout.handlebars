@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="robots" content="noindex">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
+    <title>System page</title>
+
+    {{#if debug}}
+      {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
+    {{/if}}
+
+    {{{render 'head-scripts'}}}
+  </head>
+  <body>
+    {{{body}}}
+  </body>
+</html>

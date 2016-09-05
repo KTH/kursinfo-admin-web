@@ -1,0 +1,85 @@
+{
+  "//": "JSHint configuration - http://jshint.com/docs/options/",
+  "name": "node-web",
+  "version": "1.0.0",
+  "description": "Template project for a node express web server",
+  "main": "app.js",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/KTH/node-web"
+  },
+  "scripts": {
+    "//": "Gulp installs css and javascript",
+    "test": "echo \"ok\"",
+    "codecheck": "standard",
+    "webpackProd": "gulp webpack:prod && gulp webpack:ref",
+    "vendorProd": "gulp vendor:prod && gulp vendor:ref",
+    "buildConfig": "cross-env NODE_ENV=development node ./buildConfig.js",
+    "postinstall": "gulp moveAssets && gulp transpileSass && npm run buildConfig",
+    "preversion": "npm run codecheck && npm run test",
+    "postversion": "git push && git push --tags",
+    "nodeInspector": "node-inspector --web-port 8890",
+    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 && tail -f .",
+    "installAndStart": "npm install && npm start",
+    "start": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\"",
+    "debug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"node --debug-brk app.js\" \"gulp watch\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+  },
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "bootstrap": "^3.3.6",
+    "co": "^4.6.0",
+    "cookie-parser": "^1.4.2",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "jquery": "^3.1.0",
+    "knockout": "^3.4.0",
+    "knockout.viewmodel": "https://github.com/KTH/knockout.viewmodel.git#v2.0.3",
+    "kth-client-ajax": "https://github.com/KTH/kth-client-ajax.git#v1.0.2",
+    "kth-node-i18n": "https://github.com/KTH/kth-node-i18n.git#v1.0.0",
+    "kth-node-api-call": "https://github.com/KTH/kth-node-api-call.git#v1.0.0",
+    "kth-node-cache": "https://github.com/KTH/kth-node-cache.git#v1.0.0",
+    "kth-node-cortina-block": "https://github.com/KTH/kth-node-cortina-block.git#v1.0.0",
+    "kth-node-access-log": "https://github.com/KTH/kth-node-access-log.git#v1.0.0",
+    "kth-node-configuration": "https://github.com/KTH/kth-node-configuration.git#v1.0.0",
+    "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.0",
+    "kth-node-response": "https://github.com/KTH/kth-node-response.git#v1.0.0",
+    "kth-node-server": "https://github.com/KTH/kth-node-server.git#v1.0.0",
+    "kth-node-session": "https://github.com/KTH/kth-node-session.git#v1.0.0",
+    "kth-node-passport-cas": "https://github.com/KTH/kth-node-passport-cas.git#v1.0.0",
+    "kth-node-passport-oidc": "https://github.com/KTH/kth-node-passport-oidc.git#v1.0.0",
+    "kth-node-redis": "https://github.com/KTH/kth-node-redis.git#v1.0.0",
+    "kth-style": "https://github.com/KTH/kth-style.git#v1.0.1",
+    "kth-client-logging": "https://github.com/KTH/kth-client-logging.git#v1.0.0",
+    "ldapjs": "^1.0.0",
+    "node-sass-middleware": "^0.9.8",
+    "passport": "^0.3.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "browser-sync": "^2.12.8",
+    "concurrently": "^2.1.0",
+    "cross-env": "^2.0.0",
+    "gulp": "^3.9.1",
+    "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.0.1",
+    "standard": "^7.1.1"
+  },
+  "optionalDependencies": {
+    "node-inspector": "^0.12.8",
+    "nodemon": "^1.9.2"
+  },
+  "engines": {
+    "node": "4.3.1"
+  },
+  "jshintConfig": {
+    "maxerr": 5
+  },
+  "standard": {
+    "ignore": [
+      "public/js/lib/firebug-lite/*"
+    ]
+  }
+}

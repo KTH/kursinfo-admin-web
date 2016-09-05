@@ -1,0 +1,22 @@
+﻿/**
+ * This is the template for the configuration file that holds
+ * all secret information that is used in the local environment.
+ * This file is checked in to git, but the localSettings.js file each developer
+ * should create based on this template is not.
+ */
+
+module.exports = {
+  secure: {
+    sessionSecret: '',
+    apiKey: {
+      sampleApi: ''
+    },
+    db: {
+      username: '',
+      password: ''
+    },
+    ldap: {
+      password: ''
+    }
+  }
+}
