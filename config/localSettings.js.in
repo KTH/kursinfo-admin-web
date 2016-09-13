@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+  useSsl: false,
+  hostUrl: 'http://localhost:3000',
+  port: 3000,
   secure: {
     sessionSecret: '',
     apiKey: {
@@ -16,7 +19,70 @@ module.exports = {
       password: ''
     },
     ldap: {
+      // in dev, set this to true to bypass any authorization of the user
+      bypassUserAuthorization: false,
+      uri: '',
+      base: '',
+      filter: '',
+      username: ''
       password: ''
     }
+  },
+  ssl: {
+    // or pfx(p12) and pass phrase for key
+    pfx: '',       // path to cert
+    passphrase: '' // pass phrase for pfx-cert
+  },
+  cas: {
+    ssoBaseURL: '' // https://login.domain.to.server
+  },
+  nodeApi: {
+    sampleApi: {
+      https: false,
+      host: 'localhost',
+      port: 3001,
+      proxyBasePath: '/api/node'
+    }
+  },
+  blockApi: {
+    blockUrl: 'https://www.kth.se/cm/' // Block API base URL
+  },
+  logging: {
+    log: {
+      level: 'debug'
+    },
+    accessLog: {
+      useAccessLog: true
+    },
+    logstash: {
+      host: '',
+      port: 5000,
+      maxQueueSize: 1000,
+      caCerts: [ 'Digicert_CA.pem', 'TERENA_SSL_CA_3.pem' ]
+    }
+  },
+  clientLogging: {
+    level: 'debug'
+  },
+  cache: {
+    cortinaBlock: {
+      redis: {
+        host: 'localhost',
+        port: 6379
+      }
+    }
+  },
+  cssTranspiler: {
+    force: true,
+    debug: true
+  },
+  session: {
+    key: 'node-web.sid',
+    useRedis: false,
+    sessionOptions: {
+      // do not set session secret here!!
+      cookie: { secure: false }
+    },
+    redisOptions: {}
   }
 }

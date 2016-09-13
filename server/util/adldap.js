@@ -28,11 +28,11 @@ function _isOk () {
 
 function createClient () {
   var client = ldap.createClient({
-    url: config.ldap.uri,
+    url: secureConfig.ldap.uri,
     timeout: config.ldapClient.timeout,
     connectTimeout: config.ldapClient.connecttimeout,
     maxConnections: config.ldapClient.maxconnections,
-    bindDN: config.ldap.username,
+    bindDN: secureConfig.ldap.username,
     bindCredentials: secureConfig.ldap.password,
     checkInterval: config.ldapClient.checkinterval,
     maxIdleTime: config.ldapClient.maxidletime,
