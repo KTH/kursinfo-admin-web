@@ -6,6 +6,6 @@
  */
 
 module.exports = {
-  System: require('./system-ctrl'),
-  Sample: require('./sample-ctrl')
+  System: require('./systemCtrl'),
+  Sample: require('./sampleCtrl')
 }

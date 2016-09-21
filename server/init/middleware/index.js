@@ -7,18 +7,18 @@
 
 const log = require('kth-node-log')
 
-require('./crawler-redirect')
+require('./crawlerRedirect')
 require('./session')
 require('./parsers')
 require('./language')
-require('./access-log')
+require('./accessLog')
 
 // The standard css transpiler is Sass but you can easily switch here
 // OBS that with the current code you can't run Sass and Less at the same time
 require('./sass')
 
 require('./routing')
-require('./cas-authentication')
+require('./casAuthentication')
 require('./cortina')
 
 log.info('Middleware initialized')

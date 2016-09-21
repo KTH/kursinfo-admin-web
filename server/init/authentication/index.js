@@ -2,5 +2,5 @@
 
 const log = require('kth-node-log')
 
-require('./cas-strategy')
+require('./casStrategy')
 log.info('Authentication initialized')

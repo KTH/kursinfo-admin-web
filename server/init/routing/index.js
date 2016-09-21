@@ -2,7 +2,7 @@
 
 const log = require('kth-node-log')
 
-require('./sample-routes')
-require('./system-routes')
+require('./sampleRoutes')
+require('./systemRoutes')
 
 log.info('Routing initialized')
