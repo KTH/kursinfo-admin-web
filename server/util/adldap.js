@@ -1,8 +1,8 @@
-var ldap = require('ldapjs')
-var config = require('../init/configuration').full
-var secureConfig = require('../init/configuration').secure
-var log = require('kth-node-log')
-var session = require('./session')
+const ldap = require('ldapjs')
+const config = require('../init/configuration').full
+const secureConfig = require('../init/configuration').secure
+const log = require('kth-node-log')
+const session = require('./session')
 
 /**
  * Creating an LDAPJS Client instance based on the configuration in localSettings.js
