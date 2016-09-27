@@ -24,4 +24,6 @@ COPY [".", "."]
 
 RUN cp -a /npm/node_modules /application
 
+EXPOSE 3000
+
 ENTRYPOINT ["node", "app.js"]
