@@ -21,10 +21,12 @@
     "preversion": "npm run codecheck && npm run test",
     "postversion": "git push && git push --tags",
     "nodeInspector": "node-inspector --web-port 8890",
-    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 && tail -f .",
+    "openDebugBrowser": "sleep 2s && chromium http://127.0.0.1:8890/\\?port\\=5858",
     "installAndStart": "npm install && npm start",
+    "startDebug": "NODE_ENV=development node --debug-brk app.js",
     "start": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\"",
-    "debug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"node --debug-brk app.js\" \"gulp watch\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+    "myDebug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"npm run nodeInspector\" \"npm run startDebug\"",
+    "debug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"gulp watch\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
   },
   "dependencies": {
     "body-parser": "^1.15.1",
