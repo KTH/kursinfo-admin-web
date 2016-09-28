@@ -15,6 +15,7 @@ RUN mkdir -p /application
 WORKDIR /npm
 
 COPY ["package.json", "package.json"]
+
 RUN npm install
 
 # Add the code and copy over the node_modules
@@ -23,6 +24,7 @@ WORKDIR /application
 COPY [".", "."]
 
 RUN cp -a /npm/node_modules /application
+RUN cp -a /config/localSettings.js.in /config/localSettings.js 
 
 EXPOSE 3000
 
