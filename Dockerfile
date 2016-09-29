@@ -24,7 +24,13 @@ WORKDIR /application
 COPY [".", "."]
 
 RUN cp -a /npm/node_modules /application
-RUN cp -a /config/localSettings.js.in /config/localSettings.js 
+RUN cp -a /application/config/secretSettings.js /application/config/localSettings.js
+
+ENV NODE_PATH /application
+
+RUN npm run vendorProd
+RUN npm run webpackProd
+RUN npm run postinstall
 
 EXPOSE 3000
 
