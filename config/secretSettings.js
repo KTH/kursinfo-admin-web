@@ -31,7 +31,7 @@ module.exports = {
   nodeApi: {
     sampleApi: {
       https: false,
-      port: 3001,
+      port: getEnv('NODE_API_SAMPLE_PORT', 3001),
       host: getEnv('NODE_API_SAMPLE_HOST'),
       proxyBasePath: '/api/node'
     }
