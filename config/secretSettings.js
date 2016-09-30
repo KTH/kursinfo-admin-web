@@ -30,10 +30,10 @@ module.exports = {
   },
   nodeApi: {
     sampleApi: {
-      https: false,
-      port: getEnv('NODE_API_SAMPLE_PORT', 3001),
+      https: getEnv('NODE_API_SAMPLE_HTTPS', false),
+      port: getEnv('NODE_API_SAMPLE_PORT'),
       host: getEnv('NODE_API_SAMPLE_HOST'),
-      proxyBasePath: '/api/node'
+      proxyBasePath: getEnv('NODE_API_SAMPLE_PATH')
     }
   },
   blockApi: {
