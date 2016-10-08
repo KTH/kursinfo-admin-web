@@ -48,14 +48,14 @@ If your application is going to be proxied on www.kth.se/api/your-api-path make 
 
 1. Make sure you add the proxy prefix path in your paths in /server/init/routing/paths.js e.g
 
- ```javascript
+ ```json
  monitor : {
    uri : '/api/node/_monitor',
    method : 'GET'
  }
  ```
-      
-2. Set you basePath property in /swagger.json e.g. 
+
+2. Set you basePath property in /swagger.json e.g.
 
  ```javascript
  "basePath": "/api/node/v1"
@@ -63,27 +63,26 @@ If your application is going to be proxied on www.kth.se/api/your-api-path make 
 
 ## Starting the server
 The easiest way to start the application is to, in the root of the application, run
-```
+```bash
 ./start.sh
 ```
 If that doesn't work, running the following does the same:
-```
+```bash
 npm run installAndStart
 ```
 That installs all the dependencies and performns some tasks before starting the server. This is mostly good, but can take unnecessary time. To start the server without running those tasks, run:
-```
+```bash
 npm start
 ```
 ## Debugging the server
 To debug the node server, run the following:
-```
+```bash
 npm run debug
 ```
 That starts two browser windows, one for running the application and one for debugging the node server
 
 ##Debugging in mobile browsers
 To be able to view firebug lite, append ?debug to any url like so:
-```
+```bash
 http://localhost:3003/node?debug
 ```
-
