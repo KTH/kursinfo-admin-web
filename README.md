@@ -12,7 +12,7 @@ The two projects are [node-web](https://github.com/KTH/node-web), a web server w
 It's important that we try to make changes that affect the template projects in the template projects themselves.
 
 ###How do I use node-web template project for a project of my own?
-1. Create a new repository on gita.
+1. Create a new git repository on github.com/KTH (or other somewhere else).
 2. Clone the newly created repository locally by using:
 
  ```bash
