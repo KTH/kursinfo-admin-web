@@ -3,7 +3,7 @@
 const getEnv = require('kth-node-configuration').getEnv
 
 module.exports = {
-  useSsl: getEnv('SERVER_USE_SSL',false),
+  useSsl: getEnv('SERVER_USE_SSL', false),
   ssl: {
     pfx: getEnv('SERVER_CERT_FILE', '/certs/localhost.p12'),
     passphrase: getEnv('SERVER_CERT_PASSPHRASE', '/certs/localhost.pass')
