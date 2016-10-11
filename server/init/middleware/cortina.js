@@ -15,7 +15,7 @@ const cortina = require('kth-node-cortina-block')
 const server = require('../../server')
 const redis = require('kth-node-redis')
 const language = require('../../util/language')
-const i18n = require('../../../public/js/app/i18n/i18nClient')
+const i18n = require('kth-node-i18n')
 
 function _getRedisClient () {
   return redis('cortina', config.full.cache.cortinaBlock.redis)

@@ -1,7 +1,7 @@
 const ko = require('knockout')
 require('knockout.viewmodel')
 const log = require('./logging')
-const i18n = require('../i18n/i18nClient')
+const i18n = require('kth-node-i18n')
 
 /**
  * Binding handler that allows a initial value to be set.
