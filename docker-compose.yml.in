@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  web:
+    # Existing image in repository
+    # image: kthse/docker pull kthse/kth-nodejs-web:13.37
+    
+    # Build from Dockerfile in current directory
+    build: .
+    
+    # Port published from inside the Docker image
+    ports:
+      - 3000
+    
+    # Other images specified in this docker-compose file.
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379
