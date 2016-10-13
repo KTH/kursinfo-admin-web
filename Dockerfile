@@ -7,6 +7,7 @@ LABEL name="KTH Node Base Image"
 LABEL vendor="KTH Royal Institute of Technology"
 LABEL license="The MIT License (MIT)"
 
+RUN apt-get update; apt-get -y upgrade
 RUN mkdir -p /npm
 RUN mkdir -p /application
 
