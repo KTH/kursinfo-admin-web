@@ -12,7 +12,7 @@ The two projects are [node-web](https://github.com/KTH/node-web), a web server w
 It's important that we try to make changes that affect the template projects in the template projects themselves.
 
 ###How do I use node-web template project for a project of my own?
-1. Create a new repository on gita.
+1. Create a new git repository on github.com/KTH (or other somewhere else).
 2. Clone the newly created repository locally by using:
 
  ```bash
@@ -48,14 +48,14 @@ If your application is going to be proxied on www.kth.se/api/your-api-path make 
 
 1. Make sure you add the proxy prefix path in your paths in /server/init/routing/paths.js e.g
 
- ```javascript
+ ```json
  monitor : {
    uri : '/api/node/_monitor',
    method : 'GET'
  }
  ```
-      
-2. Set you basePath property in /swagger.json e.g. 
+
+2. Set you basePath property in /swagger.json e.g.
 
  ```javascript
  "basePath": "/api/node/v1"
@@ -63,27 +63,26 @@ If your application is going to be proxied on www.kth.se/api/your-api-path make 
 
 ## Starting the server
 The easiest way to start the application is to, in the root of the application, run
-```
+```bash
 ./start.sh
 ```
 If that doesn't work, running the following does the same:
-```
+```bash
 npm run installAndStart
 ```
 That installs all the dependencies and performns some tasks before starting the server. This is mostly good, but can take unnecessary time. To start the server without running those tasks, run:
-```
+```bash
 npm start
 ```
 ## Debugging the server
 To debug the node server, run the following:
-```
+```bash
 npm run debug
 ```
 That starts two browser windows, one for running the application and one for debugging the node server
 
 ##Debugging in mobile browsers
 To be able to view firebug lite, append ?debug to any url like so:
-```
+```bash
 http://localhost:3003/node?debug
 ```
-

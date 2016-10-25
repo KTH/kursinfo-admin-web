@@ -14,6 +14,7 @@
     "//": "Gulp installs css and javascript",
     "test": "echo \"ok\"",
     "codecheck": "standard",
+    "codefix": "standard --fix",
     "webpackProd": "gulp webpack:prod && gulp webpack:ref",
     "vendorProd": "gulp vendor:prod && gulp vendor:ref",
     "buildConfig": "cross-env NODE_ENV=development node ./buildConfig.js",
