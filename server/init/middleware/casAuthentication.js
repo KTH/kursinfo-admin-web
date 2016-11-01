@@ -171,6 +171,7 @@ server.gatewayLogin = function (fallback) {
     if (req.session.gatewayAttempts >= 2) {
       log.debug('gatewayLogin: exhausted gateway attempts, allow access as anonymous user')
       log.debug({ session: req.session }, 'gatewayLogin: session')
+      req.session.gatewayAttempts = 0 // reset gateway attempts to fix authentication for users not logged in the first time a cookie is set
       next()
       return
     }
