@@ -11,8 +11,9 @@ module.exports = {
 
 function * getIndex (req, res, next) {
   try {
-    const client = api.sampleApi.client
-    const paths = api.sampleApi.paths
+    const cachedApi = getCachedApi()
+    const client = cachedApi.client
+    const paths = cachedApi.paths
     const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }))
 
     res.render('sample/index', {
@@ -23,4 +24,16 @@ function * getIndex (req, res, next) {
   } catch (err) {
     next(err)
   }
+}
+
+/*
+ * Get cache api, if not configured, use default api to avoid problems
+ */
+function getCachedApi() {
+  if (api.sampleApiCached === undefined) {
+    log.info('No cached api configured, using deafult api')
+    return api.sampleApi
+  }
+
+  return api.sampleApiCached
 }

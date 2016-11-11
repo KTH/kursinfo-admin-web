@@ -46,7 +46,6 @@ function _getRedisClient (apiName) {
   return Promise.reject(false)
 }
 
-
 /*
  * If configured to use nodeApi, i.e. api supporting KTH api standard and exposes a /_paths url
  * where the public URL is published.
@@ -118,6 +117,7 @@ function configureApiCache (clients) {
 function _export () {
   const endpoints = _createClients()
   const output = {}
+
   _getPaths(endpoints)
     .then((results) => {
       results.forEach((endpoint) => {
