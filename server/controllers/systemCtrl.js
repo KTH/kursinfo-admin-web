@@ -43,7 +43,7 @@ function _notFound (req, res, next) {
 function _final (err, req, res, next) {
   log.error({ err: err }, 'Unhandled error')
 
-  const statusCode = err.status || 500
+  const statusCode = err.status || err.statusCode || 500
   const isProd = (/prod/gi).test(process.env.NODE_ENV)
   const lang = language.getLanguage(res)
 
