@@ -44,6 +44,13 @@ server.use(config.full.proxyPrefixPath.uri + '/static/js/components', express.st
 server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./bundles/${getEnv()}`))
 // Map static content like images, css and js.
 server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./public'))
+// Return 404 if static file isn't found so we don't go through the rest of the pipeline
+server.use(config.full.proxyPrefixPath.uri + '/static', function (req, res, next) {
+  var error = new Error('File not found: ' + req.originalUrl)
+  error.statusCode = 404
+  next(error)
+})
+
 
 // "case sensitive routing" tells Express whether /my-path is the same as /My-PaTH/
 // This is default false but I think better for SEO purposes, creating one canonical url.
