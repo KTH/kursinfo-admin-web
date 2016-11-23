@@ -13,7 +13,7 @@ require('./accessLog')
 // NOTE! that with the current code you can't run Sass and Less at the same time
 // Static resources should be handled first to avoid doing unnecessary work 
 require('./sass')
-require('./routing')
+require('./staticFiles')
 
 require('./session')
 require('./parsers')
