@@ -16,6 +16,4 @@ function _setLanguage (req, res, next) {
   next()
 }
 
-// Match all routes that aren't under the static directory
-const langRouteRegex = new RegExp('^' + config.full.proxyPrefixPath.uri + '/(?!static).*$', 'g')
-server.use(langRouteRegex, _setLanguage)
+server.use(config.full.proxyPrefixPath.uri, _setLanguage)

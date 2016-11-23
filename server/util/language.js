@@ -30,11 +30,14 @@ function _init (req, res, newLang) {
   // If we got an explicit language we set the language cookie
   if (newLang) {
     res.cookie(cookieName, chosenLocale.language)
+  } else if (!req.cookies[ cookieName ]) {
+    // Make sure language cookie is set so subsequent requests are guaranteed to use the same language
+    res.cookie(cookieName, lang)
   }
 
   res.locals.locale = chosenLocale
   // Backwards compatibility only in case someone accessed the prop directly:
-  res.locals.language = chosenLocale.getLanguage
+  res.locals.language = chosenLocale.language
 
   return chosenLocale
 }
