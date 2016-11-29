@@ -2,6 +2,7 @@
 
 const api = require('../init/api')
 const co = require('co')
+const log = require('kth-node-log')
 
 console.log(api)
 
