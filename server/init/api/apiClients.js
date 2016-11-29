@@ -5,26 +5,26 @@ const BasicAPI = require('kth-node-api-call').BasicAPI
 const config = require('../configuration').full
 const redis = require('kth-node-redis')
 
+const RECONNECT_TIMEOUT = 30000 // reconnect timeout for the api:s
 /*
  * Check if there is a cache configured for this api
  */
 function isRedisConfigured (apiName) {
-    if (config.cache && config.cache[ apiName ]) {
-      return true
-    }
-
-    return false
+  if (config.cache && config.cache[ apiName ]) {
+    return true
+  }
+  return false
 }
 
 /*
  * Check if there is a cache configured for this api
  */
 function _getRedisCacheConfig (apiName) {
-    if (config.cache && config.cache[ apiName ]) {
-      return config.cache[ apiName ]
-    }
+  if (config.cache && config.cache[ apiName ]) {
+    return config.cache[ apiName ]
+  }
 
-    return undefined
+  return undefined
 }
 
 /*
@@ -36,7 +36,7 @@ function _getRedisCacheConfig (apiName) {
 function _getRedisClient (apiName) {
   try {
     if (isRedisConfigured(apiName)) {
-      const cacheConfig = _getRedisCacheConfig (apiName)
+      const cacheConfig = _getRedisCacheConfig(apiName)
       return redis(apiName, cacheConfig.redis)
     }
   } catch (err) {
@@ -67,31 +67,52 @@ function _createClients () {
     return {
       key: key,
       config: api,
+      connected: false,
       client: new BasicAPI(opts)
     }
   })
 }
 
-function _getPaths (endpoints) {
-  const paths = '/_paths'
-  const tasks = endpoints.map((api) => {
-    const uri = `${api.config.proxyBasePath}${paths}`
-    return api.client.getAsync(uri)
-      .then((data) => {
-        if (data.statusCode === 200) {
-          api.paths = data.body.api
-          return api
-        }
+/*
+ * _connect sets up connections to the apis, and if it fails it keeps retrying every RECONNECT_TIMEOUT millisecond until it receives a 'paths' response from the api endpoint
+*/
+function _connect (api) {
+  const uri = `${api.config.proxyBasePath}/_paths` // get the proxyBasePath eg. api/publications
+  return api.client.getAsync(uri)                   // return the api paths for the api
+  .then((data) => {
+    if (data.statusCode === 200) {
+      api.paths = data.body.api
+      api.connected = true
+      log.info('Connected to api: ' + api.key)
+      return api
+    } else {
+      throw new Error(data.statusCode + ' We can\'t access this API server. Check path and keys')
+    }
+  })
+  .catch((err) => {
+    log.error({ err: err }, 'Failed to get API paths from API: ', api.key, 'host: ', api.config.host, ' proxyBasePath: ', api.config.proxyBasePath)
+    setTimeout(function () {
+      log.info('Reconnecting to api: ' + api.key)
+      _connect(api)
+    }, RECONNECT_TIMEOUT)
+    return api
+  })
+}
 
-        throw new Error('Bad response for ' + api.key + ' when getting paths: ' + data.statusCode)
-      })
+/*
+ * @param endpoints the given endpoints
+ * @returns {Promise}
+ */
+function _getPaths (endpoints) {
+  // log.debug('endpoints: ', endpoints)
+  const tasks = endpoints.map((api) => {              // for each endpoint
+    return _connect(api)
   })
   return Promise.all(tasks)
 }
 
 function configureApiCache (clients) {
   Object.keys(clients).map(apiName => {
-    const client = clients[ apiName ]
     if (isRedisConfigured(apiName)) {
       _getRedisClient(apiName)
       .then(redisClient => {
@@ -103,11 +124,10 @@ function configureApiCache (clients) {
         }
       })
       .catch(err => {
-        log.error('Unable to create redisClient')
+        log.error('Unable to create redisClient', {error: err})
         clients[ apiName ].client._hasRedis = false
       })
       log.debug(`API configured to use redis cache: ${apiName}`)
-
     }
   })
 
