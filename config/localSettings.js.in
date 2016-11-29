@@ -60,12 +60,6 @@ module.exports = {
     },
     accessLog: {
       useAccessLog: true
-    },
-    logstash: {
-      host: '',
-      port: 5000,
-      maxQueueSize: 1000,
-      caCerts: [ 'Digicert_CA.pem', 'TERENA_SSL_CA_3.pem' ]
     }
   },
   clientLogging: {
