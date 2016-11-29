@@ -17,7 +17,7 @@
     "codefix": "standard --fix",
     "webpackProd": "gulp webpack:prod && gulp webpack:ref",
     "vendorProd": "gulp vendor:prod && gulp vendor:ref",
-    "buildConfig": "cross-env NODE_ENV=development node ./buildConfig.js",
+    "buildConfig": "cross-env NODE_PATH=. NODE_ENV=development node ./buildConfig.js",
     "postinstall": "gulp moveAssets && gulp transpileSass && npm run buildConfig",
     "preversion": "npm run codecheck && npm run test",
     "postversion": "git push && git push --tags",
@@ -69,7 +69,9 @@
     "cross-env": "^2.0.0",
     "gulp": "^3.9.1",
     "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.0.1",
-    "standard": "^7.1.1"
+    "standard": "^7.1.1",
+    "zombie": "5.0.5",
+    "mocha": "3.2.0"
   },
   "optionalDependencies": {
     "node-inspector": "^0.12.8",
