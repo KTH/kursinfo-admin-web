@@ -104,7 +104,7 @@ var ldapClient = createClient()
  * timeLimit  the maximum amount of time the server should take in responding, in seconds. Defaults to 10. Lots of servers will ignore this.
  */
 module.exports.redirectAuthenticatedUser = function (kthid, res, req, pgtIou) {
-  var searchFilter = config.ldap.filter.replace(config.ldapClient.filterReplaceHolder, kthid)
+  var searchFilter = config.secure.ldap.filter.replace(config.ldapClient.filterReplaceHolder, kthid)
 
   var searchOptions = {
     scope: config.ldapClient.scope,
@@ -114,7 +114,7 @@ module.exports.redirectAuthenticatedUser = function (kthid, res, req, pgtIou) {
     timeLimit: config.ldapClient.searchtimeout
   }
 
-  ldapClient.search(config.ldap.base, searchOptions, function (err, users) {
+  ldapClient.search(config.secure.ldap.base, searchOptions, function (err, users) {
     if (err) {
       log.error({ err: err }, 'LDAP search error')
       res.redirect('/')
@@ -126,8 +126,13 @@ module.exports.redirectAuthenticatedUser = function (kthid, res, req, pgtIou) {
 
       if (entry) {
         session.SetLdapUser(req, entry.object, pgtIou)
-        log.info({ req: req }, `Logged in user (${kthid}) exist in LDAP group, redirecting to ${req.query[ 'nextUrl' ]}`)
-        res.redirect(req.query[ 'nextUrl' ])
+        if (req.query['nextUrl']) {
+          log.info({ req: req }, `Logged in user (${kthid}) exist in LDAP group, redirecting to ${req.query[ 'nextUrl' ]}`)
+          res.redirect(req.query[ 'nextUrl' ])
+        } else {
+          log.info({ req: req }, `Logged in user (${kthid}) exist in LDAP group, but is missing nextUrl. Redirecting to /`)
+          res.redirect('/node')       
+        }
       } else {
         log.info({ req: req }, `Logged in user (${kthid}), does not exist in required group to /`)
         res.redirect('/')
