@@ -17,7 +17,6 @@ module.exports = {
     },
     ldap: {
       // in dev, set this to true to bypass any authorization of the user
-      bypassUserAuthorization: false,
       uri: getEnv('LDAP_URI'),
       base: getEnv('LDAP_BASE'),
       filter: getEnv('LDAP_FILTER'),

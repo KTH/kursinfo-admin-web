@@ -146,13 +146,8 @@ server.login = function (req, res, next) {
       next()
     } else {
       log.info('unable to find ldap user: ' + req.user)
-      if (config.full.ldap.bypassUserAuthorization) {
-        log.debug('authorization of user is disabled')
-        next()
-      } else {
-        res.statusCode = 403
-        res.send('403 Not authorized for this resource')
-      }
+      res.statusCode = 403
+      res.send('403 Not authorized for this resource')
     }
   } else {
     req.nextUrl = req.url

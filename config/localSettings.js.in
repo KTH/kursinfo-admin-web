@@ -20,8 +20,6 @@ module.exports = {
       password: ''
     },
     ldap: {
-      // in dev, set this to true to bypass any authorization of the user
-      bypassUserAuthorization: false,
       uri: '',
       base: '',
       filter: '',
