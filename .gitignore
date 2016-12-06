@@ -43,3 +43,4 @@ public/js/app/config*.js
 
 # Docker
 docker-compose*.yml
+*.env
