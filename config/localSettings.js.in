@@ -53,6 +53,12 @@ module.exports = {
     blockUrl: 'https://www.kth.se/cm/' // Block API base URL
   },
   logging: {
+    stdout: {
+      enabled: false
+    },
+    console: {
+      enabled: true
+    },
     log: {
       level: 'debug'
     },

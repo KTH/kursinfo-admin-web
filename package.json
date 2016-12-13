@@ -47,7 +47,7 @@
     "kth-node-configuration": "https://github.com/KTH/kth-node-configuration.git#v1.0.1",
     "kth-node-cortina-block": "https://github.com/KTH/kth-node-cortina-block.git#v1.0.0",
     "kth-node-i18n": "https://github.com/KTH/kth-node-i18n.git#v1.0.0",
-    "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.0",
+    "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.1",
     "kth-node-passport-cas": "https://github.com/KTH/kth-node-passport-cas.git#v1.0.0",
     "kth-node-passport-oidc": "https://github.com/KTH/kth-node-passport-oidc.git#v1.0.0",
     "kth-node-redis": "https://github.com/KTH/kth-node-redis.git#v1.0.0",
