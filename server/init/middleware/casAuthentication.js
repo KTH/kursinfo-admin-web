@@ -183,23 +183,3 @@ server.gatewayLogin = function (fallback) {
   }
 }
 
-/**
- * Set up CAS authentication middleware for our protected routes
- */
-for (let module in paths) {
-  if (paths.hasOwnProperty(module)) {
-    for (let route in paths[ module ]) {
-      if (paths[ module ].hasOwnProperty(route)) {
-        const path = paths[ module ][ route ]
-        const verb = path.method.toLowerCase()
-
-        if (path.cas === 'gateway') {
-          server[ verb ](path.uri, server.gatewayLogin(path.fallback))
-        } else if (path.cas) {
-          log.debug('Authentication with CAS enforced for path: ' + JSON.stringify(path))
-          server[ verb ](path.uri, server.login)
-        }
-      }
-    }
-  }
-}

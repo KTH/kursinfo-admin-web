@@ -26,6 +26,12 @@ function route (path, handler) {
 }
 
 function initRoute (path, verb, handler) {
+  if (path.cas === 'gateway') {
+    server[ verb ](path.uri, server.gatewayLogin(path.fallback))
+  } else if (path.cas) {
+    log.debug('Authentication with CAS enforced for path: ' + JSON.stringify(path))
+    server[ verb ](path.uri, server.login)
+  }
   log.debug('Routing ' + path.uri + ' with method ' + verb)
   server[ verb ](path.uri, handler)
 }
@@ -34,3 +40,4 @@ function prefix (pathname, basePath) {
   basePath = basePath || proxyPrefixPath
   return url.resolve(basePath + '/', '.' + pathname)
 }
+
