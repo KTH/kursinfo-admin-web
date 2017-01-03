@@ -13,3 +13,4 @@ dist
 *.iws
 .idea
 .target
+node_modules
