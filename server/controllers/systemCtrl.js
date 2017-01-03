@@ -98,6 +98,8 @@ function _about (req, res) {
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
     jenkinsBuildDate: JSON.stringify(version.jenkinsBuildDate),
+    dockerName: JSON.stringify(version.dockerName),
+    dockerVersion: JSON.stringify(version.dockerVersion),
     language: language.getLanguage(res),
     env: require('../server').get('env')
   })
@@ -161,4 +163,3 @@ function _robotsTxt (req, res) {
 function _paths (req, res) {
   res.json(paths)
 }
-
