@@ -1,15 +1,9 @@
-FROM kthse/kth-nodejs-web:1.4
+FROM kthse/kth-nodejs-web:2.0-alpine
 
-# Maintainer
-MAINTAINER Webmaster "webmaster@kth.se"
+MAINTAINER KTH Webb "cortina.developers@kth.se"
 
-LABEL name="KTH Node Base Image"
-LABEL vendor="KTH Royal Institute of Technology"
-LABEL license="The MIT License (MIT)"
-
-RUN apt-get update; apt-get -y upgrade
-RUN mkdir -p /npm
-RUN mkdir -p /application
+RUN mkdir -p /npm   && \
+    mkdir -p /application
 
 
 # We do this to avoid npm install when we're only changing code
@@ -24,14 +18,17 @@ RUN npm install
 WORKDIR /application
 COPY [".", "."]
 
-RUN cp -a /npm/node_modules /application
-RUN cp -a /application/config/secretSettings.js /application/config/localSettings.js
+RUN cp -a /npm/node_modules /application && \
+    cp -a /application/config/secretSettings.js /application/config/localSettings.js
+
+RUN npm run vendorProd && \
+    npm run webpackProd && \
+    npm run postinstall
+
+# To be removed when SASS does not transpile inside the image.
+RUN apk del g++ python make
 
 ENV NODE_PATH /application
-
-RUN npm run vendorProd
-RUN npm run webpackProd
-RUN npm run postinstall
 
 EXPOSE 3000
 
