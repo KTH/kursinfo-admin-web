@@ -14,7 +14,6 @@ COPY ["package.json", "package.json"]
 RUN npm install --no-optional
 
 # Add the code and copy over the node_modules
-
 WORKDIR /application
 COPY [".", "."]
 
@@ -24,9 +23,6 @@ RUN cp -a /npm/node_modules /application && \
 RUN npm run vendorProd && \
     npm run webpackProd && \
     npm run postinstall
-
-# To be removed when SASS does not transpile inside the image.
-RUN apk del g++ python make
 
 ENV NODE_PATH /application
 
