@@ -15,6 +15,7 @@
     "test": "echo \"ok\"",
     "codecheck": "standard",
     "codefix": "standard --fix",
+    "docker": "npm install --development && gulp webpack:prod && npm prune --production",
     "webpackProd": "gulp webpack:prod && gulp webpack:ref",
     "vendorProd": "gulp vendor:prod && gulp vendor:ref",
     "buildConfig": "cross-env NODE_PATH=. NODE_ENV=development node ./buildConfig.js",
