@@ -12,7 +12,8 @@ RUN npm install --production --no-optional
 
 # Add the code and copy over the node_modules-catalog
 WORKDIR /application
-RUN cp -a /npm/node_modules /application
+RUN cp -a /npm/node_modules /application && \
+    rm -rf /npm
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
