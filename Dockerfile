@@ -24,8 +24,8 @@ COPY ["package.json", "package.json"]
 RUN npm run docker
 
 # Copy source files, so changes does not trigger gulp.
-COPY ["server", "server"]
 COPY ["app.js", "app.js"]
+COPY ["server", "server"]
 
 ENV NODE_PATH /application
 
