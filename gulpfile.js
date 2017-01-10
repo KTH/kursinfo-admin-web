@@ -43,6 +43,7 @@ gulp.task('vendorDeploy', function () {
 })
 
 // Development helper tasks
+// NOTE: Until we refactored configuration, webpack and vendor are factory methods
 gulp.task('webpack', webpack(globals))
 gulp.task('vendor', vendor())
 
