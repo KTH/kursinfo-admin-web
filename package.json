@@ -13,22 +13,13 @@
   "scripts": {
     "//": "Gulp installs css and javascript",
     "test": "echo \"ok\"",
-    "codecheck": "standard",
-    "codefix": "standard --fix",
-    "docker": "npm install --development && gulp webpack:prod && npm prune --production",
-    "webpackProd": "gulp webpack:prod && gulp webpack:ref",
-    "vendorProd": "gulp vendor:prod && gulp vendor:ref",
+    "docker": "npm install --development && npm run build && npm prune --production",
+    "webpackProd": "npm run build && echo \"Deprecated, use 'npm run build' instead\"",
+    "vendorProd": "echo \"Deprecated, use 'npm run build' instead\"",
     "buildConfig": "cross-env NODE_PATH=. NODE_ENV=development node ./buildConfig.js",
-    "postinstall": "gulp moveAssets && gulp transpileSass && npm run buildConfig",
-    "preversion": "npm run codecheck && npm run test",
-    "postversion": "git push && git push --tags",
-    "nodeInspector": "node-inspector --web-port 8890",
-    "openDebugBrowser": "sleep 2s && chromium http://127.0.0.1:8890/\\?port\\=5858",
-    "installAndStart": "npm install && npm start",
-    "startDebug": "NODE_ENV=development node --debug-brk app.js",
-    "start": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\"",
-    "myDebug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"npm run nodeInspector\" \"npm run startDebug\"",
-    "debug": "gulp vendor:dev && gulp webpack:dev && cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"gulp watch\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+    "postinstall": "npm run buildConfig",
+    "build": "gulp build --production",
+    "start": "NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
   },
   "dependencies": {
     "body-parser": "^1.15.1",
@@ -58,7 +49,6 @@
     "kth-style": "https://github.com/KTH/kth-style.git#v1.0.1",
     "ldapjs": "^1.0.0",
     "locale": "^0.1.0",
-    "node-sass-middleware": "^0.9.8",
     "passport": "^0.3.2",
     "safe-utils": "^0.1.1"
   },
@@ -70,24 +60,17 @@
     "concurrently": "^2.1.0",
     "cross-env": "^2.0.0",
     "gulp": "^3.9.1",
-    "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.2.0",
+    "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.5.0",
+    "merge-stream": "^1.0.1",
     "standard": "^7.1.1",
     "zombie": "5.0.5",
-    "mocha": "3.2.0"
-  },
-  "optionalDependencies": {
-    "node-inspector": "^0.12.8",
-    "nodemon": "^1.9.2"
+    "mocha": "3.2.0",
+    "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": "4.3.1"
+    "node": "6.9.1"
   },
   "jshintConfig": {
     "maxerr": 5
-  },
-  "standard": {
-    "ignore": [
-      "public/js/lib/firebug-lite/*"
-    ]
   }
 }
