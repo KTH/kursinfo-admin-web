@@ -8,6 +8,11 @@ services:
     # Build from Dockerfile in current directory
     build: .
     
+    # Configuration
+    environment:
+       SOME_KEY : "a-value"
+       SOME_OTHER_KEY : "my-value"
+       
     # Port published from inside the Docker image
     ports:
       - 3000
