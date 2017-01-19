@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs-web:2.0-alpine
+FROM kthse/kth-nodejs-web:2.1-alpine
 
 MAINTAINER KTH Webb "cortina.developers@kth.se"
 
@@ -8,7 +8,7 @@ RUN mkdir -p /npm && \
 # We do this to avoid npm install when we're only changing code
 WORKDIR /npm
 COPY ["package.json", "package.json"]
-RUN npm install --production --no-optional
+RUN npm install --development --no-optional
 
 # Add the code and copy over the node_modules-catalog
 WORKDIR /application
@@ -17,11 +17,13 @@ RUN cp -a /npm/node_modules /application && \
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
-COPY ["config/secretSettings.js", "config/localSettings.js"]
 COPY ["public", "public"]
 COPY ["gulpfile.js", "gulpfile.js"]
 COPY ["package.json", "package.json"]
-RUN npm run docker
+
+
+RUN npm run build && \
+    npm prune
 
 # Copy source files, so changes does not trigger gulp.
 COPY ["app.js", "app.js"]
