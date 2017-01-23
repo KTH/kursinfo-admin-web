@@ -22,9 +22,11 @@
     "start": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.1",
     "bootstrap": "^3.3.6",
     "co": "^4.6.0",
+    "component-registry": "^0.2.0",
     "cookie-parser": "^1.4.2",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
@@ -40,6 +42,7 @@
     "kth-node-cortina-block": "https://github.com/KTH/kth-node-cortina-block.git#v1.0.0",
     "kth-node-i18n": "https://github.com/KTH/kth-node-i18n.git#v1.0.0",
     "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.1",
+    "kth-node-monitor": "https://github.com/KTH/kth-node-monitor.git#v0.1.2",
     "kth-node-passport-cas": "https://github.com/KTH/kth-node-passport-cas.git#v1.0.0",
     "kth-node-passport-oidc": "https://github.com/KTH/kth-node-passport-oidc.git#v1.0.0",
     "kth-node-redis": "https://github.com/KTH/kth-node-redis.git#v1.0.0",

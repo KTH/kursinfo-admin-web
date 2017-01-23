@@ -45,3 +45,4 @@ dist
 # Docker
 docker-compose*.yml
 *.env
+yarn.lock

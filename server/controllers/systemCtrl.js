@@ -13,6 +13,9 @@ const i18n = require('kth-node-i18n')
 const api = require('../init/api')
 const ldap = require('../util/adldap')
 const co = require('co')
+const Promise = require('bluebird')
+const registry = require('component-registry').globalRegistry
+const { IHealthCheck } = require('kth-node-monitor').interfaces
 
 /*
  * ----------------------------------------------------------------
@@ -108,46 +111,43 @@ function _about (req, res) {
 /* GET /_monitor
  * Monitor page
  */
-function * _monitor (req, res) {
-  const adStatus = `\nLdap connection: ${ldap.isOk() ? 'OK' : 'ERROR'}`
+function _monitor (req, res) {
+  const apiConfig = config.full.nodeApi
 
-  try {
-    const results = yield _callAllAPIs()
-    const apiStatus = results.join('\n')
-
-    if (!apiStatus) {
-      log.warn('no api configured')
-    }
-
-    let status = (/error/ig).test(apiStatus) ? 'ERROR' : 'OK'
-    status += apiStatus ? '\n' : '\nAPI_STATUS: no api configured'
-    const message = `APPLICATION_STATUS: ${status}${apiStatus}${adStatus}`
-    res.type('text').send(message)
-  } catch (err) {
-    log.error({ err: err }, 'Application status error')
-    const message = `APPLICATION_STATUS: ERROR ${err.message}${adStatus}`
-    res.type('text').status(500).send(message)
-  }
-}
-
-function _callAllAPIs () {
-  const tasks = Object.keys(api).map((key) => {
-    const endpoint = api[ key ]
-    return endpoint.client.getAsync(endpoint.config.proxyBasePath + '/_paths')
-      .then((data) => {
-        if (data.statusCode === 200) {
-          return `API_STATUS: ${key} is OK`
-        }
-
-        return `API_STATUS: ${key} responded with HTTP status ${data.statusCode}`
-      })
-      .catch((err) => {
-        log.error({ err: err }, `API check failure for ${key}`)
-        return `API_STATUS: ${key} threw an error: ${err.message}`
-      })
+  // Check APIs
+  const subSystems = Object.keys(api).map((apiKey) => {
+    const apiHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-api')
+    return apiHealthUtil.status(api[apiKey], { required: apiConfig[apiKey].required })
   })
+  // Check LDAP
+  const ldapHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-ldap')
+  subSystems.push(ldapHealthUtil.status(ldap))
 
-  return Promise.all(tasks)
+  // If we need local system checks, such as memory or disk, we would add it here.
+  // Make sure it returns a promise which resolves with an object containing:
+  // {statusCode: ###, message: '...'}
+  // The property statusCode should be standard HTTP status codes.
+  const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
+
+  /* -- You will normally not change anything below this line -- */
+
+  // Determine system health based on the results of the checks above. Expects
+  // arrays of promises as input. This returns a promise
+  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
+  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+
+  systemStatus.then((status) => {
+    // Return the result either as JSON or text
+    if (req.headers['accept'] === 'application/json') {
+      let outp = systemHealthUtil.renderJSON(status)
+      res.status(status.statusCode).json(outp)
+    } else {
+      let outp = systemHealthUtil.renderText(status)
+      res.type('text').status(status.statusCode).send(outp)
+    }
+  }).catch((err) => {
+    res.type('text').status(500).send(err)
+  })
 }
 
 /* GET /robots.txt
