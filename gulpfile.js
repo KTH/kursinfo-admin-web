@@ -2,7 +2,11 @@
 const gulp = require('gulp')
 const mergeStream = require('merge-stream')
 
-const { webpack, moveResources, sass, vendor } = require('kth-node-build-commons').tasks
+const globals = {
+  dirname: __dirname
+}
+
+const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
 
 /**
  * Usage:
@@ -19,56 +23,62 @@ const { webpack, moveResources, sass, vendor } = require('kth-node-build-commons
  *
  *    $ gulp build [--production | --reference]
  *
- */
+ *  Remove the generated files
+ *
+ *    $ gulp clean
+ *
+ **/
 
-const globals = {
-  dirname: __dirname
-}
-
-// Deployment helper tasks
+// *** Deployment helper tasks ***
 gulp.task('webpackDeploy', function () {
-  // Returning merged stream so Gulp knows when async operations have finished
+  // Returning merged streams at the end so Gulp knows when async operations have finished
   return mergeStream(
-    webpack(globals, 'reference')(),
-    webpack(globals, 'production')()
+    webpack('reference'),
+    webpack('production')
   )
 })
 
 gulp.task('vendorDeploy', function () {
-  // Returning merged stream so Gulp knows when async operations have finished
+  // Returning merged streams at the end so Gulp knows when async operations have finished
   return mergeStream(
-    vendor('reference')(),
-    vendor('production')()
+    vendor('reference'),
+    vendor('production')
   )
 })
 
-// Development helper tasks
-// NOTE: Until we refactored configuration, webpack and vendor are factory methods
-gulp.task('webpack', webpack(globals))
-gulp.task('vendor', vendor())
+// *** Development helper tasks ***
+gulp.task('webpack', webpack)
+gulp.task('vendor', vendor)
 
-gulp.task('cleanKthStyle', moveResources.cleanKthStyle)
-gulp.task('moveResources', ['cleanKthStyle'], function () {
-  // This task is synchronous and cshould be completed first
+gulp.task('moveResources', function () {
+  // Returning merged streams at the end so Gulp knows when async operations have finished
   moveResources.cleanKthStyle()
 
-  // Returning merged stream so Gulp knows when async operations have finished
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
-    moveResources.moveFontAwesome()
+    moveResources.moveFontAwesome(),
+    // Move project image files
+    gulp.src('./public/img/*')
+      .pipe(gulp.dest('dist/img'))
   )
 })
 
-gulp.task('build:dev', ['moveResources', 'vendor', 'webpack'], function () {
-  // Transpile SASS-files
-  return sass()
-})
+gulp.task('transpileSass', () => sass())
 
-gulp.task('build', ['moveResources', 'vendorDeploy', 'webpackDeploy'], function () {
-  // Transpile SASS-files
-  return sass()
-})
+/* Put any addintional helper tasks here */
+
+/**
+ *
+ *  Public tasks used by developer:
+ *
+ */
+
+gulp.task('clean', clean)
+
+gulp.task('build:dev', ['moveResources', 'vendor', 'webpack'], () => sass())
+
+gulp.task('build', ['moveResources', 'vendorDeploy', 'webpackDeploy'], () => sass())
 
 gulp.task('watch', ['build:dev'], function () {
   gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])

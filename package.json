@@ -60,7 +60,7 @@
     "concurrently": "^2.1.0",
     "cross-env": "^2.0.0",
     "gulp": "^3.9.1",
-    "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.5.0",
+    "kth-node-build-commons": "https://github.com/KTH/kth-node-build-commons.git#v1.7.0",
     "merge-stream": "^1.0.1",
     "standard": "^7.1.1",
     "zombie": "5.0.5",
