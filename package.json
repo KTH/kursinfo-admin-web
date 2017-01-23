@@ -46,7 +46,7 @@
     "kth-node-response": "https://github.com/KTH/kth-node-response.git#v1.0.0",
     "kth-node-server": "https://github.com/KTH/kth-node-server.git#v1.0.1",
     "kth-node-session": "https://github.com/KTH/kth-node-session.git#v1.0.0",
-    "kth-style": "https://github.com/KTH/kth-style.git#v1.0.1",
+    "kth-style": "https://github.com/KTH/kth-style.git#v1.2.0",
     "ldapjs": "^1.0.0",
     "locale": "^0.1.0",
     "passport": "^0.3.2",
