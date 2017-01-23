@@ -62,27 +62,41 @@ If your application is going to be proxied on www.kth.se/api/your-api-path make 
  ```
 
 ## Starting the server
-The easiest way to start the application is to, in the root of the application, run
-```bash
-./start.sh
-```
-If that doesn't work, running the following does the same:
-```bash
-npm run installAndStart
-```
-That installs all the dependencies and performns some tasks before starting the server. This is mostly good, but can take unnecessary time. To start the server without running those tasks, run:
-```bash
-npm start
-```
-## Debugging the server
-To debug the node server, run the following:
-```bash
-npm run debug
-```
-That starts two browser windows, one for running the application and one for debugging the node server
+Always start by installing dependencies:
 
-##Debugging in mobile browsers
-To be able to view firebug lite, append ?debug to any url like so:
 ```bash
-http://localhost:3003/node?debug
+$ npm install
 ```
+
+Then you need to start the server:
+```bash
+$ npm start
+```
+
+This will 
+
+1. run `gulp build:dev` once to build SASS-files, and prepare browser JavaScript files
+2. start `nodemon` which triggers restart when server-side files have been updated
+3. run `gulp watch` which triggers a rebuild of browser assets when files have been updated
+
+To learn more about the gulp build process, checkout [kth-node-build-commons](https://github.com/KTH/kth-node-build-commons)
+
+## Debugging
+
+### Debugging in VS Code
+
+If you start Mode.js from VS Code you can set breakpoints in your editor. The launch config will look like this:
+
+```json
+{
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Program",
+    "program": "${workspaceRoot}/app.js",
+    "cwd": "${workspaceRoot}",
+    "env": {
+        "NODE_ENV": "development"
+    }
+}
+```
+Setting NODE_ENV is currently required.

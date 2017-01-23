@@ -40,6 +40,7 @@ public/img/kth-style
 # Built at startup
 bundles
 public/js/app/config*.js
+dist
 
 # Docker
 docker-compose*.yml
