@@ -39,11 +39,11 @@ function getEnv () {
 
 // Files/statics routes--
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
-server.use(config.full.proxyPrefixPath.uri + '/static/js/components', express.static('./public/js/components', { setHeaders: setCustomCacheControl }))
+server.use(config.full.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
 // Map bundles build folder to static URL
-server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./bundles/${getEnv()}`))
+server.use(config.full.proxyPrefixPath.uri + '/static/js', express.static(`./dist/js/${getEnv()}`))
 // Map static content like images, css and js.
-server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./public'))
+server.use(config.full.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
 server.use(config.full.proxyPrefixPath.uri + '/static', function (req, res, next) {
   var error = new Error('File not found: ' + req.originalUrl)

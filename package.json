@@ -14,12 +14,12 @@
     "//": "Gulp installs css and javascript",
     "test": "echo \"ok\"",
     "docker": "npm install --development && npm run build && npm prune --production",
-    "webpackProd": "npm run build && echo \"Deprecated, use 'npm run build' instead\"",
-    "vendorProd": "echo \"Deprecated, use 'npm run build' instead\"",
-    "buildConfig": "cross-env NODE_PATH=. NODE_ENV=development node ./buildConfig.js",
+    "webpackProd": "npm run build",
+    "vendorProd": "echo \"Deprecated, use 'npm run build' \"",
+    "buildConfig": "cross-env NODE_ENV=development NODE_PATH=. node ./buildConfig.js",
     "postinstall": "npm run buildConfig",
-    "build": "gulp build --production",
-    "start": "NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
+    "build": "gulp build --preserve-comments",
+    "start": "gulp build:dev --preserve-comments && cross-env NODE_ENV=development concurrently --kill-others \"nodemon app.js\" \"gulp watch\""
   },
   "dependencies": {
     "body-parser": "^1.15.1",
