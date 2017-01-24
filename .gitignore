@@ -2,10 +2,6 @@
 
 .git/
 
-# Sass compilation related files
-public/css/*.css
-
-
 # IDEA specific
 .idea
 *.iml
@@ -30,12 +26,6 @@ logs/*
 
 # Dependency directory for NPM
 node_modules
-
-public/css/bootstrap
-public/css/font-awesome
-public/css/fonts
-public/css/kth-style
-public/img/kth-style
 
 # Built at startup
 bundles

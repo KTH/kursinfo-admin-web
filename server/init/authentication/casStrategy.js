@@ -1,7 +1,7 @@
 'use strict'
 
 const passport = require('passport')
-const config = require('../configuration')
+const config = require('../configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
 const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
@@ -41,13 +41,13 @@ passport.deserializeUser(function (user, done) {
  */
 
 const casOptions = {
-  ssoBaseURL: config.full.cas.ssoBaseURL,
-  serverBaseURL: config.full.hostUrl,
+  ssoBaseURL: config.cas.ssoBaseURL,
+  serverBaseURL: config.hostUrl,
   log: log
 }
 
-if (config.full.cas.pgtUrl) {
-  casOptions.pgtURL = config.full.hostUrl + config.full.cas.pgtUrl
+if (config.cas.pgtUrl) {
+  casOptions.pgtURL = config.hostUrl + config.cas.pgtUrl
 }
 
 const strategy = new CasStrategy(casOptions,
@@ -61,7 +61,7 @@ const strategy = new CasStrategy(casOptions,
 passport.use(strategy)
 
 passport.use(new GatewayStrategy({
-  casUrl: config.full.cas.ssoBaseURL
+  casUrl: config.cas.ssoBaseURL
 }, function (result, done) {
   log.debug({ result: result }, `CAS Gateway user: ${result.user}`)
   done(null, result.user, result)

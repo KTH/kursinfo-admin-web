@@ -1,7 +1,7 @@
 'use strict'
 
 const passport = require('passport')
-const config = require('../configuration')
+const config = require('../configuration').server
 const log = require('kth-node-log')
 const ldap = require('../../util/adldap')
 const server = require('../../server')

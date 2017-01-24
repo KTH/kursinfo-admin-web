@@ -13,7 +13,7 @@
 
 const log = require('kth-node-log')
 const url = require('url')
-const config = require('../configuration')
+const config = require('../configuration').server
 const server = require('../../server')
 
 function redirectToCanonicalUrl (req, res, next) {
@@ -23,7 +23,7 @@ function redirectToCanonicalUrl (req, res, next) {
     return
   }
 
-  var currentUrl = config.full.hostUrl + res.req.originalUrl
+  var currentUrl = config.hostUrl + res.req.originalUrl
   var canonicalUrl = getCanonicalUrl(currentUrl)
 
   if (isCrawlerRequest(res.req) && shouldRedirectToCanonicalUrl(res.req, currentUrl, canonicalUrl)) {
@@ -61,7 +61,7 @@ function getCanonicalUrl (aUrl) {
   return canonicalUrl
 }
 
-const proxyPath = config.full.proxyPrefixPath.uri
+const proxyPath = config.proxyPrefixPath.uri
 const excludePath = proxyPath + '(?!/static).*'
 const excludeExpression = new RegExp(excludePath)
 

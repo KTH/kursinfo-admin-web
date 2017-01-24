@@ -10,7 +10,7 @@
  */
 
 const log = require('kth-node-log')
-const config = require('../configuration')
+const config = require('../configuration').server
 const cortina = require('kth-node-cortina-block')
 const server = require('../../server')
 const redis = require('kth-node-redis')
@@ -18,7 +18,7 @@ const language = require('../../util/language')
 const i18n = require('kth-node-i18n')
 
 function _getRedisClient () {
-  return redis('cortina', config.full.cache.cortinaBlock.redis)
+  return redis('cortina', config.cache.cortinaBlock.redis)
 }
 
 function _prepareBlocks (req, res, blocks) {
@@ -34,8 +34,8 @@ function _prepareBlocks (req, res, blocks) {
     localeText: i18n.message('locale_text', lang === 'en' ? 'sv' : 'en'),
 
     urls: {
-      request: config.full.proxyPrefixPath.uri + req.url,
-      app: config.full.hostUrl + config.full.proxyPrefixPath.uri
+      request: config.proxyPrefixPath.uri + req.url,
+      app: config.hostUrl + config.proxyPrefixPath.uri
     }
   })
 }
@@ -44,7 +44,7 @@ function _getCortinaBlocks (client, req, res, next) {
   const lang = language.getLanguage(res)
   return cortina({
     language: lang,
-    url: config.full.blockApi.blockUrl,
+    url: config.blockApi.blockUrl,
     redis: client
   }).then(function (blocks) {
     res.locals.blocks = _prepareBlocks(req, res, blocks)
@@ -74,4 +74,4 @@ function _cortina (req, res, next) {
     })
 }
 
-server.use(config.full.proxyPrefixPath.uri, _cortina)
+server.use(config.proxyPrefixPath.uri, _cortina)

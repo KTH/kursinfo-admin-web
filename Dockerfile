@@ -17,7 +17,6 @@ RUN cp -a /npm/node_modules /application && \
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
-COPY ["config/secretSettings.js", "config/localSettings.js"]
 COPY ["public", "public"]
 COPY ["gulpfile.js", "gulpfile.js"]
 COPY ["package.json", "package.json"]

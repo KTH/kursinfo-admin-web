@@ -1,5 +1,5 @@
 const log = require('kth-node-log')
-const config = require('../init/configuration').full
+const config = require('../init/configuration').server
 
 module.exports = {
   SetLdapUser: function (req, ldapResponse, pgtIou) {

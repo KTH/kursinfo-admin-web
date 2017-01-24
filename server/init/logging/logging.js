@@ -1,12 +1,12 @@
 'use strict'
 
 const log = require('kth-node-log')
-const config = require('../configuration')
+const config = require('../configuration').server
 const packageFile = require('../../../package.json')
 const path = require('path')
 const fs = require('fs')
 
-const configuration = config.full.logging
+const configuration = config.logging
 const environment = config.env
 
 let logConfiguration = {

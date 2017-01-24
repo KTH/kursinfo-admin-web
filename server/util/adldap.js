@@ -1,6 +1,6 @@
 const ldap = require('ldapjs')
-const config = require('../init/configuration').full
-const secureConfig = require('../init/configuration').secure
+const config = require('../init/configuration').server
+const secureConfig = require('../init/configuration').server
 const log = require('kth-node-log')
 const session = require('./session')
 
@@ -104,17 +104,17 @@ var ldapClient = createClient()
  * timeLimit  the maximum amount of time the server should take in responding, in seconds. Defaults to 10. Lots of servers will ignore this.
  */
 module.exports.redirectAuthenticatedUser = function (kthid, res, req, pgtIou) {
-  var searchFilter = config.secure.ldap.filter.replace(config.ldapClient.filterReplaceHolder, kthid)
+  var searchFilter = config.ldap.filter.replace(config.ldap.filterReplaceHolder, kthid)
 
   var searchOptions = {
     scope: config.ldapClient.scope,
     filter: searchFilter,
-    attributes: config.ldapClient.userattrs,
+    attributes: config.ldap.userattrs,
     sizeLimits: config.ldapClient.searchlimit,
     timeLimit: config.ldapClient.searchtimeout
   }
 
-  ldapClient.search(config.secure.ldap.base, searchOptions, function (err, users) {
+  ldapClient.search(config.ldap.base, searchOptions, function (err, users) {
     if (err) {
       log.error({ err: err }, 'LDAP search error')
       res.redirect('/')

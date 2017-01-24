@@ -1,5 +1,5 @@
 const logging = require('kth-client-logging')
-const config = require('config')
+const config = { config: window.config, paths: window.paths }
 
 logging.setConfig(config.config)
 

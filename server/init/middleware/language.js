@@ -1,7 +1,7 @@
 'use strict'
 
 const server = require('../../server')
-const config = require('../configuration')
+const config = require('../configuration').server
 const language = require('../../util/language')
 
 /**
@@ -16,4 +16,4 @@ function _setLanguage (req, res, next) {
   next()
 }
 
-server.use(config.full.proxyPrefixPath.uri, _setLanguage)
+server.use(config.proxyPrefixPath.uri, _setLanguage)

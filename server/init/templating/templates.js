@@ -10,7 +10,7 @@
 const exphbs = require('express-handlebars')
 const server = require('../../server')
 const packageFile = require('../../../package.json')
-const config = require('../configuration')
+const config = require('../configuration').server
 const log = require('../logging')
 const path = require('path')
 
@@ -35,7 +35,7 @@ server.engine('handlebars', exphbs({
       return url + '?v=' + version
     },
     withProxyPrefixPath: function (url) {
-      return config.full.proxyPrefixPath.uri + url
+      return config.proxyPrefixPath.uri + url
     },
     extend: function (name, options) {
       this._blocks = this._blocks || {}
@@ -46,7 +46,7 @@ server.engine('handlebars', exphbs({
       blockName = typeof blockName === 'string' ? blockName : 'scripts'
       this._blocks = this._blocks || {}
       this._blocks[ blockName ] = this._blocks[ blockName ] || []
-      url = `${config.full.proxyPrefixPath.uri}${url}?v=${encodeURIComponent(version)}`
+      url = `${config.proxyPrefixPath.uri}${url}?v=${encodeURIComponent(version)}`
       const html = `<script src="${url}"></script>`
       this._blocks[ blockName ].push(html)
     },
@@ -55,7 +55,7 @@ server.engine('handlebars', exphbs({
       media = typeof media === 'string' ? media : 'all'
       this._blocks = this._blocks || {}
       this._blocks[ blockName ] = this._blocks[ blockName ] || []
-      url = `${config.full.proxyPrefixPath.uri}${url}?v=${encodeURIComponent(version)}`
+      url = `${config.proxyPrefixPath.uri}${url}?v=${encodeURIComponent(version)}`
       const html = `<link href="${url}" media="${media}" rel="stylesheet">`
       this._blocks[ blockName ].push(html)
     },

@@ -5,7 +5,7 @@
  */
 const log = require('kth-node-log')
 const version = require('../../config/version')
-const config = require('../init/configuration')
+const config = require('../init/configuration').server
 const packageFile = require('../../package.json')
 const paths = require('../init/routing/paths')
 const language = require('../util/language')
@@ -96,7 +96,7 @@ function _about (req, res) {
     appVersion: JSON.stringify(packageFile.version),
     appDescription: JSON.stringify(packageFile.description),
     version: JSON.stringify(version),
-    config: JSON.stringify(config.full.templateConfig),
+    config: JSON.stringify(config.templateConfig),
     gitBranch: JSON.stringify(version.gitBranch),
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
@@ -112,7 +112,7 @@ function _about (req, res) {
  * Monitor page
  */
 function _monitor (req, res) {
-  const apiConfig = config.full.nodeApi
+  const apiConfig = config.nodeApi
 
   // Check APIs
   const subSystems = Object.keys(api).map((apiKey) => {

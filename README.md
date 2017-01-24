@@ -11,34 +11,51 @@ The two projects are [node-web](https://github.com/KTH/node-web), a web server w
 
 It's important that we try to make changes that affect the template projects in the template projects themselves.
 
+###Where do you keep you secrets?
+Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly:
+
+```
+LDAP_URI=ldaps://[usertname]@ldap.ref.ug.kth.se
+LDAP_PASSWORD=[password]
+```
+
+During local development the defaults in serverSettings.js should work fine. If you need to make specific changes for your machine, add these to the `.env`-file. If you want changes that should be used by anyone developing your project, change the default variables in the settings-files.
+
 ###How do I use node-web template project for a project of my own?
 1. Create a new git repository on github.com/KTH (or other somewhere else).
+
 2. Clone the newly created repository locally by using:
 
  ```bash
  git clone https://github.com/USER/REPOSITORY.git
  ```
+
 3. Navigate to the cloned project directory
+
 4. Add node-web or node-api as the upstream repository to use:
 
  ```bash
  git remote add upstream https://github.com/KTH/node-web.git
  ```
+
 5. Fetch the latest changes/branches for the upstream repository (use your KTH login if prompted):
 
  ```bash
  git fetch upstream
  ```
+
 6. Checkout the branch you want to use:
 
  ```bash
  git checkout master
  ```
+
 7. Merge the changes from node-api into your cloned repository:
 
  ```bash
  git merge upstream/master
  ```
+
 8. Solve merge conflicts and commit/push to your cloned repository.
 
 To keep your cloned repository up to date with the upstream repository, just repeat steps 5-7 from above. Make sure to commit and push your existing changes before you merge!
