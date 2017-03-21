@@ -6,19 +6,27 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 }
 // Now read the server config
 const config = require('./init/configuration').server
-
-require('./init/logging')
 const log = require('kth-node-log')
 
 // Register handlebar helpers
 require('./views/helpers')
 
-server.setConfig({ full: config })
-server.setLog(log)
-server.setInitCallback(function () {
-  require('./init')
-})
 
+// initialize logger
+require('./init/logging')
+
+// What is this used for?
 server.locals.secret = new Map()
+
+server.start({
+  useSsl: config.useSsl,
+  pfx: config.ssl.pfx,
+  passphrase: config.ssl.passphrase,
+  key: config.ssl.key,
+  ca: config.ssl.ca,
+  cert: config.ssl.cert,
+  port: config.port,
+  log
+})
 
 module.exports = server

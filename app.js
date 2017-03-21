@@ -1,4 +1,4 @@
-const server = require('./server/server')
+'use strict'
 
-server.init()
-server.start()
+const server = require('./server/server')
+require('./server/init')
