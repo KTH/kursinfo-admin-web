@@ -35,7 +35,7 @@
     "kth-node-access-log": "https://github.com/KTH/kth-node-access-log.git#v1.0.0",
     "kth-node-api-call": "https://github.com/KTH/kth-node-api-call.git#v1.1.1",
     "kth-node-cache": "https://github.com/KTH/kth-node-cache.git#v1.0.0",
-    "kth-node-configuration": "^1.3.2",
+    "kth-node-configuration": "^1.4.0",
     "kth-node-cortina-block": "https://github.com/KTH/kth-node-cortina-block.git#v1.0.0",
     "kth-node-i18n": "https://github.com/KTH/kth-node-i18n.git#v1.0.0",
     "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.1",

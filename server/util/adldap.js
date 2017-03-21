@@ -29,13 +29,13 @@ function _isOk () {
 function createClient () {
   var client = ldap.createClient({
     url: secureConfig.ldap.uri,
-    timeout: config.ldapClient.timeout,
-    connectTimeout: config.ldapClient.connecttimeout,
-    maxConnections: config.ldapClient.maxconnections,
+    timeout: config.ldap.timeout,
+    connectTimeout: config.ldap.connecttimeout,
+    maxConnections: config.ldap.maxconnections,
     bindDN: secureConfig.ldap.username,
     bindCredentials: secureConfig.ldap.password,
-    checkInterval: config.ldapClient.checkinterval,
-    maxIdleTime: config.ldapClient.maxidletime,
+    checkInterval: config.ldap.checkinterval,
+    maxIdleTime: config.ldap.maxidletime,
     reconnect: true
   })
 
@@ -107,11 +107,11 @@ module.exports.redirectAuthenticatedUser = function (kthid, res, req, pgtIou) {
   var searchFilter = config.ldap.filter.replace(config.ldap.filterReplaceHolder, kthid)
 
   var searchOptions = {
-    scope: config.ldapClient.scope,
+    scope: config.ldap.scope,
     filter: searchFilter,
     attributes: config.ldap.userattrs,
-    sizeLimits: config.ldapClient.searchlimit,
-    timeLimit: config.ldapClient.searchtimeout
+    sizeLimits: config.ldap.searchlimit,
+    timeLimit: config.ldap.searchtimeout
   }
 
   ldapClient.search(config.ldap.base, searchOptions, function (err, users) {
