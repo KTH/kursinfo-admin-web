@@ -163,6 +163,10 @@ server.gatewayLogin = function (fallback) {
       return next(new Error('sessions unavailable'))
     }
 
+    if (req.user && req.user === 'anonymous-user') {
+      delete req.user
+    }
+
     if (req.session.gatewayAttempts >= 2) {
       log.debug('gatewayLogin: exhausted gateway attempts, allow access as anonymous user')
       log.debug({ session: req.session }, 'gatewayLogin: session')
