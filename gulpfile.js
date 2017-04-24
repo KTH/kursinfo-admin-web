@@ -29,24 +29,7 @@ const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-
  *
  **/
 
-// *** Deployment helper tasks ***
-gulp.task('webpackDeploy', function () {
-  // Returning merged streams at the end so Gulp knows when async operations have finished
-  return mergeStream(
-    webpack('reference'),
-    webpack('production')
-  )
-})
-
-gulp.task('vendorDeploy', function () {
-  // Returning merged streams at the end so Gulp knows when async operations have finished
-  return mergeStream(
-    vendor('reference'),
-    vendor('production')
-  )
-})
-
-// *** Development helper tasks ***
+// *** JavaScript helper tasks ***
 gulp.task('webpack', webpack)
 gulp.task('vendor', vendor)
 
@@ -76,11 +59,9 @@ gulp.task('transpileSass', () => sass())
 
 gulp.task('clean', clean)
 
-gulp.task('build:dev', ['moveResources', 'vendor', 'webpack'], () => sass())
+gulp.task('build', ['moveResources', 'vendor', 'webpack'], () => sass())
 
-gulp.task('build', ['moveResources', 'vendorDeploy', 'webpackDeploy'], () => sass())
-
-gulp.task('watch', ['build:dev'], function () {
+gulp.task('watch', ['build'], function () {
   gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])

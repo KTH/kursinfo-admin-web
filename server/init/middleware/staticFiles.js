@@ -22,29 +22,9 @@ function setCustomCacheControl (res, path) {
   }
 }
 
-function getEnv () {
-  const env = process.env.NODE_ENV
-
-  if (!env) {
-    return 'dev'
-  }
-
-  if (/^prod/i.test(env)) {
-    return 'prod'
-  }
-
-  if (/^ref/i.test(env)) {
-    return 'ref'
-  }
-
-  return 'dev'
-}
-
 // Files/statics routes--
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
 server.use(config.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
-// Map bundles build folder to static URL
-server.use(config.proxyPrefixPath.uri + '/static/js', express.static(`./dist/js/${getEnv()}`))
 // Expose browser configurations
 server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
 // Map static content like images, css and js.
