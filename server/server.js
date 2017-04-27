@@ -6,12 +6,28 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 }
 // Now read the server config
 const config = require('./init/configuration').server
-const log = require('kth-node-log')
 
+
+/**
+ * *** TEMPLATING ***
+ */
+const path = require('path')
+server.set('views', path.join(__dirname, '/views'))
+server.set('layouts', path.join(__dirname, '/views/layouts'))
+server.set('partials', path.join(__dirname, '/views/partials'))
+server.engine('handlebars', exphbs({
+  defaultLayout: 'publicLayout',
+  layoutsDir: server.settings.layouts,
+  partialsDir: server.settings.partials,
+}))
+server.set('view engine', 'handlebars')
 // Register handlebar helpers
 require('./views/helpers')
 
-
+/**
+ * *** LOGGING ***
+ */
+const log = require('kth-node-log')
 // initialize logger
 require('./init/logging')
 
@@ -26,7 +42,7 @@ server.start({
   ca: config.ssl.ca,
   cert: config.ssl.cert,
   port: config.port,
-  log
+  logger: log
 })
 
 module.exports = server
