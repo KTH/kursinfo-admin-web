@@ -57,3 +57,22 @@ let logConfiguration = {
   src: config.logging.src
 }
 log.init(logConfiguration)
+
+/* ******************************
+ * ******* AUTHENTICATION *******
+ * ******************************
+ */
+const paths = require('./init/routing/paths')
+const passport = require('passport')
+const { loginHandler, gatewayHandler, logoutHandler } = require('kth-node-passport-cas')
+require('./init/authentication')
+server.use(passport.initialize())
+server.use(passport.session())
+server.use(paths.cas.login.uri, loginHandler)
+server.get(paths.cas.gateway.uri, gatewayHandler)
+server.get(paths.cas.logout.uri, logoutHandler)
+
+// TODO: Figure out what server.login and server.gatewayLogin are used for
+// TODO: Move server.login and server.gatewayLogin to kth-node-passport-cas
+// TODO: Move handlers to kth-node-passport-cas
+
