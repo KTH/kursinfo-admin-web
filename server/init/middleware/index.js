@@ -7,7 +7,6 @@
 
 const log = require('kth-node-log')
 
-require('./crawlerRedirect')
 require('./accessLog')
 
 require('./session')

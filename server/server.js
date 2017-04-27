@@ -124,3 +124,12 @@ server.use(config.proxyPrefixPath.uri, require('kth-node-web-common/lib/web/cort
   redisConfig: config.cache.cortinaBlock.redis
 }))
 
+/* ********************************
+ * ******* CRAWLER REDIRECT *******
+ * ********************************
+ */
+const excludePath = proxyPrefixPath + '(?!/static).*'
+const excludeExpression = new RegExp(excludePath)
+server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedirect')({
+  hostUrl: config.hostUrl,
+}))
