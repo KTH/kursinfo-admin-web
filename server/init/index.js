@@ -18,7 +18,6 @@ const controllers = require('../controllers')
  * the configuration has been completed before moving on.
  */
 
-require('./logging')
 require('./authentication')
 require('./languages')
 require('./middleware')

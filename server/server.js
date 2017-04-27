@@ -24,12 +24,12 @@ server.set('view engine', 'handlebars')
 // Register handlebar helpers
 require('./views/helpers')
 
-/**
- * *** LOGGING ***
+/* ***********************
+ * ******* LOGGING *******
+ * ***********************
  */
 const log = require('kth-node-log')
-// initialize logger
-require('./init/logging')
+const packageFile = require('../package.json')
 
 // What is this used for?
 server.locals.secret = new Map()
@@ -46,3 +46,13 @@ server.start({
 })
 
 module.exports = server
+let logConfiguration = {
+  name: packageFile.name,
+  app: packageFile.name,
+  env: process.env.NODE_ENV,
+  level: config.logging.log.level,
+  console: config.logging.console,
+  stdout: config.logging.stdout,
+  src: config.logging.src
+}
+log.init(logConfiguration)
