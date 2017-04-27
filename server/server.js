@@ -4,8 +4,9 @@ const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
 if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
   require('dotenv').config()
 }
-// Now read the server config
+// Now read the server config etc.
 const config = require('./init/configuration').server
+const paths = require('./init/routing/paths')
 
 // What is this used for?
 server.locals.secret = new Map()
@@ -108,4 +109,18 @@ server.get(paths.cas.logout.uri, logoutHandler)
 // TODO: Figure out what server.login and server.gatewayLogin are used for
 // TODO: Move server.login and server.gatewayLogin to kth-node-passport-cas
 // TODO: Move handlers to kth-node-passport-cas
+
+
+
+
+/* ******************************
+ * ******* CORTINA BLOCKS *******
+ * ******************************
+ */
+server.use(config.proxyPrefixPath.uri, require('kth-node-web-common/lib/web/cortina')({
+  blockUrl: config.blockApi.blockUrl,
+  proxyPrefixPath: config.proxyPrefixPath.uri,
+  hostUrl: config.hostUrl,
+  redisConfig: config.cache.cortinaBlock.redis
+}))
 

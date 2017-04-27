@@ -16,6 +16,4 @@ require('./parsers')
 require('./casAuthentication')
 require('./language')
 
-require('./cortina')
-
 log.info('Middleware initialized')
