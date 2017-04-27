@@ -58,11 +58,44 @@ let logConfiguration = {
 }
 log.init(logConfiguration)
 
+/* ****************************
+ * ******* STATIC FILES *******
+ * ****************************
+ */
+const browserConfig = require('./init/configuration').browser
+const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, paths)
+const express = require('express')
+
+// helper
+function setCustomCacheControl (res, path) {
+  if (express.static.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'no-cache')
+  }
+}
+
+// Files/statics routes--
+// Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
+server.use(config.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
+// Expose browser configurations
+server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
+// Map static content like images, css and js.
+server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
+// Return 404 if static file isn't found so we don't go through the rest of the pipeline
+server.use(config.proxyPrefixPath.uri + '/static', function (req, res, next) {
+  var error = new Error('File not found: ' + req.originalUrl)
+  error.statusCode = 404
+  next(error)
+})
+
+// QUESTION: Should this really be set here?
+// http://expressjs.com/en/api.html#app.set
+server.set('case sensitive routing', true)
+
 /* ******************************
  * ******* AUTHENTICATION *******
  * ******************************
  */
-const paths = require('./init/routing/paths')
 const passport = require('passport')
 const { loginHandler, gatewayHandler, logoutHandler } = require('kth-node-passport-cas')
 require('./init/authentication')
