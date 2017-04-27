@@ -140,3 +140,10 @@ const excludeExpression = new RegExp(excludePath)
 server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedirect')({
   hostUrl: config.hostUrl,
 }))
+
+/* ************************
+ * ******* LANGUAGE *******
+ * ************************
+ */
+const { languageHandler } = require('kth-node-web-common/lib/language')
+server.use(config.proxyPrefixPath.uri, languageHandler)

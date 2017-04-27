@@ -13,6 +13,5 @@ require('./session')
 require('./parsers')
 // casAuthentication should be as early as possible but needs parsers and session
 require('./casAuthentication')
-require('./language')
 
 log.info('Middleware initialized')
