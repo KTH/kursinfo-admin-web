@@ -59,6 +59,13 @@ let logConfiguration = {
 }
 log.init(logConfiguration)
 
+/* ******************************
+ * ******* ACCESS LOGGING *******
+ * ******************************
+ */
+const accessLog = require('kth-node-access-log')
+server.use(accessLog(config.logging.accessLog))
+
 /* ****************************
  * ******* STATIC FILES *******
  * ****************************
