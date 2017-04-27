@@ -7,9 +7,25 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 // Now read the server config
 const config = require('./init/configuration').server
 
+// What is this used for?
+server.locals.secret = new Map()
 
-/**
- * *** TEMPLATING ***
+server.start({
+  useSsl: config.useSsl,
+  pfx: config.ssl.pfx,
+  passphrase: config.ssl.passphrase,
+  key: config.ssl.key,
+  ca: config.ssl.ca,
+  cert: config.ssl.cert,
+  port: config.port,
+  logger: log
+})
+
+module.exports = server
+
+/* **************************
+ * ******* TEMPLATING *******
+ * **************************
  */
 const path = require('path')
 server.set('views', path.join(__dirname, '/views'))
@@ -31,21 +47,6 @@ require('./views/helpers')
 const log = require('kth-node-log')
 const packageFile = require('../package.json')
 
-// What is this used for?
-server.locals.secret = new Map()
-
-server.start({
-  useSsl: config.useSsl,
-  pfx: config.ssl.pfx,
-  passphrase: config.ssl.passphrase,
-  key: config.ssl.key,
-  ca: config.ssl.ca,
-  cert: config.ssl.cert,
-  port: config.port,
-  logger: log
-})
-
-module.exports = server
 let logConfiguration = {
   name: packageFile.name,
   app: packageFile.name,
