@@ -1,4 +1,5 @@
 const server = require('kth-node-server')
+const { safeGet } = require('safe-utils')
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
 if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
@@ -105,13 +106,22 @@ server.set('case sensitive routing', true)
  * ******************************
  */
 const passport = require('passport')
-const { loginHandler, gatewayHandler, logoutHandler } = require('kth-node-passport-cas')
+const { loginHandler, gatewayHandler, logoutHandler, pgtCallbackHandler, serverLogin, serverGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
+  casLoginUri: paths.cas.login.uri,
+  casGatewayUri: paths.cas.gateway.uri,
+  ldapConfig: config.ldap,
+  server: server
+})
 require('./init/authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 server.use(paths.cas.login.uri, loginHandler)
 server.get(paths.cas.gateway.uri, gatewayHandler)
 server.get(paths.cas.logout.uri, logoutHandler)
+// setup handler for pgtCallback if paths.cas.pgtCallback is specified
+safeGet(() => paths.cas.pgtCallback.uri) && server.get(paths.cas.pgtCallback.uri, pgtCallbackHandler)
+server.login = serverLogin
+server.gatewayLogin = serverGatewayLogin
 
 // TODO: Figure out what server.login and server.gatewayLogin are used for
 // TODO: Move server.login and server.gatewayLogin to kth-node-passport-cas
