@@ -101,6 +101,17 @@ server.use(config.proxyPrefixPath.uri + '/static', function (req, res, next) {
 // http://expressjs.com/en/api.html#app.set
 server.set('case sensitive routing', true)
 
+
+/* *******************************
+ * ******* REQUEST PARSING *******
+ * *******************************
+ */
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(cookieParser())
+
 /* ******************************
  * ******* AUTHENTICATION *******
  * ******************************
