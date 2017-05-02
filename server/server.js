@@ -10,25 +10,6 @@ const config = require('./init/configuration').server
 const AppRouter = require('kth-node-express-routing').Router
 const appRoute = AppRouter()
 
-
-
-/* **************************
- * ******* TEMPLATING *******
- * **************************
- */
-const path = require('path')
-server.set('views', path.join(__dirname, '/views'))
-server.set('layouts', path.join(__dirname, '/views/layouts'))
-server.set('partials', path.join(__dirname, '/views/partials'))
-server.engine('handlebars', exphbs({
-  defaultLayout: 'publicLayout',
-  layoutsDir: server.settings.layouts,
-  partialsDir: server.settings.partials,
-}))
-server.set('view engine', 'handlebars')
-// Register handlebar helpers
-require('./views/helpers')
-
 /* ***********************
  * ******* LOGGING *******
  * ***********************
@@ -46,6 +27,24 @@ let logConfiguration = {
   src: config.logging.src
 }
 log.init(logConfiguration)
+
+/* **************************
+ * ******* TEMPLATING *******
+ * **************************
+ */
+const exphbs = require('express-handlebars')
+const path = require('path')
+server.set('views', path.join(__dirname, '/views'))
+server.set('layouts', path.join(__dirname, '/views/layouts'))
+server.set('partials', path.join(__dirname, '/views/partials'))
+server.engine('handlebars', exphbs({
+  defaultLayout: 'publicLayout',
+  layoutsDir: server.settings.layouts,
+  partialsDir: server.settings.partials,
+}))
+server.set('view engine', 'handlebars')
+// Register handlebar helpers
+require('./views/helpers')
 
 /* ******************************
  * ******* ACCESS LOGGING *******
@@ -122,12 +121,6 @@ appRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgt
 server.login = serverLogin
 server.gatewayLogin = serverGatewayLogin
 
-// TODO: Figure out what server.login and server.gatewayLogin are used for
-// TODO: Move server.login and server.gatewayLogin to kth-node-passport-cas
-// TODO: Move handlers to kth-node-passport-cas
-
-
-
 
 /* ******************************
  * ******* CORTINA BLOCKS *******
@@ -144,7 +137,7 @@ server.use(config.proxyPrefixPath.uri, require('kth-node-web-common/lib/web/cort
  * ******* CRAWLER REDIRECT *******
  * ********************************
  */
-const excludePath = proxyPrefixPath + '(?!/static).*'
+const excludePath = config.proxyPrefixPath.uri + '(?!/static).*'
 const excludeExpression = new RegExp(excludePath)
 server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedirect')({
   hostUrl: config.hostUrl,

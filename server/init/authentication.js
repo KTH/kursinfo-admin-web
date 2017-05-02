@@ -1,7 +1,7 @@
 'use strict'
 
 const passport = require('passport')
-const config = require('../configuration').server
+const config = require('./configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
 const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy

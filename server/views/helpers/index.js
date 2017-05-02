@@ -1,5 +1,6 @@
-const headerContent = require('kth-node-web-common/lib/handlebars/headerContent')
+const headerContent = require('kth-node-web-common/lib/handlebars/helpers/headerContent')
 const config = require('../../init/configuration').server
+const packageFile = require('../../../package.json')
 
 let version = packageFile.version
 
