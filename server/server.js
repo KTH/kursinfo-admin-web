@@ -10,21 +10,7 @@ const config = require('./init/configuration').server
 const AppRouter = require('kth-node-express-routing').Router
 const appRoute = AppRouter()
 
-// What is this used for?
-server.locals.secret = new Map()
 
-server.start({
-  useSsl: config.useSsl,
-  pfx: config.ssl.pfx,
-  passphrase: config.ssl.passphrase,
-  key: config.ssl.key,
-  ca: config.ssl.ca,
-  cert: config.ssl.cert,
-  port: config.port,
-  logger: log
-})
-
-module.exports = server
 
 /* **************************
  * ******* TEMPLATING *******
@@ -191,3 +177,22 @@ server.use('/', appRoute.getRouter())
 
 module.exports = server
 module.exports.paths = appRoute.getPaths()
+
+/* ****************************
+ * ******* SERVER START *******
+ * ****************************
+ */
+// What is this used for?
+server.locals.secret = new Map()
+
+// TODO: Why do we start here
+server.start({
+  useSsl: config.useSsl,
+  pfx: config.ssl.pfx,
+  passphrase: config.ssl.passphrase,
+  key: config.ssl.key,
+  ca: config.ssl.ca,
+  cert: config.ssl.cert,
+  port: config.port,
+  logger: log
+})
