@@ -10,6 +10,11 @@ const config = require('./init/configuration').server
 const AppRouter = require('kth-node-express-routing').Router
 const appRoute = AppRouter()
 
+// Expose the server and 
+server.locals.secret = new Map()
+module.exports = server
+module.exports.getPaths = () => appRoute.getPaths()
+
 /* ***********************
  * ******* LOGGING *******
  * ***********************
@@ -98,15 +103,27 @@ server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(cookieParser())
 
+/* ***********************
+ * ******* SESSION *******
+ * ***********************
+ */
+const session = require('kth-node-session')
+const options = config.session
+options.sessionOptions.secret = config.sessionSecret
+server.use(session(options))
+
 /* ******************************
  * ******* AUTHENTICATION *******
  * ******************************
  */
 const passport = require('passport')
+const ldapClient = require('./adldapClient')
 const { loginHandler, gatewayLoginHandler, logoutHandler, pgtCallbackHandler, serverLogin, serverGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
+  adminGroup: config.auth.adminGroup,
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   ldapConfig: config.ldap,
+  ldapClient: ldapClient,
   server: server
 })
 require('./init/authentication')
@@ -168,17 +185,10 @@ appRoute.get('system.index', config.proxyPrefixPath.uri + '/', Sample.getIndex)
 // Mount app routes on server root
 server.use('/', appRoute.getRouter())
 
-module.exports = server
-module.exports.paths = appRoute.getPaths()
-
 /* ****************************
  * ******* SERVER START *******
  * ****************************
  */
-// What is this used for?
-server.locals.secret = new Map()
-
-// TODO: Why do we start here
 server.start({
   useSsl: config.useSsl,
   pfx: config.ssl.pfx,

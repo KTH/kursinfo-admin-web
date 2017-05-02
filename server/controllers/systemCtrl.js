@@ -7,11 +7,11 @@ const log = require('kth-node-log')
 const version = require('../../config/version')
 const config = require('../init/configuration').server
 const packageFile = require('../../package.json')
-const paths = require('../server').paths
+const ldapClient = require('../adldapClient')
+const { getPaths } = require('../server')
 const language = require('kth-node-web-common/lib/language')
 const i18n = require('kth-node-i18n')
 const api = require('../init/api')
-const ldap = require('../util/adldap')
 const co = require('co')
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
@@ -121,7 +121,7 @@ function _monitor (req, res) {
   })
   // Check LDAP
   const ldapHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-ldap')
-  subSystems.push(ldapHealthUtil.status(ldap))
+  subSystems.push(ldapHealthUtil.status(ldapClient))
 
   // If we need local system checks, such as memory or disk, we would add it here.
   // Make sure it returns a promise which resolves with an object containing:
@@ -161,5 +161,5 @@ function _robotsTxt (req, res) {
  * Return all paths for the system
  */
 function _paths (req, res) {
-  res.json(paths)
+  res.json(getPaths())
 }
