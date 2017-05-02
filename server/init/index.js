@@ -21,7 +21,6 @@ const controllers = require('../controllers')
 require('./authentication')
 require('./languages')
 require('./middleware')
-require('./routing')
 require('./api')
 
 /**

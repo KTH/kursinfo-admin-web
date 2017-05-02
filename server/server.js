@@ -7,7 +7,8 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 }
 // Now read the server config etc.
 const config = require('./init/configuration').server
-const paths = require('./init/routing/paths')
+const AppRouter = require('kth-node-express-routing').Router
+const appRoute = AppRouter()
 
 // What is this used for?
 server.locals.secret = new Map()
@@ -72,7 +73,7 @@ server.use(accessLog(config.logging.accessLog))
  * ****************************
  */
 const browserConfig = require('./init/configuration').browser
-const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, paths)
+const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, appRoute.getPaths())
 const express = require('express')
 
 // helper
@@ -117,20 +118,21 @@ server.use(cookieParser())
  * ******************************
  */
 const passport = require('passport')
-const { loginHandler, gatewayHandler, logoutHandler, pgtCallbackHandler, serverLogin, serverGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
-  casLoginUri: paths.cas.login.uri,
-  casGatewayUri: paths.cas.gateway.uri,
+const { loginHandler, gatewayLoginHandler, logoutHandler, pgtCallbackHandler, serverLogin, serverGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
+  casLoginUri: config.proxyPrefixPath.uri + '/login',
+  casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   ldapConfig: config.ldap,
   server: server
 })
 require('./init/authentication')
 server.use(passport.initialize())
 server.use(passport.session())
-server.use(paths.cas.login.uri, loginHandler)
-server.get(paths.cas.gateway.uri, gatewayHandler)
-server.get(paths.cas.logout.uri, logoutHandler)
-// setup handler for pgtCallback if paths.cas.pgtCallback is specified
-safeGet(() => paths.cas.pgtCallback.uri) && server.get(paths.cas.pgtCallback.uri, pgtCallbackHandler)
+appRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', loginHandler)
+appRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', gatewayLoginHandler)
+appRoute.get('cas.logout', config.proxyPrefixPath.uri + '/login', logoutHandler)
+// Optional pgtCallback
+appRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
+
 server.login = serverLogin
 server.gatewayLogin = serverGatewayLogin
 
@@ -168,3 +170,24 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  */
 const { languageHandler } = require('kth-node-web-common/lib/language')
 server.use(config.proxyPrefixPath.uri, languageHandler)
+
+/* **********************************
+ * ******* APPLICATION ROUTES *******
+ * **********************************
+ */
+const { System, Sample } = require('./controllers')
+
+// System routes
+appRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
+appRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
+appRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
+appRoute.get('system.robots', '/robots.txt', System.robotsTxt)
+
+// App routes
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/', Sample.getIndex)
+
+// Mount app routes on server root
+server.use('/', appRoute.getRouter())
+
+module.exports = server
+module.exports.paths = appRoute.getPaths()
