@@ -38,7 +38,7 @@
     "kth-node-cache": "https://github.com/KTH/kth-node-cache.git#v1.0.0",
     "kth-node-configuration": "^1.4.0",
     "kth-node-cortina-block": "^1.0.4",
-    "kth-node-express-routing": "^0.1.0",
+    "kth-node-express-routing": "^0.2.0",
     "kth-node-i18n": "^1.0.2",
     "kth-node-ldap": "^2.0.1",
     "kth-node-log": "^2.0.3",

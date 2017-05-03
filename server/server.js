@@ -8,12 +8,12 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 // Now read the server config etc.
 const config = require('./init/configuration').server
 const AppRouter = require('kth-node-express-routing').Router
-const appRoute = AppRouter()
+const getPaths = require('kth-node-express-routing').getPaths
 
 // Expose the server and 
 server.locals.secret = new Map()
 module.exports = server
-module.exports.getPaths = () => appRoute.getPaths()
+module.exports.getPaths = () => getPaths()
 
 /* ***********************
  * ******* LOGGING *******
@@ -63,7 +63,7 @@ server.use(accessLog(config.logging.accessLog))
  * ****************************
  */
 const browserConfig = require('./init/configuration').browser
-const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, appRoute.getPaths())
+const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 
 // helper
@@ -129,11 +129,15 @@ const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, s
 require('./init/authentication')
 server.use(passport.initialize())
 server.use(passport.session())
-appRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler)
-appRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler)
-appRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
+
+const authRoute = AppRouter()
+authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler)
+authRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler)
+authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
 // Optional pgtCallback (use config.cas.pgtUrl?)
-appRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
+authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
+server.use('/', authRoute.getRouter())
+
 // Convenience methods that should really be removed
 server.login = serverLogin
 server.gatewayLogin = getServerGatewayLogin
@@ -173,16 +177,17 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
 const { System, Sample } = require('./controllers')
 
 // System routes
-appRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
-appRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
-appRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
-appRoute.get('system.robots', '/robots.txt', System.robotsTxt)
+const systemRoute = AppRouter()
+systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
+systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
+systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
+systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
+server.use('/', systemRoute.getRouter())
 
 // App routes
+const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, Sample.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), Sample.getIndex)
-
-// Mount app routes on server root
 server.use('/', appRoute.getRouter())
 
 /* ****************************
