@@ -14,7 +14,7 @@ const { safeGet } = require('safe-utils')
 const devPort = 3000
 const devSsl = false
 const devUrl = 'http://localhost:' + devPort
-const devInnovationApi = 'http://localhost:3001/api/node?required=true&defaultTimeout=10000'
+const devInnovationApi = 'http://localhost:3001/api/node?defaultTimeout=10000' // required=true&
 const devSessionKey = 'node-web.sid'
 const devSessionUseRedis = true
 const devRedis = 'redis://localhost:6379/'
