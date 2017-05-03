@@ -120,7 +120,6 @@ const passport = require('passport')
 const ldapClient = require('./adldapClient')
 const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
   adminGroup: config.auth.adminGroup,
-  proxyPrefixPathUri: config.proxyPrefixPath.uri,
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   ldapConfig: config.ldap,
