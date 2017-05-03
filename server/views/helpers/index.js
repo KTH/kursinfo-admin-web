@@ -1,4 +1,4 @@
-const headerContent = require('kth-node-web-common/lib/handlebars/helpers/headerContent')
+const registerHeaderContentHelper = require('kth-node-web-common/lib/handlebars/helpers/headerContent')
 const config = require('../../init/configuration').server
 const packageFile = require('../../../package.json')
 
@@ -21,7 +21,7 @@ try {
     - render
 
 */
-headerContent({
+registerHeaderContentHelper({
   proxyPrefixPath: config.proxyPrefixPath.uri,
   version: version
 })
