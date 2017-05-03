@@ -118,8 +118,9 @@ server.use(session(options))
  */
 const passport = require('passport')
 const ldapClient = require('./adldapClient')
-const { loginHandler, gatewayLoginHandler, logoutHandler, pgtCallbackHandler, serverLogin, serverGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
+const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
   adminGroup: config.auth.adminGroup,
+  proxyPrefixPathUri: config.proxyPrefixPath.uri,
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   ldapConfig: config.ldap,
@@ -129,15 +130,14 @@ const { loginHandler, gatewayLoginHandler, logoutHandler, pgtCallbackHandler, se
 require('./init/authentication')
 server.use(passport.initialize())
 server.use(passport.session())
-appRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', loginHandler)
-appRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', gatewayLoginHandler)
-appRoute.get('cas.logout', config.proxyPrefixPath.uri + '/login', logoutHandler)
-// Optional pgtCallback
+appRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler)
+appRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler)
+appRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
+// Optional pgtCallback (use config.cas.pgtUrl?)
 appRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
-
+// Convenience methods that should really be removed
 server.login = serverLogin
-server.gatewayLogin = serverGatewayLogin
-
+server.gatewayLogin = getServerGatewayLogin
 
 /* ******************************
  * ******* CORTINA BLOCKS *******
@@ -180,7 +180,8 @@ appRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.path
 appRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 
 // App routes
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/', Sample.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, Sample.getIndex)
+appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), Sample.getIndex)
 
 // Mount app routes on server root
 server.use('/', appRoute.getRouter())
