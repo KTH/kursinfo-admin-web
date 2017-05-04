@@ -6,11 +6,12 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
   require('dotenv').config()
 }
 // Now read the server config etc.
-const config = require('./init/configuration').server
+const config = require('./configuration').server
+require('./api')
 const AppRouter = require('kth-node-express-routing').Router
 const getPaths = require('kth-node-express-routing').getPaths
 
-// Expose the server and 
+// Expose the server and paths
 server.locals.secret = new Map()
 module.exports = server
 module.exports.getPaths = () => getPaths()
@@ -62,7 +63,7 @@ server.use(accessLog(config.logging.accessLog))
  * ******* STATIC FILES *******
  * ****************************
  */
-const browserConfig = require('./init/configuration').browser
+const browserConfig = require('./configuration').browser
 const browserConfigHandler = require('kth-node-configuration').getHandler(browserConfig, getPaths())
 const express = require('express')
 
@@ -126,7 +127,7 @@ const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, s
   ldapClient: ldapClient,
   server: server
 })
-require('./init/authentication')
+require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 
@@ -189,6 +190,10 @@ const appRoute = AppRouter()
 appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, Sample.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), Sample.getIndex)
 server.use('/', appRoute.getRouter())
+
+// Not found etc
+server.use(System.notFound)
+server.use(System.final)
 
 /* ****************************
  * ******* SERVER START *******

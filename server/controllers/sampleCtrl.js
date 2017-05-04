@@ -1,6 +1,6 @@
 'use strict'
 
-const api = require('../init/api')
+const api = require('../api')
 const co = require('co')
 const log = require('kth-node-log')
 const { safeGet } = require('safe-utils')

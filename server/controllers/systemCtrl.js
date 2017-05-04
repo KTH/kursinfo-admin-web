@@ -5,13 +5,13 @@
  */
 const log = require('kth-node-log')
 const version = require('../../config/version')
-const config = require('../init/configuration').server
+const config = require('../configuration').server
 const packageFile = require('../../package.json')
 const ldapClient = require('../adldapClient')
 const { getPaths } = require('../server')
 const language = require('kth-node-web-common/lib/language')
 const i18n = require('kth-node-i18n')
-const api = require('../init/api')
+const api = require('../api')
 const co = require('co')
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry

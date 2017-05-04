@@ -6,8 +6,8 @@
 
 const i18n = require('kth-node-i18n')
 
-const messagesEnglish = require('./messages.en')
-const messagesSwedish = require('./messages.se')
+const messagesEnglish = require('../i18n/messages.en')
+const messagesSwedish = require('../i18n/messages.se')
 
 i18n.messages.push(messagesEnglish, messagesSwedish)
 
