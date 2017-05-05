@@ -8,7 +8,7 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 // Now read the server config etc.
 const config = require('./configuration').server
 require('./api')
-const AppRouter = require('kth-node-express-routing').Router
+const AppRouter = require('kth-node-express-routing').PageRouter
 const getPaths = require('kth-node-express-routing').getPaths
 
 // Expose the server and paths
