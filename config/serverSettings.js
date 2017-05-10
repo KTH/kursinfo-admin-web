@@ -49,7 +49,7 @@ module.exports = {
 
   // Authentication
   auth: {
-    adminGroup: 'app.innovation.admin'
+    adminGroup: 'app.node.admin'
   },
   cas: {
     ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL)

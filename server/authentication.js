@@ -66,3 +66,49 @@ passport.use(new GatewayStrategy({
   log.debug({ result: result }, `CAS Gateway user: ${result.user}`)
   done(null, result.user, result)
 }))
+
+// The factory routeHandlers.getRedirectAuthenticatedUser returns a middleware that sets the user in req.session.authUser and
+// redirects to appropriate place when returning from CAS login
+// The unpackLdapUser function transforms an ldap user to a user object that is stored as 
+const ldapClient = require('./adldapClient')
+const { hasGroup } = require('kth-node-ldap').utils
+module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser({
+  ldapConfig: config.ldap,
+  ldapClient: ldapClient,
+  unpackLdapUser: function (ldapUser, pgtIou) {
+    return {
+      username: ldapUser.ugUsername,
+      displayName: ldapUser.displayName,
+      email: ldapUser.mail,
+      pgtIou: pgtIou,
+      // This is where you can set custom roles
+      isAdmin: hasGroup(config.auth.adminGroup, ldapUser)
+    }
+  }
+})
+
+/*
+  Checks req.session.authUser as created above im unpackLdapUser.
+  
+  Usage:
+
+  requireRole('isAdmin', 'isEditor')
+*/
+
+module.exports.requireRole = function () {
+  const roles = Array.prototype.slice.call(arguments)
+
+  return function _hasNoneOfAcceptedRoles (req, res, next) {
+    const ldapUser = req.session.authUser || {}
+
+    // Check if we have any of the roles passed
+    const hasAuthorizedRole = roles.reduce((prev, curr) => prev || ldapUser[curr], false)
+    // If we don't have one of these then access is forbidden
+    if (!hasAuthorizedRole) {
+      const error = new Error('Forbidden')
+      error.status = 403
+      return next(error)
+    }
+    return next()
+  }
+}
