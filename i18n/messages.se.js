@@ -32,7 +32,8 @@ module.exports = {
     lang_block_id: '1.272446',
     locale_text: 'Node.js på svenska',
 
-    site_name: 'KTH Node.js Mall'
+    site_name: 'Node.js Mall',
+    host_name: 'KTH'
   }
 
 }

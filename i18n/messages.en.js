@@ -32,7 +32,8 @@ module.exports = {
     lang_block_id: '1.77273',
     locale_text: 'Node.js in English',
 
-    site_name: 'KTH Node.js Template'
+    site_name: 'Node.js Template',
+    host_name: 'KTH'
   }
 
 }
