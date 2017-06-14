@@ -63,7 +63,7 @@ module.exports = {
 
   // Cortina
   blockApi: {
-    blockUrl: 'https://www.kth.se/cm/' // Block API base URL
+    blockUrl: getEnv('SERVER_HOST_URL', 'https://www-r.referens.sys.kth.se/cm/') // Block API base URL
   },
 
   // Logging
