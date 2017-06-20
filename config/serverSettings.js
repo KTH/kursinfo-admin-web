@@ -34,7 +34,7 @@ const ldapOptions = {
 
 module.exports = {
   hostUrl: getEnv('SERVER_HOST_URL', devUrl),
-  useSsl: safeGet(() => getEnv('SERVER_SSL', devSsl + '').toLowerCase() == 'true'),
+  useSsl: safeGet(() => getEnv('SERVER_SSL', devSsl + '').toLowerCase() === 'true'),
   port: getEnv('SERVER_PORT', devPort),
   ssl: {
     // In development we don't have SSL feature enabled
@@ -88,10 +88,10 @@ module.exports = {
   sessionSecret: getEnv('SESSION_SECRET', '1234567890'),
   session: {
     key: getEnv('SESSION_KEY', devSessionKey),
-    useRedis: safeGet(() => getEnv('SESSION_USE_REDIS', devSessionUseRedis) == 'true'),
+    useRedis: safeGet(() => getEnv('SESSION_USE_REDIS', devSessionUseRedis) === 'true'),
     sessionOptions: {
       // do not set session secret here!!
-      cookie: { secure: safeGet(() => getEnv('SESSION_SECURE_COOKIE', false) == 'true') }
+      cookie: { secure: safeGet(() => getEnv('SESSION_SECURE_COOKIE', false) === 'true') }
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
   }
