@@ -13,6 +13,7 @@
   "scripts": {
     "//": "Gulp installs css and javascript",
     "test": "echo \"TODO: Write some tests...\"",
+    "precommit": "standard && npm run test",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build",
     "start": "NODE_ENV=production node app.js",
@@ -63,17 +64,23 @@
     "concurrently": "^2.1.0",
     "cross-env": "^2.0.0",
     "gulp": "^3.9.1",
+    "husky": "^0.14.0",
     "kth-node-build-commons": "^3.0.0",
     "merge-stream": "^1.0.1",
-    "standard": "^7.1.1",
-    "zombie": "5.0.5",
     "mocha": "3.2.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "standard": "^7.1.1",
+    "zombie": "5.0.5"
   },
   "engines": {
     "node": "6.9.1"
   },
   "jshintConfig": {
     "maxerr": 5
+  },
+  "standard": {
+    "ignore": [
+      "public/js/lib"
+    ]
   }
 }

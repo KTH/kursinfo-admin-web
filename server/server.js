@@ -1,5 +1,4 @@
 const server = require('kth-node-server')
-const { safeGet } = require('safe-utils')
 
 // Now read the server config etc.
 const config = require('./configuration').server
@@ -42,7 +41,7 @@ server.set('partials', path.join(__dirname, '/views/partials'))
 server.engine('handlebars', exphbs({
   defaultLayout: 'publicLayout',
   layoutsDir: server.settings.layouts,
-  partialsDir: server.settings.partials,
+  partialsDir: server.settings.partials
 }))
 server.set('view engine', 'handlebars')
 // Register handlebar helpers
@@ -89,7 +88,6 @@ server.use(config.proxyPrefixPath.uri + '/static', function (req, res, next) {
 // http://expressjs.com/en/api.html#app.set
 server.set('case sensitive routing', true)
 
-
 /* *******************************
  * ******* REQUEST PARSING *******
  * *******************************
@@ -121,7 +119,7 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
  * ******************************
  */
 const passport = require('passport')
-const ldapClient = require('./adldapClient')
+// const ldapClient = require('./adldapClient')
 const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
@@ -161,7 +159,7 @@ server.use(config.proxyPrefixPath.uri, require('kth-node-web-common/lib/web/cort
 const excludePath = config.proxyPrefixPath.uri + '(?!/static).*'
 const excludeExpression = new RegExp(excludePath)
 server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedirect')({
-  hostUrl: config.hostUrl,
+  hostUrl: config.hostUrl
 }))
 
 /* **********************************

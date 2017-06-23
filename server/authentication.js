@@ -69,7 +69,7 @@ passport.use(new GatewayStrategy({
 
 // The factory routeHandlers.getRedirectAuthenticatedUser returns a middleware that sets the user in req.session.authUser and
 // redirects to appropriate place when returning from CAS login
-// The unpackLdapUser function transforms an ldap user to a user object that is stored as 
+// The unpackLdapUser function transforms an ldap user to a user object that is stored as
 const ldapClient = require('./adldapClient')
 const { hasGroup } = require('kth-node-ldap').utils
 module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser({
@@ -89,7 +89,7 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
 
 /*
   Checks req.session.authUser as created above im unpackLdapUser.
-  
+
   Usage:
 
   requireRole('isAdmin', 'isEditor')

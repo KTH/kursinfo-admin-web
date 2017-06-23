@@ -2,6 +2,7 @@
 const registerHeaderContentHelper = require('kth-node-web-common/lib/handlebars/helpers/headerContent')
 const config = require('../../configuration').server
 const packageFile = require('../../../package.json')
+const log = require('kth-node-log')
 
 let version = packageFile.version
 
@@ -12,7 +13,7 @@ try {
   log.error(err.message)
 }
 
-/* 
+/*
   Register standard helpers:
 
     - withVersion
