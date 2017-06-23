@@ -1,0 +1,59 @@
+{
+  "system": {
+    "monitor": {
+      "uri": "/api/node/_monitor",
+      "method": "get"
+    },
+    "about": {
+      "uri": "/api/node/_about",
+      "method": "get"
+    },
+    "paths": {
+      "uri": "/api/node/_paths",
+      "method": "get"
+    },
+    "robots": {
+      "uri": "/robots.txt",
+      "method": "get"
+    },
+    "swagger": {
+      "uri": "/api/node/swagger.json",
+      "method": "get"
+    }
+  },
+  "api": {
+    "checkAPIkey": {
+      "uri": "/api/node/_checkAPIkey",
+      "method": "GET",
+      "apikey": {
+        "scope_required": true,
+        "scopes": [
+          "read"
+        ],
+        "type": "api_key"
+      }
+    },
+    "getDataById": {
+      "uri": "/api/node/v1/data/:id",
+      "method": "GET",
+      "apikey": {
+        "scope_required": true,
+        "scopes": [
+          "read"
+        ],
+        "type": "api_key"
+      }
+    },
+    "postDataById": {
+      "uri": "/api/node/v1/data/:id",
+      "method": "POST",
+      "apikey": {
+        "scope_required": true,
+        "scopes": [
+          "write"
+        ],
+        "type": "api_key"
+      }
+    }
+  }
+}
