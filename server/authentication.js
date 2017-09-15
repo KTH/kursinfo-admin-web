@@ -75,6 +75,7 @@ const { hasGroup } = require('kth-node-ldap').utils
 module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser({
   ldapConfig: config.ldap,
   ldapClient: ldapClient,
+  proxyPrefixPath: config.proxyPrefixPath.uri,
   unpackLdapUser: function (ldapUser, pgtIou) {
     return {
       username: ldapUser.ugUsername,

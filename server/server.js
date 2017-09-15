@@ -123,6 +123,7 @@ const passport = require('passport')
 const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, serverLogin, getServerGatewayLogin } = require('kth-node-passport-cas').routeHandlers({
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
+  proxyPrefixPath: config.proxyPrefixPath.uri,
   server: server
 })
 const { redirectAuthenticatedUserHandler } = require('./authentication')
