@@ -7,9 +7,9 @@
  * **************************************************
  *
  */
-const { getEnv } = require('kth-node-configuration')
+const { getEnv, devDefaults } = require('kth-node-configuration')
 
-const devPrefixPath = '/node'
+const devPrefixPath = devDefaults('/node')
 
 module.exports = {
   // The proxy prefix path if the application is proxied. E.g /places
