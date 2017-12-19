@@ -33,5 +33,4 @@ public/js/app/config*.js
 dist
 
 # Docker
-docker-compose*.yml
 *.env
