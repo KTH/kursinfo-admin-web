@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs-web:2.4
+FROM kthse/kth-nodejs:9.11.0
 
 RUN mkdir -p /npm && \
     mkdir -p /application
@@ -30,6 +30,6 @@ COPY ["server", "server"]
 
 ENV NODE_PATH /application
 
-EXPOSE 3000
+EXPOSE 3001
 
 ENTRYPOINT ["node", "app.js"]
