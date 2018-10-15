@@ -1,7 +1,5 @@
 FROM kthse/kth-nodejs-web:2.4
 
-MAINTAINER KTH Webb "cortina.developers@kth.se"
-
 RUN mkdir -p /npm && \
     mkdir -p /application
 
