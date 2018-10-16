@@ -30,6 +30,6 @@ COPY ["server", "server"]
 
 ENV NODE_PATH /application
 
-EXPOSE 3001
+EXPOSE 3000
 
 ENTRYPOINT ["node", "app.js"]
