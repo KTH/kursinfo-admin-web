@@ -1,6 +1,6 @@
 {
   "//": "JSHint configuration - http://jshint.com/docs/options/",
-  "name": "node-web",
+  "name": "kursinfo-web",
   "version": "2.0.0",
   "description": "Template project for a node express web server",
   "main": "app.js",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "uri": "https://github.com/KTH/node-web"
+    "uri": "git+https://github.com/KTH/kursinfo-web.git"
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
