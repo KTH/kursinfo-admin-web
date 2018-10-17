@@ -58,7 +58,7 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('API_URI', getEnv('API_KEY'), devInnovationApi)
+    nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi)
   },
 
   // Cortina
