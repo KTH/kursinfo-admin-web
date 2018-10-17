@@ -91,7 +91,8 @@ module.exports = {
     useRedis: safeGet(() => getEnv('SESSION_USE_REDIS', devSessionUseRedis) === 'true'),
     sessionOptions: {
       // do not set session secret here!!
-      cookie: { secure: safeGet(() => getEnv('SESSION_SECURE_COOKIE', false) === 'true') }
+      cookie: { secure: safeGet(() => getEnv('SESSION_SECURE_COOKIE', false) === 'true') },
+      proxy: safeGet(() => getEnv('SESSION_TRUST_PROXY', true) === 'true')
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis)
   }
