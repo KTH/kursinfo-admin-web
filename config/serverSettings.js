@@ -44,7 +44,7 @@ module.exports = {
 
   // API keys
   apiKey: {
-    nodeApi: getEnv('NODE_API_KEY', devDefaults('1234'))
+    nodeApi: getEnv('API_KEY', devDefaults('1234'))
   },
 
   // Authentication
@@ -58,7 +58,7 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('NODE_API_URI', devInnovationApi)
+    nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi)
   },
 
   // Cortina
