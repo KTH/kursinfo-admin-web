@@ -66,3 +66,27 @@ gulp.task('watch', ['build'], function () {
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
 })
+
+const infernoTask = require('kth-node-inferno/gulpTasks/infernoTask')({
+  src: [
+    'public/js/app/app.jsx'
+  ],
+  destinationPath: 'dist/js',
+  dirname: __dirname
+})
+
+const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask')({
+  src: [
+    'public/js/app/app.jsx'
+  ],
+  destinationPath: 'dist/js/server',
+  dirname: __dirname
+})
+
+// This is your task
+gulp.task('inferno', function () {
+  return mergeStream(
+    infernoTask(),
+    infernoServerTask()
+  )
+})
