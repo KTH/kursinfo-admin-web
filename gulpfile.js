@@ -8,6 +8,28 @@ const globals = {
 
 const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
 
+
+
+/* Put any addintional helper tasks here */
+const infernoTask = require('kth-node-inferno/gulpTasks/infernoTask')({
+  src: [
+    'public/js/app/app.jsx',
+    'public/js/app/pages/CoursePage.jsx'
+
+  ],
+  destinationPath: 'dist/js',
+  dirname: __dirname
+})
+
+const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask')({
+  src: [
+    'public/js/app/app.jsx',
+    'public/js/app/pages/CoursePage.jsx'
+  ],
+  destinationPath: 'dist/js/server',
+  dirname: __dirname
+})
+
 /**
  * Usage:
  *
@@ -56,6 +78,12 @@ gulp.task('transpileSass', () => sass())
  *  Public tasks used by developer:
  *
  */
+gulp.task('inferno', function () {
+  return mergeStream(
+    infernoTask(),
+    infernoServerTask()
+  )
+})
 
 gulp.task('clean', clean)
 
@@ -65,4 +93,5 @@ gulp.task('watch', ['build'], function () {
   gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
+  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
 })
