@@ -68,7 +68,6 @@
     "safe-utils": "^0.1.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -85,13 +84,11 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-preset-env": "^1.7.0",
-=======
     "babel-core": "^6.9.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
->>>>>>> 9f8c5ba9bd19143067e788e6aefeba7c8c32f06c
     "browser-sync": "^2.12.8",
     "chai": "^4.0.2",
     "concurrently": "^2.1.0",
@@ -134,5 +131,10 @@
       "env",
       "stage-0"
     ]
+  },
+  "node": {
+    "fs": "empty",
+    "net": "empty",
+    "tls": "empty"
   }
 }

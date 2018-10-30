@@ -20,46 +20,44 @@ const paths = require('../server').getPaths()
 
 
 async function getIndex (req, res, next) {
-
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-
+  const courseCode = req.params.courseCode
   //let lang = language.getLanguage(res) || 'sv'
 
   try {
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
    // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
-
     
-    // Render inferno app
+  // Render inferno app
   const context = {}
   const renderProps = createElement(StaticRouter, {
     location: req.url,
     context
   }, appFactory())
 
-  
-  console.log("!!renderProps!!", renderProps,"!!StaticRouter!!", StaticRouter)
- await doAllAsyncBefore({
-    pathname: req.originalUrl,
+  renderProps.props.children.props.routerStore.RouterStore= await renderProps.props.children.props.routerStore.getCourseInformation(courseCode)
+ // console.log("!!renderProps!!", renderProps,"!!test!!")
+   doAllAsyncBefore({
+    pathname: req.path,
     query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-    routerStore: {},
-    routes: renderProps.props.children.props.children.props.children
+    routerStore: renderProps.props.children.props.routerStore,
+    routes: renderProps.props.children.props.children.props.children.props.children
   })
-
+  console.log(renderProps.props.children.props.routerStore.RouterStore)
   const html = renderToString(renderProps)
 
     res.render('sample/index', {
       debug: 'debug' in req.query,
-      html:html
+      html:html,
       //initialState: JSON.stringify(hydrateStores(renderProps)),
       //data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
-     // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
+      //error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
   } catch (err) {
     log.error('Error in getIndex', { error: err })

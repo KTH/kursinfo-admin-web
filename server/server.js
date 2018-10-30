@@ -180,7 +180,7 @@ server.use('/', systemRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, Sample.getIndex)
+appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, Sample.getIndex)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), Sample.getIndex)
 server.use('/', appRoute.getRouter())
 

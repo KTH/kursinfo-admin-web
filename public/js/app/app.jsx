@@ -1,24 +1,21 @@
+'use strict'
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
   require('inferno-devtools')
 }
 import { render, Component } from 'inferno'
 import { Provider, inject } from 'inferno-mobx'
 import { BrowserRouter, Switch, Redirect, Route, Link, matchPath } from 'inferno-router'
+import { configure } from "mobx"
 import queryString from 'query-string'
 import { globalRegistry, createUtility } from 'component-registry'
 
 import { renderString } from 'inferno-formlib/lib/widgets/common'
 //import { IMobxStore } from './interfaces/utils'
 
-import { configure } from "mobx"
-
 import i18n from '../../../i18n'
 
+import RouterStore from './stores/RouterStore.jsx'
 import CoursePage from './pages/CoursePage.jsx'
-
-const routerStore = {}
-
-
 
 function appFactory () {
    
@@ -28,13 +25,17 @@ function appFactory () {
     })
   } 
 
+  const routerStore = new RouterStore();
+
   return(
+      <Provider routerStore={routerStore} asyncBefore = { CoursePage.fetchData }>
         <ProgressLayer>
           <Switch>
             <Route  path="/kursinfo" component={ CoursePage } />
             <Route path="/" component={ CoursePage } />
           </Switch>
         </ProgressLayer>
+        </Provider>
     )
   }
 
@@ -42,10 +43,11 @@ function appFactory () {
   function doAllAsyncBefore ({
     pathname,
     query,
-    routerStore:{},
+    routerStore,
     routes}) 
   {
     const queryParams = queryString.parse(query)
+  console.log("routes",routes.children)
     const matches = routes.map((route) => {
       const { exact, leaf, path, asyncBefore, breadcrumbLabel} = route.props
       return {
@@ -65,13 +67,13 @@ function appFactory () {
     return Promise.resolve()
   }
 
-  //@inject(['routerStore'])
+  @inject(['routerStore'])
   class ProgressLayer extends Component {
     constructor (props, context) {
       super(props)
       this.state = {
         context,
-        showIsEditingModal: false
+       id:"test"
       }
   
       this.doContinueNavigation = this.doContinueNavigation.bind(this)
@@ -109,13 +111,7 @@ function appFactory () {
           nextContext,
           nextProps
         }
-  
-        if (this.props.routerStore['isEditing']) {
-          // We are editing so store the props we need to call doAllAsyncBefore if we
-          // choose to continue with navigation. And show the warning modal ofc...
-          this.setState({ showIsEditingModal: true })
-          return this.asyncBeforeProps = asyncBeforeProps
-        }
+
   
         // Continue with page change
         doAllAsyncBefore (asyncBeforeProps).then((res) => {
@@ -151,24 +147,8 @@ function appFactory () {
     this.asyncBeforeProps = undefined
   }
 
-  renderBreadrumbs ({ routerStore }) {
-    return (
-      <Breadcrumb>
-        {
-          routerStore['breadcrumbs'].map((item) => {
-            return (
-              <BreadcrumbItem> 
-                {item.href && <Link to={item.href}>{item.label}</Link>}
-                {!item.href && item.label}
-              </BreadcrumbItem>
-            )
-          })
-        }
-      </Breadcrumb>
-    )
-  }
-
   render ({ routerStore }) {
+    console.log("routerStore",routerStore,"this.props",this.props)
     return (
       <div>
         {this.props.children}
