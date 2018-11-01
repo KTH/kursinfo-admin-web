@@ -148,7 +148,7 @@ function appFactory () {
   }
 
   render ({ routerStore }) {
-    console.log("routerStore",routerStore,"this.props",this.props)
+    //console.log("routerStore",routerStore,"this.props",this.props)
     return (
       <div>
         {this.props.children}

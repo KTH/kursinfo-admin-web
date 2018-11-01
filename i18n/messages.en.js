@@ -30,9 +30,9 @@ module.exports = {
     field_label_post_example: 'My modelData(Response from api call POST): ',
 
     lang_block_id: '1.77273',
-    locale_text: 'Node.js in English',
+    locale_text: 'Course information in English',
 
-    site_name: 'Node.js Template',
+    site_name: 'Kursinformation',
     host_name: 'KTH'
   },
 
@@ -63,5 +63,27 @@ module.exports = {
     course_supplemental_information:"Supplementary information ",
     course_examiners:"Examiner",
     course_recruitment_text:"Abstract"
+  },
+  courseRoundInformation:{
+    round_course_code: "Application code",
+    round_max_seats: "Number of places",
+    round_part_of_programme: "Part of programme",
+    round_responsibles: "Course responsible",
+    round_end_date: "End date",
+    round_start_date: "Start date",
+    round_teacher: "Teacher",
+    round_target_group: "Target group",
+    round_short_name: "Short name",
+    round_periods: "Periods",
+    round_schedule: "Schedule",
+    round_course_term: "Start semester",
+    round_course_place: "Course place",
+    round_tutoring_form: "Form of study",
+    round_tutoring_language: "Language of instruction",
+    round_campus: "Campus",
+    round_tutoring_time: "Tutoring time",
+    round_type: "Type of round",
+    round_time_slots: "Planned timeslots",
+    round_application_link: "Application link"
   }
 }

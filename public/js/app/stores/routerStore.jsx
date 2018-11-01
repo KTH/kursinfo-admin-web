@@ -4,7 +4,7 @@ import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
 
-const EMPTY = "-- no information --"
+import { EMPTY, PROGRAMME_URL } from "../util/constants"
 
 
 class RouterStore {
@@ -49,17 +49,15 @@ class RouterStore {
     return options
   }
 
-  @action async getCourseInformation(courseCode){
+  @action async getCourseInformation(courseCode, lang){
  
-    //const koppsAPI_course_tot = await  koppsApiInternal.getAsync(`courses/${courseCode}`)
-   // const coursePlan = koppsAPI_course_tot.body
-    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}`).then((res) => {
-     
+      return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
+   
     
       const coursePlan = res.data
-      const language = 0
+      const language = lang === 'en' ? 0 : 1
 
-      console.log(coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.publicSyllabusVersions )
+      //console.log(coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.publicSyllabusVersions )
       const coursePlanModel ={
         course_code: isValidData(coursePlan.course.courseCode),
         course_title: isValidData(coursePlan.course.title),
@@ -89,25 +87,30 @@ class RouterStore {
         course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? coursePlan.examiners.map(ex => 
           `<br/><a href="https://www.kth.se/profile/${isValidData(ex.username)}/"> ${isValidData(ex.givenName)}  ${isValidData(ex.lastName)} </a>, Kontakt:${isValidData(ex.email)}`):"" : EMPTY
     }
+
+    console.log("!!coursePlanModel: OK !!")
+
   //***Get list of rounds and creats options for rounds dropdown**//
   let courseRoundList=[]
     let courseRound
     let courseRoundSelectOptions = ""
-    for( let roundInfo of coursePlan.roundInfos){
+    for( let roundInfo of coursePlan.roundInfos){ 
       courseRound = getRound(roundInfo)
       courseRoundList.push(courseRound)
-      courseRoundSelectOptions +=  `<option value=${courseRound.courseTerm[0]}:${courseRound.courseTerm[1]}_${courseRound.roundId} > 
-                                        VT ${courseRound.courseTerm[0]}:
-                                        ${courseRound.shortName} - 
-                                        ${courseRound.campus}
+      courseRoundSelectOptions +=  `<option value=${courseRound.round_course_term[0]}:${courseRound.round_course_term[1]}_${courseRound.roundId} > 
+                                        VT ${courseRound.round_course_term[0]}:
+                                        ${courseRound.round_short_name} - 
+                                        ${courseRound.round_campus}
                                     </option>`
       }
-      return coursePlanModel
+      return {coursePlanModel,
+              courseRoundList,
+              language
+            }
     }).catch(err => { //console.log(err.response);
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
-      return err.response.status
       throw err
     })
     
@@ -223,7 +226,8 @@ class RouterStore {
 
 }
 
-//POC TEST !
+
+//******************POC TEST Move to a better place!*********************/
 //const config = require('../configuration').server
 const BasicAPI = require('kth-node-api-call').BasicAPI
 
@@ -235,7 +239,7 @@ let koppsApiInternal = new BasicAPI({
   // Kopps is a public API and needs no API-key
   defaultTimeout: 3000
 })
-
+//**********************************************************************/
 function isValidData(dataObject, language = 0){
   return !dataObject ? EMPTY : dataObject
 }
@@ -257,27 +261,40 @@ function getExamObject(dataObject, grades, language = 0){console.log("exam",grad
 
 
 
-function getRound(roundObject, language = 0){
+function getRound(roundObject, language = 0){ console.log("!!! IN rounds!!")
   const courseRoundModel = {
     roundId: isValidData(roundObject.round.ladokRoundId, language),
-    timeslots:isValidData(roundObject.timeslots, language),
-    startDate: isValidData(roundObject.round.firstTuitionDate, language),
-    endDate: isValidData(roundObject.round.lastTuitionDate, language),
-    targetGroup:  isValidData(roundObject.round.targetGroup, language),
-    tutoringForm: isValidData(roundObject.round.tutoringForm.name, language), //ASK FOR CHANGE???
-    tutoringTime: isValidData(roundObject.round.tutoringTimeOfDay.name, language), 
-    tutoringLanguage: isValidData(roundObject.round.language, language),
-    campus: isValidData(roundObject.round.campus.label, language), 
-    coursePace: isValidData(roundObject.round.campus.name, language),
-    teacher: roundObject.ldapTeachers.map( teacher => isValidData(teacher.email)), 
-    Responsibles: roundObject.ldapResponsibles.map( Responsibles => isValidData(Responsibles.email)), 
-    shortName: isValidData(roundObject.round.shortName, language),
-    courseCode: isValidData(roundObject.round.applicationCodes[0].applicationCode),
-    schedule: "?",
-    courseTerm: isValidData(roundObject.round.startTerm.term).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : []
+    round_time_slots: isValidData(roundObject.timeslots, language),
+    round_start_date: isValidData(roundObject.round.firstTuitionDate, language),
+    round_end_date: isValidData(roundObject.round.lastTuitionDate, language),
+    round_target_group:  isValidData(roundObject.round.targetGroup, language),
+    round_tutoring_form: isValidData(roundObject.round.tutoringForm.name, language), //ASK FOR CHANGE???
+    round_tutoring_time: isValidData(roundObject.round.tutoringTimeOfDay.name, language), 
+    round_tutoring_language: isValidData(roundObject.round.language, language),
+    round_campus: isValidData(roundObject.round.campus.label, language), 
+    round_course_place: isValidData(roundObject.round.campus.name, language),
+    round_teacher: "investigate if it could be added in kopps API???",//roundObject.ldapTeachers.map( teacher => isValidData(teacher.email)), 
+    round_responsibles: "investigate if it could be added in kopps API???",//roundObject.ldapResponsibles.map( Responsibles => isValidData(Responsibles.email)), 
+    round_short_name: isValidData(roundObject.round.shortName, language),
+    round_course_code: isValidData(roundObject.round.applicationCodes[0].applicationCode),
+    round_schedule: isValidData(roundObject.schemaUrl),
+    round_course_term: isValidData(roundObject.schemaUrl).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
+    round_periods: isValidData(roundObject.round.courseRoundTerms[0].formattedPeriodsAndCredits),
+    round_max_seats: isValidData(roundObject.round.maxSeats, language),
+   // round_type: isValidData(roundObject.applicationCodes[0].courseRoundType.name, language), //TODO: Map array
+    round_application_link:  isValidData(roundObject.admissionLinkUrl),
+    round_part_of_programme: roundObject.usage.length > 0 ? getRoundProgramme(roundObject.usage) : EMPTY
   }
   return courseRoundModel
+}
 
+function getRoundProgramme(programmeList){
+  let programmeString = ""
+  programmeList.forEach(programme => {
+    programmeString += `<a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">${programme.title}</a><br/>`
+  })
+  console.log("!!getRoundProgramme : OK !!",programmeString)
+  return programmeString
 }
 
 export default RouterStore

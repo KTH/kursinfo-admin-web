@@ -3,6 +3,7 @@
 const api = require('../api')
 const co = require('co')
 const log = require('kth-node-log')
+const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
 const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
@@ -26,9 +27,9 @@ async function getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-  const courseCode = req.params.courseCode
-  //let lang = language.getLanguage(res) || 'sv'
-
+  const courseCode = req.params.courseCode 
+  let lang = language.getLanguage(res) || 'sv'
+  
   try {
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
@@ -41,15 +42,15 @@ async function getIndex (req, res, next) {
     context
   }, appFactory())
 
-  renderProps.props.children.props.routerStore.RouterStore= await renderProps.props.children.props.routerStore.getCourseInformation(courseCode)
- // console.log("!!renderProps!!", renderProps,"!!test!!")
+  renderProps.props.children.props.routerStore= await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, lang)
+ // console.log("!!renderProps!!", renderProps)
    doAllAsyncBefore({
     pathname: req.path,
     query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-    routerStore: renderProps.props.children.props.routerStore,
+    routerStore: renderProps.props.children.props,
     routes: renderProps.props.children.props.children.props.children.props.children
   })
-  console.log(renderProps.props.children.props.routerStore.RouterStore)
+  //console.log("!!!routerStore!!!",renderProps.props.children.props.routerStore)
   const html = renderToString(renderProps)
 
     res.render('sample/index', {

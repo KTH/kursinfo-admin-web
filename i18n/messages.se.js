@@ -30,12 +30,13 @@ module.exports = {
     field_label_post_example: 'Min datamodell(Svar från api anrop POST): ',
 
     lang_block_id: '1.272446',
-    locale_text: 'Node.js på svenska',
+    locale_text: 'Kursinformation på svenska',
 
-    site_name: 'Node.js Mall',
+    site_name: 'Course information',
     host_name: 'KTH'
   },
   courseInformation:{
+    roundId:"Kursomgångs nr",
     course_title:"Benämning svenska",
     course_other_title:"Benämning engelska",
     course_code:"Kurskod",
@@ -63,6 +64,28 @@ module.exports = {
     course_examiners:"Examinator",
     course_recruitment_text:"Kort beskrivning svenska"
 
+  },
+  courseRoundInformation: {
+    round_course_code: "Anmälningskod",
+    round_max_seats: "Antal platser",
+    round_part_of_programme: "Del av program",
+    round_responsibles: "Kursansvarig",
+    round_end_date: "Kursen slutar",
+    round_start_date: "Kursen startar",
+    round_teacher: "Lärare",
+    round_target_group: "Målgrupp",
+    round_short_name: "Namn - kort ",
+    round_periods: "Perioder",
+    round_schedule: "Schema",
+    round_course_term: "Start termin",
+    round_course_place: "Studielokalisering",
+    round_tutoring_form: "Undervisningsform",
+    round_tutoring_language: "Undervisningsspråk",
+    round_campus: "Skola",
+    round_tutoring_time: "Undervisningstid",
+    round_application_link: "Anmälningslänk",
+    round_type: "Typ av kurstillfälle",
+    round_time_slots: "Planerade moduler"
   }
 
 }
