@@ -35,7 +35,16 @@ module.exports = {
     site_name: 'Kursinformation',
     host_name: 'KTH'
   },
-
+  courseInformationLabels: {
+    label_course_syllabus: "Course Syllabus",
+    label_course_syllabus_valid_from: "Valid from",
+    label_programme_year: "year ",
+    label_course_intro: "Intoduction",
+    label_course_prepare: "Prepare",
+    label_course_during: "During course",
+    label_course_finalize: "Finalize course",
+    label_course_other: "Contact and additional information"
+  },
   courseInformation: {
     course_title:"Title english",
     course_other_title:"Title swedish",
@@ -65,7 +74,7 @@ module.exports = {
     course_recruitment_text:"Abstract"
   },
   courseRoundInformation:{
-    round_course_code: "Application code",
+    round_application_code: "Application code",
     round_max_seats: "Number of places",
     round_part_of_programme: "Part of programme",
     round_responsibles: "Course responsible",

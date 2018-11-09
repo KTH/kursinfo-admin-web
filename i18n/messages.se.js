@@ -35,6 +35,16 @@ module.exports = {
     site_name: 'Course information',
     host_name: 'KTH'
   },
+  courseInformationLabels: {
+    label_course_syllabus: "Kursplan",
+    label_course_syllabus_valid_from:  "Gäller från och med",
+    label_programme_year: "Åk  ",
+    label_course_intro: "Inför kursval",
+    label_course_prepare: "Förbereda",
+    label_course_during: "Under kursen",
+    label_course_finalize: "Slutföra kurs",
+    label_course_other: "Kontakt och övrig information"
+  },
   courseInformation:{
     roundId:"Kursomgångs nr",
     course_title:"Benämning svenska",
@@ -66,7 +76,7 @@ module.exports = {
 
   },
   courseRoundInformation: {
-    round_course_code: "Anmälningskod",
+    round_application_code: "Anmälningskod",
     round_max_seats: "Antal platser",
     round_part_of_programme: "Del av program",
     round_responsibles: "Kursansvarig",

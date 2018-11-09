@@ -75,6 +75,10 @@ function setCustomCacheControl (res, path) {
 server.use(config.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
 // Expose browser configurations
 server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
+// Map Bootstrap.
+server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
+// Map kth-style.
+server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist'))
 // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline

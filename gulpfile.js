@@ -6,25 +6,24 @@ const globals = {
   dirname: __dirname
 }
 
-const { webpack, moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
+const { moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
 
+/* Inferno build tasks */
 
-
-/* Put any addintional helper tasks here */
 const infernoTask = require('kth-node-inferno/gulpTasks/infernoTask')({
   src: [
     'public/js/app/app.jsx',
-    'public/js/app/pages/CoursePage.jsx'
-
+    'public/js/app/embed.jsx'
   ],
   destinationPath: 'dist/js',
+  exclude: /node_modules\/(?!(safe-utils)\/).*/,
   dirname: __dirname
 })
 
 const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask')({
   src: [
     'public/js/app/app.jsx',
-    'public/js/app/pages/CoursePage.jsx'
+    'public/js/app/embed.jsx'
   ],
   destinationPath: 'dist/js/server',
   dirname: __dirname
@@ -35,49 +34,41 @@ const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask'
  *
  *  One-time build of browser dependencies for development
  *
- *    $ gulp build:dev
+ *    $ gulp build:dev [--production | --development]
+ *
+ *  Deployment build
+ *
+ *    $ gulp build
  *
  *  Continuous re-build during development
  *
  *    $ gulp watch
  *
- *  One-time build for Deployment (Gulp tasks will check NODE_ENV if no option is passed)
- *
- *    $ gulp build [--production | --reference]
- *
  *  Remove the generated files
  *
  *    $ gulp clean
  *
- **/
+ */
 
 // *** JavaScript helper tasks ***
-gulp.task('webpack', webpack)
 gulp.task('vendor', vendor)
 
 gulp.task('moveResources', function () {
-  // Returning merged streams at the end so Gulp knows when async operations have finished
-  moveResources.cleanKthStyle()
-
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
     moveResources.moveFontAwesome(),
-    // Move project image files
-    gulp.src('./public/img/*')
-      .pipe(gulp.dest('dist/img'))
   )
+})
+
+gulp.task('moveImages', function () {
+  // Move project image files
+  return gulp.src('./public/img/**/*')
+    .pipe(gulp.dest('dist/img'))
 })
 
 gulp.task('transpileSass', () => sass())
 
-/* Put any addintional helper tasks here */
-
-/**
- *
- *  Public tasks used by developer:
- *
- */
 gulp.task('inferno', function () {
   return mergeStream(
     infernoTask(),
@@ -85,14 +76,19 @@ gulp.task('inferno', function () {
   )
 })
 
+/**
+ *
+ *  Public tasks used by developer:
+ *
+ */
+
 gulp.task('clean', clean)
 
-gulp.task('build', ['moveResources', 'vendor', 'webpack'], () => sass())
+gulp.task('build', ['moveResources', 'moveImages', 'vendor', 'inferno'], () => sass())
 
 gulp.task('watch', ['build'], function () {
-  gulp.watch(['./public/js/app/**/*.js', './public/js/components/**/*'], ['webpack'])
+  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
+  gulp.watch(['./public/img/**/*.*'], ['moveImages'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
-  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
 })
-

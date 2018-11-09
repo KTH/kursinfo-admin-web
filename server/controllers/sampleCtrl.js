@@ -27,14 +27,14 @@ async function getIndex (req, res, next) {
     appFactory = tmp.appFactory
     doAllAsyncBefore = tmp.doAllAsyncBefore
   }
-  const courseCode = req.params.courseCode 
+  const courseCode = req.params.courseCode
   let lang = language.getLanguage(res) || 'sv'
-  
+
   try {
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
    // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
-    
+
   // Render inferno app
   const context = {}
   const renderProps = createElement(StaticRouter, {
@@ -44,19 +44,19 @@ async function getIndex (req, res, next) {
 
   renderProps.props.children.props.routerStore= await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, lang)
  // console.log("!!renderProps!!", renderProps)
-   doAllAsyncBefore({
+ /*  doAllAsyncBefore({
     pathname: req.path,
     query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
     routerStore: renderProps.props.children.props,
     routes: renderProps.props.children.props.children.props.children.props.children
-  })
+  })*/
   //console.log("!!!routerStore!!!",renderProps.props.children.props.routerStore)
   const html = renderToString(renderProps)
 
     res.render('sample/index', {
       debug: 'debug' in req.query,
-      html:html,
-      //initialState: JSON.stringify(hydrateStores(renderProps)),
+      html:html
+    //  ,initialState: JSON.stringify(hydrateStores(renderProps))
       //data: resp.statusCode === 200 ? safeGet(() => { return resp.body.name }) : '',
       //error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
@@ -67,7 +67,7 @@ async function getIndex (req, res, next) {
 }
 
 function hydrateStores (renderProps) {
-  // This assumes that all stores are specified in a root element called Provider 
+  // This assumes that all stores are specified in a root element called Provider
   const props = renderProps.props.children.props
   const outp = {}
   for (let key in props) {

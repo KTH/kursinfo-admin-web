@@ -10,12 +10,36 @@ import queryString from 'query-string'
 import { globalRegistry, createUtility } from 'component-registry'
 
 import { renderString } from 'inferno-formlib/lib/widgets/common'
-//import { IMobxStore } from './interfaces/utils'
+import { IMobxStore } from './interfaces/utils'
 
 import i18n from '../../../i18n'
 
 import RouterStore from './stores/RouterStore.jsx'
 import CoursePage from './pages/CoursePage.jsx'
+
+class tmp extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      text: "hej"
+    }
+
+    this.click = this.click.bind(this)
+  }
+
+  click (e) {
+    e.preventDefault()
+    console.log(e)
+    this.setState({
+      text: 'Working!'
+    })
+  }
+
+  render () {
+    return <div onClick={this.click}>Click me! {this.state.text}</div>
+  }
+}
 
 function appFactory () {
    
@@ -25,6 +49,12 @@ function appFactory () {
     })
   } 
 
+  createUtility({
+    implements: IMobxStore,
+    name: 'RouterStore',
+    store: routerStore
+  }).registerWith(globalRegistry)
+
   const routerStore = new RouterStore();
 
   return(
@@ -32,7 +62,7 @@ function appFactory () {
         <ProgressLayer>
           <Switch>
             <Route  path="/kursinfo" component={ CoursePage } />
-            <Route path="/" component={ CoursePage } />
+            <Route path="/" component={ tmp } />
           </Switch>
         </ProgressLayer>
         </Provider>
@@ -47,7 +77,6 @@ function appFactory () {
     routes}) 
   {
     const queryParams = queryString.parse(query)
-  console.log("routes",routes.children)
     const matches = routes.map((route) => {
       const { exact, leaf, path, asyncBefore, breadcrumbLabel} = route.props
       return {
@@ -76,30 +105,16 @@ function appFactory () {
        id:"test"
       }
   
-      this.doContinueNavigation = this.doContinueNavigation.bind(this)
+      /*this.doContinueNavigation = this.doContinueNavigation.bind(this)
       this.doCancelNavigation = this.doCancelNavigation.bind(this)
-      this.didChangeLocation = this.didChangeLocation.bind(this)
+      this.didChangeLocation = this.didChangeLocation.bind(this)*/
     }
   
     getChildContext () {
       return this.state.context
     }
   
-    componentDidMount () {
-      window.addEventListener('beforeunload', this.didChangeLocation)
-    }
-  
-    componentWillUnmount () {
-      window.removeEventListener('beforeunload', this.didChangeLocation)
-    }
-  
-    didChangeLocation (e) {
-      if (this.props.routerStore['isEditing']) {
-        e.preventDefault()
-        // Chrome requires returnValue to be set.
-        e.returnValue = ''
-      }
-    }
+   
   
     componentWillReceiveProps (nextProps, nextContext) {
       if (nextContext.router.route.location.key !== this.context.router.route.location.key) {

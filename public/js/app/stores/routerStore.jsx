@@ -3,14 +3,12 @@ import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-
 import { EMPTY, PROGRAMME_URL } from "../util/constants"
 
 
 class RouterStore {
   @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable coursePlanData = undefined
-
 
   buildApiUrl (path, params) {
     let host
@@ -49,15 +47,24 @@ class RouterStore {
     return options
   }
 
-  @action async getCourseInformation(courseCode, lang){
+  @action getData(){
+    return "tjohooo"
+  }
+
+  @action async getCourseInformation(courseCode, lang, roundIndex = 0){
  
       return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
-   
-    
+  
       const coursePlan = res.data
       const language = lang === 'en' ? 0 : 1
 
-      //console.log(coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.publicSyllabusVersions )
+      const courseTitleData = {
+        course_code: isValidData(coursePlan.course.courseCode),
+        course_title: isValidData(coursePlan.course.title),
+        course_other_title:isValidData(coursePlan.course.titleOther),
+        course_credits:isValidData(coursePlan.course.credits)
+      }
+
       const coursePlanModel ={
         course_code: isValidData(coursePlan.course.courseCode),
         course_title: isValidData(coursePlan.course.title),
@@ -73,7 +80,7 @@ class RouterStore {
         course_eligibility:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.eligibility, language): EMPTY, 
         course_requirments_for_final_grade:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.reqsForFinalGrade, language): EMPTY,
         course_literature: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.literature, language): EMPTY, 
-        course_valid_from:coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].validFromTerm.term, language): EMPTY, 
+        course_valid_from: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].validFromTerm.term).toString().match(/.{1,4}/g) : [], 
         course_required_equipment: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.requiredEquipment, language): EMPTY,
         course_examination: getExamObject(coursePlan.examinationSets[Object.keys(coursePlan.examinationSets)[0]].examinationRounds, coursePlan.formattedGradeScales, language),
         course_examination_comments:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
@@ -86,25 +93,29 @@ class RouterStore {
         course_supplemental_information: isValidData(coursePlan.course.supplementaryInfo, language),
         course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? coursePlan.examiners.map(ex => 
           `<br/><a href="https://www.kth.se/profile/${isValidData(ex.username)}/"> ${isValidData(ex.givenName)}  ${isValidData(ex.lastName)} </a>, Kontakt:${isValidData(ex.email)}`):"" : EMPTY
-    }
-
-    console.log("!!coursePlanModel: OK !!")
-
-  //***Get list of rounds and creats options for rounds dropdown**//
-  let courseRoundList=[]
-    let courseRound
-    let courseRoundSelectOptions = ""
-    for( let roundInfo of coursePlan.roundInfos){ 
-      courseRound = getRound(roundInfo)
-      courseRoundList.push(courseRound)
-      courseRoundSelectOptions +=  `<option value=${courseRound.round_course_term[0]}:${courseRound.round_course_term[1]}_${courseRound.roundId} > 
-                                        VT ${courseRound.round_course_term[0]}:
-                                        ${courseRound.round_short_name} - 
-                                        ${courseRound.round_campus}
-                                    </option>`
       }
+      console.log("!!coursePlanModel: OK !!")
+
+      //***Get list of rounds and creats options for rounds dropdown**//
+      let courseRoundList=[]
+      let courseRound
+      let courseRoundSelectOptions = ""
+      for( let roundInfo of coursePlan.roundInfos){ 
+        courseRound = getRound(roundInfo)
+        courseRoundList.push(courseRound)
+      }
+
+      /*courseIntro ={
+        course_goals: coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.goals, language) : EMPTY,
+        course_content:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.content, language): EMPTY,
+        course_disposition:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.disposition, language): EMPTY, 
+        course_eligibility:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.eligibility, language): EMPTY,
+      }*/
+
+
       return {coursePlanModel,
               courseRoundList,
+              courseTitleData,
               language
             }
     }).catch(err => { //console.log(err.response);
@@ -127,36 +138,8 @@ class RouterStore {
     })
   }
   
-
-  @action getFormAnswers (params) {
-    return axios.get(this.buildApiUrl(this.paths.api.webformAnswers.uri, params), this._getOptions()).then((res) => {
-      const util = globalRegistry.getUtility(IDeserialize, 'niseko-web')
-      const data = util.deserialize(res.data)
-      return data
-    }).catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
-  }
-  
-
-
-
   @action clearBreadcrumbs () {
     this.breadcrumbs.replace([])
-  }
-
-  @action setBreadcrumbs (crumbs) {
-    this.breadcrumbs.replace([{
-      label: 'KTH',
-      href: '/'
-    }].concat(crumbs))
-  }
-  
-  @action appendBreadcrumbs (crumbs) {
-    this.breadcrumbs.replace(this.breadcrumbs.concat(crumbs))
   }
   
   @action hasBreadcrumbs () {
@@ -261,7 +244,7 @@ function getExamObject(dataObject, grades, language = 0){console.log("exam",grad
 
 
 
-function getRound(roundObject, language = 0){ console.log("!!! IN rounds!!")
+function getRound(roundObject, language = 0){ //console.log("!!! IN rounds!!")
   const courseRoundModel = {
     roundId: isValidData(roundObject.round.ladokRoundId, language),
     round_time_slots: isValidData(roundObject.timeslots, language),
@@ -276,25 +259,35 @@ function getRound(roundObject, language = 0){ console.log("!!! IN rounds!!")
     round_teacher: "investigate if it could be added in kopps API???",//roundObject.ldapTeachers.map( teacher => isValidData(teacher.email)), 
     round_responsibles: "investigate if it could be added in kopps API???",//roundObject.ldapResponsibles.map( Responsibles => isValidData(Responsibles.email)), 
     round_short_name: isValidData(roundObject.round.shortName, language),
-    round_course_code: isValidData(roundObject.round.applicationCodes[0].applicationCode),
+    round_application_code: isValidData(roundObject.round.applicationCodes[0].applicationCode),
     round_schedule: isValidData(roundObject.schemaUrl),
-    round_course_term: isValidData(roundObject.schemaUrl).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
+    round_course_term: isValidData(roundObject.round.startTerm.term).toString().length > 0 ? roundObject.round.startTerm.term.toString().match(/.{1,4}/g) : [],
     round_periods: isValidData(roundObject.round.courseRoundTerms[0].formattedPeriodsAndCredits),
     round_max_seats: isValidData(roundObject.round.maxSeats, language),
-   // round_type: isValidData(roundObject.applicationCodes[0].courseRoundType.name, language), //TODO: Map array
+    round_type: roundObject.round.applicationCodes.length > 0 ? isValidData(roundObject.round.applicationCodes[0].courseRoundType.name) : EMPTY, //TODO: Map array
     round_application_link:  isValidData(roundObject.admissionLinkUrl),
     round_part_of_programme: roundObject.usage.length > 0 ? getRoundProgramme(roundObject.usage) : EMPTY
   }
   return courseRoundModel
 }
 
-function getRoundProgramme(programmeList){
-  let programmeString = ""
-  programmeList.forEach(programme => {
-    programmeString += `<a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">${programme.title}</a><br/>`
+function getRoundProgramme( programmes ){
+  let programmeList = []
+  let programmeObj = {}
+  programmes.forEach(programme => {
+    programmeObj = {
+      programmeCode: programme.programmeCode,
+      title: programme.title,
+      url:`${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}`,
+      studyYear: programme.studyYear,
+      electiveCondition: programme.electiveCondition.abbrLabel
+
+    }
+    programmeList.push(programmeObj)
+    //programmeString += `<a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">${programme.title}</a><br/>`
   })
-  console.log("!!getRoundProgramme : OK !!",programmeString)
-  return programmeString
+ // console.log("!!getRoundProgramme : OK !!",programmeList)
+  return programmeList
 }
 
 export default RouterStore
