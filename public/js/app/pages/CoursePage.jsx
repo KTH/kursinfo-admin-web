@@ -20,11 +20,11 @@ function handleDropdownChange(thisInstance, event){
   event.preventDefault();
   console.log("!!!!!DROPDOWN!!!")
   thisInstance.setState({
-    activeRoundIndex: 2
+    activeRoundIndex: event.target.selectedIndex
   })
 }
 
-@inject(['routerStore'])
+@inject(['routerStore']) @observer
 class CoursePage extends Component {
   constructor (props) {
     super(props)
@@ -34,6 +34,14 @@ class CoursePage extends Component {
       }
     //this.handleDropdownChange = this.handleDropdownChange.bind(this)
     //this.toggle = this.toggle.bind(this)
+  }
+
+  static fetchData (routerStore, params) {console.log("fetchData",routerStore)
+    return routerStore.getCourseInformation("sf1624","sv")
+      .then((data) => {
+        console.log("data",data)
+        return routerStore["coursePlanData"] = data
+      })
   }
 
   /*toggle() {
@@ -53,67 +61,65 @@ class CoursePage extends Component {
     window.addEventListener("keydown", (e) => console.log(e))
   }
 
-  render ({ routerStore }) {
-
-    const courseInfoValues = Object.values(routerStore.coursePlanModel)
-    const courseInfoHeaders = Object.keys(routerStore.coursePlanModel)
+  render ({ routerStore}){
+    console.log("routerStore in CoursePage", routerStore["coursePlanData"].coursePlanModel.course_code)
+    //const courseInfoValues = Object.values(routerStore["coursePlanData"].coursePlanModel)
+    //const courseInfoHeaders = Object.keys(routerStore["coursePlanData"].coursePlanModel)
+    //console.log("routerStore["coursePlanData"].courseRoundList", routerStore["coursePlanData"].getCourseInformation("sf1624","sv"))
     const courseInformationToRounds = {
-      course_code: routerStore.coursePlanModel.course_code,
-      course_grade_scale: routerStore.coursePlanModel.course_grade_scale,
-      course_level_code: routerStore.coursePlanModel.course_level_code,
-      course_main_subject: routerStore.coursePlanModel.course_main_subject,
-      course_valid_from: routerStore.coursePlanModel.course_valid_from
+      course_code: routerStore["coursePlanData"].coursePlanModel.course_code,
+      course_grade_scale: routerStore["coursePlanData"].coursePlanModel.course_grade_scale,
+      course_level_code: routerStore["coursePlanData"].coursePlanModel.course_level_code,
+      course_main_subject: routerStore["coursePlanData"].coursePlanModel.course_main_subject,
+      course_valid_from: routerStore["coursePlanData"].coursePlanModel.course_valid_from
     }
-    //console.log("routerStore.courseRoundList", routerStore.courseRoundList)
+    
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page row" >
-        <div onClick={() => console.log('test')}>Test</div>
+
 
         {/* ---TITEL--- */}
         <CourseTitle key = "title"
-            courseTitleData = {routerStore.courseTitleData}
-            language={routerStore.language}
+            courseTitleData = {routerStore["coursePlanData"].courseTitleData}
+            language={routerStore["coursePlanData"].language}
         />
 
         {/* ---INTRO TEXT--- */}
-        <div id="courseIntroText"  dangerouslySetInnerHTML = {{ __html:routerStore.coursePlanModel.course_recruitment_text}}>
+        <div id="courseIntroText"  dangerouslySetInnerHTML = {{ __html:routerStore["coursePlanData"].coursePlanModel.course_recruitment_text}}>
         </div>
 
         {/* ---COURSE ROUND DROPDOWN--- */}
-        <label  id="roundDropDownLabel"> Välj en kursomgång ( {routerStore.courseRoundList.length} st ): </label>
+        <label  id="roundDropDownLabel"> Välj en kursomgång ( {routerStore["coursePlanData"].courseRoundList.length} st ): </label>
         <select onChange = {linkEvent(this, handleDropdownChange)}>
-          {routerStore.courseRoundList.map( (courseRound, index) =>{
-            return <option > VT {courseRound.round_course_term[0] },  
-                                {courseRound.round_short_name},     
-                                {courseRound.round_type}  
+          {routerStore["coursePlanData"].courseRoundList.map( (courseRound, index) =>{
+            return <option > {`VT ${courseRound.round_course_term[0]}  
+                                ${courseRound.round_short_name},     
+                                ${courseRound.round_type}` } 
                   </option> }
           )}
         </select>
 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseRound
-          courseRound= {routerStore.courseRoundList[this.state.activeRoundIndex]}
+          courseRound= {routerStore["coursePlanData"].courseRoundList[this.state.activeRoundIndex]}
           index={this.state.activeRoundIndex}
           courseData = {courseInformationToRounds}
-          language={routerStore.language}
+          language={routerStore["coursePlanData"].language}
         />
 
-        {/* ---COLLAPSE CONTAINER--- */}
-        <CourseCollapseList roundIndex={this.state.activeRoundIndex} courseData = {routerStore.coursePlanModel} className="ExampleCollapseContainer" isOpen={true} color="blue"/>
+            <br/>
+            <br/>
+
+        {/* ---COLLAPSE CONTAINER---  */}
+        <CourseCollapseList roundIndex={this.state.activeRoundIndex} courseData = {routerStore["coursePlanData"].coursePlanModel} className="ExampleCollapseContainer" isOpen={true} color="blue"/>
+      
        
-       
-       
-       
-       
-        {/* ---DELETE!!--- */}
+        {/* ---DELETE!!--- 
         <br/>
         <hr/>
         <div style="text-align:center;"><h3>All information från Kopps</h3></div>
         <hr/>
-        {courseInfoValues.map((item, index) => <InformationSet label={i18n.messages[routerStore.language].courseInformation[courseInfoHeaders[index]]} text= {item}/>)}
-        {routerStore.courseRoundList.map((round, index) => <CourseRoundTemp courseRound= {round} index={index} language={routerStore.language} />)}
-
-        {this.state.activeRoundIndex}
+        */}
       </div>
     )
   }

@@ -49,19 +49,24 @@ function appFactory () {
     })
   } 
 
+  const routerStore = new RouterStore()
+
+  if (typeof window !== 'undefined') {
+    routerStore.initializeStore('routerStore')
+  }
   createUtility({
     implements: IMobxStore,
     name: 'RouterStore',
     store: routerStore
   }).registerWith(globalRegistry)
 
-  const routerStore = new RouterStore();
+
 
   return(
-      <Provider routerStore={routerStore} asyncBefore = { CoursePage.fetchData }>
+      <Provider routerStore={routerStore} >
         <ProgressLayer>
           <Switch>
-            <Route  path="/kursinfo" component={ CoursePage } />
+            <Route  path="/kursinfo" component={ CoursePage } asyncBefore = { CoursePage.fetchData }/>
             <Route path="/" component={ tmp } />
           </Switch>
         </ProgressLayer>
@@ -77,22 +82,20 @@ function appFactory () {
     routes}) 
   {
     const queryParams = queryString.parse(query)
+
     const matches = routes.map((route) => {
-      const { exact, leaf, path, asyncBefore, breadcrumbLabel} = route.props
+      const { exact, leaf, path, asyncBefore} = route.props
       return {
         match: matchPath(pathname, { path, exact: leaf } ),
-        query: queryParams
-       // asyncBefore,
-        //breadcrumbLabel
+        query: queryParams,
+        asyncBefore
       }
     })
+
+    /*if (asyncBefore) {
+      return asyncBefore(routerStore, match, query)
+    }*/
     
-    let prevUrl
-    const breadcrumbMatches = matches.filter((route) => {
-      const isMatch = route.match && prevUrl !== route.match.url
-      prevUrl = isMatch ? route.match.url : prevUrl
-      return isMatch
-    })
     return Promise.resolve()
   }
 
@@ -163,7 +166,7 @@ function appFactory () {
   }
 
   render ({ routerStore }) {
-    //console.log("routerStore",routerStore,"this.props",this.props)
+    console.log("!!routerStore!!",routerStore,"this.props",this.props)
     return (
       <div>
         {this.props.children}
@@ -173,7 +176,7 @@ function appFactory () {
 }
 
 if (typeof window !== 'undefined') {
-  render(<BrowserRouter>{appFactory()}</BrowserRouter>, document.getElementById('app'))
+  render(<BrowserRouter>{appFactory()}</BrowserRouter>, document.getElementById('kth-kursinfo'))
 }
   
 export { 

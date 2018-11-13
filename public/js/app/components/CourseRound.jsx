@@ -82,20 +82,7 @@ class CourseRound extends Component {
   }
 } 
 
-/*{round.round_part_of_programme.map( (programme, index) =>
-  <p> <a target="_blank" key={index} href={programme.url}>
-       {programme.title}, 
-       {i18n.messages[this.props.language].courseInformationLabels.label_programme_year} {programme.studyYear},
-       {programme.electiveCondition}
-   </a></p>)}*/
 
-const RoundProgrammeLinks = ({programmeList = [], language = 0}) => {
-    let programmeString = ""
-    return(
-       
-     <div></div>
-    )
-}
 
 const InformationSet = ({label = "Rubrik", text}) => {
   return(

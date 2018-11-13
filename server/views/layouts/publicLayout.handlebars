@@ -8,6 +8,7 @@
     <meta name="description" content="{{description}}">
     <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
 
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     {{#if canonicalUrl}}
       <link href="{{canonicalUrl}}" rel="canonical">
     {{/if}}
@@ -31,7 +32,13 @@
       {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
     {{/if}}
 
+    {{#extend 'head-scripts'}}
+          <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+        {{/extend}}
+    
+
     {{{render 'head-scripts'}}}
+   
   </head>
   <body>
     <div class="container">

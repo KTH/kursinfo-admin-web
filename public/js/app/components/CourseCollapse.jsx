@@ -3,7 +3,7 @@ import Collapse from 'inferno-bootstrap/dist/Collapse'
 import Card from 'inferno-bootstrap/dist/Card/Card'
 import CardBody from 'inferno-bootstrap/dist/Card/CardBody'
 import Button from 'inferno-bootstrap/dist/Button'
-import i18n from "../../../../i18n"
+//import i18n from "../../../../i18n"
 
 class CourseCollapse extends Component {
   constructor(props) {
@@ -11,35 +11,30 @@ class CourseCollapse extends Component {
 
     this.state = {
       isOpen: props.isOpen,
-      class: 'collapseBtn'
+      class: 'collapseBtn',
+      iconClass: props.isOpen ? "icon-chevron-down":"icon-chevron-right"
     }
     this.doToggle = this.doToggle.bind(this)
   }
 
-  /*test = () => {
-    console.log('test')
-    this.setState({
-      isOpen: !this.state.isOpen,
-      class: 'testtesttest'
-    })
-  }*/
-
   doToggle(e) {
     e.preventDefault()
-    console.log("!!!!!")
     this.setState({
       isOpen: !this.state.isOpen,
-      class: 'testtesttest'
+      iconClass: !this.state.isOpen ? "icon-chevron-down":"icon-chevron-right"
     })
   }
 
   render() {
-    //console.log(this.props)
     return (
       <div>
-        <Button className={this.state.class} onClick={this.test}>{this.props.header}</Button>
+        <Button className={this.state.class} 
+                onClick={this.doToggle}>
+                <i class={this.state.iconClass}></i>&nbsp; 
+                {this.props.header}
+        </Button>
         <Collapse isOpen={this.state.isOpen}>
-          <Card className="ExampleCollapseContainer">
+          <Card className="collapseContainer">
             <CardBody>
               {this.props.courseData.map((data)=>
               <span>

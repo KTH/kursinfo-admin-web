@@ -10,12 +10,32 @@
 @import "node_modules/bootstrap/scss/mixins";
 */
 
+.collapseContainer{
+    margin-top: -27px;
+
+    .card-body{
+        padding: 20px 40px;
+
+        p{
+            font-size: 16px;
+        }
+    }
+}
 
 .collapseBtn{
-    margin-top: 20px;
+    margin-top: 3px;
     width: 100%;
     color: #fff;
-    background: #24a0d8;;
+    background: #24a0d8;
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 2px;
+
+    &:hover, &:focus, &:active{
+        color: #fff;
+        outline: none;
+        outline-offset: none;
+    }
 }
 
 .preArticleParagraphs, h2.secondTitle {
@@ -92,6 +112,10 @@ p.small-text{
 
 #courseIntroText{
     padding-top:30px;
+     
+    p{
+        font-size: 18px;
+    }
 }
 
 select{
@@ -112,6 +136,7 @@ select{
 .btn-primery{
     background: #24a0d8;
     color:#fff;
+    font-size: 18px;
 }
 
 #roundDropDownLabel{

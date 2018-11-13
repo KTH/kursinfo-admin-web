@@ -1,11 +1,11 @@
-<!--script>
+<script>
   window.__initialState__ = {{{initialState}}}
-</script-->
+</script>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+{{prefixScript '/static/js/app.js' 'scripts'}}
 
 
-
-
-<h1>Kurinformation - Sprint 1</h1>
+<!--h1>Kurinformation - Sprint 1</h1-->
 
 {{#if error}}
   <p>Error: {{error}}</p>
