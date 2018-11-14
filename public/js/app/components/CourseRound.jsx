@@ -18,6 +18,7 @@ class CourseRound extends Component {
     //console.log("this.props.courseRound", this.props.courseRound)
     const translate = i18n.messages[this.props.language].courseRoundInformation
     const round = this.props.courseRound
+    const course = this.props.courseData
     return (
       <div id="RoundContainer" className="key-info">
         <Row>
@@ -28,39 +29,39 @@ class CourseRound extends Component {
             <Row id="firstRow">
                 <Col sm="4">
                   <h4>{i18n.messages[this.props.language].courseInformation.course_level_code}</h4>
-                  <p>{this.props.courseData.course_level_code}</p>
+                  <p>{i18n.messages[this.props.language].courseInformation.course_level_code_label[course.course_level_code]}</p>
                 </Col>
                 <Col sm="4">
                   <h4>{i18n.messages[this.props.language].courseInformation.course_main_subject}</h4>
-                  <p>{this.props.courseData.course_main_subject}</p>
+                  <p>{course.course_main_subject}</p>
                 </Col>
                 <Col sm="4">
                   <h4>{i18n.messages[this.props.language].courseInformation.course_grade_scale}</h4>
-                  <p>{this.props.courseData.course_grade_scale}</p>
+                  <p>{course.course_grade_scale}</p>
                 </Col>
               </Row>
               <Row id="secondRow">
               <Col sm="4">
               <h4>{translate.round_start_date}</h4>
-                <p>{round ? round.round_start_date : ""}</p>
+                <p>{round ? round.round_start_date : EMPTY}</p>
               </Col>
               <Col sm="4">
               <h4>{translate.round_course_place}</h4>
-                <p>{round ? round.round_course_place : ""}</p>
+                <p>{round ? round.round_course_place : EMPTY}</p>
               </Col>
               <Col sm="4">
               <h4>{translate.round_tutoring_form}</h4>
-                <p>{round ? round.round_tutoring_form : ""}, {round ? round.round_tutoring_time : ""}</p>
+                <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
               </Col>
             </Row> 
             <Row id="thirdRow">
               <Col sm="4">
               <h4>{translate.round_tutoring_language}</h4>
-                <p>{round ? round.round_tutoring_language : ""}</p>
+                <p>{round ? round.round_tutoring_language : EMPTY}</p>
               </Col>
               <Col sm="4">
               <h4>{translate.round_application_code}</h4>
-                <p>{round ? round.round_application_code : ""}</p>
+                <p>{round ? round.round_application_code : EMPTY}</p>
               </Col>
               <Col sm="4">
                 <h4></h4> 

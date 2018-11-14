@@ -4,6 +4,7 @@ import { globalRegistry } from 'component-registry'
 
 import i18n from "../../../../i18n"
 import CourseCollapse from './CourseCollapse.jsx'
+import { EMPTY } from '../util/constants';
 
 @inject(['routerStore']) @observer
 class CourseCollapseList extends Component {
@@ -12,7 +13,7 @@ class CourseCollapseList extends Component {
 
     this.state = {
       openMenue: 0,
-      store:this.props.routerStore["coursePlanData"]
+      store:this.props.routerStore["courseData"]
     }
   }
 
@@ -20,12 +21,12 @@ class CourseCollapseList extends Component {
     const course = this.state.store.coursePlanModel
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
-      {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : ""},
-      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : ""},
-      {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : ""},
-      {header: translation.courseRoundInformation.round_periods, text: round ?round.round_periods : ""},
-      {header: translation.courseRoundInformation.round_end_date, text: round ?round.round_end_date : ""},
-      {header: translation.courseRoundInformation.round_max_seats, text: round ? round.round_max_seats : ""},
+      {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
+      {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY },
+      {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY },
+      {header: translation.courseRoundInformation.round_periods, text: round ?round.round_periods : EMPTY },
+      {header: translation.courseRoundInformation.round_end_date, text: round ?round.round_end_date : EMPTY },
+      {header: translation.courseRoundInformation.round_max_seats, text: round ? round.round_max_seats : EMPTY },
 
       {header:translation.courseInformation.course_eligibility, text:course.course_eligibility},
       {header:translation.courseInformation.course_content, text:course.course_content},
@@ -44,9 +45,9 @@ class CourseCollapseList extends Component {
       {header:translation.courseInformation.course_required_equipment, text:course.course_required_equipment},
       {header:translation.courseInformation.course_literature, text:course.course_literature},
 
-      {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : ""},
-      {header: translation.courseRoundInformation.round_time_slots, text:round ? round.round_responsibles : ""},
-      {header: translation.courseRoundInformation.round_schedule, text:round ? round.round_schedule : ""}
+      {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
+      {header: translation.courseRoundInformation.round_time_slots, text:round ? round.round_responsibles : EMPTY },
+      {header: translation.courseRoundInformation.round_schedule, text:round ? round.round_schedule : EMPTY}
       
     ]
     return prepare
@@ -56,7 +57,6 @@ class CourseCollapseList extends Component {
     const course = this.state.store.coursePlanModel
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const during = [
-      //{header:translation.courseInformation.course_suggested_addon_studies, text:course.course_suggested_addon_studies},
       {header:"Kurs-PM", text:"Här visas kurs-PM"},
       {header:"Canavas länk", text:"Länk till Canavas"},
       {header:"Kurswebb länk??", text:"Visas här? Endast om den är ikryssad i admin?"}

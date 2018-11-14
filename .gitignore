@@ -34,3 +34,7 @@ dist
 
 # Docker
 *.env
+
+
+# slask file
+slask_delete.txt

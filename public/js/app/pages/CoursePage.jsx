@@ -7,18 +7,16 @@ import DropdownItem from 'kth-style-inferno-bootstrap/dist/DropdownItem'
 import DropdownToggle from 'kth-style-inferno-bootstrap/dist/DropdownToggle'*/
 
 import i18n from "../../../../i18n"
+import { EMPTY, FORSKARUTB_URL } from "../util/constants"
 
 //Components
 import CourseRound from "../components/CourseRound.jsx"
 import CourseTitle from "../components/CourseTitle.jsx"
 import CourseCollapseList from "../components/CourseCollapseList.jsx"
 
-//Delete:
-import CourseRoundTemp from "../components/CourseRoundTemp.jsx"
 
 function handleDropdownChange(thisInstance, event){
   event.preventDefault();
-  console.log("!!!!!DROPDOWN!!!")
   thisInstance.setState({
     activeRoundIndex: event.target.selectedIndex
   })
@@ -36,11 +34,11 @@ class CoursePage extends Component {
     //this.toggle = this.toggle.bind(this)
   }
 
-  static fetchData (routerStore, params) {console.log("fetchData",routerStore)
+  static fetchData (routerStore, params) {
     return routerStore.getCourseInformation("sf1624","sv")
       .then((data) => {
         console.log("data",data)
-        return routerStore["coursePlanData"] = data
+        return courseData = data
       })
   }
 
@@ -62,64 +60,63 @@ class CoursePage extends Component {
   }
 
   render ({ routerStore}){
-    console.log("routerStore in CoursePage", routerStore["coursePlanData"].coursePlanModel.course_code)
-    //const courseInfoValues = Object.values(routerStore["coursePlanData"].coursePlanModel)
-    //const courseInfoHeaders = Object.keys(routerStore["coursePlanData"].coursePlanModel)
-    //console.log("routerStore["coursePlanData"].courseRoundList", routerStore["coursePlanData"].getCourseInformation("sf1624","sv"))
+    const courseData = routerStore["courseData"]
+    console.log("routerStore in CoursePage", courseData)
     const courseInformationToRounds = {
-      course_code: routerStore["coursePlanData"].coursePlanModel.course_code,
-      course_grade_scale: routerStore["coursePlanData"].coursePlanModel.course_grade_scale,
-      course_level_code: routerStore["coursePlanData"].coursePlanModel.course_level_code,
-      course_main_subject: routerStore["coursePlanData"].coursePlanModel.course_main_subject,
-      course_valid_from: routerStore["coursePlanData"].coursePlanModel.course_valid_from
+      course_code: courseData.coursePlanModel.course_code,
+      course_grade_scale: courseData.coursePlanModel.course_grade_scale,
+      course_level_code: courseData.coursePlanModel.course_level_code,
+      course_main_subject: courseData.coursePlanModel.course_main_subject,
+      course_valid_from: courseData.coursePlanModel.course_valid_from
     }
     
     return (
       <div  key="kursinfo-container" className="kursinfo-main-page row" >
 
 
-        {/* ---TITEL--- */}
+        {/* ---COURSE TITEL--- */}
         <CourseTitle key = "title"
-            courseTitleData = {routerStore["coursePlanData"].courseTitleData}
-            language={routerStore["coursePlanData"].language}
+            courseTitleData = {courseData.courseTitleData}
+            language={courseData.language}
         />
 
         {/* ---INTRO TEXT--- */}
-        <div id="courseIntroText"  dangerouslySetInnerHTML = {{ __html:routerStore["coursePlanData"].coursePlanModel.course_recruitment_text}}>
+        <div id="courseIntroText"  dangerouslySetInnerHTML = {{ __html:courseData.coursePlanModel.course_recruitment_text}}>
         </div>
 
         {/* ---COURSE ROUND DROPDOWN--- */}
-        <label  id="roundDropDownLabel"> Välj en kursomgång ( {routerStore["coursePlanData"].courseRoundList.length} st ): </label>
+        <label  id="roundDropDownLabel"> Välj en kursomgång ( {courseData.courseRoundList.length} st ): </label>
         <select onChange = {linkEvent(this, handleDropdownChange)}>
-          {routerStore["coursePlanData"].courseRoundList.map( (courseRound, index) =>{
+          {courseData.courseRoundList.map( (courseRound, index) =>{
             return <option > {`VT ${courseRound.round_course_term[0]}  
                                 ${courseRound.round_short_name},     
                                 ${courseRound.round_type}` } 
-                  </option> }
-          )}
+                  </option> })
+          }
         </select>
 
         {/* ---COURSE ROUND KEY INFORMATION--- */}
         <CourseRound
-          courseRound= {routerStore["coursePlanData"].courseRoundList[this.state.activeRoundIndex]}
+          courseRound= {courseData.courseRoundList[this.state.activeRoundIndex]}
           index={this.state.activeRoundIndex}
           courseData = {courseInformationToRounds}
-          language={routerStore["coursePlanData"].language}
+          language={courseData.language}
         />
 
-            <br/>
-            <br/>
-
-        {/* ---COLLAPSE CONTAINER---  */}
-        <CourseCollapseList roundIndex={this.state.activeRoundIndex} courseData = {routerStore["coursePlanData"].coursePlanModel} className="ExampleCollapseContainer" isOpen={true} color="blue"/>
-      
-       
-        {/* ---DELETE!!--- 
+        {/* ---IF RESEARCH LEVEL: SHOW "Postgraduate course" LINK--  */}
+        {courseData.coursePlanModel.course_level_code === "RESEARCH" ?
+          <span>
+            <h3>Forskarkurs</h3>
+            <a target="_blank" href={`${FORSKARUTB_URL}/${courseData.coursePlanModel.course_department_code}`}> 
+            {i18n.messages[courseData.language].courseInformationLabels.label_postgraduate_course} {courseData.coursePlanModel.course_department}
+            </a> 
+          </span>
+          : ""}
         <br/>
-        <hr/>
-        <div style="text-align:center;"><h3>All information från Kopps</h3></div>
-        <hr/>
-        */}
+        <br/>
+        {/* ---COLLAPSE CONTAINER---  */}
+        <CourseCollapseList roundIndex={this.state.activeRoundIndex} courseData = {courseData.coursePlanModel} className="ExampleCollapseContainer" isOpen={true} color="blue"/>
+      
       </div>
     )
   }

@@ -10,7 +10,7 @@ import { IDeserialize } from '../interfaces/utils'
 
 class RouterStore {
   @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
-  //@observable coursePlanData = undefined
+  @observable courseData = undefined
 
   buildApiUrl (path, params) {
     let host
@@ -84,13 +84,14 @@ class RouterStore {
         course_examination_comments:  coursePlan.publicSyllabusVersions && coursePlan.publicSyllabusVersions.length > 0 ? isValidData(coursePlan.publicSyllabusVersions[0].courseSyllabus.examComments, language):EMPTY,
         //Not in course paln
         course_department: isValidData(coursePlan.course.department.name, language),
+        course_department_code: isValidData(coursePlan.course.department.code, language),
         course_contact_name:isValidData(coursePlan.course.infoContactName, language),
         course_suggested_addon_studies: isValidData(coursePlan.course.addOn, language),
         course_supplemental_information_url: isValidData(coursePlan.course.supplementaryInfoUrl, language),
         course_supplemental_information_url_text: isValidData(coursePlan.course.supplementaryInfoUrlName, language),
         course_supplemental_information: isValidData(coursePlan.course.supplementaryInfo, language),
         course_examiners: coursePlan.examiners ?  Array.isArray(coursePlan.examiners) ? coursePlan.examiners.map(ex => 
-          `<br/><a href="https://www.kth.se/profile/${isValidData(ex.username)}/"> ${isValidData(ex.givenName)}  ${isValidData(ex.lastName)} </a>, Kontakt:${isValidData(ex.email)}`):"" : EMPTY
+          `<br/><a target="_blank" href="https://www.kth.se/profile/${isValidData(ex.username)}/"> ${isValidData(ex.givenName)}  ${isValidData(ex.lastName)} </a>, Kontakt:${isValidData(ex.email)}`):"" : EMPTY
       }
       console.log("!!coursePlanModel: OK !!")
 
@@ -103,7 +104,7 @@ class RouterStore {
         courseRoundList.push(courseRound)
       }
 
-      this.coursePlanData = {
+      this.courseData = {
         coursePlanModel,
         courseRoundList,
         courseTitleData,
@@ -172,7 +173,6 @@ class RouterStore {
         value.document[docAttrs[i]] = document[docAttrs[i]]
       }
     }
-  
     return value
   }
 
@@ -182,7 +182,8 @@ class RouterStore {
     const store = this
    
     if (typeof window !== 'undefined' && window.__initialState__ && window.__initialState__[storeName]) {
-      /*const util = globalRegistry.getUtility(IDeserialize, 'kursinfo-web')
+      /* TODO: 
+      const util = globalRegistry.getUtility(IDeserialize, 'kursinfo-web')
       const importData = JSON.parse(decodeURIComponent(window.__initialState__[storeName]))
       console.log("importData",importData, "util",util)
       for (let key in importData) {
@@ -208,25 +209,13 @@ class RouterStore {
 }
 
 
-//******************POC TEST Move to a better place!*********************/
-//const config = require('../configuration').server
-const BasicAPI = require('kth-node-api-call').BasicAPI
 
-let koppsApiInternal = new BasicAPI({
-  hostname: "https://kopps-r.referens.sys.kth.se/api/kopps/",//config.kopps.host,
-  basePath: '/api/kopps/internal/',
-  https: false,//config.kopps.https,
-  json: true,
-  // Kopps is a public API and needs no API-key
-  defaultTimeout: 3000
-})
-//**********************************************************************/
 function isValidData(dataObject, language = 0){
   return !dataObject ? EMPTY : dataObject
 }
 
 
-function getExamObject(dataObject, grades, language = 0){console.log("exam",grades)
+function getExamObject(dataObject, grades, language = 0){
   let examString = ""
   if(dataObject.length > 0){
     for(let exam of dataObject){
@@ -237,6 +226,7 @@ function getExamObject(dataObject, grades, language = 0){console.log("exam",grad
                     </li>`
     }
   }
+  console.log("!!getExamObject is ok!!")
   return examString 
 }
 
@@ -269,26 +259,18 @@ function getRound(roundObject, language = 0){
   return courseRoundModel
 }
 
-function getRoundProgramme( programmes, language ){ //TODO
-  let programmeList = []
-  let programmeObj = {}
+function getRoundProgramme( programmes, language = 0 ){ //TODO
   let programmeString = ""
   programmes.forEach(programme => {
-    programmeObj = {
-      programmeCode: programme.programmeCode,
-      title: programme.title,
-      url:`${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}`,
-      studyYear: programme.studyYear,
-      electiveCondition: programme.electiveCondition.abbrLabel
-
-    }
-    //programmeList.push(programmeObj)
-    programmeString += `<a href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">
-    ${programme.title}, ${language === "sv" ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}</a><br/>`
+    programmeString += 
+    `<a target="_blank" 
+                href="${PROGRAMME_URL}/${programme.programmeCode}/${programme.progAdmissionTerm.term}/arskurs${programme.studyYear}">
+                ${programme.title}, ${language === "sv" ? "åk" : "year" } ${programme.studyYear},${programme.electiveCondition.abbrLabel}
+     </a><br/>`
   })
   console.log("!!getRoundProgramme : OK !!")
-  //return programmeList
   return programmeString
 }
 
 export default RouterStore
+

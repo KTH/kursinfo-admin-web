@@ -38,7 +38,7 @@ class CourseCollapse extends Component {
             <CardBody>
               {this.props.courseData.map((data)=>
               <span>
-                 <h2>{data.header}</h2> 
+                 <h3>{data.header}</h3> 
                 <p dangerouslySetInnerHTML={{ __html:data.text}}/>
                </span>
               )}

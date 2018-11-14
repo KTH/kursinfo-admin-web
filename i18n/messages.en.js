@@ -43,7 +43,8 @@ module.exports = {
     label_course_prepare: "Prepare",
     label_course_during: "During course",
     label_course_finalize: "Finalize course",
-    label_course_other: "Contact and additional information"
+    label_course_other: "Contact and additional information",
+    label_postgraduate_course: "Postgraduate courses at "
   },
   courseInformation: {
     course_title:"Title english",
@@ -64,6 +65,12 @@ module.exports = {
     course_language:"Language of instruction",
     course_required_equipment:"Required equipment",
     course_level_code:"Education cycle",
+    course_level_code_label: {
+      PREPARATORY: "Pre-university level",
+      BASIC: "First cycle",
+      ADVANCE: "Second cycle",
+      RESEARCH: "Third cycle"
+    },
     course_department:"Offered by",
     course_contact_name:"Contact ",
     course_suggested_addon_studies:"Recommended prerequisites",
@@ -88,9 +95,20 @@ module.exports = {
     round_course_term: "Start semester",
     round_course_place: "Course place",
     round_tutoring_form: "Form of study",
+    round_tutoring_form_label: {
+      NML: "Normal",
+      DST: "Distance",
+      ITD: "IT based distance"
+    },
     round_tutoring_language: "Language of instruction",
     round_campus: "Campus",
     round_tutoring_time: "Tutoring time",
+    round_tutoring_time_label: {
+      DAG: "Daytime",
+      KVA: "Evenings",
+      KVÄ: "Evenings",
+      VSL: "Weekends"
+    },
     round_type: "Type of round",
     round_time_slots: "Planned timeslots",
     round_application_link: "Application link"

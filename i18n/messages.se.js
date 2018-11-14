@@ -43,7 +43,8 @@ module.exports = {
     label_course_prepare: "Förbereda",
     label_course_during: "Under kursen",
     label_course_finalize: "Slutföra kurs",
-    label_course_other: "Kontakt och övrig information"
+    label_course_other: "Kontakt och övrig information",
+    label_postgraduate_course: "Forskarkurser på "
   },
   courseInformation:{
     roundId:"Kursomgångs nr",
@@ -65,6 +66,12 @@ module.exports = {
     course_language:"Undervisningsspråk",
     course_required_equipment:"Utrustningskrav",
     course_level_code:"Utbildningsnivå",
+    course_level_code_label: {
+      PREPARATORY: "Förberedande nivå",
+      BASIC: "Grundnivå",
+      ADVANCE: "Avancerad nivå",
+      RESEARCH: "Forskarnivå"
+    },
     course_department:"Ges av",
     course_contact_name:"Kontaktperson",
     course_suggested_addon_studies:"Rekommenderade förkunskaper",
@@ -90,9 +97,20 @@ module.exports = {
     round_course_term: "Start termin",
     round_course_place: "Studielokalisering",
     round_tutoring_form: "Undervisningsform",
+    round_tutoring_form_label: {
+      NML: "Normal",
+      DST: "Distans",
+      ITD: "IT-baserad distans"
+    },
     round_tutoring_language: "Undervisningsspråk",
     round_campus: "Skola",
     round_tutoring_time: "Undervisningstid",
+    round_tutoring_time_label: {
+      DAG: "Dagtid",
+      KVA: "Kvällstid",
+      KVÄ: "Kvällstid",
+      VSL: "Veckoslut"
+    },
     round_application_link: "Anmälningslänk",
     round_type: "Typ av kurstillfälle",
     round_time_slots: "Planerade moduler"
