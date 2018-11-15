@@ -20,7 +20,7 @@ class CourseRound extends Component {
     const round = this.props.courseRound
     const course = this.props.courseData
     return (
-      <div id="RoundContainer" className="key-info">
+      <div id="RoundContainer" className=" col key-info">
         <Row>
           <Col sm="4" id="imageContainer">
             <img src="//www.kth.se/polopoly_fs/1.841226!/image/f9520503_335_200.jpg" alt="" height="" width=""/>

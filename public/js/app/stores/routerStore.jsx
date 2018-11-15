@@ -49,8 +49,8 @@ class RouterStore {
     return options
   }
 
-  @action getCourseInformation(courseCode, lang, roundIndex = 0){
- 
+  @action getCourseInformation(courseCode, lang = 'sv', roundIndex = 0){
+
       return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
   
       const coursePlan = res.data
@@ -96,18 +96,22 @@ class RouterStore {
       console.log("!!coursePlanModel: OK !!")
 
       //***Get list of rounds and creats options for rounds dropdown**//
-      let courseRoundList=[]
+      let courseSemesters = []
       let courseRound
-      let courseRoundSelectOptions = ""
+      let courseRoundList = []
       for( let roundInfo of coursePlan.roundInfos){ 
         courseRound = getRound(roundInfo)
         courseRoundList.push(courseRound)
+        if(courseSemesters.indexOf(courseRound.round_course_term[0]) < 0)
+          courseSemesters.push(courseRound.round_course_term[0])
+          console.log("courseSemesters",courseSemesters)
       }
-
+      
       this.courseData = {
         coursePlanModel,
         courseRoundList,
         courseTitleData,
+        courseSemesters,
         language
       }
     }).catch(err => { //console.log(err.response);

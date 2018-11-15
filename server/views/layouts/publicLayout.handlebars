@@ -8,13 +8,11 @@
     <meta name="description" content="{{description}}">
     <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
 
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     {{#if canonicalUrl}}
       <link href="{{canonicalUrl}}" rel="canonical">
     {{/if}}
-
-    {{prefixStyle '/static/css/bootstrap/bootstrap.min.css' 'styles' 'screen'}}
-    {{prefixStyle '/static/css/kth-style/kth-bootstrap-theme.css' 'styles' 'screen'}}
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    {{prefixStyle '/static/kth-style/css/kth-bootstrap.min.css' 'styles' 'screen'}}
     {{prefixStyle '/static/css/kursinfo-web.css' 'styles' 'screen'}}
 
     {{{render 'styles'}}}
@@ -32,20 +30,16 @@
       {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
     {{/if}}
 
-    {{#extend 'head-scripts'}}
-          <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-        {{/extend}}
-    
-
     {{{render 'head-scripts'}}}
-   
   </head>
   <body>
-    <div class="container">
-       {{> kthHeader }} 
-      {{{body}}}
+      {{> kthHeader }}
+      <div class="container main">
+        <div class="row">
+          {{{body}}}
+        </div>
+      </div>
       {{> kthFooter }}
-    </div>
     {{{render 'scripts'}}}
   </body>
 </html>

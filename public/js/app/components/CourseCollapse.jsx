@@ -27,7 +27,7 @@ class CourseCollapse extends Component {
 
   render() {
     return (
-      <div>
+      <div className="col-12"> 
         <Button className={this.state.class} 
                 onClick={this.doToggle}>
                 <i class={this.state.iconClass}></i>&nbsp; 
