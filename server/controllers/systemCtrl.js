@@ -121,7 +121,7 @@ function _monitor (req, res) {
   })
   // Check LDAP
   const ldapHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-ldap')
-  subSystems.push(ldapHealthUtil.status(ldapClient))
+  subSystems.push(ldapHealthUtil.status(ldapClient, config.ldap))
 
   // If we need local system checks, such as memory or disk, we would add it here.
   // Make sure it returns a promise which resolves with an object containing:

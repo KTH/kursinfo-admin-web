@@ -1,6 +1,5 @@
 const ldap = require('kth-node-ldap')
 const config = require('./configuration').server
-
 // ldap client is used to find users and need to be exposed
 module.exports = ldap.createClient({
   url: config.ldap.uri,
@@ -11,5 +10,7 @@ module.exports = ldap.createClient({
   bindCredentials: config.ldap.password,
   checkInterval: config.ldap.checkinterval,
   maxIdleTime: config.ldap.maxidletime,
+  reconnectOnIdle: config.ldap.reconnectOnIdle,
+  reconnectTime: config.ldap.reconnectTime,
   reconnect: true
 })

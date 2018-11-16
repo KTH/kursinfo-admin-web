@@ -8,6 +8,7 @@
  *
  */
 const { getEnv, devDefaults, unpackLDAPConfig, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
+const { typeConversion } = require('kth-node-configuration/lib/utils')
 const { safeGet } = require('safe-utils')
 
 // DEFAULT SETTINGS used for dev, if you want to override these for you local environment, use env-vars in .env
@@ -28,9 +29,21 @@ const ldapOptions = {
   base: getEnv('LDAP_BASE', devLdapBase),
   filter: '(ugKthid=KTHID)',
   filterReplaceHolder: 'KTHID',
-  userattrs: ['displayName', 'mail', 'ugUsername', 'memberOf'],
-  groupattrs: ['cn', 'objectCategory']
+  userattrs: ['displayName', 'mail', 'ugUsername', 'memberOf', 'ugKthid'],
+  groupattrs: ['cn', 'objectCategory'],
+  testSearch: true, // TODO: Should this be an ENV setting?
+  timeout: typeConversion(getEnv('LDAP_TIMEOUT', null)),
+  reconnectTime: typeConversion(getEnv('LDAP_IDLE_RECONNECT_INTERVAL', null)),
+  reconnectOnIdle: (getEnv('LDAP_IDLE_RECONNECT_INTERVAL', null) ? true : false),
+  connecttimeout: typeConversion(getEnv('LDAP_CONNECT_TIMEOUT', null)),
+  searchtimeout: typeConversion(getEnv('LDAP_SEARCH_TIMEOUT', null))
 }
+
+Object.keys(ldapOptions).forEach(key => {
+  if (ldapOptions[key] === null) {
+    delete ldapOptions[key]
+  }
+})
 
 module.exports = {
   hostUrl: getEnv('SERVER_HOST_URL', devUrl),
