@@ -20,7 +20,7 @@ class CourseRound extends Component {
     const round = this.props.courseRound
     const course = this.props.courseData
     return (
-      <div id="RoundContainer" className=" col key-info">
+      <div id="RoundContainer" className=" col key-info">{this.props.courseHasRound}
         <Row>
           <Col sm="4" id="imageContainer">
             <img src="//www.kth.se/polopoly_fs/1.841226!/image/f9520503_335_200.jpg" alt="" height="" width=""/>
@@ -40,28 +40,40 @@ class CourseRound extends Component {
                   <p>{course.course_grade_scale}</p>
                 </Col>
               </Row>
+              {this.props.courseHasRound ?
               <Row id="secondRow">
               <Col sm="4">
-              <h4>{translate.round_start_date}</h4>
-                <p>{round ? round.round_start_date : EMPTY}</p>
+                  <h4>{translate.round_start_date}</h4>
+                  <p>{round ? round.round_start_date : EMPTY}</p>
+               
               </Col>
               <Col sm="4">
-              <h4>{translate.round_course_place}</h4>
-                <p>{round ? round.round_course_place : EMPTY}</p>
+              
+                  <h4>{translate.round_course_place}</h4>
+                  <p>{round ? round.round_course_place : EMPTY}</p>
+             
               </Col>
               <Col sm="4">
               <h4>{translate.round_tutoring_form}</h4>
                 <p>{round ? translate.round_tutoring_form_label[round.round_tutoring_form] : EMPTY}  {round ? translate.round_tutoring_time_label[round.round_tutoring_time]: EMPTY}</p>
               </Col>
-            </Row> 
+            </Row> : ""}
             <Row id="thirdRow">
               <Col sm="4">
-              <h4>{translate.round_tutoring_language}</h4>
-                <p>{round ? round.round_tutoring_language : EMPTY}</p>
+              {this.props.courseHasRound ?
+                <span>
+                  <h4>{translate.round_tutoring_language}</h4>
+                  <p>{round ? round.round_tutoring_language : EMPTY}</p>
+                </span>
+              : ""}
               </Col>
               <Col sm="4">
-              <h4>{translate.round_application_code}</h4>
-                <p>{round ? round.round_application_code : EMPTY}</p>
+              {this.props.courseHasRound ?
+                <span>
+                  <h4>{translate.round_application_code}</h4>
+                  <p>{round ? round.round_application_code : EMPTY}</p>
+                </span>
+              : ""}
               </Col>
               <Col sm="4">
                 <h4></h4> 

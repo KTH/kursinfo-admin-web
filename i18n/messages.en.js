@@ -68,7 +68,7 @@ module.exports = {
     course_level_code_label: {
       PREPARATORY: "Pre-university level",
       BASIC: "First cycle",
-      ADVANCE: "Second cycle",
+      ADVANCED: "Second cycle",
       RESEARCH: "Third cycle"
     },
     course_department:"Offered by",

@@ -58,7 +58,7 @@ class CourseCollapseList extends Component {
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const during = [
       {header:"Kurs-PM", text:"Här visas kurs-PM"},
-      {header:"Canavas länk", text:"Länk till Canavas"},
+      {header:"Canvas länk", text:"Länk till Canvas"},
       {header:"Kurswebb länk??", text:"Visas här? Endast om den är ikryssad i admin?"}
 
     ]

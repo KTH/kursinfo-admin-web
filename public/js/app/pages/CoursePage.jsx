@@ -151,6 +151,7 @@ class CoursePage extends Component {
           index={this.state.activeRoundIndex}
           courseData = {courseInformationToRounds}
           language={courseData.language}
+          courseHasRound ={courseData.courseSemesters.length > 0 }
         />
 
 

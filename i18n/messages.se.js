@@ -69,7 +69,7 @@ module.exports = {
     course_level_code_label: {
       PREPARATORY: "Förberedande nivå",
       BASIC: "Grundnivå",
-      ADVANCE: "Avancerad nivå",
+      ADVANCED: "Avancerad nivå",
       RESEARCH: "Forskarnivå"
     },
     course_department:"Ges av",
