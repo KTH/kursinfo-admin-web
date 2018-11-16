@@ -57,7 +57,7 @@ gulp.task('moveResources', function () {
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
-    moveResources.moveFontAwesome(),
+    moveResources.moveFontAwesome()
   )
 })
 
