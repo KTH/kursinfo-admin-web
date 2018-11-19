@@ -1,0 +1,22 @@
+<script>
+  window.__initialState__ = {{{initialState}}}
+</script>
+{{prefixScript '/static/js/app.js' 'scripts'}}
+
+{{#if error}}
+  <p>Error: {{error}}</p>
+{{else}}
+  <div id="api-data">{{data}}</div>
+{{/if}}
+
+
+
+<div id="kth-kursinfo-no-course" style="margin-left:50px;">
+  <br/>
+  <br/>
+  <br/>
+  {{{html}}}
+  <br/>
+  <br/>
+  <br/>
+  </div>
