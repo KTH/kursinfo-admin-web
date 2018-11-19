@@ -7,7 +7,7 @@ RUN mkdir -p /npm && \
 WORKDIR /npm
 
 COPY ["package.json", "package.json"]
-#COPY ["package-lock.json", "package-lock.json"]
+COPY ["package-lock.json", "package-lock.json"]
 
 RUN npm install --production --no-optional
 
@@ -32,4 +32,4 @@ ENV NODE_PATH /application
 
 EXPOSE 3000
 
-ENTRYPOINT ["node", "app.js"]
+CMD ["node", "app.js"]
