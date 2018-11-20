@@ -68,7 +68,6 @@ function appFactory () {
           <Switch>
             <Route  path="/student/kurser/kurs" component={ CoursePage } asyncBefore = { CoursePage.fetchData }/>
             <Route path="/" component={ tmp } />
-            <Route path="/kursinfo" component={ tmp } />
           </Switch>
         </ProgressLayer>
         </Provider>
