@@ -1,6 +1,6 @@
 {
   "//": "JSHint configuration - http://jshint.com/docs/options/",
-  "name": "kursinfo-web",
+  "name": "kursinfo-admin-web",
   "version": "2.0.0",
   "description": "Template project for a node express web server",
   "main": "app.js",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "uri": "git+https://github.com/KTH/kursinfo-web.git"
+    "uri": "git+https://github.com/KTH/kursinfo-admin-web.git"
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
@@ -54,7 +54,6 @@
     "kth-node-configuration": "^1.4.0",
     "kth-node-express-routing": "^0.3.1",
     "kth-node-i18n": "^1.0.2",
-    "kth-node-inferno": "^0.3.0",
     "kth-node-ldap": "^2.0.1",
     "kth-node-log": "^3.0.0",
     "kth-node-monitor": "^0.1.5",
@@ -72,6 +71,7 @@
     "safe-utils": "^0.1.1"
   },
   "devDependencies": {
+    "@kth/kth-ckeditor-build": "^1.4.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.0",
     "babel-eslint": "^10.0.1",

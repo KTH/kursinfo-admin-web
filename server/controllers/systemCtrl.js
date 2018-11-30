@@ -69,7 +69,6 @@ function _final (err, req, res, next) {
         error: isProd ? undefined : err.stack
       })
     },
-
     'default': () => {
       res.status(statusCode).type('text').send(isProd ? err.message : err.stack)
     }

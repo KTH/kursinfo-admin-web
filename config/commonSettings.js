@@ -13,7 +13,7 @@ const { safeGet } = require('safe-utils')
 const devPort = 3000
 const devUrl = 'http://localhost:' + devPort
 const devSsl = false
-const devPrefixPath = devDefaults('/student/kurser/kurs')
+const devPrefixPath = devDefaults('/admin')
 
 module.exports = {
   hostUrl: getEnv('SERVER_HOST_URL', devUrl),

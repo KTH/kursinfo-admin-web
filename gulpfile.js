@@ -1,6 +1,7 @@
 'use strict'
 const gulp = require('gulp')
 const mergeStream = require('merge-stream')
+const ckGulp = require('@kth/kth-ckeditor-build/gulpfile')
 
 const globals = {
   dirname: __dirname
@@ -13,7 +14,7 @@ const { moveResources, sass, vendor, clean } = require('kth-node-build-commons')
 const infernoTask = require('kth-node-inferno/gulpTasks/infernoTask')({
   src: [
     'public/js/app/app.jsx',
-    'public/js/app/embed.jsx'
+    //'public/js/app/embed.jsx'
   ],
   destinationPath: 'dist/js',
   exclude: /node_modules\/(?!(safe-utils)\/).*/,
@@ -51,7 +52,14 @@ const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask'
  */
 
 // *** JavaScript helper tasks ***
-gulp.task('vendor', vendor)
+const ckEditorBuild = ckGulp.buildTask(gulp, './node_modules/@kth/kth-ckeditor-build', './dist/js/ckeditor')
+
+gulp.task('vendor', function () {
+  ckEditorBuild(),
+  vendor()
+})
+
+///gulp.task('vendor', vendor)
 
 gulp.task('moveResources', function () {
   return mergeStream(
