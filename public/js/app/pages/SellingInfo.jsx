@@ -43,7 +43,8 @@ class SellingInfo extends Component {
   }
 
   handleChange (event) {
-    this.setState({value: event.target.value})
+    this.setState({value: CKEDITOR.instances.editor1.getData()})
+    alert('New state is: ' + this.state.value)
   }
 
   render ({routerStore}) {
@@ -71,13 +72,13 @@ class SellingInfo extends Component {
               dangerouslySetInnerHTML={{ __html:courseData.coursePlanModel.course_recruitment_text}}>
             </div>
             <form id='editSellingTextForm' onSubmit={this.handleSubmit}>
-                <label>
+                <label for='editor1'>
                     Säljandetexten på svenska:
                 </label>
                     <textarea name='editor1' id='editor1' value={this.state.value} onChange={this.handleChange}></textarea>
                     <span className='button_group'>
                         <button className='btn btn-secondary' data-bind="click: function() { console.log('hello') }, text: buttonText">Avbryt</button>
-                        <button className='btn btn-primary'>Granska</button>
+                        <button className='btn btn-primary' onClick={this.handleChange}>Granska</button>
                         <button className='btn btn-success' type='submit'>Publicera</button>
                     </span>
             </form>

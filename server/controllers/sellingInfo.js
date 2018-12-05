@@ -1,6 +1,8 @@
 'use strict'
 
 const api = require('../api')
+// const sanitize = require('sanitize-html')
+
 const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
@@ -34,7 +36,7 @@ async function getIndex (req, res, next) {
   try {
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
-   // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
+    // const resp = yield client.getAsync(client.resolve(paths.getDataById.uri, { id: '123' }), { useCache: true })
 
   // Render inferno app
     const context = {}
