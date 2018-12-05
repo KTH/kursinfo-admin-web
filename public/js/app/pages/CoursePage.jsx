@@ -41,9 +41,9 @@ class CoursePage extends Component {
     this.state = {
       activeRoundIndex: 0,
       dropdownsIsOpen:{
-          dropDown1: false,
-          dropdown2: false
-        }
+        dropDown1: false,
+        dropdown2: false
+      }
 
     }
     this.handleDropdownChange = this.handleDropdownChange.bind(this)
@@ -103,15 +103,15 @@ class CoursePage extends Component {
 
 
         {/* ---COURSE TITEL--- */}
-        <CourseTitle key ='title'
-          courseTitleData ={courseData.courseTitleData}
+        <CourseTitle key='title'
+          courseTitleData={courseData.courseTitleData}
           language={courseData.language}
         />
 
         {/* ---INTRO TEXT--- */}
         <div id='courseIntroText'
-          className ='col-12'
-          dangerouslySetInnerHTML ={{ __html:courseData.coursePlanModel.course_recruitment_text}}>
+          className='col-12'
+          dangerouslySetInnerHTML={{ __html:courseData.coursePlanModel.course_recruitment_text}}>
         </div>
 
          {/* ---COURSE ROUND HEADER--- */}
@@ -134,11 +134,11 @@ class CoursePage extends Component {
           <div className='row' id='semesterDropdownMenue' key='semesterDropdownMenue'>
             {courseData.courseSemesters.length === 0 ? <h4>Denna kursen har inga kursomgångar/kurstillfällen</h4> : courseData.courseSemesters.map((semester, index) => {
               return <DropdownCreater
-                  courseRoundList ={courseData.courseRoundList}
-                  callerInstance= {this}
-                  year ={semester}
-                  semester={"1"}
-                  index ={index}
+                courseRoundList={courseData.courseRoundList}
+                callerInstance={this}
+                year={semester}
+                semester={"1"}
+                index={index}
                       />
             })}
           </div>
@@ -149,7 +149,7 @@ class CoursePage extends Component {
         <CourseRound
           courseRound={courseData.courseRoundList[this.state.activeRoundIndex]}
           index={this.state.activeRoundIndex}
-          courseData ={courseInformationToRounds}
+          courseData={courseInformationToRounds}
           language={courseData.language}
           courseHasRound={courseData.courseSemesters.length > 0}
         />
@@ -170,7 +170,7 @@ class CoursePage extends Component {
         {/* ---COLLAPSE CONTAINER---  */}
         <CourseCollapseList
           roundIndex={this.state.activeRoundIndex}
-          courseData ={courseData.coursePlanModel}
+          courseData={courseData.coursePlanModel}
           className='ExampleCollapseContainer'
           isOpen
           color='blue'
@@ -189,7 +189,7 @@ const DropdownCreater = ({ courseRoundList, callerInstance, semester = '1', year
   let listIndex = []
   const dropdownID = 'dropdown' + index
   return (
-    <div className ='col-2'>
+    <div className='col-2'>
       <Dropdown isOpen={callerInstance.state.dropdownsIsOpen[dropdownID]} toggle={callerInstance.toggle} key={'dropD' + index}>
                 <DropdownToggle id={dropdownID} caret>
                   {semester === 1 ? 'VT' : 'HT'} {year}
@@ -203,7 +203,7 @@ const DropdownCreater = ({ courseRoundList, callerInstance, semester = '1', year
                     }
                   }).map((courseRound, index) => {
                     return (
-                      <DropdownItem key={index} id={dropdownID + '_' + listIndex[index]} onClick= {callerInstance.handleDropdownSelect}>
+                      <DropdownItem key={index} id={dropdownID + '_' + listIndex[index]} onClick={callerInstance.handleDropdownSelect}>
                         {
                           `${courseRound.round_type} för ${courseRound.round_short_name}`
                         }

@@ -97,6 +97,7 @@
     "gulp": "^3.9.1",
     "husky": "^0.14.0",
     "inferno-devtools": "^3.10.1",
+    "isomorphic-schema": "^1.0.0-beta.7",
     "kth-node-build-commons": "^3.0.0",
     "kth-node-inferno": "^0.3.0",
     "merge-stream": "^1.0.1",
