@@ -15,7 +15,7 @@ const { safeGet } = require('safe-utils')
 const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
-const devInnovationApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
+const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
 const devSessionKey = devDefaults('node-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
@@ -71,7 +71,7 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('API_URI', devInnovationApi)
+    nodeApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
   },
 
   // Cortina
