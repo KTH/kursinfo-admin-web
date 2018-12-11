@@ -14,7 +14,7 @@ import { IMobxStore } from './interfaces/utils'
 
 import i18n from '../../../i18n'
 
-import RouterStore from './stores/RouterStore.jsx'
+import AdminStore from './stores/AdminStore.jsx'
 // import CoursePage from './pages/CoursePage.jsx'
 import SellingInfo from './pages/SellingInfo.jsx'
 
@@ -43,42 +43,39 @@ class tmp extends Component {
 }
 
 function appFactory () {
-
   if (process.env['NODE_ENV'] !== 'production') {
     configure({
       isolateGlobalState: true
     })
   }
 
-  const routerStore = new RouterStore()
-
+  const adminStore = new AdminStore()
   if (typeof window !== 'undefined') {
-    routerStore.initializeStore('routerStore')
+    adminStore.initializeStore('adminStore')
   }
   createUtility({
     implements: IMobxStore,
-    name: 'RouterStore',
-    store: routerStore
+    name: 'AdminStore',
+    store: adminStore
   }).registerWith(globalRegistry)
 
-
-
   return (
-      <Provider routerStore={routerStore} >
-        <ProgressLayer>
-          <Switch>
-            <Route path='/admin' component={SellingInfo} asyncBefore={SellingInfo.fetchData} />
-            <Route path='/' component={tmp} />
-          </Switch>
-        </ProgressLayer>
-      </Provider>
+    <Provider adminStore={adminStore} >
+      <ProgressLayer>
+        <Switch>
+          <Route path='/admin' component={SellingInfo} asyncBefore={SellingInfo.fetchData} />
+          <Route path='/admin/preview' component={SellingInfo} asyncBefore={SellingInfo.fetchData} />
+          <Route path='/' component={tmp} />
+        </Switch>
+      </ProgressLayer>
+    </Provider>
     )
 }
 
 function doAllAsyncBefore ({
     pathname,
     query,
-    routerStore,
+    adminStore,
     routes})
   {
   const queryParams = queryString.parse(query)
@@ -99,7 +96,7 @@ function doAllAsyncBefore ({
   return Promise.resolve()
 }
 
-@inject(['routerStore'])
+@inject(['adminStore'])
   class ProgressLayer extends Component {
   constructor (props, context) {
     super(props)
@@ -122,7 +119,7 @@ function doAllAsyncBefore ({
       const asyncBeforeProps = {
         pathname: nextContext.router.route.location.pathname,
         query: nextContext.router.route.location.search,
-        routerStore: nextProps.routerStore,
+        adminStore: nextProps.adminStore,
         routes: nextProps.children.props.children,
         nextContext,
         nextProps
@@ -136,7 +133,7 @@ function doAllAsyncBefore ({
   }
 
   doContinueNavigation () {
-    this.props.routerStore.didCancelEdits()
+    this.props.adminStore.didCancelEdits()
 
     if (this.asyncBeforeProps) {
       return doAllAsyncBefore(this.asyncBeforeProps).then((res) => {
@@ -160,8 +157,8 @@ function doAllAsyncBefore ({
     this.asyncBeforeProps = undefined
   }
 
-  render ({ routerStore }) {
-    console.log('!!routerStore!!', routerStore, 'this.props', this.props)
+  render ({ adminStore }) {
+    console.log('!!adminStore!!', adminStore, 'this.props', this.props)
     return (
       <div>
         {this.props.children}
