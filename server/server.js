@@ -184,9 +184,9 @@ server.use('/', systemRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, SellingInfo.getIndex)
-appRoute.get('system.index', config.proxyPrefixPath.uri + '/', serverLogin, noCourse.getIndex)
-appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), SellingInfo.getIndex)
+appRoute.get('course.getDescription', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, SellingInfo.getDescription)
+appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/:courseCode/', serverLogin, SellingInfo.updateDescription)
+appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 
 // Not found etc
