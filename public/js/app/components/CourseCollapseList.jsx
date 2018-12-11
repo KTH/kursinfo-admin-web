@@ -2,42 +2,42 @@ import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import { globalRegistry } from 'component-registry'
 
-import i18n from "../../../../i18n"
+import i18n from '../../../../i18n'
 import CourseCollapse from './CourseCollapse.jsx'
-import { EMPTY } from '../util/constants';
+import { EMPTY } from '../util/constants'
 
 @inject(['routerStore']) @observer
 class CourseCollapseList extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       openMenue: 0,
-      store:this.props.routerStore["courseData"]
+      store:this.props.routerStore['courseData']
     }
   }
 
-  getIntro(translation){
+  getIntro (translation) {
     const course = this.state.store.coursePlanModel
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const intro = [
       {header: translation.courseRoundInformation.round_target_group, text: round ? round.round_target_group : EMPTY },
       {header: translation.courseRoundInformation.round_part_of_programme, text:round ? round.round_part_of_programme : EMPTY },
-      {header: translation.courseRoundInformation.round_time_slots, text: round ?round.round_time_slots : EMPTY },
-      {header: translation.courseRoundInformation.round_periods, text: round ?round.round_periods : EMPTY },
-      {header: translation.courseRoundInformation.round_end_date, text: round ?round.round_end_date : EMPTY },
+      {header: translation.courseRoundInformation.round_time_slots, text: round ? round.round_time_slots : EMPTY },
+      {header: translation.courseRoundInformation.round_periods, text: round ? round.round_periods : EMPTY },
+      {header: translation.courseRoundInformation.round_end_date, text: round ? round.round_end_date : EMPTY },
       {header: translation.courseRoundInformation.round_max_seats, text: round ? round.round_max_seats : EMPTY },
 
       {header:translation.courseInformation.course_eligibility, text:course.course_eligibility},
       {header:translation.courseInformation.course_content, text:course.course_content},
       {header:translation.courseInformation.course_goals, text:course.course_goals},
       {header:translation.courseInformation.course_disposition, text:course.course_disposition}
-    
+
     ]
     return intro
   }
 
-  getPrepare(translation){
+  getPrepare (translation) {
     const course = this.state.store.coursePlanModel
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const prepare = [
@@ -48,24 +48,24 @@ class CourseCollapseList extends Component {
       {header: translation.courseRoundInformation.round_teacher, text:round ? round.round_teacher : EMPTY },
       {header: translation.courseRoundInformation.round_time_slots, text:round ? round.round_responsibles : EMPTY },
       {header: translation.courseRoundInformation.round_schedule, text:round ? round.round_schedule : EMPTY}
-      
+
     ]
     return prepare
   }
 
-  getDuring(translation){
+  getDuring (translation) {
     const course = this.state.store.coursePlanModel
     const round = this.state.store.courseRoundList[this.props.roundIndex]
     const during = [
-      {header:"Kurs-PM", text:"Här visas kurs-PM"},
-      {header:"Canvas länk", text:"Länk till Canvas"},
-      {header:"Kurswebb länk??", text:"Visas här? Endast om den är ikryssad i admin?"}
+      {header:'Kurs-PM', text:'Här visas kurs-PM'},
+      {header:'Canvas länk', text:'Länk till Canvas'},
+      {header:'Kurswebb länk??', text:'Visas här? Endast om den är ikryssad i admin?'}
 
     ]
     return during
   }
 
-  getFinalize(translation){
+  getFinalize (translation) {
     const course = this.state.store.coursePlanModel
     const prepare = [
       {header:translation.courseInformation.course_examination, text:course.course_examination},
@@ -76,7 +76,7 @@ class CourseCollapseList extends Component {
     return prepare
   }
 
-  getOther(translation){
+  getOther (translation) {
     const course = this.state.store.coursePlanModel
     const prepare = [
       {header:translation.courseInformation.course_department, text:course.course_department},
@@ -87,19 +87,19 @@ class CourseCollapseList extends Component {
     ]
     return prepare
   }
-  
 
-  render({ routerStore }) {
-    //console.log(this.routerStore)
+
+  render ({ routerStore }) {
+    // console.log(this.routerStore)
     const translation = i18n.messages[this.state.store.language]
     return (
-      <div className="row">
-        <CourseCollapse courseData = {this.getIntro(translation)} header={translation.courseInformationLabels.label_course_intro} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getPrepare(translation)} header={translation.courseInformationLabels.label_course_prepare} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getDuring(translation)} header={translation.courseInformationLabels.label_course_during} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getFinalize(translation)} header={translation.courseInformationLabels.label_course_finalize} className="collapseHeader" isOpen={false} color="blue"/>
-        <CourseCollapse courseData = {this.getOther(translation)} header={translation.courseInformationLabels.label_course_other} className="collapseHeader" isOpen={false} color="blue"/>
-      </div>  
+      <div className='row'>
+        <CourseCollapse courseData={this.getIntro(translation)} header={translation.courseInformationLabels.label_course_intro} className='collapseHeader' isOpen={false} color='blue' />
+        <CourseCollapse courseData={this.getPrepare(translation)} header={translation.courseInformationLabels.label_course_prepare} className='collapseHeader' isOpen={false} color='blue' />
+        <CourseCollapse courseData={this.getDuring(translation)} header={translation.courseInformationLabels.label_course_during} className='collapseHeader' isOpen={false} color='blue' />
+        <CourseCollapse courseData={this.getFinalize(translation)} header={translation.courseInformationLabels.label_course_finalize} className='collapseHeader' isOpen={false} color='blue' />
+        <CourseCollapse courseData={this.getOther(translation)} header={translation.courseInformationLabels.label_course_other} className='collapseHeader' isOpen={false} color='blue' />
+      </div>
     )
   }
 }
