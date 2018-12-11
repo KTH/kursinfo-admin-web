@@ -18,12 +18,13 @@ const serverConfig = require('../configuration').server
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
-  getIndex: getIndex
+  getDescription: _getDescription,
+  updateDescription: _updateDescription
 }
 
 const paths = require('../server').getPaths()
 
-async function getIndex (req, res, next) {
+async function _getDescription (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -45,17 +46,17 @@ async function getIndex (req, res, next) {
       context
     }, appFactory())
 
-    await renderProps.props.children.props.routerStore.getCourseInformation(courseCode, lang)
-    renderProps.props.children.props.routerStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    renderProps.props.children.props.routerStore.__SSR__setCookieHeader(req.headers.cookie)
+    await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
 
     await doAllAsyncBefore({
       pathname: req.originalUrl,
       query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-      routerStore: renderProps.props.children.props.routerStore,
+      adminStore: renderProps.props.children.props.adminStore,
       routes: renderProps.props.children.props.children.props.children.props.children
     })
-    const html = '<p>Hello mina vänner</p>'// renderToString(renderProps)
+    const html = renderToString(renderProps)
 
     res.render('course/index', {
       debug: 'debug' in req.query,
@@ -67,6 +68,28 @@ async function getIndex (req, res, next) {
   } catch (err) {
     log.error('Error in getIndex', { error: err })
     next(err)
+  }
+}
+
+async function _previewDescription (data) {}
+
+async function _updateDescription (data) {
+  try {
+    const client = api.nodeApi.client
+    const paths = api.nodeApi.paths
+    // const resp = yield client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode: '1' }), { useCache: true })
+    // const resp = await client.postAsync(client.resolve(paths.postSellingTextByCourseCode.uri, {courseCode: '2'}), { body: {sellingText: 'hello'}, useCache: true })
+
+    const entity = await client.postAsync({
+      uri: client.resolve(paths.postSellingTextByCourseCode.uri, {courseCode: '2'}),
+      body: {sellingText: 'hallo'},
+      useCache: false
+    })
+
+    return entity
+  } catch (err) {
+    log.error('Error in createItem', { error: err })
+    // next(err)
   }
 }
 
