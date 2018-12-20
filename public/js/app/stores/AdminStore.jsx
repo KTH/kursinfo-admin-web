@@ -3,13 +3,14 @@ import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-import { EMPTY, PROGRAMME_URL } from '../util/constants'
+import { EMPTY } from '../util/constants'
 
 import { IDeserialize } from '../interfaces/utils'
 
 class AdminStore {
   @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
+  @observable sellingText = undefined
 
   buildApiUrl (path, params) {
     let host
@@ -48,20 +49,29 @@ class AdminStore {
     return options
   }
 
-  @action async getCourseRequirementFromKopps (courseCode, lang = 'sv', roundIndex = 0) {
-    // TODO: CALL TO OUR API TO GET
-    const language = lang === 'en' ? 0 : 1
-    try {
-      const coursePlan = await axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`)
+  @action addSellingText (data) { // Fetched text from api send here to the store
+    this.sellingText = data
+  }
+
+  isValidData (dataObject, language = 0) {
+    return !dataObject ? EMPTY : dataObject
+  }
+  // TODO: REWRITE TO ASYNC/AWAIT BUT IT WILL CRUSH EVENT HANDLING SO NEED EXTRA PACKETS, MAYBE BABEL-POLYFILL
+  @action getCourseRequirementFromKopps (courseCode, lang = 'sv', roundIndex = 0) {
+
+    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
+
+      const coursePlan = res.data
+      const language = lang === 'en' ? 0 : 1
+
       const courseTitleData = {
-        course_code: isValidData(coursePlan.data.course.courseCode),
-        course_title: isValidData(coursePlan.data.course.title),
-        course_other_title: isValidData(coursePlan.data.course.titleOther),
-        course_credits: isValidData(coursePlan.data.course.credits)
+        course_code: this.isValidData(coursePlan.course.courseCode),
+        course_title: this.isValidData(coursePlan.course.title),
+        course_other_title: this.isValidData(coursePlan.course.titleOther),
+        course_credits: this.isValidData(coursePlan.course.credits)
       }
       const koppsCourseDesc = {
-        course_recruitment_text: isValidData(coursePlan.data.course.recruitmentText), // kopps recruitmentText
-        sellingText: isValidData(coursePlan.data.course.recruitmentText)
+        course_recruitment_text: this.isValidData(coursePlan.course.recruitmentText) // kopps recruitmentText
       }
       console.log('!!Got a kopps description of data: OK !!')
 
@@ -70,43 +80,32 @@ class AdminStore {
         courseTitleData,
         language
       }
-    } catch (err) { // console.log(err.response);
+    }).catch(err => { // console.log(err.response);
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
       throw err
-    }
+    })
   }
 
-  @action async getCourseSellingText (courseCode, lang = 'sv', roundIndex = 0) {
-    const language = lang === 'en' ? 0 : 1
-
+  @action getLdapUserByUsername (params) {
+    return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions()).then((res) => {
+      return res.data
+    }).catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
   }
 
-  // @action createSellingTextForCourse (courseCode, lang = 'sv', roundIndex = 0) {
-  //   const language = lang === 'en' ? 0 : 1
-  //   const res = await axios.post(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`)
+  @action clearBreadcrumbs () {
+    this.breadcrumbs.replace([])
+  }
 
-  // }
-
-  // @action getLdapUserByUsername (params) {
-  //   return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions()).then((res) => {
-  //     return res.data
-  //   }).catch(err => {
-  //     if (err.response) {
-  //       throw new Error(err.message, err.response.data)
-  //     }
-  //     throw err
-  //   })
-  // }
-
-  // @action clearBreadcrumbs () {
-  //   this.breadcrumbs.replace([])
-  // }
-
-  // @action hasBreadcrumbs () {
-  //   return this.breadcrumbs.length > 0
-  // }
+  @action hasBreadcrumbs () {
+    return this.breadcrumbs.length > 0
+  }
 
   @action setBrowserConfig (config, paths, apiHost, profileBaseUrl) {
     this.browserConfig = config
@@ -173,10 +172,6 @@ class AdminStore {
       }
     }
   }
-}
-
-function isValidData (dataObject, language = 0) {
-  return !dataObject ? EMPTY : dataObject
 }
 
 export default AdminStore
