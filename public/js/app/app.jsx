@@ -15,32 +15,7 @@ import { IMobxStore } from './interfaces/utils'
 import i18n from '../../../i18n'
 
 import AdminStore from './stores/AdminStore.jsx'
-// import CoursePage from './pages/CoursePage.jsx'
 import SellingInfo from './pages/SellingInfo.jsx'
-
-class tmp extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      text: 'hej'
-    }
-
-    this.click = this.click.bind(this)
-  }
-
-  click (e) {
-    e.preventDefault()
-    console.log(e)
-    this.setState({
-      text: 'Working!'
-    })
-  }
-
-  render () {
-    return <div onClick={this.click}>Click me! {this.state.text}</div>
-  }
-}
 
 function appFactory () {
   if (process.env['NODE_ENV'] !== 'production') {
@@ -63,9 +38,7 @@ function appFactory () {
     <Provider adminStore={adminStore} >
       <ProgressLayer>
         <Switch>
-          <Route path='/admin' component={SellingInfo} asyncBefore={SellingInfo.fetchData} />
-          <Route path='/admin/preview' component={SellingInfo} asyncBefore={SellingInfo.fetchData} />
-          <Route path='/' component={tmp} />
+          <Route path='/admin' component={SellingInfo} />
         </Switch>
       </ProgressLayer>
     </Provider>
