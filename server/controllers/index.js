@@ -7,7 +7,5 @@
 
 module.exports = {
   System: require('./systemCtrl'),
-  Course: require('./courseCtrl'),
-  noCourse: require('./noCourseCtrl'),
-  SellingInfo: require('./sellingInfo')
+  SellingInfo: require('./sellingInfoCtrl')
 }
