@@ -1,88 +1,158 @@
-import { Component } from 'inferno'
+import { Component, linkEvent } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
-// import { Schema } from 'isomorphic-schema'
 
 import CourseTitle from '../components/CourseTitle.jsx'
-import Button from 'kth-style-inferno-bootstrap/dist/Button'
-// import ButtonGroup from 'kth-style-inferno-bootstrap/dist/ButtonGroup'
+import Container from 'kth-style-inferno-bootstrap/dist/Container'
+import Button from 'inferno-bootstrap/lib/Button'
+import Col from 'inferno-bootstrap/lib/Col'
+import Form from 'inferno-bootstrap/lib/Form/Form'
+import Input from 'inferno-bootstrap/lib/Form/Input'
+import Row from 'inferno-bootstrap/lib/Row'
 
+function TextBlock ({text}) {
+  return (
+    <div className='col-12'
+      dangerouslySetInnerHTML={{__html: text}}>
+    </div>
+    )
+}
 
-@inject(['routerStore']) @observer
+function SellingTextContainer ({mode, text}) { // redo, isEditing, isPreviewing,
+  return (
+    <form id='editSellingTextForm'>
+      <label for='editor1'>
+          Säljandetexten på svenska:
+      </label>
+      {mode === 'isEditing' ? (
+        <div>
+          <textarea name='editor1' id='editor1'>{{text}}</textarea>
+          <span className='button_group'>
+            <button className='btn btn-secondary'>Avbryt</button>
+            <button className='btn btn-primary'>Granska</button>
+            <button className='btn btn-success' type='submit'>Publicera</button>
+          </span>
+        </div>
+      ) : (
+        <div>
+          <TextBlock text={text} />
+          <span className='button_group'>
+            <button className='btn btn-secondary'>Avbryt</button>
+            <button className='btn btn-primary'>Redigera</button>
+            <button className='btn btn-success' type='submit'>Publicera</button>
+          </span>
+        </div>
+      )}
+    </form>
+  )
+}
+
+function KoppsText ({className, koppsVisibilityStatus, text}) {
+  // if koppsVisibilityStatus === 'isPreview':
+  //   style = {opacity: }
+
+  // else if koppsVisibilityStatus === 'hidden':
+  // else:
+
+  return (
+    <div id='courseIntroText'>
+    {koppsVisibilityStatus === 'isEditing' ?
+      (<TextBlock text={text} />
+      ) : (
+      <div id='courseIntroText'>
+      </div>)
+    }
+    </div>
+  )
+}
+
+@inject(['adminStore']) @observer
 class SellingInfo extends Component {
   constructor (props) {
     super(props)
-    this.state = {value: 'Initial editor content'}
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-
-
-    // this.state = {
-    //   activeRoundIndex: 0,
-    //   dropdownsIsOpen: {
-    //     dropDown1: false,
-    //     dropdown2: false
-    //   }
-    // }
-    // this.handleDropdownChange = this.handleDropdownChange.bind(this)
-    // this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
-    // this.toggle = this.toggle.bind(this)
-  }
-
-  static fetchData (routerStore, params) {
-    return routerStore.getCourseInformation('sf1624', 'sv')
-      .then((data) => {
-        console.log('data', data)
-        return courseData = data
-      })
-  }
-
-  handleSubmit (event) {
-    alert('A name was submitted: ' + this.state.value)
-    event.preventDefault()
-  }
-
-  handleChange (event) {
-    this.setState({value: CKEDITOR.instances.editor1.getData()})
-    alert('New state is: ' + this.state.value)
-  }
-
-  render ({routerStore}) {
-    const courseData = routerStore['courseData']
-    console.log('routerStore in CoursePage', courseData)
-    const courseInformationToRounds = {
-      course_code: courseData.coursePlanModel.course_code,
-      course_grade_scale: courseData.coursePlanModel.course_grade_scale,
-      course_level_code: courseData.coursePlanModel.course_level_code,
-      course_main_subject: courseData.coursePlanModel.course_main_subject,
-      course_valid_from: courseData.coursePlanModel.course_valid_from
+    this.state = {
+      sellingText: this.props.adminStore.sellingText,
+      editMode: 'isEditing',
+      hasDoneSubmit: false,
+      validationError: undefined
     }
 
-    return (
-        <div key='kursinfo-container' className='kursinfo-main-page col' >
-            {/* ---COURSE TITEL--- */}
-            <CourseTitle key='title'
-              courseTitleData={courseData.courseTitleData}
-              language={courseData.language}
-            />
+    this.doCancel = this.doCancel.bind(this)
+    this.doEdit = this.doEdit.bind(this)
+    this.doPreview = this.doPreview.bind(this)
+    this.doSubmit = this.doSubmit.bind(this)
+  }
 
+  doCancel (event) {
+    event.preventDefault()
+    console.log('doCancelled')
+  }
+
+  doEdit (event) {
+    event.preventDefault()
+    this.setState({
+      editMode: 'isEditing'
+    })
+    CKEDITOR.replace('editor1')
+    console.log('didEdit')
+  }
+
+  doSubmit (event) {
+    event.preventDefault()
+    console.log('didSubmit')
+  }
+
+  doPreview (event) {
+    // alert('hello')
+    event.preventDefault()
+    this.setState({
+      sellingText: CKEDITOR.instances.editor1.getData(),
+      editMode: 'doPreview'
+    })
+    console.log('olalal', this.state.editMode)
+    CKEDITOR.instances.editor1.destroy(true)
+  }
+
+  render ({adminStore}) {
+    const courseAdminData = adminStore['courseAdminData']
+    console.log('routerStore in CoursePage', courseAdminData)
+    console.log('SELLLING TEXT', this.state.sellingText)
+
+    return (
+      <div key='kursinfo-container' className='kursinfo-main-page col' >
+        {/* ---COURSE TITEL--- */}
+        <CourseTitle key='title'
+          courseTitleData={courseAdminData.courseTitleData}
+          language={courseAdminData.language}
+            />
+        <KoppsText className='koppsText' koppsVisibilityStatus={this.state.editMode}
+          text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
+
+
+        {/* ---SELLING TEXT--- */}
+        {/* <SellingTextContainer mode={this.state.editMode} text={this.state.sellingText} onSubmit={this.doSubmit} /> */}
+        {/* dangerouslySetInnerHTML={{__html: this.state.sellingText}}*/}
+        {this.state.editMode === 'isEditing' ? (
+          <div>
             {/* ---INTRO TEXT--- */}
-            <div id='courseIntroText'
-              className='col-12'
-              dangerouslySetInnerHTML={{ __html:courseData.coursePlanModel.course_recruitment_text}}>
-            </div>
-            <form id='editSellingTextForm' onSubmit={this.handleSubmit}>
-                <label for='editor1'>
-                    Säljandetexten på svenska:
-                </label>
-                    <textarea name='editor1' id='editor1' value={this.state.value} onChange={this.handleChange}></textarea>
-                    <span className='button_group'>
-                        <button className='btn btn-secondary' data-bind="click: function() { console.log('hello') }, text: buttonText">Avbryt</button>
-                        <button className='btn btn-primary' onClick={this.handleChange}>Granska</button>
-                        <button className='btn btn-success' type='submit'>Publicera</button>
-                    </span>
-            </form>
-        </div>
+            <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
+            <span className='button_group'>
+              <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
+              <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
+              <Button onClick={this.doSubmit} color='success'>Publicera</Button>
+            </span>
+          </div>
+        ) : (
+          <div className='col'>
+            <TextBlock text={this.state.sellingText} />
+            <span className='button_group'>
+              <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
+              <Button onClick={this.doEdit} color='primary'>Redigera</Button>
+              <Button onClick={this.doSubmit} color='success'>Publicera</Button>
+            </span>
+          </div>
+        )}
+      </div>
     )
   }
 }
