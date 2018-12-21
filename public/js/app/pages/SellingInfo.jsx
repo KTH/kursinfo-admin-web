@@ -72,11 +72,12 @@ class SellingInfo extends Component {
     super(props)
     this.state = {
       sellingText: this.props.adminStore.sellingText,
-      editMode: 'isEditing',
+      enteredEditMode: false,
       hasDoneSubmit: false,
+      editDescription: false,
       validationError: undefined
     }
-
+    this.doEnterEditor = this.doEnterEditor.bind(this)
     this.doCancel = this.doCancel.bind(this)
     this.doEdit = this.doEdit.bind(this)
     this.doPreview = this.doPreview.bind(this)
@@ -85,20 +86,42 @@ class SellingInfo extends Component {
 
   doCancel (event) {
     event.preventDefault()
+    this.setState({
+      sellingText: this.props.adminStore.sellingText,
+      editDescription: false,
+      enteredEditMode: false
+    })
+    CKEDITOR.instances.editor1.destroy(true)
     console.log('doCancelled')
   }
 
   doEdit (event) {
     event.preventDefault()
     this.setState({
-      editMode: 'isEditing'
+      enteredEditMode: true
     })
     CKEDITOR.replace('editor1')
     console.log('didEdit')
   }
 
+  doEnterEditor (event) { // can be merged to doEdit by adding extra state for editMode
+    event.preventDefault()
+    this.setState({
+      editDescription: true,
+      enteredEditMode: true
+    })
+    CKEDITOR.replace('editor1')
+    console.log('Enter Editor Mode')
+  }
+
+  // Made able to submit only after review mode to avoid 'silly' submission
   doSubmit (event) {
     event.preventDefault()
+
+    this.setState({
+      hasDoneSubmit: true,
+      enteredEditMode: false
+    })
     console.log('didSubmit')
   }
 
@@ -107,9 +130,9 @@ class SellingInfo extends Component {
     event.preventDefault()
     this.setState({
       sellingText: CKEDITOR.instances.editor1.getData(),
-      editMode: 'doPreview'
+      enteredEditMode: false
     })
-    console.log('olalal', this.state.editMode)
+    console.log('olalal', this.state.reviewEditedText)
     CKEDITOR.instances.editor1.destroy(true)
   }
 
@@ -125,33 +148,39 @@ class SellingInfo extends Component {
           courseTitleData={courseAdminData.courseTitleData}
           language={courseAdminData.language}
             />
-        <KoppsText className='koppsText' koppsVisibilityStatus={this.state.editMode}
-          text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
 
+          {this.state.editDescription === true ? (
+            <div className='AdminPage--EditDescription'>
 
-        {/* ---SELLING TEXT--- */}
-        {/* <SellingTextContainer mode={this.state.editMode} text={this.state.sellingText} onSubmit={this.doSubmit} /> */}
-        {/* dangerouslySetInnerHTML={{__html: this.state.sellingText}}*/}
-        {this.state.editMode === 'isEditing' ? (
-          <div>
-            {/* ---INTRO TEXT--- */}
-            <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
-            <span className='button_group'>
-              <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-              <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
-              <Button onClick={this.doSubmit} color='success'>Publicera</Button>
-            </span>
-          </div>
-        ) : (
-          <div className='col'>
-            <TextBlock text={this.state.sellingText} />
-            <span className='button_group'>
-              <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-              <Button onClick={this.doEdit} color='primary'>Redigera</Button>
-              <Button onClick={this.doSubmit} color='success'>Publicera</Button>
-            </span>
-          </div>
-        )}
+            <KoppsText className='koppsText' koppsVisibilityStatus={this.state.reviewEditedText}
+              text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
+            {this.state.enteredEditMode ? (
+              <div>
+                {/* ---INTRO TEXT--- */}
+                <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
+                <span className='button_group'>
+                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
+                  <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
+                  {/* <Button onClick={this.doSubmit} color='success'>Publicera</Button> */}
+                </span>
+              </div>
+            ) : (
+              <div className='col'>
+                <TextBlock text={this.state.sellingText} />
+                <span className='button_group'>
+                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
+                  <Button onClick={this.doEdit} color='primary'>Redigera</Button>
+                  <Button onClick={this.doSubmit} color='success'>Publicera</Button>
+                </span>
+              </div>
+            )}
+            </div>
+          ) : (
+            <div className='AdminPage--ShowDescription col'>
+              <TextBlock text={this.state.sellingText} />
+              <Button onClick={this.doEnterEditor} color='primary'>Redigera kortbeskrivning</Button>
+            </div>
+          )}
       </div>
     )
   }
