@@ -66,8 +66,8 @@ async function _getDescription (req, res, next) {
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,
-      initialState: JSON.stringify(hydrateStores(renderProps)),
-      data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
+      initialState: JSON.stringify(hydrateStores(renderProps))
+      //data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
       // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
   } catch (err) {
