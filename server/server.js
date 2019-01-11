@@ -185,7 +185,7 @@ server.use('/', systemRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 appRoute.get('course.getDescription', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, SellingInfo.getDescription)
-appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/:courseCode/', serverLogin, SellingInfo.updateDescription)
+appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, SellingInfo.updateDescription)
 // appRoute.get('course.reviewDescription', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, SellingInfo.reviewDescription)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isAdmin'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
