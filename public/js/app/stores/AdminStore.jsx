@@ -7,6 +7,16 @@ import { EMPTY } from '../util/constants'
 
 import { IDeserialize } from '../interfaces/utils'
 
+const paramRegex = /\/(:[^\/\s]*)/g
+
+function _paramReplace (path, params) {
+  let tmpPath = path
+  const tmpArray = tmpPath.match(paramRegex)
+  tmpArray.forEach(element => {
+    tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
+  })
+  return tmpPath
+}
 class AdminStore {
   @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
@@ -15,6 +25,7 @@ class AdminStore {
   buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
+      // host = 'http://localhost:' + '3001'
       host = this.apiHost
     } else {
       host = 'http://localhost:' + this.browserConfig.port
@@ -88,8 +99,28 @@ class AdminStore {
     })
   }
 
+  @action doUpsertItem (sources, courseCode) {
+    return axios.post(`/admin/api/${courseCode}`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
+    .then(res => {
+      let msg = null
+      if (safeGet(() => res.data.body.message)) {
+        console.log('We got error from api', res.data.body.message)
+        msg = res.data.body.message
+      }
+      return msg
+    })
+    .catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
+  }
+
   @action getLdapUserByUsername (params) {
-    return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions()).then((res) => {
+    return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions())
+    .then((res) => {
+      console.log('GEETTTTT USER  ', res.data)
       return res.data
     }).catch(err => {
       if (err.response) {

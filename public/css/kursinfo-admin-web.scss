@@ -13,6 +13,17 @@
     padding-bottom: 3em;
 }
 
+.Header--Button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+    // .btn {
+    //     border: 1px solid;
+    //     margin: 2em .3em;
+    // }
+}
+
+
 .button_group {
     display: flex;
     justify-content: flex-end;
