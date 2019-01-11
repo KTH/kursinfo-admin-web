@@ -15,6 +15,7 @@ import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
 import CardText from 'inferno-bootstrap/lib/Card/CardText'
 import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
 import CardHeader from 'inferno-bootstrap/lib/Card/CardHeader'
+import Alert from 'inferno-bootstrap/lib/Alert'
 
 function TextBlock ({text}) {
   return (
@@ -71,6 +72,16 @@ function KoppsText ({className, koppsVisibilityStatus, text}) {
   )
 }
 
+function AlertMessage ({hasDoneSubmit}) {
+  if (hasDoneSubmit) {
+    return (
+      <Alert color='success'>
+        <p>Texten uppdaterad</p>
+      </Alert>
+    )
+  }
+}
+
 @inject(['adminStore']) @observer
 class SellingInfo extends Component {
   constructor (props) {
@@ -94,7 +105,8 @@ class SellingInfo extends Component {
     this.setState({
       sellingText: this.props.adminStore.sellingText,
       editDescription: false,
-      enteredEditMode: false
+      enteredEditMode: false,
+      hasDoneSubmit: false
     })
     CKEDITOR.instances.editor1.destroy(true)
     console.log('doCancelled')
@@ -122,12 +134,17 @@ class SellingInfo extends Component {
   // Made able to submit only after review mode to avoid 'silly' submission
   doSubmit (event) {
     event.preventDefault()
-
-    this.setState({
-      hasDoneSubmit: true,
-      enteredEditMode: false
+    const adminStore = this.props.adminStore
+    const value = this.state.sellingText
+    const courseCode = adminStore.courseAdminData.courseTitleData.course_code
+    adminStore.doUpsertItem(value, courseCode).then(() => {
+      console.log('didSubmit')
+      this.setState({
+        hasDoneSubmit: true,
+        // editDescription: false,
+        enteredEditMode: false
+      })
     })
-    console.log('didSubmit')
   }
 
   doPreview (event) {
@@ -165,21 +182,24 @@ class SellingInfo extends Component {
               {this.state.enteredEditMode ? (
                 <div className='TextEditor--SellingInfo'>
                   {/* ---INTRO TEXT Editor--- */}
-                  <h3>Kurssäljande information</h3>
+                  <h3>Kortbeskrivning from KOPPS</h3>
+                  <KoppsText className='koppsText' koppsVisibilityStatus='isEditing'
+                    text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
+                  <h3>Kurssäljande information som kommer ersätta kortbeskrivning från koops</h3>
                   <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
                   <span className='button_group'>
-                    <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
+                    <Button onClick={this.doCancel} color='secondary'>Gå till admin startsida</Button>
                     <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
-                    {/* <Button onClick={this.doSubmit} color='success'>Publicera</Button> */}
                   </span>
                 </div>
               ) : (
                 <div className='Description--TextBlock'>
+                  <AlertMessage hasDoneSubmit={this.state.hasDoneSubmit} />
                   {/* ---INTRO TEXT Editor 2 steg Granska innan Publicering--- */}
                   <TextBlock text={this.state.sellingText} />
                   <span className='button_group'>
-                    <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-                    <Button onClick={this.doEdit} color='primary'>Redigera</Button>
+                    <Button onClick={this.doCancel} color='secondary'>Gå till admin startsida</Button>
+                    <Button onClick={this.doEdit} color='primary'>Redigera / Andra texten</Button>
                     <Button onClick={this.doSubmit} color='success'>Publicera</Button>
                   </span>
                 </div>
@@ -205,11 +225,11 @@ class SellingInfo extends Component {
               </Card>
               <Card>
                 <CardBody>
-                  <CardTitle>Kursutvekling</CardTitle>
+                  <CardTitle>Kursutveckling</CardTitle>
                   <CardText>Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen</CardText>
                   {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
                 </CardBody>
-                <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>Lägg till kortbeskrivning</Button></CardFooter>
+                <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>Lägg till kursutveckling</Button></CardFooter>
               </Card>
             </div>
           )}
