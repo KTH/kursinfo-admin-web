@@ -40,7 +40,7 @@ async function _getDescription (req, res, next) {
     // like getItem function in adminClien.JS
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
-    const respSellingText = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode: '1' }), { useCache: true })
+    const respSellingText = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
@@ -51,6 +51,7 @@ async function _getDescription (req, res, next) {
     console.log('==========================RENDER PROPS=========================', renderProps)
 
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
+    console.log('PATHPATHPATHPATH', paths)
     renderProps.props.children.props.adminStore.addSellingText(respSellingText.body.sellingText)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
@@ -67,7 +68,7 @@ async function _getDescription (req, res, next) {
       debug: 'debug' in req.query,
       html: html,
       initialState: JSON.stringify(hydrateStores(renderProps))
-      //data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
+      // data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
       // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
   } catch (err) {
@@ -76,33 +77,26 @@ async function _getDescription (req, res, next) {
   }
 }
 
-// async function _reviewDescription (data) {
-//   const client = api.nodeApi.client
-//   const paths = api.nodeApi.paths
-
-//   const entity = await client.getAsync({
-//     uri: client.resolve(paths.getSellingTextByCourseCode.uri, {courseCode: '2'}),
-//     useCache: false
-//   })
-
-//   return entity
-// }
-
-async function _updateDescription (data) {
+async function _updateDescription (req, res, next) {
   try {
     const client = api.nodeApi.client
-    const paths = api.nodeApi.paths
-    // const resp = yield client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode: '1' }), { useCache: true })
-    // const resp = await client.postAsync(client.resolve(paths.postSellingTextByCourseCode.uri, {courseCode: '2'}), { body: {sellingText: 'hello'}, useCache: true })
+    const apipaths = api.nodeApi.paths
 
-    return await client.postAsync({
-      uri: client.resolve(paths.postSellingTextByCourseCode.uri, {courseCode: '2'}),
-      body: {sellingText: 'hallo'},
+    const result = await client.postAsync({
+      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: '1'}),
+      body: {sellingText: req.body.sellingText},
       useCache: false
     })
+    // TODO: fix what to do if there is a validation error
+    if (safeGet(() => result.body.message)) {
+      log.error('Error from API: ', result.body.message)
+      // throw new Error(result.body.message)
+    }
+    log.info('Selling text updated in kursinfo api')
+    return res.json(result)
   } catch (err) {
-    log.error('Error in createItem', { error: err })
-    // next(err)
+    log.error('Error in _updateDescription', { error: err })
+    next(err)
   }
 }
 
