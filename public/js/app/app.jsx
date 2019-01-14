@@ -38,7 +38,7 @@ function appFactory () {
     <Provider adminStore={adminStore} >
       <ProgressLayer>
         <Switch>
-          <Route path='/admin' component={SellingInfo} />
+          <Route path='/admin/kurser/kurs' component={SellingInfo} />
         </Switch>
       </ProgressLayer>
     </Provider>

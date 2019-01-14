@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  web:
+    environment:
+      WEB_VERSION: "^0.1.0"
+      LOGGING_USER: "kursinfo-admin-web"
+      SERVICE_PUBLISH: "/admin/kurser/kurs"
+      SERVER_HOST_URL: "https://www-r-new.referens.sys.kth.se/"
+      SERVER_PORT: 3000
+      API_URI: 'https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000'
+      CAS_SSO_URI: 'https://login-r.referens.sys.kth.se'
+      CM_HOST_URL: 'https://www-r.referens.sys.kth.se/cm/'
+      KOPPS_URI: 'https://kopps-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000'
+      KURSPLAN_API_URI: 'https://api-r.referens.sys.kth.se/api/kursplan?defaultTimeout=60000'
+
+      #NODE_ENV: 'development'
+  
+      
+      # Settings for LDAP
+      LDAP_TIMEOUT: 3000
+      LDAP_CONNECT_TIMEOUT: 3000
+      LDAP_IDLE_RECONNECT_INTERVAL: 180000
+      
+      SESSION_USE_REDIS: 'true'
+
+
+    env_file:
+      - .env
+
+    build: .
+
+    ports:
+      - 3000
