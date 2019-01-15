@@ -67,6 +67,7 @@ async function _getDescription (req, res, next) {
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,
+      paths: JSON.stringify(paths),
       initialState: JSON.stringify(hydrateStores(renderProps))
       // data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
       // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
@@ -83,7 +84,7 @@ async function _updateDescription (req, res, next) {
     const apipaths = api.nodeApi.paths
 
     const result = await client.postAsync({
-      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: '1'}),
+      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
       body: {sellingText: req.body.sellingText},
       useCache: false
     })
