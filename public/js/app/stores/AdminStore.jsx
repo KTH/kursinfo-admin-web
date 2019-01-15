@@ -100,21 +100,25 @@ class AdminStore {
   }
 
   @action doUpsertItem (sources, courseCode) {
-    return axios.post(`/admin/api/${courseCode}`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
         console.log('We got error from api', res.data.body.message)
         msg = res.data.body.message
+        throw new Error(res.data.body.message)
+      } else {
+        this.sellingText = sources
       }
       return msg
     })
-    .catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+    // .catch(err => {
+    //   if (err.response) {
+    //     throw new Error(err.message, err.response.data)
+    //   }
+    //   console.log('EORORORORORORORORORORRO')
+    //   throw err
+    // })
   }
 
   @action getLdapUserByUsername (params) {
