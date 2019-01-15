@@ -16,7 +16,7 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
-const devSessionKey = devDefaults('node-web.sid')
+const devSessionKey = devDefaults('kursinfo-admin-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
 const devLdap = undefined // Do not enter LDAP_URI or LDAP_PASSWORD here, use env_vars
@@ -75,6 +75,8 @@ module.exports = {
     nodeApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
   },
 
+  redisOptions: unpackRedisConfig('REDIS_URI', devRedis), //TODO, CHECK IF IT IS NEEDED
+
   // Cortina
   blockApi: {
     blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r-new.referens.sys.kth.se/cm/')) // Block API base URL
@@ -94,6 +96,9 @@ module.exports = {
   },
   cache: {
     cortinaBlock: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis)
+    },
+    nodeApi: {//TODO, CHECK IF IT IS NEEDED
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     }
   },
