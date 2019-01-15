@@ -17,6 +17,10 @@ function _paramReplace (path, params) {
   })
   return tmpPath
 }
+
+function _webUsesSSL (url) {
+  return url.startsWith('https:')
+}
 class AdminStore {
   @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
