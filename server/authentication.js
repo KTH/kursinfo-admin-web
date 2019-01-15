@@ -83,7 +83,8 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
       email: ldapUser.mail,
       pgtIou: pgtIou,
       // This is where you can set custom roles
-      isAdmin: hasGroup(config.auth.adminGroup, ldapUser)
+      isAdmin: hasGroup(config.auth.adminGroup, ldapUser),
+      isCourseResponsible: hasGroup('edu.courses.SF.SF1624.20152.2.courseresponsible', ldapUser)
     }
   }
 })
