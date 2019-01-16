@@ -71,7 +71,7 @@ passport.use(new GatewayStrategy({
 // redirects to appropriate place when returning from CAS login
 // The unpackLdapUser function transforms an ldap user to a user object that is stored as
 const ldapClient = require('./adldapClient')
-const { hasGroup } = require('kth-node-ldap').utils
+const { hasGroup, getGroups } = require('kth-node-ldap').utils
 module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser({
   ldapConfig: config.ldap,
   ldapClient: ldapClient,
@@ -82,11 +82,9 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
       displayName: ldapUser.displayName,
       email: ldapUser.mail,
       pgtIou: pgtIou,
+      memberOf: getGroups(ldapUser), // memberOf important for requireRole
       // This is where you can set custom roles
-      isAdmin: hasGroup(config.auth.adminGroup, ldapUser),
-      isExamminator: hasGroup('edu.courses.SF.SF1624.examiner', ldapUser),
-      isCourseResponsible: hasGroup('edu.courses.SF.SF1624.20192.1.courseresponsible', ldapUser),
-      isMe: hasGroup('edu.courses.SF.SF1624.20152.2.courseresponsible', ldapUser)
+      isAdmin: hasGroup(config.auth.adminGroup, ldapUser)
     }
   }
 })
@@ -98,16 +96,37 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
 
   requireRole('isAdmin', 'isEditor')
 */
+function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
+  // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
+  const groups = ldapUser.memberOf
+  const startWith = `edu.courses.${courseInitials}.${courseCode}.20192.`
+  const endWith = '.courseresponsible'
+  if (groups && groups.length > 0) {
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[ i ].indexOf(startWith) >= 0 && groups[ i ].indexOf(endWith) >= 0) {
+        return true
+      }
+    }
+  }
+  return false
+}
 
-module.exports.requireRole = function () {
+module.exports.requireRole = function () { // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
 
-  return function _hasNoneOfAcceptedRoles (req, res, next) {
+  return function _hasCourseAcceptedRoles (req, res, next) {
     const ldapUser = req.session.authUser || {}
+    const courseCode = req.params.courseCode.toUpperCase()
+    const courseInitials = req.params.courseCode.slice(0, 2).toUpperCase()
+    // TODO: Add date for courseresponsible
+    const userCourseRoles = {
+      isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
+      isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser)
+    }
 
-    // Check if we have any of the roles passed
-    const hasAuthorizedRole = roles.reduce((prev, curr) => prev || ldapUser[curr], false)
     // If we don't have one of these then access is forbidden
+    const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
+
     if (!hasAuthorizedRole) {
       const error = new Error('Forbidden')
       error.status = 403
