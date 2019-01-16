@@ -54,7 +54,7 @@
 .Description--TextBlock {
     margin: 2em 0;
 
-    .alert-success{
+    .alert-success, .alert-warning {
         margin-bottom: 1.5em;
     }
     // & > * {

@@ -207,7 +207,7 @@ class SellingInfo extends Component {
                 <h3>Kurssäljande information som kommer ersätta kortbeskrivning från koops</h3>
                 <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
                 <span className='button_group'>
-                  <Button onClick={this.doCancel} color='secondary'>Gå till admin startsida</Button>
+                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
                   <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
                 </span>
               </div>
@@ -217,7 +217,7 @@ class SellingInfo extends Component {
                 {/* ---INTRO TEXT Editor 2 steg Granska innan Publicering--- */}
                 <TextBlock text={this.state.sellingText} />
                 <span className='button_group'>
-                  <Button onClick={this.doCancel} color='secondary'>Gå till admin startsida</Button>
+                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
                   <Button onClick={this.doChangeText} color='primary'>Redigera / Andra texten</Button>
                   <Button onClick={this.doSubmit} color='success'>Publicera</Button>
                 </span>
