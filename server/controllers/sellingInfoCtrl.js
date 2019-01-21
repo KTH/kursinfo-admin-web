@@ -51,8 +51,8 @@ async function _getDescription (req, res, next) {
     console.log('==========================RENDER PROPS=========================', renderProps)
 
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    console.log('PATHPATHPATHPATH', paths)
-    renderProps.props.children.props.adminStore.addSellingText(respSellingText.body.sellingText)
+    console.log('PATHPATHPATHPATH', respSellingText.body.sellingText)
+    renderProps.props.children.props.adminStore.addSellingText(respSellingText.body.sellingText, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
 
@@ -82,10 +82,11 @@ async function _updateDescription (req, res, next) {
   try {
     const client = api.nodeApi.client
     const apipaths = api.nodeApi.paths
+    let lang = language.getLanguage(res) || 'sv'
 
     const result = await client.postAsync({
       uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
-      body: {sellingText: req.body.sellingText},
+      body: {sellingText: req.body.sellingText, lang},
       useCache: false
     })
     // TODO: fix what to do if there is a validation error
