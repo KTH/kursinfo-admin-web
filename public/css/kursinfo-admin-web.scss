@@ -62,7 +62,9 @@
     // }
 }
 
-.AdminPage--ShowDescription {
+.AdminPage--ShowDescription, .AdminPage--ShowMenu { //TODO: remove .AdminPage--ShowDescription,
+    display: flex;
+    justify-content: space-between;
     padding-left: 15px;
     .card {
         max-width: 20em;
