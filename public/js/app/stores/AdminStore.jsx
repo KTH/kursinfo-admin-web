@@ -64,8 +64,12 @@ class AdminStore {
     return options
   }
 
-  @action addSellingText (data) { // Fetched text from api send here to the store
-    this.sellingText = data
+  @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
+
+    this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
+
+    // this.sellingText_en = safeGet(() => data.sellingText_en, 'No data')// {en}
+    // this.sellingText_sv = safeGet(() => data.sellingText_sv, 'No data')// {en}
   }
 
   isValidData (dataObject, language = 0) {
@@ -104,8 +108,9 @@ class AdminStore {
   }
 
   @action doUpsertItem (sources, courseCode) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}/`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
     .then(res => {
+      console.log('pooooooa')
       let msg = null
       if (safeGet(() => res.data.body.message)) {
         console.log('We got error from api', res.data.body.message)
@@ -116,13 +121,12 @@ class AdminStore {
       }
       return msg
     })
-    // .catch(err => {
-    //   if (err.response) {
-    //     throw new Error(err.message, err.response.data)
-    //   }
-    //   console.log('EORORORORORORORORORORRO')
-    //   throw err
-    // })
+    .catch(err => {
+      if (err.response) {
+        throw new Error(err.message, err.response.data)
+      }
+      throw err
+    })
   }
 
   @action getLdapUserByUsername (params) {
