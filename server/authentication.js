@@ -99,7 +99,7 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
 function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
   const groups = ldapUser.memberOf
-  const startWith = `edu.courses.${courseInitials}.${courseCode}.20192.`
+  const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
   const endWith = '.courseresponsible'
   if (groups && groups.length > 0) {
     for (var i = 0; i < groups.length; i++) {
