@@ -145,6 +145,10 @@ class SellingInfo extends Component {
   }
 
   // Made able to submit only after review mode to avoid 'silly' submission
+  // TODO: Before submission remove all empty spaces, like
+    //   <p>&nbsp;</p>
+    //
+    // <p>&nbsp;</p>
   doSubmit (event) {
     event.preventDefault()
     const adminStore = this.props.adminStore
@@ -169,7 +173,6 @@ class SellingInfo extends Component {
   }
 
   doPreview (event) {
-    // alert('hello')
     event.preventDefault()
     this.setState({
       sellingText: CKEDITOR.instances.editor1.getData(),
@@ -188,12 +191,14 @@ class SellingInfo extends Component {
       ]
     })
     CKEDITOR.instances.editor1.on('instanceReady', (event) => {
-      const text = event.editor.document.getBody().getText()
+      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
       this.setState({leftTextSign: 5000 - text.length})
     })
     CKEDITOR.instances.editor1.on('change', (event) => {
-      const text = event.editor.document.getBody().getText() // getData()// .replace(/<("[^"]*"|'[^']*'|[^'">])*>/gi, '').replace(/^\s+|\s+$/g, '') getData()
-      console.log(text, 'textLength ', text.length)
+      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
+      const htmlText = event.editor.getData().length
+      console.log('HTLM text length: ', htmlText)
+      console.log('Clean text Length:', text.length)
       this.setState({leftTextSign: 5000 - text.length})
     })
   }
@@ -201,7 +206,7 @@ class SellingInfo extends Component {
   render ({adminStore}) {
     const courseAdminData = adminStore['courseAdminData']
     console.log('routerStore in CoursePage', courseAdminData)
-    console.log('SELLLING TEXT', this.state.sellingText)
+    // console.log('SELLLING TEXT', this.state.sellingText)
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
