@@ -138,6 +138,7 @@ class SellingInfo extends Component {
   doStartTextEditor (event) {
     event.preventDefault()
     this.setState({
+      hasDoneSubmit: false,
       editDescription: true,
       enteredEditMode: true
     })
@@ -203,12 +204,12 @@ class SellingInfo extends Component {
       })
       const cleanTextLen = event.editor.document.getBody().getText().replace(/\n/g, '').length
       const htmlTextLen = event.editor.getData().length
-      if (htmlTextLen > 10000) {
+      if (htmlTextLen > 10000) { // this is max in api
         this.setState({
           isError: true,
           errMsg: 'Din html texten måste vara mindre än 10 000 tecken'
         })
-      } else if (cleanTextLen > 5000) {
+      } else if (cleanTextLen > 5000) { // this is abstract max
         this.setState({
           isError: true,
           errMsg: 'Din texten måste vara mindre än 5 000 tecken'
