@@ -98,6 +98,8 @@ class SellingInfo extends Component {
       hasDoneSubmit: false,
       editDescription: false,
       validationError: undefined,
+      // textLength: 0,
+      leftTextSign: undefined, // 5000 - this.props.adminStore.sellingText.replace(/<("[^"]*"|'[^']*'|[^'">])*>/gi, '').replace(/^\s+|\s+$/g, '').length,
       errorMsg: false
     }
     this.doStartTextEditor = this.doStartTextEditor.bind(this)
@@ -105,6 +107,7 @@ class SellingInfo extends Component {
     this.doChangeText = this.doChangeText.bind(this)
     this.doPreview = this.doPreview.bind(this)
     this.doSubmit = this.doSubmit.bind(this)
+    this.doOpenEditorAndCount = this.doOpenEditorAndCount.bind(this)
   }
 
   doCancel (event) {
@@ -127,7 +130,7 @@ class SellingInfo extends Component {
       enteredEditMode: true,
       errorMsg: false
     })
-    CKEDITOR.replace('editor1')
+    this.doOpenEditorAndCount(event)
     console.log('Do some extra changes to text after Preview or Failed Submission')
   }
 
@@ -137,7 +140,7 @@ class SellingInfo extends Component {
       editDescription: true,
       enteredEditMode: true
     })
-    CKEDITOR.replace('editor1')
+    this.doOpenEditorAndCount(event)
     console.log('Open Editor')
   }
 
@@ -174,7 +177,25 @@ class SellingInfo extends Component {
       errorMsg: false
     })
     CKEDITOR.instances.editor1.destroy(true)
-    console.log('Enter Preview Mode', this.state.reviewEditedText)
+    console.log('Enter Preview Mode', this.state.sellingText)
+  }
+
+  doOpenEditorAndCount (event) {
+    CKEDITOR.replace('editor1', {
+      toolbarGroups: [
+          { name: 'mode' },
+          { name: 'basicstyles' }
+      ]
+    })
+    CKEDITOR.instances.editor1.on('instanceReady', (event) => {
+      const text = event.editor.document.getBody().getText()
+      this.setState({leftTextSign: 5000 - text.length})
+    })
+    CKEDITOR.instances.editor1.on('change', (event) => {
+      const text = event.editor.document.getBody().getText() // getData()// .replace(/<("[^"]*"|'[^']*'|[^'">])*>/gi, '').replace(/^\s+|\s+$/g, '') getData()
+      console.log(text, 'textLength ', text.length)
+      this.setState({leftTextSign: 5000 - text.length})
+    })
   }
 
   render ({adminStore}) {
@@ -205,7 +226,8 @@ class SellingInfo extends Component {
                 <KoppsText className='koppsText' koppsVisibilityStatus='isEditing'
                   text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
                 <h3>Kurssäljande information som kommer ersätta kortbeskrivning från koops</h3>
-                <textarea name='editor1' id='editor1' onChange={this.doPreview}>{this.state.sellingText}</textarea>
+                <h4>Maximal längd på text är 5000. Det kvar <span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span> tecken att använda.</h4>
+                <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
                 <span className='button_group'>
                   <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
                   <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
