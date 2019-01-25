@@ -72,17 +72,17 @@ function KoppsText ({className, koppsVisibilityStatus, text}) {
   )
 }
 
-function AlertMessage ({hasDoneSubmit, errorMsg}) {
-  if (hasDoneSubmit && !errorMsg) {
+function AlertMessage ({hasDoneSubmit, isError, errMsg}) {
+  if (hasDoneSubmit && !isError) {
     return (
       <Alert color='success'>
         <p>Texten uppdaterad</p>
       </Alert>
     )
-  } else if (errorMsg) {
+  } else if (isError) {
     return (
       <Alert color='info'>
-        <p>Nånting gick fel</p>
+        <p>{errMsg}</p>
       </Alert>
     )
   }
@@ -100,7 +100,8 @@ class SellingInfo extends Component {
       validationError: undefined,
       // textLength: 0,
       leftTextSign: undefined, // 5000 - this.props.adminStore.sellingText.replace(/<("[^"]*"|'[^']*'|[^'">])*>/gi, '').replace(/^\s+|\s+$/g, '').length,
-      errorMsg: false
+      isError: false,
+      errMsg: 'Something went wrong'
     }
     this.doStartTextEditor = this.doStartTextEditor.bind(this)
     this.doCancel = this.doCancel.bind(this)
@@ -117,7 +118,7 @@ class SellingInfo extends Component {
       editDescription: false,
       enteredEditMode: false,
       hasDoneSubmit: false,
-      errorMsg: false
+      isError: false
     })
     CKEDITOR.instances.editor1.destroy(true)
     console.log('doCancelled')
@@ -128,7 +129,7 @@ class SellingInfo extends Component {
     this.setState({
       hasDoneSubmit: false,
       enteredEditMode: true,
-      errorMsg: false
+      isError: false
     })
     this.doOpenEditorAndCount(event)
     console.log('Do some extra changes to text after Preview or Failed Submission')
@@ -158,15 +159,16 @@ class SellingInfo extends Component {
       console.log('didSubmit')
       this.setState({
         hasDoneSubmit: true,
-        // editDescription: false,
-        errorMsg: false,
+        editDescription: false,
+        isError: false,
         enteredEditMode: false
       })
     }).catch(err => {
       console.log('#########Eroror', err) // TODO: improve error handling
       this.setState({
         hasDoneSubmit: false,
-        errorMsg: true
+        isError: true,
+        errMsg: 'Failed to post data to API'
         // enteredEditMode: false
       })
     })
@@ -177,7 +179,7 @@ class SellingInfo extends Component {
     this.setState({
       sellingText: CKEDITOR.instances.editor1.getData(),
       enteredEditMode: false,
-      errorMsg: false
+      isError: false
     })
     CKEDITOR.instances.editor1.destroy(true)
     console.log('Enter Preview Mode', this.state.sellingText)
@@ -195,11 +197,26 @@ class SellingInfo extends Component {
       this.setState({leftTextSign: 5000 - text.length})
     })
     CKEDITOR.instances.editor1.on('change', (event) => {
-      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-      const htmlText = event.editor.getData().length
-      console.log('HTLM text length: ', htmlText)
-      console.log('Clean text Length:', text.length)
-      this.setState({leftTextSign: 5000 - text.length})
+      this.setState({
+        isError: false,
+        errMsg: ''
+      })
+      const cleanTextLen = event.editor.document.getBody().getText().replace(/\n/g, '').length
+      const htmlTextLen = event.editor.getData().length
+      if (htmlTextLen > 10000) {
+        this.setState({
+          isError: true,
+          errMsg: 'Din html texten måste vara mindre än 10 000 tecken'
+        })
+      } else if (cleanTextLen > 5000) {
+        this.setState({
+          isError: true,
+          errMsg: 'Din texten måste vara mindre än 5 000 tecken'
+        })
+      }
+      console.log('HTLM text length: ', htmlTextLen)
+      console.log('Clean text Length:', cleanTextLen)
+      this.setState({leftTextSign: 5000 - cleanTextLen})
     })
   }
 
@@ -218,6 +235,8 @@ class SellingInfo extends Component {
 
           {/* ---IF in edit mode or not--- */}
 
+        <AlertMessage hasDoneSubmit={this.state.hasDoneSubmit} isError={this.state.isError} errMsg={this.state.errMsg} />
+
         {this.state.editDescription === true ? (
           <div className='AdminPage--EditDescription col'>
 
@@ -235,12 +254,11 @@ class SellingInfo extends Component {
                 <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
                 <span className='button_group'>
                   <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-                  <Button onClick={this.doPreview} color='primary'>Förhandsgranska</Button>
+                  <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>Förhandsgranska</Button>
                 </span>
               </div>
             ) : (
               <div className='Description--TextBlock'>
-                <AlertMessage hasDoneSubmit={this.state.hasDoneSubmit} errorMsg={this.state.errorMsg} />
                 {/* ---INTRO TEXT Editor 2 steg Granska innan Publicering--- */}
                 <TextBlock text={this.state.sellingText} />
                 <span className='button_group'>
