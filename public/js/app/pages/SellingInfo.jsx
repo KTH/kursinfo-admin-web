@@ -181,8 +181,11 @@ class SellingInfo extends Component {
 
   doOpenEditorAndCount (event) {
     var lang = i18n.isSwedish() ? 'sv' : 'en'
+
     CKEDITOR.replace('editor1', {
-      language: lang
+      language: lang,
+      removeButtons: 'Mathjax,Save,NewPage,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Preview,Undo,Redo,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Underline,Strike,Subscript,Superscript,CopyFormatting,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Anchor,Math,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Font,FontSize,TextColor,BGColor,ShowBlocks'
+
     })
     CKEDITOR.instances.editor1.on('instanceReady', (event) => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
