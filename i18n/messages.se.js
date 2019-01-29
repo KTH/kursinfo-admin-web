@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Message keys
      */
-    service_name: 'Node-applikationsnamn',
+    service_name: 'Kursinfo-admin-web',
 
     example_message_key: 'Här är en svensk översättning på en label',
 
@@ -30,10 +30,34 @@ module.exports = {
     field_label_post_example: 'Min datamodell(Svar från api anrop POST): ',
 
     lang_block_id: '1.272446',
-    locale_text: 'Kursinformationsadminsida på svenska',
+    locale_text: 'Kursinformationsadmin på svenska',
 
-    site_name: 'Kursinformationsadminsida',
-    host_name: 'KTH'
+    site_name: 'Kursinformationsadmin',
+    host_name: 'KTH',
+    page_admin: 'ADMIN PÅ KURSINFO',
+    page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
+  },
+  alertMessages: {
+    success: 'Texten uppdaterad',
+    over_text_limit: 'Din texten måste vara mindre än 5 000 tecken',
+    over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
+    api_error: 'Failed to post data to API'
+  },
+  startButtons: {
+    button_sellingText: 'Add selling text',
+    button_coursePM: 'Add course PM',
+    button_courseDev: 'Add course development'
+  },
+  startCards: {
+    sellingText_hd: 'Kurssäljande information',
+    sellingText_desc: 'Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen',
+    sellingText_btn: 'Redigera texten',
+    coursePM_hd: 'Kurs-PM',
+    coursePM_desc: 'Lägg till kurs-pm information som PDF',
+    coursePM_btn: 'Ladda up file',
+    courseDev_hd: 'Kursutveckling',
+    courseDev_decs: 'Lägg till Kursutveckling information för att studenter kan titta hur kursen utvecklas',
+    courseDev_btn: 'Redigera info'
   },
   sellingTextButtons: {
     button_cancel: 'Avbryt',
@@ -41,6 +65,13 @@ module.exports = {
     button_preview: 'Förhandsgranska',
     button_student: 'Till studentvyen',
     button_submit: 'Publicera'
+  },
+  sellingTextLabels: {
+    label_kopps_text: 'Kortbeskrivning from KOPPS',
+    label_selling_text: 'Kurssäljande information som kommer ersätta kortbeskrivning från KOOPS',
+    label_selling_text_length: 'Maximal längd på text är 5000. Det kvar tecken att använda: ',
+    label_en: 'Engelska texten',
+    label_sv: 'Svenska texten'
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',
@@ -53,7 +84,7 @@ module.exports = {
     label_course_other: 'Kontakt och övrig information',
     label_postgraduate_course: 'Forskarkurser på '
   },
-  courseInformation:{
+  courseInformation: {
     roundId:'Kursomgångs nr',
     course_title:'Benämning svenska',
     course_other_title:'Benämning engelska',

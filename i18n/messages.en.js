@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Message keys
      */
-    service_name: 'administration of course information',
+    service_name: 'course information administation',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -30,10 +30,12 @@ module.exports = {
     field_label_post_example: 'My modelData(Response from api call POST): ',
 
     lang_block_id: '1.77273',
-    locale_text: 'Admin Course information in English',
+    locale_text: 'Course information administration in English',
 
-    site_name: 'Kursinformation',
-    host_name: 'KTH'
+    site_name: 'Course information administration',
+    host_name: 'KTH',
+    page_admin: 'ADMIN AT KTH COURSE INFORMATION',
+    page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   alertMessages: {
     success: 'Data has been saved successfully',
@@ -48,11 +50,14 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Selling text',
-    sellingText_desc: '',
-    coursePM_hd: '',
-    coursePM_desc: '',
-    courseDev_hd: '',
-    courseDev_decs: ''
+    sellingText_desc: 'Add selling text to clarify why students should choose this course',
+    sellingText_btn: 'Edit selling text',
+    coursePM_hd: 'Course-PM',
+    coursePM_desc: 'Upload course-PM as PDF file',
+    coursePM_btn: 'Upload file(s)',
+    courseDev_hd: 'Course development',
+    courseDev_decs: 'Add a course development information to show course progress and control automated information',
+    courseDev_btn: 'Edit info'
   },
   sellingTextButtons: {
     button_cancel: 'Cancel',
@@ -64,7 +69,9 @@ module.exports = {
   sellingTextLabels: {
     label_kopps_text: 'Short description from KOPPS',
     label_selling_text: 'Course selling text which will replace a short description from KOPPS',
-    label_selling_text_length: 'The maximum amount of signs is 5000. There is left to use: '
+    label_selling_text_length: 'The maximum amount of signs is 5000. There is left to use: ',
+    label_en: 'English text',
+    label_sv: 'Swedish text'
   },
   courseInformationLabels: {
     label_course_syllabus: 'Course Syllabus',
