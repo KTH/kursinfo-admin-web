@@ -224,6 +224,7 @@ class SellingInfo extends Component {
   render ({adminStore}) {
     const courseAdminData = adminStore['courseAdminData']
     console.log('routerStore in CoursePage', courseAdminData)
+    const language = courseAdminData.language === 'en' ? 0 : 1
     // console.log('SELLLING TEXT', this.state.sellingText)
 
     return (
@@ -247,15 +248,21 @@ class SellingInfo extends Component {
             {this.state.enteredEditMode ? (
               <div className='TextEditor--SellingInfo'>
                 {/* ---INTRO TEXT Editor--- */}
-                <h3>Kortbeskrivning from KOPPS</h3>
+                <h3>{i18n.messages[language].sellingTextLabels.label_kopps_text}</h3>
                 <KoppsText className='koppsText' koppsVisibilityStatus='isEditing'
                   text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
-                <h3>Kurssäljande information som kommer ersätta kortbeskrivning från koops</h3>
-                <h4>Maximal längd på text är 5000. Det kvar <span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span> tecken att använda.</h4>
+                <h3>{i18n.messages[language].sellingTextLabels.label_selling_text}</h3>
+                {/* FILTER */}
+                <p className='filter'>
+                  <span><a href='#' className='active'>{i18n.messages[language].sellingTextLabels.label_sv}</a></span>
+                  <span><a href='#' className=''>{i18n.messages[language].sellingTextLabels.label_en}</a></span>
+                </p>
+
+                <h4>{i18n.messages[language].sellingTextLabels.label_selling_text_length}<span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span></h4>
                 <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
                 <span className='button_group'>
-                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-                  <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>Förhandsgranska</Button>
+                  <Button onClick={this.doCancel} color='secondary'>{i18n.messages[language].sellingTextButtons.button_cancel}</Button>
+                  <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>{i18n.messages[language].sellingTextButtons.button_preview}</Button>
                 </span>
               </div>
             ) : (
@@ -263,9 +270,9 @@ class SellingInfo extends Component {
                 {/* ---INTRO TEXT Editor 2 steg Granska innan Publicering--- */}
                 <TextBlock text={this.state.sellingText} />
                 <span className='button_group'>
-                  <Button onClick={this.doCancel} color='secondary'>Avbryt</Button>
-                  <Button onClick={this.doChangeText} color='primary'>Redigera / Andra texten</Button>
-                  <Button onClick={this.doSubmit} color='success'>Publicera</Button>
+                  <Button onClick={this.doCancel} color='secondary'>{i18n.messages[language].sellingTextButtons.button_cancel}</Button>
+                  <Button onClick={this.doChangeText} color='primary'>{i18n.messages[language].sellingTextButtons.button_change}</Button>
+                  <Button onClick={this.doSubmit} color='success'>{i18n.messages[language].sellingTextButtons.button_submit}</Button>
                 </span>
               </div>
             )}
@@ -274,27 +281,27 @@ class SellingInfo extends Component {
           <div className='AdminPage--ShowDescription row'>
             <Card className='KursInfo--SellingText'>
               <CardBody>
-                <CardTitle>Kurssäljande information</CardTitle>
-                <CardText>Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen</CardText>
+                <CardTitle>{i18n.messages[language].startCards.sellingText_hd}</CardTitle>
+                <CardText>{i18n.messages[language].startCards.sellingText_desc}</CardText>
                 {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doStartTextEditor} color='primary'>Lägg till kortbeskrivning</Button></CardFooter>
+              <CardFooter className='text-right'><Button onClick={this.doStartTextEditor} color='primary'>{i18n.messages[language].startCards.sellingText_btn}</Button></CardFooter>
             </Card>
             <Card>
               <CardBody>
-                <CardTitle>Kurs-PM</CardTitle>
-                <CardText>Lägg till kurs-pm information som PDF</CardText>
+                <CardTitle>{i18n.messages[language].startCards.coursePM_hd}</CardTitle>
+                <CardText>{i18n.messages[language].startCards.coursePM_desc}</CardText>
                 {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>Ladda upp kurs-pm</Button></CardFooter>
+              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.coursePM_btn}</Button></CardFooter>
             </Card>
             <Card>
               <CardBody>
-                <CardTitle>Kursutveckling</CardTitle>
-                <CardText>Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen</CardText>
+                <CardTitle>{i18n.messages[language].startCards.courseDev_hd}</CardTitle>
+                <CardText>{i18n.messages[language].startCards.courseDev_decs}</CardText>
                 {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>Lägg till kursutveckling</Button></CardFooter>
+              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.courseDev_btn}</Button></CardFooter>
             </Card>
           </div>
         )}
