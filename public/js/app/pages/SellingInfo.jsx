@@ -54,12 +54,6 @@ function SellingTextContainer ({mode, text}) { // redo, isEditing, isPreviewing,
 }
 
 function KoppsText ({className, koppsVisibilityStatus, text}) {
-  // if koppsVisibilityStatus === 'isPreview':
-  //   style = {opacity: }
-
-  // else if koppsVisibilityStatus === 'hidden':
-  // else:
-
   return (
     <div id='courseIntroText'>
     {koppsVisibilityStatus === 'isEditing' ?
@@ -98,7 +92,6 @@ class SellingInfo extends Component {
       hasDoneSubmit: false,
       editDescription: false,
       validationError: undefined,
-      // textLength: 0,
       leftTextSign: undefined, // 5000 - this.props.adminStore.sellingText.replace(/<("[^"]*"|'[^']*'|[^'">])*>/gi, '').replace(/^\s+|\s+$/g, '').length,
       isError: false,
       errMsg: 'Something went wrong'
@@ -124,7 +117,7 @@ class SellingInfo extends Component {
     console.log('doCancelled')
   }
 
-  doChangeText (event) { // TODO: able to come back here after wrong submission
+  doChangeText (event) { // TODO: better name showing up from gransking to changing instaead of publishing
     event.preventDefault()
     this.setState({
       hasDoneSubmit: false,
@@ -187,11 +180,9 @@ class SellingInfo extends Component {
   }
 
   doOpenEditorAndCount (event) {
+    var lang = i18n.isSwedish() ? 'sv' : 'en'
     CKEDITOR.replace('editor1', {
-      toolbarGroups: [
-          { name: 'mode' },
-          { name: 'basicstyles' }
-      ]
+      language: lang
     })
     CKEDITOR.instances.editor1.on('instanceReady', (event) => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
@@ -252,13 +243,13 @@ class SellingInfo extends Component {
                 <KoppsText className='koppsText' koppsVisibilityStatus='isEditing'
                   text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
                 <h3>{i18n.messages[language].sellingTextLabels.label_selling_text}</h3>
+                <p>{i18n.messages[language].sellingTextLabels.label_selling_info}</p>
                 {/* FILTER */}
                 <p className='filter'>
                   <span><a href='#' className='active'>{i18n.messages[language].sellingTextLabels.label_sv}</a></span>
                   <span><a href='#' className=''>{i18n.messages[language].sellingTextLabels.label_en}</a></span>
                 </p>
-
-                <h4>{i18n.messages[language].sellingTextLabels.label_selling_text_length}<span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span></h4>
+                <p>{i18n.messages[language].sellingTextLabels.label_selling_text_length}<span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span></p>
                 <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
                 <span className='button_group'>
                   <Button onClick={this.doCancel} color='secondary'>{i18n.messages[language].sellingTextButtons.button_cancel}</Button>
@@ -278,31 +269,36 @@ class SellingInfo extends Component {
             )}
           </div>
         ) : (
-          <div className='AdminPage--ShowDescription row'>
-            <Card className='KursInfo--SellingText'>
-              <CardBody>
-                <CardTitle>{i18n.messages[language].startCards.sellingText_hd}</CardTitle>
-                <CardText>{i18n.messages[language].startCards.sellingText_desc}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
-              </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doStartTextEditor} color='primary'>{i18n.messages[language].startCards.sellingText_btn}</Button></CardFooter>
-            </Card>
-            <Card>
-              <CardBody>
-                <CardTitle>{i18n.messages[language].startCards.coursePM_hd}</CardTitle>
-                <CardText>{i18n.messages[language].startCards.coursePM_desc}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
-              </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.coursePM_btn}</Button></CardFooter>
-            </Card>
-            <Card>
-              <CardBody>
-                <CardTitle>{i18n.messages[language].startCards.courseDev_hd}</CardTitle>
-                <CardText>{i18n.messages[language].startCards.courseDev_decs}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
-              </CardBody>
-              <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.courseDev_btn}</Button></CardFooter>
-            </Card>
+          <div>
+            <span className='Header--Button'>
+              <a href={`/student/kurser/kurs/${courseAdminData.courseTitleData.course_code}?l=${courseAdminData.language}`} class='link-back'>{i18n.messages[language].sellingTextButtons.button_course_info}</a>
+            </span>
+            <span className='AdminPage--ShowDescription row'>
+              <Card className='KursInfo--SellingText'>
+                <CardBody>
+                  <CardTitle>{i18n.messages[language].startCards.sellingText_hd}</CardTitle>
+                  <CardText>{i18n.messages[language].startCards.sellingText_desc}</CardText>
+                  {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
+                </CardBody>
+                <CardFooter className='text-right'><Button onClick={this.doStartTextEditor} color='primary'>{i18n.messages[language].startCards.sellingText_btn}</Button></CardFooter>
+              </Card>
+              <Card>
+                <CardBody>
+                  <CardTitle>{i18n.messages[language].startCards.coursePM_hd}</CardTitle>
+                  <CardText>{i18n.messages[language].startCards.coursePM_desc}</CardText>
+                  {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
+                </CardBody>
+                <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.coursePM_btn}</Button></CardFooter>
+              </Card>
+              <Card>
+                <CardBody>
+                  <CardTitle>{i18n.messages[language].startCards.courseDev_hd}</CardTitle>
+                  <CardText>{i18n.messages[language].startCards.courseDev_decs}</CardText>
+                  {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
+                </CardBody>
+                <CardFooter className='text-right'><Button onClick={this.doEnterEditor} color='primary'>{i18n.messages[language].startCards.courseDev_btn}</Button></CardFooter>
+              </Card>
+            </span>
           </div>
         )}
       </div>
