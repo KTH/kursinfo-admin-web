@@ -75,11 +75,11 @@ module.exports = {
     nodeApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
   },
 
-  redisOptions: unpackRedisConfig('REDIS_URI', devRedis), //TODO, CHECK IF IT IS NEEDED
+  redisOptions: unpackRedisConfig('REDIS_URI', devRedis), // TODO, CHECK IF IT IS NEEDED
 
   // Cortina
   blockApi: {
-    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r-new.referens.sys.kth.se/cm/')) // Block API base URL
+    blockUrl: getEnv('CM_HOST_URL', devDefaults('https://www-r.referens.sys.kth.se/cm/')) // Block API base URL
   },
 
   // Logging
@@ -98,7 +98,7 @@ module.exports = {
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
-    nodeApi: {//TODO, CHECK IF IT IS NEEDED
+    nodeApi: {// TODO, CHECK IF IT IS NEEDED
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     }
   },
