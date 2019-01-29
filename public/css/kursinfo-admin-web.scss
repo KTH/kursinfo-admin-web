@@ -28,6 +28,32 @@
     margin-bottom: .5em;
 }
 
+.filter {
+    margin: 1.6em 0 1em 0;
+    border-bottom: solid 1px #d4d4d4; //$borderGrey
+    //margin: 0 0 1em 1.6em;
+    & > span {
+        &:nth-child(n+2):before {
+            content: '| ';
+            padding: 0 .2em;
+        }
+    }
+    a {
+        color: #65656c; //$grey;
+    }
+    .active {
+        font-weight: bold;
+        color: #000000; //$black;
+        text-decoration: none;
+        border-bottom: .4ex solid #007fae; //$selectedBlue
+        margin-bottom: -5ex;
+        padding-bottom: .4ex;
+        &:hover {
+            text-decoration: none;
+            cursor: default;
+        }
+    }
+}
 
 .button_group {
     display: flex;
@@ -68,7 +94,8 @@
     justify-content: space-between;
     padding-left: 15px;
     .card {
-        max-width: 20em;
+        max-width: 21em;
+        min-width: 18em;
         margin: 1em .5em;
     }
 }
