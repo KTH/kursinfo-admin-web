@@ -63,12 +63,13 @@ module.exports = {
     button_cancel: 'Cancel',
     button_change: 'Change text',
     button_preview: 'Preview',
-    button_student: 'Go to student view',
+    button_course_info: 'To course information',
     button_submit: 'Publish'
   },
   sellingTextLabels: {
     label_kopps_text: 'Short description from KOPPS',
-    label_selling_text: 'Course selling text which will replace a short description from KOPPS',
+    label_selling_text: 'Course selling text',
+    label_selling_info: 'Fill in the text field to replace the short description from KOPPS. If you want to use KOPPS short description then leave a text field empty',
     label_selling_text_length: 'The maximum amount of signs is 5000. There is left to use: ',
     label_en: 'English text',
     label_sv: 'Swedish text'

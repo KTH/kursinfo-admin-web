@@ -63,12 +63,13 @@ module.exports = {
     button_cancel: 'Avbryt',
     button_change: 'Andra texten',
     button_preview: 'Förhandsgranska',
-    button_student: 'Till studentvyen',
+    button_course_info: 'Till kursinformationssida',
     button_submit: 'Publicera'
   },
   sellingTextLabels: {
-    label_kopps_text: 'Kortbeskrivning from KOPPS',
-    label_selling_text: 'Kurssäljande information som kommer ersätta kortbeskrivning från KOOPS',
+    label_kopps_text: 'Kortbeskrivning som finns i KOPPS',
+    label_selling_text: 'Kurssäljande information',
+    label_selling_info: 'Fyll i text nedan för att ersätta kortbeskrivningen från KOPPS. Lämna tomt om du vill behålla kortbeskrivningen från KOPPS.',
     label_selling_text_length: 'Maximal längd på text är 5000. Det kvar tecken att använda: ',
     label_en: 'Engelska texten',
     label_sv: 'Svenska texten'
