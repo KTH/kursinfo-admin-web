@@ -39,14 +39,9 @@ module.exports = {
   },
   alertMessages: {
     success: 'Data has been saved successfully',
-    over_text_limit: 'You exceeded the limit of letters. The text must have no more 5 000',
+    over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
     over_html_limit: 'HTML texten should be less than 10 000 signs',
     api_error: 'Failed to post data to API'
-  },
-  startButtons: {
-    button_sellingText: 'Add selling text',
-    button_coursePM: 'Add course PM',
-    button_courseDev: 'Add course development'
   },
   startCards: {
     sellingText_hd: 'Selling text',
@@ -70,7 +65,7 @@ module.exports = {
     label_kopps_text: 'Short description from KOPPS',
     label_selling_text: 'Course selling text',
     label_selling_info: 'Fill in the text field to replace the short description from KOPPS. If you want to use KOPPS short description then leave a text field empty',
-    label_selling_text_length: 'The maximum amount of signs is 5000. There is left to use: ',
+    label_selling_text_length: 'The maximum amount of signs is 1500. There is left to use: ',
     label_en: 'English text',
     label_sv: 'Swedish text'
   },

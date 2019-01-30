@@ -39,19 +39,14 @@ module.exports = {
   },
   alertMessages: {
     success: 'Texten uppdaterad',
-    over_text_limit: 'Din texten måste vara mindre än 5 000 tecken',
+    over_text_limit: 'Din texten måste vara mindre än 1 500 tecken',
     over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
     api_error: 'Failed to post data to API'
-  },
-  startButtons: {
-    button_sellingText: 'Add selling text',
-    button_coursePM: 'Add course PM',
-    button_courseDev: 'Add course development'
   },
   startCards: {
     sellingText_hd: 'Kurssäljande information',
     sellingText_desc: 'Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen',
-    sellingText_btn: 'Redigera texten',
+    sellingText_btn: 'Redigera text',
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Lägg till kurs-pm information som PDF',
     coursePM_btn: 'Ladda up file',
@@ -61,7 +56,7 @@ module.exports = {
   },
   sellingTextButtons: {
     button_cancel: 'Avbryt',
-    button_change: 'Andra texten',
+    button_change: 'Redigera text',
     button_preview: 'Förhandsgranska',
     button_course_info: 'Till kursinformationssida',
     button_submit: 'Publicera'
@@ -70,9 +65,9 @@ module.exports = {
     label_kopps_text: 'Kortbeskrivning som finns i KOPPS',
     label_selling_text: 'Kurssäljande information',
     label_selling_info: 'Fyll i text nedan för att ersätta kortbeskrivningen från KOPPS. Lämna tomt om du vill behålla kortbeskrivningen från KOPPS.',
-    label_selling_text_length: 'Maximal längd på text är 5000. Det kvar tecken att använda: ',
-    label_en: 'Engelska texten',
-    label_sv: 'Svenska texten'
+    label_selling_text_length: 'Maximalt antal tecken är 1500. Antal tecken kvar att använda: ',
+    label_en: 'Engelska text',
+    label_sv: 'Svenska text'
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',
