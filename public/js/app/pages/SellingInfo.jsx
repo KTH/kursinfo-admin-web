@@ -82,6 +82,24 @@ function AlertMessage ({hasDoneSubmit, isError, errMsg}) {
   }
 }
 
+function filterClick (e) {
+  var selector = e.target.getAttribute('data-lang-selector')
+  if (selector) {
+    var filter = e.target.closest('.filter'),
+      section = filter.closest('.TextEditor--SellingInfo'),
+      active = filter.querySelector('a.active')
+    if (active) {
+      active.classList.remove('active')
+      section.classList.remove(active.getAttribute('data-lang-selector'))
+    }
+    e.target.classList.add('active')
+    e.target.blur()
+    section.classList.add(selector)
+    e.preventDefault()
+    e.stopPropagation()
+  }
+}
+
 @inject(['adminStore']) @observer
 class SellingInfo extends Component {
   constructor (props) {
@@ -183,13 +201,21 @@ class SellingInfo extends Component {
     var lang = i18n.isSwedish() ? 'sv' : 'en'
 
     CKEDITOR.replace('editor1', {
-      language: lang,
-      removeButtons: 'Mathjax,Save,NewPage,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Preview,Undo,Redo,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Underline,Strike,Subscript,Superscript,CopyFormatting,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Anchor,Math,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Font,FontSize,TextColor,BGColor,ShowBlocks'
+      toolbarGroups: [
+        {name: 'mode'},
+        {name: 'find'},
+        {name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ]},
+        {name: 'list'},
+        {name: 'links'},
+        {name: 'about'}
+      ],
+      removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
+      language: lang
 
     })
     CKEDITOR.instances.editor1.on('instanceReady', (event) => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-      this.setState({leftTextSign: 5000 - text.length})
+      this.setState({leftTextSign: 1500 - text.length})
     })
     CKEDITOR.instances.editor1.on('change', (event) => {
       this.setState({
@@ -203,15 +229,14 @@ class SellingInfo extends Component {
           isError: true,
           errMsg: 'Din html texten måste vara mindre än 10 000 tecken'
         })
-      } else if (cleanTextLen > 5000) { // this is abstract max
+      } else if (cleanTextLen > 1500) { // this is an abstract max
         this.setState({
           isError: true,
-          errMsg: 'Din texten måste vara mindre än 5 000 tecken'
+          errMsg: 'Din texten måste vara mindre än 1 500 tecken'
         })
       }
       console.log('HTLM text length: ', htmlTextLen)
-      console.log('Clean text Length:', cleanTextLen)
-      this.setState({leftTextSign: 5000 - cleanTextLen})
+      this.setState({leftTextSign: 1500 - cleanTextLen})
     })
   }
 
@@ -249,8 +274,8 @@ class SellingInfo extends Component {
                 <p>{i18n.messages[language].sellingTextLabels.label_selling_info}</p>
                 {/* FILTER */}
                 <p className='filter'>
-                  <span><a href='#' className='active'>{i18n.messages[language].sellingTextLabels.label_sv}</a></span>
-                  <span><a href='#' className=''>{i18n.messages[language].sellingTextLabels.label_en}</a></span>
+                  <span><a href='#' onclick={filterClick} data-lang-selector='swedish' className='active'>{i18n.messages[language].sellingTextLabels.label_sv}</a></span>
+                  <span><a href='#' onclick={filterClick} data-lang-selector='english' className=''>{i18n.messages[language].sellingTextLabels.label_en}</a></span>
                 </p>
                 <p>{i18n.messages[language].sellingTextLabels.label_selling_text_length}<span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span></p>
                 <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
