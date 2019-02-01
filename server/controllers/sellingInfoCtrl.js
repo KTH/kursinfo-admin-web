@@ -51,7 +51,6 @@ async function _getDescription (req, res, next) {
     console.log('==========================RENDER PROPS=========================', renderProps)
 
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    console.log('PATHPATHPATHPATH', respSellingText.body.sellingText)
     renderProps.props.children.props.adminStore.addSellingText(respSellingText.body, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
