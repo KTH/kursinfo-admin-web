@@ -22,7 +22,7 @@ function _webUsesSSL (url) {
   return url.startsWith('https:')
 }
 class AdminStore {
-  // @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
+  // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
   @observable sellingText = undefined
 
@@ -67,6 +67,10 @@ class AdminStore {
   @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
 
     this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
+    this.sellingText = {
+      en: safeGet(() => data.sellingText_en, 'No data'),
+      sv: safeGet(() => data.sellingText_sv, 'No data')
+    }
     // this.sellingText_en = safeGet(() => data.sellingText_en, 'No data')
     // this.sellingText_sv = safeGet(() => data.sellingText_sv, 'No data')
   }
@@ -82,7 +86,6 @@ class AdminStore {
 
       const course = res.data
       const otherLang = lang === 'en' ? 'en' : 'sv'
-      console.log('++++++other', otherLang)
 
       const courseTitleData = {
         course_code: this.isValidData(course.code),
@@ -91,9 +94,8 @@ class AdminStore {
         course_credits: this.isValidData(course.credits)
       }
       const koppsCourseDesc = {
-        course_recruitment_text: this.isValidData(course.info.sv),
         sv: this.isValidData(course.info.sv),
-        en: this.isValidData(course.info.sv) // kopps recruitmentText
+        en: this.isValidData(course.info.en) // kopps recruitmentText
       }
       console.log('!!Got a kopps description of data: OK !!')
 
@@ -110,8 +112,8 @@ class AdminStore {
     })
   }
 
-  @action doUpsertItem (sources, courseCode) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}/`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
+  @action doUpsertItem (sources, courseCode, lang) {
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}/`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources, infoLang: lang}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
