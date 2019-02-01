@@ -56,7 +56,7 @@ function SellingTextContainer ({mode, text}) { // redo, isEditing, isPreviewing,
 function KoppsText ({className, koppsVisibilityStatus, text}) {
   return (
     <div id='courseIntroText'>
-    {koppsVisibilityStatus === 'isEditing' ?
+    {koppsVisibilityStatus ?
       (<TextBlock text={text} />
       ) : (
       <div id='courseIntroText'>
@@ -108,7 +108,7 @@ class SellingInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sellingText: this.props.adminStore.sellingText,
+      sellingText: this.props.adminStore.sellingText.sv,
       textLang: 'sv',
       enteredEditMode: false,
       hasDoneSubmit: false,
@@ -125,11 +125,6 @@ class SellingInfo extends Component {
     this.doSubmit = this.doSubmit.bind(this)
     this.doOpenEditorAndCount = this.doOpenEditorAndCount.bind(this)
     this.doSwitchTextLang = this.doSwitchTextLang.bind(this)
-  }
-
-  doSwitchTextLang (event) {
-    filterClick(event)
-
   }
 
   doCancel (event) {
@@ -177,7 +172,7 @@ class SellingInfo extends Component {
     const adminStore = this.props.adminStore
     const value = this.state.sellingText
     const courseCode = adminStore.courseAdminData.courseTitleData.course_code
-    adminStore.doUpsertItem(value, courseCode).then(() => {
+    adminStore.doUpsertItem(value, courseCode, this.state.textLang).then(() => {
       console.log('didSubmit')
       this.setState({
         hasDoneSubmit: true,
@@ -205,6 +200,16 @@ class SellingInfo extends Component {
     })
     CKEDITOR.instances.editor1.destroy(true)
     console.log('Enter Preview Mode', this.state.sellingText)
+  }
+
+  doSwitchTextLang (event) {
+    filterClick(event)
+    const lang = event.target.getAttribute('data-lang-selector')
+    this.setState({
+      textLang: lang,
+      sellingText: this.props.adminStore.sellingText[lang]
+    })
+    CKEDITOR.instances.editor1.setData(this.state.sellingText)
   }
 
   doOpenEditorAndCount (event) {
@@ -271,21 +276,19 @@ class SellingInfo extends Component {
         {this.state.editDescription === true ? (
           <div className='AdminPage--EditDescription col'>
 
-            <KoppsText className='koppsText' koppsVisibilityStatus={this.state.reviewEditedText}
-              text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
             {/* ---In edit mode 2 conditions, if editing text or previewing before publishing */}
             {this.state.enteredEditMode ? (
               <div className='TextEditor--SellingInfo'>
                 {/* ---INTRO TEXT Editor--- */}
                 <h3>{i18n.messages[lang].sellingTextLabels.label_kopps_text}</h3>
-                <KoppsText className='koppsText' koppsVisibilityStatus='isEditing'
-                  text={courseAdminData.koppsCourseDesc.course_recruitment_text} />
+                <KoppsText className='koppsText' koppsVisibilityStatus='true'
+                  text={courseAdminData.koppsCourseDesc[this.state.textLang]} />
                 <h3>{i18n.messages[lang].sellingTextLabels.label_selling_text}</h3>
                 <p>{i18n.messages[lang].sellingTextLabels.label_selling_info}</p>
                 {/* FILTER */}
                 <p className='filter'>
-                  <span><a href='#' onclick={filterClick} data-lang-selector='swedish' className='active'>{i18n.messages[lang].sellingTextLabels.label_sv}</a></span>
-                  <span><a href='#' onclick={filterClick} data-lang-selector='english' className=''>{i18n.messages[lang].sellingTextLabels.label_en}</a></span>
+                  <span><a href='#' onclick={this.doSwitchTextLang} data-lang-selector='sv' className='active'>{i18n.messages[lang].sellingTextLabels.label_sv}</a></span>
+                  <span><a href='#' onclick={this.doSwitchTextLang} data-lang-selector='en' className=''>{i18n.messages[lang].sellingTextLabels.label_en}</a></span>
                 </p>
                 <p>{i18n.messages[lang].sellingTextLabels.label_selling_text_length}<span class='badge badge-danger badge-pill'>{this.state.leftTextSign}</span></p>
                 <textarea name='editor1' id='editor1'>{this.state.sellingText}</textarea>
