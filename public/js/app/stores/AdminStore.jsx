@@ -22,7 +22,7 @@ function _webUsesSSL (url) {
   return url.startsWith('https:')
 }
 class AdminStore {
-  @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
+  // @observable language = 'sv' // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
   @observable sellingText = undefined
 
@@ -67,37 +67,40 @@ class AdminStore {
   @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
 
     this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
-
-    // this.sellingText_en = safeGet(() => data.sellingText_en, 'No data')// {en}
-    // this.sellingText_sv = safeGet(() => data.sellingText_sv, 'No data')// {en}
+    // this.sellingText_en = safeGet(() => data.sellingText_en, 'No data')
+    // this.sellingText_sv = safeGet(() => data.sellingText_sv, 'No data')
   }
 
   isValidData (dataObject, language = 0) {
     return !dataObject ? EMPTY : dataObject
   }
   // TODO: REWRITE TO ASYNC/AWAIT BUT IT WILL CRUSH EVENT HANDLING SO NEED EXTRA PACKETS, MAYBE BABEL-POLYFILL
-  @action getCourseRequirementFromKopps (courseCode, lang = 'sv', roundIndex = 0) {
+  @action getCourseRequirementFromKopps (courseCode, lang = 'sv') {
 
-    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/internal/courses/${courseCode}?lang=${lang}`).then((res) => {
 
-      const coursePlan = res.data
-      const language = lang // === 'en' ? 0 : 1
+    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then((res) => {
+
+      const course = res.data
+      const otherLang = lang === 'en' ? 'en' : 'sv'
+      console.log('++++++other', otherLang)
 
       const courseTitleData = {
-        course_code: this.isValidData(coursePlan.course.courseCode),
-        course_title: this.isValidData(coursePlan.course.title),
-        course_other_title: this.isValidData(coursePlan.course.titleOther),
-        course_credits: this.isValidData(coursePlan.course.credits)
+        course_code: this.isValidData(course.code),
+        course_title: this.isValidData(course.title[lang]),
+        course_other_title: this.isValidData(course.title[otherLang]),
+        course_credits: this.isValidData(course.credits)
       }
       const koppsCourseDesc = {
-        course_recruitment_text: this.isValidData(coursePlan.course.recruitmentText) // kopps recruitmentText
+        course_recruitment_text: this.isValidData(course.info.sv),
+        sv: this.isValidData(course.info.sv),
+        en: this.isValidData(course.info.sv) // kopps recruitmentText
       }
       console.log('!!Got a kopps description of data: OK !!')
 
       this.courseAdminData = {
         koppsCourseDesc,
         courseTitleData,
-        language
+        lang
       }
     }).catch(err => { // console.log(err.response);
       if (err.response) {
@@ -110,7 +113,6 @@ class AdminStore {
   @action doUpsertItem (sources, courseCode) {
     return axios.post(`/admin/kurser/kurs/api/${courseCode}/`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources}, this._getOptions())
     .then(res => {
-      console.log('pooooooa')
       let msg = null
       if (safeGet(() => res.data.body.message)) {
         console.log('We got error from api', res.data.body.message)
@@ -132,7 +134,6 @@ class AdminStore {
   @action getLdapUserByUsername (params) {
     return axios.get(this.buildApiUrl(this.paths.api.searchLdapUser.uri, params), this._getOptions())
     .then((res) => {
-      console.log('GEETTTTT USER  ', res.data)
       return res.data
     }).catch(err => {
       if (err.response) {
