@@ -71,8 +71,6 @@ class AdminStore {
       en: safeGet(() => data.sellingText_en, 'No data'),
       sv: safeGet(() => data.sellingText_sv, 'No data')
     }
-    // this.sellingText_en = safeGet(() => data.sellingText_en, 'No data')
-    // this.sellingText_sv = safeGet(() => data.sellingText_sv, 'No data')
   }
 
   isValidData (dataObject, language = 0) {
@@ -112,8 +110,8 @@ class AdminStore {
     })
   }
 
-  @action doUpsertItem (sources, courseCode, lang) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}/`/* ?lang=${lang} this.paths.course.updateDescription.uri*/, {sellingText: sources, infoLang: lang}, this._getOptions())
+  @action doUpsertItem (text, courseCode, textLang) {
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}?l=${textLang}`, {sellingText: text}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
@@ -121,7 +119,7 @@ class AdminStore {
         msg = res.data.body.message
         throw new Error(res.data.body.message)
       } else {
-        this.sellingText = sources
+        this.sellingText[textLang] = text
       }
       return msg
     })

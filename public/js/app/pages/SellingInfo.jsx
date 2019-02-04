@@ -170,9 +170,8 @@ class SellingInfo extends Component {
   doSubmit (event) {
     event.preventDefault()
     const adminStore = this.props.adminStore
-    const value = this.state.sellingText
     const courseCode = adminStore.courseAdminData.courseTitleData.course_code
-    adminStore.doUpsertItem(value, courseCode, this.state.textLang).then(() => {
+    adminStore.doUpsertItem(this.state.sellingText, courseCode, this.state.textLang).then(() => {
       console.log('didSubmit')
       this.setState({
         hasDoneSubmit: true,
