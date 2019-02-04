@@ -83,7 +83,7 @@ class AdminStore {
     return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then((res) => {
 
       const course = res.data
-      const otherLang = lang === 'en' ? 'en' : 'sv'
+      const otherLang = lang === 'en' ? 'sv' : 'en'
 
       const courseTitleData = {
         course_code: this.isValidData(course.code),

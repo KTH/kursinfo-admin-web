@@ -12,7 +12,7 @@ class CourseTitle extends Component {
         <h1><span property='aiiso:code'>{title.course_code}</span>
           <span property='teach:courseTitle'> {title.course_title}</span>
           <span content={title.course_credits} datatype='xsd:decimal' property='teach:ects'>
-            {this.props.language === 'en' ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 'en' ? 'credits' : 'hp'}
+            &nbsp;{this.props.language === 'en' ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 'en' ? 'credits' : 'hp'}
           </span>
         </h1>
         <p property='teach:courseTitle'>{title.course_other_title}</p>
