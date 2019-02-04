@@ -130,7 +130,7 @@ class SellingInfo extends Component {
   doCancel (event) {
     event.preventDefault()
     this.setState({
-      sellingText: this.props.adminStore.sellingText,
+      sellingText: this.props.adminStore.sellingText.sv,
       editDescription: false,
       enteredEditMode: false,
       hasDoneSubmit: false,
