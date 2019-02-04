@@ -177,7 +177,9 @@ class SellingInfo extends Component {
         hasDoneSubmit: true,
         editDescription: false,
         isError: false,
-        enteredEditMode: false
+        enteredEditMode: false,
+        textLang: 'sv',
+        sellingText: this.props.adminStore.sellingText.sv
       })
     }).catch(err => {
       console.log('#########Eroror', err) // TODO: improve error handling
