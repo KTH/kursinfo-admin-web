@@ -343,6 +343,9 @@ class SellingInfo extends Component {
             </span>
           </div>
         )}
+        <span className='Header--Button'>
+          <a href={`/admin/kurser/kurs/${courseAdminData.courseTitleData.course_code}/my`} class='link-back'>Översikt av mina kurser</a>
+        </span>
       </div>
     )
   }

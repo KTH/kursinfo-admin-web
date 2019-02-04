@@ -20,8 +20,8 @@ let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
   getDescription: _getDescription,
-  updateDescription: _updateDescription
-  // reviewDescription: _reviewDescription
+  updateDescription: _updateDescription,
+  myCourses: _my_courses
 }
 
 const paths = require('../server').getPaths()
@@ -48,7 +48,7 @@ async function _getDescription (req, res, next) {
       context
     }, appFactory())
 
-    console.log('==========================RENDER PROPS=========================', renderProps)
+    console.log('==========================RENDER session=========================', req.session)
 
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingText(respSellingText.body, lang)
@@ -73,6 +73,41 @@ async function _getDescription (req, res, next) {
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
+    next(err)
+  }
+}
+
+async function _my_courses (req, res, next) {
+  if (process.env['NODE_ENV'] === 'development') {
+    delete require.cache[require.resolve('../../dist/js/server/app.js')]
+    const tmp = require('../../dist/js/server/app.js')
+    appFactory = tmp.appFactory
+    doAllAsyncBefore = tmp.doAllAsyncBefore
+  }
+  try {
+    //     // like getItem function in adminClien.J
+    // const context = {}
+    // const renderProps = createElement(StaticRouter, {
+    //   location: req.url,
+    //   context
+    // }, appFactory())
+
+    console.log('==========================RENDER session=========================', )
+    const user = req.session.authUser.memberOf
+    // renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
+    // renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
+
+    res.render('course/my_course', {
+      debug: 'debug' in req.query,
+      html: user, // JSON.stringify(user)
+      courseCode: req.params.courseCode
+      // paths: JSON.stringify(paths)
+      // initialState: JSON.stringify(hydrateStores(renderProps))
+          // data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
+          // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
+    })
+  } catch (err) {
+    log.error('Error in _my_courses', { error: err })
     next(err)
   }
 }
