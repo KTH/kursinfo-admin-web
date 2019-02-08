@@ -3,7 +3,6 @@
 const api = require('../api')
 // const sanitize = require('sanitize-html')
 
-const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
@@ -11,7 +10,6 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter, BrowserRouter } = require('inferno-router')
 const { toJS } = require('mobx')
-const InfernoServer = require('inferno-server')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -19,14 +17,12 @@ const serverConfig = require('../configuration').server
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
-  getDescription: _getDescription,
-  updateDescription: _updateDescription,
-  myCourses: _my_courses
+  getAdminStart: _getAdminStart
 }
 
 const paths = require('../server').getPaths()
 
-async function _getDescription (req, res, next) {
+async function _getAdminStart (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -37,10 +33,7 @@ async function _getDescription (req, res, next) {
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    // like getItem function in adminClien.JS
-    const client = api.nodeApi.client
     const paths = api.nodeApi.paths
-    const respSellingText = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
@@ -48,10 +41,7 @@ async function _getDescription (req, res, next) {
       context
     }, appFactory())
 
-    console.log('==========================RENDER session=========================', req.session)
-
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingText(respSellingText.body, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
@@ -71,52 +61,7 @@ async function _getDescription (req, res, next) {
       // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
     })
   } catch (err) {
-    log.error('Error in _getDescription', { error: err })
-    next(err)
-  }
-}
-
-async function _my_courses (req, res, next) {
-  if (process.env['NODE_ENV'] === 'development') {
-    delete require.cache[require.resolve('../../dist/js/server/app.js')]
-    const tmp = require('../../dist/js/server/app.js')
-    appFactory = tmp.appFactory
-    doAllAsyncBefore = tmp.doAllAsyncBefore
-  }
-  try {
-    const user = req.session.authUser.memberOf
-
-    res.render('course/my_course', {
-      debug: 'debug' in req.query,
-      html: user, // JSON.stringify(user)
-      courseCode: req.params.courseCode
-    })
-  } catch (err) {
-    log.error('Error in _my_courses', { error: err })
-    next(err)
-  }
-}
-
-async function _updateDescription (req, res, next) {
-  try {
-    const client = api.nodeApi.client
-    const apipaths = api.nodeApi.paths
-    let lang = language.getLanguage(res) || 'sv'
-
-    const result = await client.postAsync({
-      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
-      body: {sellingText: req.body.sellingText, lang},
-      useCache: false
-    })
-    // TODO: fix what to do if there is a validation error
-    if (safeGet(() => result.body.message)) {
-      log.error('Error from API: ', result.body.message)
-      // throw new Error(result.body.message)
-    }
-    log.info('Selling text updated in kursinfo api')
-    return res.json(result)
-  } catch (err) {
-    log.error('Error in _updateDescription', { error: err })
+    log.error('Error in _getAdminStart', { error: err })
     next(err)
   }
 }
