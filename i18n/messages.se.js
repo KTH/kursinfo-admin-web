@@ -38,7 +38,7 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
   alertMessages: {
-    success: 'Texten uppdaterad',
+    success: 'Data sparades',
     over_text_limit: 'Din texten måste vara mindre än 1 500 tecken',
     over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
     api_error: 'Failed to post data to API'
