@@ -171,7 +171,7 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, SellingInfo } = require('./controllers')
+const { System, SellingInfo, AdminPagesCtrl } = require('./controllers')
 const { requireRole } = require('./authentication')
 
 // System routes
@@ -184,8 +184,9 @@ server.use('/', systemRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
-appRoute.get('course.getDescription', config.proxyPrefixPath.uri + '/:courseCode', getServerGatewayLogin(), requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.getDescription)
-appRoute.get('course.myCourses', config.proxyPrefixPath.uri + '/:courseCode/my', getServerGatewayLogin(), /* requireRole('isCourseResponsible', 'isExaminator'),*/ SellingInfo.myCourses)
+appRoute.get('course.myCourses', config.proxyPrefixPath.uri + '/:courseCode/my', getServerGatewayLogin(), SellingInfo.myCourses)
+appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator'), AdminPagesCtrl.getAdminStart)
+appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.getDescription)
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', getServerGatewayLogin(), requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.updateDescription)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), /* requireRole('isCourseResponsible', 'isExaminator'),*/ SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
