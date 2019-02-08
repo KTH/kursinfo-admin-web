@@ -24,7 +24,12 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
-  @observable sellingText = undefined
+  // @observable sellingText = undefined
+  @observable sellingText = {
+    en: undefined,
+    sv: undefined
+  }
+  @observable hasDoneSubmit = false
 
   buildApiUrl (path, params) {
     let host
@@ -65,11 +70,10 @@ class AdminStore {
   }
 
   @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
-
-    this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
+    // this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
     this.sellingText = {
-      en: safeGet(() => data.sellingText_en, 'No data'),
-      sv: safeGet(() => data.sellingText_sv, 'No data')
+      en: safeGet(() => data.sellingText_en, ''),
+      sv: safeGet(() => data.sellingText_sv, '')
     }
   }
 
@@ -78,7 +82,6 @@ class AdminStore {
   }
   // TODO: REWRITE TO ASYNC/AWAIT BUT IT WILL CRUSH EVENT HANDLING SO NEED EXTRA PACKETS, MAYBE BABEL-POLYFILL
   @action getCourseRequirementFromKopps (courseCode, lang = 'sv') {
-
 
     return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then((res) => {
 
@@ -91,18 +94,17 @@ class AdminStore {
         course_other_title: this.isValidData(course.title[otherLang]),
         course_credits: this.isValidData(course.credits)
       }
-      const koppsCourseDesc = {
+      const koppsCourseDesc = { // kopps recruitmentText
         sv: this.isValidData(course.info.sv),
-        en: this.isValidData(course.info.en) // kopps recruitmentText
+        en: this.isValidData(course.info.en)
       }
-      console.log('!!Got a kopps description of data: OK !!')
 
       this.courseAdminData = {
         koppsCourseDesc,
         courseTitleData,
         lang
       }
-    }).catch(err => { // console.log(err.response);
+    }).catch(err => {
       if (err.response) {
         throw new Error(err.message, err.response.data)
       }
