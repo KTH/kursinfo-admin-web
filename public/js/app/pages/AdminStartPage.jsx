@@ -25,7 +25,7 @@ class AdminStartPage extends Component {
     const courseAdminData = adminStore['courseAdminData']
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
-    console.log('windowddd', this.props.location.data)
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
@@ -40,7 +40,7 @@ class AdminStartPage extends Component {
         : ''
         }
         <div>
-          <span className='Header--Button'>
+          <span className='Header--Link'>
             <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} class='link-back'>{i18n.messages[lang].sellingTextButtons.button_course_info}</a>
           </span>
           <span className='AdminPage--ShowDescription row'>
@@ -48,7 +48,6 @@ class AdminStartPage extends Component {
               <CardBody>
                 <CardTitle>{i18n.messages[lang].startCards.sellingText_hd}</CardTitle>
                 <CardText>{i18n.messages[lang].startCards.sellingText_desc}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
               <CardFooter className='text-right'>
                 <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-primary'>{i18n.messages[lang].startCards.sellingText_btn}</a>
@@ -81,7 +80,7 @@ class AdminStartPage extends Component {
             </Card>
           </span>
         </div>
-        <span className='Header--Button'>
+        <span className='Header--Link'>
           <a href={`/admin/kurser/kurs/${courseCode}/my`} class='link-back'>Översikt av mina kurser</a>
         </span>
       </div>
