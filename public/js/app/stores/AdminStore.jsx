@@ -72,8 +72,8 @@ class AdminStore {
   @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
     // this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
     this.sellingText = {
-      en: safeGet(() => data.sellingText_en, ''),
-      sv: safeGet(() => data.sellingText_sv, '')
+      en: safeGet(() => data.sellingText.en, ''),
+      sv: safeGet(() => data.sellingText.sv, '')
     }
   }
 
@@ -112,8 +112,8 @@ class AdminStore {
     })
   }
 
-  @action doUpsertItem (text, courseCode, textLang) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}?l=${textLang}`, {sellingText: text}, this._getOptions())
+  @action doUpsertItem (text, courseCode) {
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}`, {sellingText: text}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
@@ -121,7 +121,7 @@ class AdminStore {
         msg = res.data.body.message
         throw new Error(res.data.body.message)
       } else {
-        this.sellingText[textLang] = text
+        this.sellingText = text
       }
       return msg
     })
