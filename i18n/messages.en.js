@@ -44,21 +44,21 @@ module.exports = {
     api_error: 'Failed to post data to API'
   },
   startCards: {
-    sellingText_hd: 'Selling text',
-    sellingText_desc: 'Add selling text to clarify why students should choose this course',
+    sellingText_hd: 'Selling description',
+    sellingText_desc: 'Add a selling text to attract students to the course',
     sellingText_btn: 'Edit selling text',
     coursePM_hd: 'Course-PM',
-    coursePM_desc: 'Upload course-PM as PDF file',
-    coursePM_btn: 'Upload file(s)',
+    coursePM_desc: 'Create course pm as PDF',
+    coursePM_btn: 'Create',
     courseDev_hd: 'Course development',
     courseDev_decs: 'Add a course development information to show course progress and control automated information',
-    courseDev_btn: 'Edit info'
+    courseDev_btn: 'Edit'
   },
   sellingTextButtons: {
     button_cancel: 'Cancel',
     button_change: 'Change text',
     button_preview: 'Preview',
-    button_course_info: 'To course information',
+    button_course_info: 'Course information',
     button_submit: 'Publish'
   },
   sellingTextLabels: {

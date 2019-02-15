@@ -44,21 +44,21 @@ module.exports = {
     api_error: 'Failed to post data to API'
   },
   startCards: {
-    sellingText_hd: 'Kurssäljande information',
-    sellingText_desc: 'Lägg till kurssäljande information för att tydligare förklare varför studenter behöver den kursen',
-    sellingText_btn: 'Redigera text',
+    sellingText_hd: 'Säljande beskrivning',
+    sellingText_desc: 'Lägg till säljande beskrivning för att väcka studenternas intresse för kursen inför kursval',
+    sellingText_btn: 'Redigera',
     coursePM_hd: 'Kurs-PM',
-    coursePM_desc: 'Lägg till kurs-pm information som PDF',
-    coursePM_btn: 'Ladda up file',
+    coursePM_desc: 'Skapa kurs-pm i form av PDF',
+    coursePM_btn: 'Skapa',
     courseDev_hd: 'Kursutveckling',
     courseDev_decs: 'Lägg till Kursutveckling information för att studenter kan titta hur kursen utvecklas',
-    courseDev_btn: 'Redigera info'
+    courseDev_btn: 'Redigera'
   },
   sellingTextButtons: {
     button_cancel: 'Avbryt',
-    button_change: 'Redigera text',
+    button_change: 'Redigera',
     button_preview: 'Förhandsgranska',
-    button_course_info: 'Till kursinformationssida',
+    button_course_info: 'Kursinformationssida',
     button_submit: 'Publicera'
   },
   sellingTextLabels: {
