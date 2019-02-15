@@ -47,6 +47,7 @@ module.exports = {
     sellingText_hd: 'Säljande beskrivning',
     sellingText_desc: 'Lägg till säljande beskrivning för att väcka studenternas intresse för kursen inför kursval',
     sellingText_btn: 'Redigera',
+    sellingText_alt: 'Redigera säljande beskrivning',
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Skapa kurs-pm i form av PDF',
     coursePM_btn: 'Skapa',
@@ -62,12 +63,13 @@ module.exports = {
     button_submit: 'Publicera'
   },
   sellingTextLabels: {
-    label_kopps_text: 'Kortbeskrivning som finns i KOPPS',
-    label_selling_text: 'Kurssäljande information',
+    label_kopps_text: 'Kortbeskrivning i KOPPS',
+    label_selling_text: 'Säljande beskrivning',
     label_selling_info: 'Fyll i text nedan för att ersätta kortbeskrivningen från KOPPS. Lämna tomt om du vill behålla kortbeskrivningen från KOPPS.',
-    label_selling_text_length: 'Maximalt antal tecken är 1500. Antal tecken kvar att använda: ',
-    label_en: 'Engelska text',
-    label_sv: 'Svenska text'
+    label_selling_text_length: 'Maximalt antal tecken är 1500.',
+    label_left_number_letters: 'Antal tecken kvar att använda:',
+    label_en: 'Engelsk text',
+    label_sv: 'Svensk text'
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',

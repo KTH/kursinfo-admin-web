@@ -46,7 +46,8 @@ module.exports = {
   startCards: {
     sellingText_hd: 'Selling description',
     sellingText_desc: 'Add a selling text to attract students to the course',
-    sellingText_btn: 'Edit selling text',
+    sellingText_btn: 'Edit',
+    sellingText_alt: 'Edit a selling description',
     coursePM_hd: 'Course-PM',
     coursePM_desc: 'Create course pm as PDF',
     coursePM_btn: 'Create',
