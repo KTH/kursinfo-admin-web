@@ -40,7 +40,7 @@ async function _getDescription (req, res, next) {
     // like getItem function in adminClien.JS
     const client = api.nodeApi.client
     const paths = api.nodeApi.paths
-    const respSellingText = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
+    const respSellingDesc = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
@@ -51,7 +51,7 @@ async function _getDescription (req, res, next) {
     console.log('==========================RENDER session=========================', req.session)
 
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingText(respSellingText.body, lang)
+    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellingDesc.body, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
