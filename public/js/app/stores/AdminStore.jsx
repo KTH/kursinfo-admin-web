@@ -30,6 +30,7 @@ class AdminStore {
     sv: undefined
   }
   @observable hasDoneSubmit = false
+  @observable image = '#'
 
   buildApiUrl (path, params) {
     let host
@@ -69,12 +70,13 @@ class AdminStore {
     return options
   }
 
-  @action addSellingText (data, lang = 'sv') { // Fetched text from api send here to the store
+  @action addSellingTextAndImage (data, lang = 'sv') { // Fetched text from api send here to the store
     // this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
+    this.image = safeGet(() => data.imageInfo, '#')
   }
 
   isValidData (dataObject, language = 0) {
@@ -82,16 +84,11 @@ class AdminStore {
   }
   // TODO: REWRITE TO ASYNC/AWAIT BUT IT WILL CRUSH EVENT HANDLING SO NEED EXTRA PACKETS, MAYBE BABEL-POLYFILL
   @action getCourseRequirementFromKopps (courseCode, lang = 'sv') {
-
-    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then((res) => {
-
+    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then(res => {
       const course = res.data
-      const otherLang = lang === 'en' ? 'sv' : 'en'
-
       const courseTitleData = {
         course_code: this.isValidData(course.code),
         course_title: this.isValidData(course.title[lang]),
-        course_other_title: this.isValidData(course.title[otherLang]),
         course_credits: this.isValidData(course.credits)
       }
       const koppsCourseDesc = { // kopps recruitmentText
