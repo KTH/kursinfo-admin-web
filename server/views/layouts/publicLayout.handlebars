@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='sv'>
   <head>
     <title>KTH | {{title}}</title>
     <meta charset="utf-8">
@@ -9,10 +9,10 @@
     <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
 
     {{#if canonicalUrl}}
-      <link href="{{canonicalUrl}}" rel="canonical">
+      <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
     {{/if}}
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    {{prefixStyle '/static/kth-style/css/kth-bootstrap.min.css' 'styles' 'screen'}}
+    {{!-- <link rel='preload' href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> --}}
+    {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
     {{prefixStyle '/static/css/kursinfo-admin-web.css' 'styles' 'screen'}}
 
     {{{render 'styles'}}}
@@ -20,7 +20,7 @@
     {{prefixScript '/static/js/vendor.js' 'head-scripts'}}
     {{prefixScript '/static/browserConfig' 'head-scripts'}}
     {{#extend 'head-scripts'}}
-      <script src="//www.kth.se/social/toolbar/widget.js"></script>
+      <script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>
       <!-- analytics start -->
       {{{blocks.analytics}}}
       <!-- analytics end -->
