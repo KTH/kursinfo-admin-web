@@ -267,7 +267,7 @@ class SellingInfo extends Component {
               </span>
             </span>
             <span className='button_group'>
-              <Link to={`/admin/kurser/kurs/start/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
                 {i18n.messages[lang].sellingTextButtons.button_cancel}
               </Link>
               <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
@@ -276,17 +276,17 @@ class SellingInfo extends Component {
         ) : (
          // <div className='Description--TextBlock row'>
           <Row>
-            <Col sm='2' xs='1'></Col>
-            <Col sm='8' xs='12'>
+            <Col sm='1' xs='1'></Col>
+            <Col sm='10' xs='12'>
               <Row className='courseIntroText'>
-                <Col sm='12' xs='12'>
+                <Col>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
                   <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
                   {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
                 </Col>
               </Row>
               <Row className='courseIntroText'>
-                <Col sm='12' xs='12'>
+                <Col>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
                   <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
                   {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
