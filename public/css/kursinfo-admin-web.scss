@@ -9,12 +9,42 @@
 @import "node_modules/kth-style/public/sass/bootstrap/variables";
 @import "node_modules/bootstrap/scss/mixins";*/
 
+@mixin iconCommon {
+    font-size: 2em;
+    line-height: .5em;
+    vertical-align: middle;
+    position: absolute;
+    left: 0;
+  }
+
+  @keyframes rotateDown {
+    100% {
+      transform: rotate(180deg);
+      transform-origin: 50% 50%;
+    }
+  }
+
+  @keyframes rotateUp {
+    100% {
+      transform: rotate(-180deg);
+      transform-origin: 50% 50%;
+    }
+  }
+
+.courseIntroText{ //Must be the same as in course iformation
+    padding-top:10px;
+    padding-bottom:10px;
+    img {
+        float: left;
+        margin: 8px 20px 10px 0;
+        width:100%;
+        max-width: 400px;
+    }    
+}
+
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
-    // & > * {
-    //     margin-top: 1.5em;
-    // }
 }
 .courseTitle {
     h1 {
@@ -32,33 +62,54 @@
     display: flex;
     justify-content: space-between;
     margin-top: 1em;
-    margin-bottom: .5em; 
+    margin-bottom: .5em;
+    .badge {
+        margin-left: .5em;
+    } 
+    span.left {
+        width: 100%;
+        margin-right: .5em; 
+    }
+    span.right {
+        width: 100%;
+        margin-left: .5em;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .courseIntroText {
+        .card-header {
+            width: 100%;
+            background-color: #007fae;
+        }
+        a.collapse-header  {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 2em;
+            &[aria-expanded~='false'] {
+                &:after {
+                    content: url('pill-dropdown.svg');
+                    @include iconCommon; 
+                    animation: rotateUp .3s ease-in-out forwards;
+                }
+            }
+            &[aria-expanded~='true'] {
+                &:after {
+                    content: url('pill-down.svg');
+                    @include iconCommon;
+                    animation: rotateDown .3s ease-in-out forwards;
+                }
+            }
+        }
+        .card-body {
+            p:first-of-type {
+                margin-bottom: 0;
+            }
+            word-wrap: break-word;
+        }
+        margin-bottom: 1em;
+    }   
 }
-
-// .filter {
-//     margin: 1.6em 0 1em 0;
-//     & > span {
-//         &:nth-child(n+2):before {
-//             content: '| ';
-//             padding: 0 .2em;
-//         }
-//     }
-//     a {
-//         color: #65656c; //$grey;
-//     }
-//     .active {
-//         font-weight: bold;
-//         color: #000000; //$black;
-//         text-decoration: none;
-//         border-bottom: .4ex solid #007fae; //$selectedBlue
-//         margin-bottom: -5ex;
-//         padding-bottom: .4ex;
-//         &:hover {
-//             text-decoration: none;
-//             cursor: default;
-//         }
-//     }
-// }
 
 .button_group {
     display: flex;
@@ -77,30 +128,28 @@
     }
 }
 
+
+
 .TextEditor--SellingInfo {
     margin: 2em 0;
     & > * {
         margin-top: 1.5em;
     }
 }
-.Description--TextBlock {
-    margin: 2em 0;
+// .Description--TextBlock {
+//     margin: 2em 0;
 
-    .alert-success, .alert-warning {
-        margin-bottom: 1.5em;
-    }
-    // & > * {
-    //     margin-top: 1.5em;
-    // }
-}
+//     .alert-success, .alert-warning {
+//         margin-bottom: 1.5em;
+//     }
+// }
 
-.AdminPage--ShowDescription, .AdminPage--ShowMenu { //TODO: remove .AdminPage--ShowDescription,
+.AdminPage--ShowDescription { //TODO: remove .AdminPage--ShowDescription,
     display: flex;
     justify-content: space-between;
-    padding-left: 15px;
     .card {
         max-width: 21em;
         min-width: 18em;
-        margin: 1em .5em;
+        margin-top: 1em;
     }
 }
