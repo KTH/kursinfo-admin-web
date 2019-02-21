@@ -3,18 +3,11 @@ import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 
 import CourseTitle from '../components/CourseTitle.jsx'
-import Container from 'kth-style-inferno-bootstrap/dist/Container'
-import Button from 'inferno-bootstrap/lib/Button'
-// import Col from 'inferno-bootstrap/lib/Col'
-// import Form from 'inferno-bootstrap/lib/Form/Form'
-// import Input from 'inferno-bootstrap/lib/Form/Input'
-// import Row from 'inferno-bootstrap/lib/Row'
 import Card from 'inferno-bootstrap/lib/Card/Card'
 import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
 import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
 import CardText from 'inferno-bootstrap/lib/Card/CardText'
 import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
-import CardLink from 'inferno-bootstrap/lib/Card/CardLink'
 import {Link} from 'inferno-router'
 import Alert from 'inferno-bootstrap/lib/Alert'
 
@@ -31,6 +24,7 @@ class AdminStartPage extends Component {
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
+          pageTitle={i18n.messages[lang].pageTitles.administrate}
           language={courseAdminData.lang}
         />
         {this.props.location.data === 'success' ?
@@ -39,11 +33,11 @@ class AdminStartPage extends Component {
           </Alert>
         : ''
         }
-        <div>
+        <div className='col'>
           <span className='Header--Link'>
             <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} class='link-back'>{i18n.messages[lang].sellingTextButtons.button_course_info}</a>
           </span>
-          <span className='AdminPage--ShowDescription row'>
+          <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
               <CardBody>
                 <CardTitle>{i18n.messages[lang].startCards.sellingText_hd}</CardTitle>
@@ -61,7 +55,6 @@ class AdminStartPage extends Component {
               <CardBody>
                 <CardTitle>{i18n.messages[lang].startCards.coursePM_hd}</CardTitle>
                 <CardText>{i18n.messages[lang].startCards.coursePM_desc}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
               <CardFooter className='text-right'>
                 <Link to='#' className='btn btn-primary'>{i18n.messages[lang].startCards.coursePM_btn}</Link>
@@ -71,11 +64,9 @@ class AdminStartPage extends Component {
               <CardBody>
                 <CardTitle>{i18n.messages[lang].startCards.courseDev_hd}</CardTitle>
                 <CardText>{i18n.messages[lang].startCards.courseDev_decs}</CardText>
-                {/* <CardText><TextBlock text={this.state.sellingText} /></CardText> */}
               </CardBody>
               <CardFooter className='text-right'>
                 <Link to='#' className='btn btn-primary'>{i18n.messages[lang].startCards.courseDev_btn}</Link>
-                {/* <Button onClick={this.doStartCourseDev} color='primary'>{i18n.messages[lang].startCards.courseDev_btn}</Button> */}
               </CardFooter>
             </Card>
           </span>
