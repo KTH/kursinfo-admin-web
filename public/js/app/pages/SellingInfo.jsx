@@ -7,6 +7,17 @@ import Button from 'inferno-bootstrap/lib/Button'
 import Alert from 'inferno-bootstrap/lib/Alert'
 import {Link} from 'inferno-router'
 
+import Card from 'inferno-bootstrap/lib/Card/Card'
+import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
+import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
+import CardText from 'inferno-bootstrap/lib/Card/CardText'
+import CardHeader from 'inferno-bootstrap/lib/Card/CardHeader'
+import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
+
+import Row from 'inferno-bootstrap/dist/Row'
+import Col from 'inferno-bootstrap/dist/Col'
+
+
 function TextBlock ({text}) {
   return (
     <span className='textBlock' dangerouslySetInnerHTML={{__html: text}}>
@@ -14,34 +25,24 @@ function TextBlock ({text}) {
     )
 }
 
-function KoppsText ({text}) {
+function KoppsText ({header, text, label}) {
   return (
-    <div id='courseIntroText'>
-      <TextBlock text={text} />
+    <div className='courseIntroText'>
+      <div className='card collapsible white'>
+        <div className='card-header primary' role='tab' id={'headingWhite' + label}>
+          <h4 className='mb-0'>
+            <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + label} aria-expanded='false' aria-controls={'collapseWhite' + label}>{header}</a>
+          </h4>
+        </div>
+        <div id={'collapseWhite' + label} className='collapse hide' role='tabpanel' aria-labelledby={'headingWhite' + label}>
+          <div className='card-body  col'>
+            <TextBlock text={text} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
-
-// function filterClick (e) {
-//   var selector = e.target.getAttribute('data-lang-selector')
-//   console.log('selector ', selector)
-//   if (selector) {
-//     var filter = e.target.closest('.filter'),
-//       section = filter.closest('.TextEditor--SellingInfo'),
-//       active = filter.querySelector('a.active')
-//     console.log('if selelctore')
-//     if (active) {
-//       console.log('active ')
-//       active.classList.remove('active')
-//       section.classList.remove(active.getAttribute('data-lang-selector'))
-//     }
-//     e.target.classList.add('active')
-//     e.target.blur()
-//     section.classList.add(selector)
-//     e.preventDefault()
-//     e.stopPropagation()
-//   }
-// }
 
 @inject(['adminStore']) @observer
 class SellingInfo extends Component {
@@ -54,15 +55,14 @@ class SellingInfo extends Component {
       leftTextSign_en: undefined,
       enteredEditMode: true,
       hasDoneSubmit: false,
-      isError: false,
-      errMsg: '',
+      isError: false, // TODO: en-sv
+      errMsg: '', // TODO: en-sv
       isKopps: false
     }
     this.doChangeText = this.doChangeText.bind(this)
     this.doPreview = this.doPreview.bind(this)
     this.doSubmit = this.doSubmit.bind(this)
     this.doOpenEditorAndCount = this.doOpenEditorAndCount.bind(this)
-    // this.doSwitchTextLang = this.doSwitchTextLang.bind(this)
   }
 
   componentDidMount () {
@@ -115,23 +115,12 @@ class SellingInfo extends Component {
   doPreview (event) {
     event.preventDefault()
     this.setState({
-      // sellingText: CKEDITOR.instances.editor1.getData(), need to treem and replace empty space
       enteredEditMode: false,
       isError: false
     })
     CKEDITOR.instances.editorSV.destroy(true)
     CKEDITOR.instances.editorEN.destroy(true)
   }
-
-  // doSwitchTextLang (event) {
-  //   filterClick(event)
-  //   const lang = event.target.getAttribute('data-lang-selector')
-  //   this.setState({
-  //     textLang: lang,
-  //     sellingText: this.props.adminStore.sellingText[lang]
-  //   })
-  //   CKEDITOR.instances.editor1.setData(this.state.sellingText)
-  // }
 
   doOpenEditorAndCount () {
     var lang = i18n.isSwedish() ? 'sv' : 'en'
@@ -228,7 +217,7 @@ class SellingInfo extends Component {
       } else if (cleanText.trim().length === 0) {
         this.setState({
           sellingText_en: '',
-          errMsg: 'Om säljande text är tomt då ersättades det med kopps kortberskrivning'
+          errMsg: ''
         })
       } else {
         this.setState({
@@ -238,76 +227,82 @@ class SellingInfo extends Component {
       console.log('HTLM text length: ', htmlTextLen)
       this.setState({leftTextSign_en: 1500 - cleanTextLen})
     })
-
   }
 
   render ({adminStore}) {
     const courseAdminData = adminStore['courseAdminData']
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
-    console.log('SELLING TEXT sv', this.state.sellingText_sv)
-    console.log('SELLING TEXT en', this.state.sellingText_en)
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
+          pageTitle={this.state.enteredEditMode ? i18n.messages[lang].pageTitles.editSelling : i18n.messages[lang].pageTitles.previewSelling}
           language={courseAdminData.lang}
-            />
+          />
 
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
 
-        <div className='AdminPage--EditDescription col'>
-          {/* ---IF in edit mode or preview mode--- */}
-          {this.state.enteredEditMode ? (
-            <div className='TextEditor--SellingInfo'>
-              {/* ---TEXT Editors for each language--- */}
-              <h3>{i18n.messages[lang].sellingTextLabels.label_kopps_text}</h3>
-              <KoppsText text={courseAdminData.koppsCourseDesc['sv']} />
-              <h3>{i18n.messages[lang].sellingTextLabels.label_selling_text}</h3>
-              <p>{i18n.messages[lang].sellingTextLabels.label_selling_info}</p>
-              <p>{i18n.messages[lang].sellingTextLabels.label_selling_text_length}</p>
-              {/* FILTER */}
-              {/* <p className='filter'>
-                <span><a href='#' onclick={this.doSwitchTextLang} data-lang-selector='sv' className='active'>{i18n.messages[lang].sellingTextLabels.label_sv}</a></span>
-                <span><a href='#' onclick={this.doSwitchTextLang} data-lang-selector='en' className=''>{i18n.messages[lang].sellingTextLabels.label_en}</a></span>
-              </p> */}
-              <span class='Editors--Area'>
-                <span>
-                  <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span class='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-                  <textarea name='editorSV' id='editorSV' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
-                </span>
-                <span>
-                  <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span class='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-                  <textarea name='editorEN' id='editorEN' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
-                </span>
+        {/* ---IF in edit mode or preview mode--- */}
+        {this.state.enteredEditMode ? (
+          <div className='TextEditor--SellingInfo col'>
+            {/* ---TEXT Editors for each language--- */}
+            <p>{i18n.messages[lang].sellingTextLabels.label_selling_info}</p>
+            <span class='Editors--Area'>
+              <span className='left'>
+                <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
+                <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
+                <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
+                <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
+                <textarea name='editorSV' id='editorSV' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
               </span>
-              <span className='button_group'>
-                <Link to={`/admin/kurser/kurs/start/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
-                  {i18n.messages[lang].sellingTextButtons.button_cancel}
-                </Link>
-                <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
+              <span className='right'>
+                <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
+                <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
+                <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
+                <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
+                <textarea name='editorEN' id='editorEN' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
               </span>
-            </div>
-          ) : (
-            <div className='Description--TextBlock'>
-              {/* ---INTRO TEXT Editor 2 steg Granska innan Publicering--- */}
-              <p>Svensk</p>
-              {this.state.sellingText_sv === '' ? <KoppsText text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
-              <p>Engelsk</p>
-              {this.state.sellingText_en === '' ? <KoppsText text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
-
-              <span className='button_group'>
-                <Link to={`/admin/kurser/kurs/start/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+            </span>
+            <span className='button_group'>
+              <Link to={`/admin/kurser/kurs/start/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+                {i18n.messages[lang].sellingTextButtons.button_cancel}
+              </Link>
+              <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
+            </span>
+          </div>
+        ) : (
+         // <div className='Description--TextBlock row'>
+          <Row>
+            <Col sm='2' xs='1'></Col>
+            <Col sm='8' xs='12'>
+              <Row className='courseIntroText'>
+                <Col sm='12' xs='12'>
+                  <h3>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
+                  <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
+                  {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
+                </Col>
+              </Row>
+              <Row className='courseIntroText'>
+                <Col sm='12' xs='12'>
+                  <h3>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
+                  <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
+                  {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
+                </Col>
+              </Row>
+              <Row className='button_group'>
+                <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
                   {i18n.messages[lang].sellingTextButtons.button_cancel}
                 </Link>
                 <Button onClick={this.doChangeText} color='primary'>{i18n.messages[lang].sellingTextButtons.button_change}</Button>
                 <Button onClick={this.doSubmit} color='success'>{i18n.messages[lang].sellingTextButtons.button_submit}</Button>
-              </span>
-            </div>
-          )}
-        </div>
+              </Row>
+            </Col>
+          </Row>
+          // </div>
+        )}
       </div>
     )
   }
