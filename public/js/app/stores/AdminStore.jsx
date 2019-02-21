@@ -76,7 +76,7 @@ class AdminStore {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
-    this.image = safeGet(() => data.imageInfo, '#')
+    this.image = '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#')
   }
 
   isValidData (dataObject, language = 0) {
