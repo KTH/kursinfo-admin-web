@@ -6,6 +6,7 @@ class CourseTitle extends Component {
 
   render () {
     const title = this.props.courseTitleData
+    const pageTitle = this.props.pageTitle
     title.course_credits = title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits + '.0' : title.course_credits
     return (
       <div id='course-title' className='courseTitle col'>
@@ -15,7 +16,7 @@ class CourseTitle extends Component {
             &nbsp;{this.props.language === 'en' ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 'en' ? 'credits' : 'hp'}
           </span>
         </h1>
-        <p property='teach:courseTitle'>{title.course_other_title}</p>
+        <h2>{pageTitle}</h2>
       </div>
     )
   }
