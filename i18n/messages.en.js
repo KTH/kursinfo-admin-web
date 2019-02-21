@@ -43,6 +43,11 @@ module.exports = {
     over_html_limit: 'HTML texten should be less than 10 000 signs',
     api_error: 'Failed to post data to API'
   },
+  pageTitles: {
+    administrate: 'Administrate course information',
+    editSelling: 'Edit a selling description',
+    previewSelling: 'Preview a selling description'
+  },
   startCards: {
     sellingText_hd: 'Selling description',
     sellingText_desc: 'Add a selling text to attract students to the course',
@@ -63,10 +68,11 @@ module.exports = {
     button_submit: 'Publish'
   },
   sellingTextLabels: {
-    label_kopps_text: 'Short description from KOPPS',
-    label_selling_text: 'Course selling text',
-    label_selling_info: 'Fill in the text field to replace the short description from KOPPS. If you want to use KOPPS short description then leave a text field empty',
-    label_selling_text_length: 'The maximum amount of signs is 1500. There is left to use: ',
+    label_kopps_text_en: 'Short description from KOPPS in English',
+    label_kopps_text_sv: 'Short description from KOPPS in Swedish',
+    label_selling_info: 'You can create / edit a selling text of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a selling text',
+    label_max_number_letters: 'The maximum amount of signs is 1500.:',
+    label_left_number_letters: 'Left to use:',
     label_en: 'English text',
     label_sv: 'Swedish text'
   },

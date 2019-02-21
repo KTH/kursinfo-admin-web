@@ -43,6 +43,11 @@ module.exports = {
     over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
     api_error: 'Failed to post data to API'
   },
+  pageTitles: {
+    administrate: 'Administrera kursinformationssida',
+    editSelling: 'Redigera säljande beskrivning',
+    previewSelling: 'Förhandsgranska säljande beskrivning'
+  },
   startCards: {
     sellingText_hd: 'Säljande beskrivning',
     sellingText_desc: 'Lägg till säljande beskrivning för att väcka studenternas intresse för kursen inför kursval',
@@ -63,10 +68,10 @@ module.exports = {
     button_submit: 'Publicera'
   },
   sellingTextLabels: {
-    label_kopps_text: 'Kortbeskrivning i KOPPS',
-    label_selling_text: 'Säljande beskrivning',
-    label_selling_info: 'Fyll i text nedan för att ersätta kortbeskrivningen från KOPPS. Lämna tomt om du vill behålla kortbeskrivningen från KOPPS.',
-    label_selling_text_length: 'Maximalt antal tecken är 1500.',
+    label_kopps_text_en: 'Kortbeskrivning i KOPPS på engleska',
+    label_kopps_text_sv: 'Kortbeskrivning i KOPPS på svenska',
+    label_selling_info: 'Du kan här skapa / redigera säljande beskrivning av kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort säljande beskrivningen nedan',
+    label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_en: 'Engelsk text',
     label_sv: 'Svensk text'
