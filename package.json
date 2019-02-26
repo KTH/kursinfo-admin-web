@@ -28,7 +28,7 @@
   "dependencies": {
     "bluebird": "^3.5.3",
     "body-parser": "^1.15.1",
-    "bootstrap": "^4.1.2",
+    "bootstrap": "^4.3.1",
     "co": "^4.6.0",
     "component-registry": "^0.2.0",
     "cookie-parser": "^1.4.2",
