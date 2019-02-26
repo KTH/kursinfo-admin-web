@@ -78,6 +78,8 @@
         text-align: center;
     }
     .courseIntroText {
+        margin-top: 1em;
+
         .card-header {
             width: 100%;
             background-color: #007fae;
@@ -107,7 +109,6 @@
             }
             word-wrap: break-word;
         }
-        margin-bottom: 1em;
     }   
 }
 

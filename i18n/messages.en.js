@@ -71,7 +71,7 @@ module.exports = {
     label_kopps_text_en: 'Short description from KOPPS in English',
     label_kopps_text_sv: 'Short description from KOPPS in Swedish',
     label_selling_info: 'You can create / edit a selling text of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a selling text',
-    label_max_number_letters: 'The maximum amount of signs is 1500.:',
+    label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     label_en: 'English text',
     label_sv: 'Swedish text'
