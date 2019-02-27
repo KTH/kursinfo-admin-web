@@ -43,6 +43,16 @@ module.exports = {
     over_html_limit: 'HTML texten should be less than 10 000 signs',
     api_error: 'Failed to post data to API'
   },
+  altLabel: {
+    start_link_back: 'To course information page',
+    sellingText_btn: 'Edit selling description',
+    coursePM_btn: 'Create course PM',
+    courseDev_btn: 'Edit course development information',
+    button_preview: 'Preview selling description',
+    button_cancel: 'Cancel and go back to admin start page',
+    button_submit: 'Save and publish selling description',
+    image: 'Picture for a course description decoration'
+  },
   pageTitles: {
     administrate: 'Administrate course information',
     editSelling: 'Edit a selling description',

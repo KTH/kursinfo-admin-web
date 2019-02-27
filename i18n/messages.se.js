@@ -43,6 +43,16 @@ module.exports = {
     over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
     api_error: 'Failed to post data to API'
   },
+  altLabel: {
+    start_link_back: 'Till kursinformationssida',
+    sellingText_btn: 'Redigera säljande beskrivning',
+    coursePM_btn: 'Skapa kurs-pm',
+    courseDev_btn: 'Redigera kursutveckling',
+    button_preview: 'Förhandsgranska säljande beskrivning',
+    button_cancel: 'Avbryt och gå till admin startsida',
+    button_submit: 'Spara och publicera säljande beskrivning',
+    image: 'Bild för kurssidasdekoration'
+  },
   pageTitles: {
     administrate: 'Administrera kursinformationssida',
     editSelling: 'Redigera säljande beskrivning',
