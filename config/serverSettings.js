@@ -7,7 +7,7 @@
  * *************************************************
  *
  */
-const { getEnv, devDefaults, unpackLDAPConfig, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
+const { getEnv, devDefaults, unpackLDAPConfig, unpackKOPPSConfig, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
 const { typeConversion } = require('kth-node-configuration/lib/utils')
 const { safeGet } = require('safe-utils')
 
@@ -16,6 +16,7 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
+const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000') // required=true&
 const devSessionKey = devDefaults('kursinfo-admin-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
@@ -57,7 +58,7 @@ module.exports = {
 
   // API keys
   apiKey: {
-    nodeApi: getEnv('API_KEY', devDefaults('1234'))
+    kursinfoApi: getEnv('API_KEY', devDefaults('1234'))
   },
 
   // Authentication
@@ -69,10 +70,11 @@ module.exports = {
     ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL)
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
+  kopps: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // Service API's
   nodeApi: {
-    nodeApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
+    kursinfoApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
   },
 
   redisOptions: unpackRedisConfig('REDIS_URI', devRedis), // TODO, CHECK IF IT IS NEEDED
