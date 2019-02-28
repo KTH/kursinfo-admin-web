@@ -1,5 +1,4 @@
 import { Component } from 'inferno'
-import i18n from '../../../../i18n'
 import { EMPTY } from '../util/constants'
 
 class CourseTitle extends Component {
