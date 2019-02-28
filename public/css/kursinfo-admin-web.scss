@@ -112,6 +112,11 @@
     }   
 }
 
+.alert {
+    max-width: 100em;
+    margin: 15px;
+}
+
 .button_group {
     display: flex;
     justify-content: flex-end;
