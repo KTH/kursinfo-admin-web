@@ -61,7 +61,7 @@ async function _getDescription (req, res, next) {
       routes: renderProps.props.children.props.children.props.children.props.children
     })
     const html = renderToString(renderProps)
-    // res.flush()
+    res.flush()
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,
