@@ -6,17 +6,8 @@ import CourseTitle from '../components/CourseTitle.jsx'
 import Button from 'inferno-bootstrap/lib/Button'
 import Alert from 'inferno-bootstrap/lib/Alert'
 import {Link} from 'inferno-router'
-
-import Card from 'inferno-bootstrap/lib/Card/Card'
-import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
-import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
-import CardText from 'inferno-bootstrap/lib/Card/CardText'
-import CardHeader from 'inferno-bootstrap/lib/Card/CardHeader'
-import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
-
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-
 
 function TextBlock ({text}) {
   return (
@@ -86,6 +77,7 @@ class SellingInfo extends Component {
 
   doSubmit (event) {
     event.preventDefault()
+    console.log('TRY SUBMIT')
     const adminStore = this.props.adminStore
     const courseCode = adminStore.courseAdminData.courseTitleData.course_code
     const sellingTexts = {
@@ -103,11 +95,12 @@ class SellingInfo extends Component {
         data: 'success'
       })
     }).catch(err => {
+      var langIndex = i18n.isSwedish() ? 1 : 0
       console.log('#########Eroror', err) // TODO: improve error handling
       this.setState({
         hasDoneSubmit: false,
         isError: true,
-        errMsg: 'Failed to post data to API'
+        errMsg: i18n.messages[langIndex].alertMessages.api_error
       })
     })
   }
@@ -124,8 +117,8 @@ class SellingInfo extends Component {
 
   doOpenEditorAndCount () {
     var lang = i18n.isSwedish() ? 'sv' : 'en'
-
-    CKEDITOR.replace('editorSV', {
+    var langIndex = lang === 'en' ? 0 : 1
+    const conf = {
       toolbarGroups: [
         {name: 'mode'},
         {name: 'find'},
@@ -137,96 +130,52 @@ class SellingInfo extends Component {
       removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
       language: lang,
       width: ['550px']
-    })
-    CKEDITOR.instances.editorSV.setData(this.state.sellingText_sv)
-    CKEDITOR.replace('editorEN', {
-      toolbarGroups: [
-        {name: 'mode'},
-        {name: 'find'},
-        {name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ]},
-        {name: 'list'},
-        {name: 'links'},
-        {name: 'about'}
-      ],
-      removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
-      language: lang,
-      width: ['550px']
-    })
-    CKEDITOR.instances.editorEN.setData(this.state.sellingText_en)
+    }
+    const _doCalculateLength = (event, l) => {
+      this.setState({
+        isError: false,
+        errMsg: ''
+      })
+      const cleanText = event.editor.document.getBody().getText().replace(/\n/g, '')
+      const cleanTextLen = cleanText.length
+      const htmlTextLen = event.editor.getData().length
+      if (htmlTextLen > 10000) { // this is max in api
+        this.setState({
+          isError: true,
+          errMsg: i18n.messages[langIndex].alertMessages.over_html_limit
+        })
+      } else if (cleanTextLen > 1500) { // this is an abstract max
+        this.setState({
+          isError: true,
+          errMsg: i18n.messages[langIndex].alertMessages.over_text_limit
+        })
+      } else if (cleanText.trim().length === 0) {
+        this.setState({
+          [`sellingText_${l}`]: ''
+        })
+      } else {
+        this.setState({
+          [`sellingText_${l}`]: event.editor.getData()
+        })
+      }
+      this.setState({[`leftTextSign_${l}`]: 1500 - cleanTextLen})
+    }
 
-    CKEDITOR.instances.editorSV.on('instanceReady', (event) => {
+    ['editorSV', 'editorEN'].map(editorId => {
+      CKEDITOR.replace(editorId, conf)
+    })
+
+    CKEDITOR.instances.editorSV.on('instanceReady', event => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
       this.setState({leftTextSign_sv: 1500 - text.length})
     })
-    CKEDITOR.instances.editorEN.on('instanceReady', (event) => {
+    CKEDITOR.instances.editorEN.on('instanceReady', event => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
       this.setState({leftTextSign_en: 1500 - text.length})
     })
-    CKEDITOR.instances.editorSV.on('change', (event) => {
-      this.setState({
-        isError: false,
-        errMsg: ''
-      })
-      const cleanText = event.editor.document.getBody().getText().replace(/\n/g, '')
-      const cleanTextLen = cleanText.length
-      console.log('cleanTextLencleanTextLen', cleanText.trim().length)
-      const htmlTextLen = event.editor.getData().length
-      if (htmlTextLen > 10000) { // this is max in api
-        this.setState({
-          isError: true,
-          errMsg: 'Din html texten måste vara mindre än 10 000 tecken'
-        })
-      } else if (cleanTextLen > 1500) { // this is an abstract max
-        this.setState({
-          isError: true,
-          errMsg: 'Din texten måste vara mindre än 1 500 tecken'
-        })
-      } else if (cleanText.trim().length === 0) {
-        this.setState({
-          sellingText_sv: '',
-          errMsg: 'Om säljande text är tomt då ersättades det med kopps kortberskrivning'
-        })
-      } else {
-        this.setState({
-          sellingText_sv: event.editor.getData()
-        })
-      }
-      console.log('HTLM text length: ', htmlTextLen)
-      this.setState({leftTextSign_sv: 1500 - cleanTextLen})
-    })
+    CKEDITOR.instances.editorSV.on('change', event => _doCalculateLength(event, 'sv'))
 
-    CKEDITOR.instances.editorEN.on('change', (event) => {
-      this.setState({
-        isError: false,
-        errMsg: ''
-      })
-      const cleanText = event.editor.document.getBody().getText().replace(/\n/g, '')
-      const cleanTextLen = cleanText.length
-      console.log('cleanTextLencleanTextLen', cleanText.trim().length)
-      const htmlTextLen = event.editor.getData().length
-      if (htmlTextLen > 10000) { // this is max in api
-        this.setState({
-          isError: true,
-          errMsg: 'Din html texten måste vara mindre än 10 000 tecken'
-        })
-      } else if (cleanTextLen > 1500) { // this is an abstract max
-        this.setState({
-          isError: true,
-          errMsg: 'Din texten måste vara mindre än 1 500 tecken'
-        })
-      } else if (cleanText.trim().length === 0) {
-        this.setState({
-          sellingText_en: '',
-          errMsg: ''
-        })
-      } else {
-        this.setState({
-          sellingText_en: event.editor.getData()
-        })
-      }
-      console.log('HTLM text length: ', htmlTextLen)
-      this.setState({leftTextSign_en: 1500 - cleanTextLen})
-    })
+    CKEDITOR.instances.editorEN.on('change', event => _doCalculateLength(event, 'en'))
   }
 
   render ({adminStore}) {
@@ -256,21 +205,21 @@ class SellingInfo extends Component {
                 <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
                 <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
                 <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-                <textarea name='editorSV' id='editorSV' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
+                <textarea name='editorSV' id='editorSV' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
               </span>
               <span className='right'>
                 <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
                 <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
                 <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
                 <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-                <textarea name='editorEN' id='editorEN' style='visibility: hidden; display: none;'>{this.state.sellingText}</textarea>
+                <textarea name='editorEN' id='editorEN' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
             <span className='button_group'>
-              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={i18n.messages[lang].altLabel.button_cancel}>
                 {i18n.messages[lang].sellingTextButtons.button_cancel}
               </Link>
-              <Button onClick={this.doPreview} color='primary' disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
+              <Button onClick={this.doPreview} color='primary' alt={i18n.messages[lang].altLabel.button_preview} disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
             </span>
           </div>
         ) : (
@@ -281,14 +230,14 @@ class SellingInfo extends Component {
               <Row className='courseIntroText'>
                 <Col>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
-                  <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
+                  <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
                 </Col>
               </Row>
               <Row className='courseIntroText'>
                 <Col>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
-                  <img src={this.props.adminStore.image} alt='' height='auto' width='300px' />
+                  <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
                 </Col>
               </Row>
@@ -296,8 +245,8 @@ class SellingInfo extends Component {
                 <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
                   {i18n.messages[lang].sellingTextButtons.button_cancel}
                 </Link>
-                <Button onClick={this.doChangeText} color='primary'>{i18n.messages[lang].sellingTextButtons.button_change}</Button>
-                <Button onClick={this.doSubmit} color='success'>{i18n.messages[lang].sellingTextButtons.button_submit}</Button>
+                <Button onClick={this.doChangeText} color='primary' alt={i18n.messages[lang].altLabel.button_cancel}>{i18n.messages[lang].sellingTextButtons.button_change}</Button>
+                <Button onClick={this.doSubmit} color='success' alt={i18n.messages[lang].altLabel.button_submit}>{i18n.messages[lang].sellingTextButtons.button_submit}</Button>
               </Row>
             </Col>
           </Row>

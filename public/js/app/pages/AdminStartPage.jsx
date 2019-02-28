@@ -35,7 +35,7 @@ class AdminStartPage extends Component {
         }
         <div className='col'>
           <span className='Header--Link'>
-            <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} class='link-back'>{i18n.messages[lang].sellingTextButtons.button_course_info}</a>
+            <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} alt={i18n.messages[lang].altLabel.start_link_back} class='link-back'>{i18n.messages[lang].sellingTextButtons.button_course_info}</a>
           </span>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
@@ -44,7 +44,7 @@ class AdminStartPage extends Component {
                 <CardText>{i18n.messages[lang].startCards.sellingText_desc}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-primary'>{i18n.messages[lang].startCards.sellingText_btn}</a>
+                <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`} alt={i18n.messages[lang].altLabel.sellingText_btn} className='btn btn-primary'>{i18n.messages[lang].startCards.sellingText_btn}</a>
                 {/* <Link to={{ pathname: `/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`,
                 data: 'hello'
                 }} className='btn btn-primary' onClick={this.doStartSellingText}>{i18n.messages[lang].startCards.sellingText_btn}</Link> */}
@@ -57,7 +57,7 @@ class AdminStartPage extends Component {
                 <CardText>{i18n.messages[lang].startCards.coursePM_desc}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <Link to='#' className='btn btn-primary'>{i18n.messages[lang].startCards.coursePM_btn}</Link>
+                <Link to='#' className='btn btn-primary' alt={i18n.messages[lang].altLabel.coursePM_btn}>{i18n.messages[lang].startCards.coursePM_btn}</Link>
               </CardFooter>
             </Card>
             <Card>
@@ -66,13 +66,13 @@ class AdminStartPage extends Component {
                 <CardText>{i18n.messages[lang].startCards.courseDev_decs}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <Link to='#' className='btn btn-primary'>{i18n.messages[lang].startCards.courseDev_btn}</Link>
+                <Link to='#' className='btn btn-primary' alt={i18n.messages[lang].altLabel.courseDev_btn}>{i18n.messages[lang].startCards.courseDev_btn}</Link>
               </CardFooter>
             </Card>
           </span>
         </div>
         <span className='Header--Link'>
-          <a href={`/admin/kurser/kurs/${courseCode}/my`} class='link-back'>Översikt av mina kurser</a>
+          <a href={`/admin/kurser/kurs/${courseCode}/my`} class='link-back' alt='Översikt av mina kurser'>Översikt av mina kurser</a>
         </span>
       </div>
     )
