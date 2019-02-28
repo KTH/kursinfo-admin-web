@@ -38,8 +38,8 @@ async function _getDescription (req, res, next) {
 
   try {
     // like getItem function in adminClien.JS
-    const client = api.nodeApi.client
-    const paths = api.nodeApi.paths
+    const client = api.kursinfoApi.client
+    const paths = api.kursinfoApi.paths
     const respSellingDesc = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
     // Render inferno app
     const context = {}
@@ -61,14 +61,14 @@ async function _getDescription (req, res, next) {
       routes: renderProps.props.children.props.children.props.children.props.children
     })
     const html = renderToString(renderProps)
-
+    res.flush()
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,
       paths: JSON.stringify(paths),
-      initialState: JSON.stringify(hydrateStores(renderProps))
+      initialState: JSON.stringify(hydrateStores(renderProps)),
       // data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
-      // error: resp.statusCode !== 200 ? safeGet(() => { return resp.body.message }) : ''
+      error: respSellingDesc.statusCode !== 200 ? safeGet(() => { return respSellingDesc.body.message }) : ''
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
@@ -99,8 +99,8 @@ async function _my_courses (req, res, next) {
 
 async function _updateDescription (req, res, next) {
   try {
-    const client = api.nodeApi.client
-    const apipaths = api.nodeApi.paths
+    const client = api.kursinfoApi.client
+    const apipaths = api.kursinfoApi.paths
     let lang = language.getLanguage(res) || 'sv'
 
     const result = await client.postAsync({

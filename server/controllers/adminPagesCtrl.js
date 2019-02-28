@@ -33,7 +33,7 @@ async function _getAdminStart (req, res, next) {
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    const paths = api.nodeApi.paths
+    // const paths = api.kursinfoApi.paths
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
