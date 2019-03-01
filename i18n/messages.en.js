@@ -38,7 +38,7 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   alertMessages: {
-    success: 'Data has been saved successfully',
+    success: 'New version of selling description has been published in english and swedish languages.',
     over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
     over_html_limit: 'HTML texten should be less than 10 000 signs',
     api_error: 'Failed to post data to API'
