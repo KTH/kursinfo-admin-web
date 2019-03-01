@@ -19,12 +19,10 @@ const serverConfig = require('../configuration').server
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
-  getDescription: _getDescription,
-  updateDescription: _updateDescription,
-  myCourses: _my_courses
+  getDescription: co.wrap(_getDescription),
+  updateDescription: co.wrap(_updateDescription),
+  myCourses: co.wrap(_my_courses)
 }
-
-const paths = require('../server').getPaths()
 
 async function _getDescription (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
@@ -61,7 +59,6 @@ async function _getDescription (req, res, next) {
       routes: renderProps.props.children.props.children.props.children.props.children
     })
     const html = renderToString(renderProps)
-    res.flush()
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,

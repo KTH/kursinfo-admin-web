@@ -2,7 +2,7 @@
 
 const api = require('../api')
 // const sanitize = require('sanitize-html')
-
+const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
@@ -17,7 +17,7 @@ const serverConfig = require('../configuration').server
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
 module.exports = {
-  getAdminStart: _getAdminStart
+  getAdminStart: co.wrap(_getAdminStart)
 }
 
 const paths = require('../server').getPaths()
