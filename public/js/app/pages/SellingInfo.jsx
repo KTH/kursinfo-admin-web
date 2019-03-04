@@ -18,7 +18,7 @@ function TextBlock ({text}) {
 
 function KoppsText ({header, text, label}) {
   return (
-    <div className='courseIntroText'>
+    <div className='courseIntroTextCollapse'>
       <div className='card collapsible'>
         <div className='card-header primary' role='tab' id={'headingWhite' + label}>
           <h4 className='mb-0'>
@@ -199,15 +199,15 @@ class SellingInfo extends Component {
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
             <p>{i18n.messages[lang].sellingTextLabels.label_selling_info}</p>
-            <span class='Editors--Area'>
-              <span className='left'>
+            <span class='Editors--Area' key='editorsArea'>
+              <span className='left' key='leftEditorForSwedish'>
                 <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
                 <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
                 <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
                 <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
                 <textarea name='editorSV' id='editorSV' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
               </span>
-              <span className='right'>
+              <span className='right' key='rightEditorForEnglish'>
                 <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
                 <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
                 <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
@@ -215,7 +215,7 @@ class SellingInfo extends Component {
                 <textarea name='editorEN' id='editorEN' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
-            <span className='button_group'>
+            <span className='button_group' key='controlButtons'>
               <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={i18n.messages[lang].altLabel.button_cancel}>
                 {i18n.messages[lang].sellingTextButtons.button_cancel}
               </Link>
@@ -223,19 +223,18 @@ class SellingInfo extends Component {
             </span>
           </div>
         ) : (
-         // <div className='Description--TextBlock row'>
-          <Row>
-            <Col sm='1' xs='1'></Col>
-            <Col sm='10' xs='12'>
+          <Row id='pageContainer' key='pageContainer'>
+            {/* <Col sm='1' xs='1' id='left' key='left'> </Col> */}
+            <Col sm='12' xs='12' lg='10' id='middle' key='middle'>
               <Row className='courseIntroText'>
-                <Col>
+                <Col sm='12' xs='12'>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
                   <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
                 </Col>
               </Row>
               <Row className='courseIntroText'>
-                <Col>
+                <Col sm='12' xs='12'>
                   <h3>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
                   <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
@@ -250,7 +249,6 @@ class SellingInfo extends Component {
               </Row>
             </Col>
           </Row>
-          // </div>
         )}
       </div>
     )
