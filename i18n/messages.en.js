@@ -41,7 +41,8 @@ module.exports = {
     success: 'New version of selling description has been published in english and swedish languages.',
     over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
     over_html_limit: 'HTML texten should be less than 10 000 signs',
-    api_error: 'Failed to post data to API'
+    api_error: 'Failed to post data to API',
+    kopps_api_down: 'Something wrong with KOPPS api therefore some information is missing'
   },
   altLabel: {
     start_link_back: 'To course information page',
