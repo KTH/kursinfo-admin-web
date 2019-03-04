@@ -8,6 +8,7 @@ const globals = {
 }
 
 const { moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
+const { moveHandlebarPages } = require('kth-node-web-common/gulp')
 
 /* Inferno build tasks */
 
@@ -55,13 +56,13 @@ const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask'
 const ckEditorBuild = ckGulp.buildTask(gulp, './node_modules/@kth/kth-ckeditor-build', './dist/js/ckeditor')
 
 gulp.task('vendor', function () {
-  ckEditorBuild(),
+  ckEditorBuild()
   vendor()
 })
 
-// /gulp.task('vendor', vendor)
+gulp.task('moveHandlebarPages', moveHandlebarPages)
 
-gulp.task('moveResources', function () {
+gulp.task('moveResources', ['moveHandlebarPages'], function () {
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
