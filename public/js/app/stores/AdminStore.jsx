@@ -31,6 +31,7 @@ class AdminStore {
   }
   @observable hasDoneSubmit = false
   @observable image = '#'
+  @observable apiError = ''
 
   buildApiUrl (path, params) {
     let host
@@ -89,7 +90,8 @@ class AdminStore {
       const courseTitleData = {
         course_code: this.isValidData(course.code),
         course_title: this.isValidData(course.title[lang]),
-        course_credits: this.isValidData(course.credits)
+        course_credits: this.isValidData(course.credits),
+        apiError: false
       }
       const koppsCourseDesc = { // kopps recruitmentText
         sv: this.isValidData(course.info.sv),
@@ -103,9 +105,22 @@ class AdminStore {
       }
     }).catch(err => {
       if (err.response) {
-        throw new Error(err.message, err.response.data)
+        // throw new Error(err.message, err.response.data)
       }
-      throw err
+      const courseTitleData = {
+        course_code: courseCode.toUpperCase(),
+        apiError: true
+      }
+      const koppsCourseDesc = { // kopps recruitmentText
+        sv: EMPTY,
+        en: EMPTY
+      }
+      this.courseAdminData = {
+        courseTitleData,
+        koppsCourseDesc,
+        lang
+      }
+      // throw err
     })
   }
 

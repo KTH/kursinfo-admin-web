@@ -31,26 +31,34 @@
     }
   }
 
-.courseIntroText{ //Must be the same as in course iformation
+.kursinfo-main-page {    
+    padding-bottom: 3em;
+    padding-top: 2em;
+    //margin-bottom: 20px;
+}
+.courseTitle {
+    margin: 0;
+    margin-top: 20px;
+    h1 {
+        margin-bottom: 0;
+    }
+    .alert {
+        margin-left: 0;
+        //width: 50em;
+    }
+}
+.courseIntroText {
     padding-top:10px;
     padding-bottom:10px;
+    padding-left: .15em;
     img {
         float: left;
         margin: 8px 20px 10px 0;
         width:100%;
         max-width: 400px;
-    }    
-}
-
-.kursinfo-main-page {    
-    padding-bottom: 3em;
-    padding-top: 2em;
-}
-.courseTitle {
-    h1 {
-        margin-bottom: 0;
     }
-}
+} 
+
 .Header--Link {
     display: flex;
     justify-content: flex-start;
@@ -77,8 +85,7 @@
     .text-center {
         text-align: center;
     }
-    .courseIntroText {
-        margin-top: 1em;
+    .courseIntroTextCollapse {   
 
         .card-header {
             width: 100%;
