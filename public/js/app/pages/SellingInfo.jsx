@@ -182,13 +182,15 @@ class SellingInfo extends Component {
     const courseAdminData = adminStore['courseAdminData']
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
+    const translation = i18n.messages[lang]
+    const sellingTextLabels = translation.sellingTextLabels
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={this.state.enteredEditMode ? i18n.messages[lang].pageTitles.editSelling : i18n.messages[lang].pageTitles.previewSelling}
+          pageTitle={this.state.enteredEditMode ? translation.pageTitles.editSelling : translation.pageTitles.previewSelling}
           language={courseAdminData.lang}
           />
 
@@ -198,28 +200,28 @@ class SellingInfo extends Component {
         {this.state.enteredEditMode ? (
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
-            <p>{i18n.messages[lang].sellingTextLabels.label_selling_info}</p>
+            <p>{sellingTextLabels.label_selling_info}</p>
             <span class='Editors--Area' key='editorsArea'>
               <span className='left' key='leftEditorForSwedish'>
-                <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
-                <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
-                <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
-                <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
+                <h3 className='text-center'>{sellingTextLabels.label_sv}</h3>
+                <KoppsText header={sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
+                <p>{sellingTextLabels.label_max_number_letters}</p>
+                <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
                 <textarea name='editorSV' id='editorSV' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
               </span>
               <span className='right' key='rightEditorForEnglish'>
-                <h3 className='text-center'>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
-                <KoppsText header={i18n.messages[lang].sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
-                <p>{i18n.messages[lang].sellingTextLabels.label_max_number_letters}</p>
-                <p>{i18n.messages[lang].sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
+                <h3 className='text-center'>{sellingTextLabels.label_en}</h3>
+                <KoppsText header={sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
+                <p>{sellingTextLabels.label_max_number_letters}</p>
+                <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
                 <textarea name='editorEN' id='editorEN' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
             <span className='button_group' key='controlButtons'>
-              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={i18n.messages[lang].altLabel.button_cancel}>
-                {i18n.messages[lang].sellingTextButtons.button_cancel}
+              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={translation.altLabel.button_cancel}>
+                {translation.sellingTextButtons.button_cancel}
               </Link>
-              <Button onClick={this.doPreview} color='primary' alt={i18n.messages[lang].altLabel.button_preview} disabled={this.state.isError}>{i18n.messages[lang].sellingTextButtons.button_preview}</Button>
+              <Button onClick={this.doPreview} color='primary' alt={translation.altLabel.button_preview} disabled={this.state.isError}>{translation.sellingTextButtons.button_preview}</Button>
             </span>
           </div>
         ) : (
@@ -228,24 +230,24 @@ class SellingInfo extends Component {
             <Col sm='12' xs='12' lg='10' id='middle' key='middle'>
               <Row className='courseIntroText'>
                 <Col sm='12' xs='12'>
-                  <h3>{i18n.messages[lang].sellingTextLabels.label_sv}</h3>
-                  <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
+                  <h3>{sellingTextLabels.label_sv}</h3>
+                  <img src={this.props.adminStore.image} alt={translation.altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
                 </Col>
               </Row>
               <Row className='courseIntroText'>
                 <Col sm='12' xs='12'>
-                  <h3>{i18n.messages[lang].sellingTextLabels.label_en}</h3>
-                  <img src={this.props.adminStore.image} alt={i18n.messages[lang].altLabel.image} height='auto' width='300px' />
+                  <h3>{sellingTextLabels.label_en}</h3>
+                  <img src={this.props.adminStore.image} alt={translation.altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
                 </Col>
               </Row>
               <Row className='button_group'>
                 <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
-                  {i18n.messages[lang].sellingTextButtons.button_cancel}
+                  {translation.sellingTextButtons.button_cancel}
                 </Link>
-                <Button onClick={this.doChangeText} color='primary' alt={i18n.messages[lang].altLabel.button_cancel}>{i18n.messages[lang].sellingTextButtons.button_change}</Button>
-                <Button onClick={this.doSubmit} color='success' alt={i18n.messages[lang].altLabel.button_submit}>{i18n.messages[lang].sellingTextButtons.button_submit}</Button>
+                <Button onClick={this.doChangeText} color='primary' alt={translation.altLabel.button_cancel}>{translation.sellingTextButtons.button_change}</Button>
+                <Button onClick={this.doSubmit} color='success' alt={translation.altLabel.button_submit}>{translation.sellingTextButtons.button_submit}</Button>
               </Row>
             </Col>
           </Row>
