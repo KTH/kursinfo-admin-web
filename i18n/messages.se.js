@@ -37,27 +37,17 @@ module.exports = {
     page_admin: 'ADMIN PÅ KURSINFO',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
-  alertMessages: {
-    success: 'Ny svensk och engelsk version av säljande beskrivning har publicerats på kursinformationssidan',
-    over_text_limit: 'Din texten måste vara mindre än 1 500 tecken',
-    over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
-    api_error: 'Failed to post data to API',
-    kopps_api_down: 'Nånting fel med KOPPS-api så information delvis kommer att saknas'
-  },
-  altLabel: {
-    start_link_back: 'Till kursinformationssida',
-    sellingText_btn: 'Redigera säljande beskrivning',
-    coursePM_btn: 'Skapa kurs-pm',
-    courseDev_btn: 'Redigera kursutveckling',
-    button_preview: 'Förhandsgranska säljande beskrivning',
-    button_cancel: 'Avbryt och gå till admin startsida',
-    button_submit: 'Spara och publicera säljande beskrivning',
-    image: 'Bild för kurssidasdekoration'
-  },
   pageTitles: {
     administrate: 'Administrera kursinformationssida',
     editSelling: 'Redigera säljande beskrivning',
-    previewSelling: 'Förhandsgranska säljande beskrivning'
+    previewSelling: 'Förhandsgranska säljande beskrivning',
+    alertMessages: {
+      success: 'Ny svensk och engelsk version av säljande beskrivning har publicerats på kursinformationssidan',
+      over_text_limit: 'Din texten måste vara mindre än 1 500 tecken',
+      over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
+      api_error: 'Failed to post data to API',
+      kopps_api_down: 'Nånting fel med KOPPS-api så information delvis kommer att saknas'
+    }
   },
   startCards: {
     sellingText_hd: 'Säljande beskrivning',
@@ -69,14 +59,14 @@ module.exports = {
     coursePM_btn: 'Skapa',
     courseDev_hd: 'Kursutveckling',
     courseDev_decs: 'Lägg till Kursutveckling information för att studenter kan titta hur kursen utvecklas',
-    courseDev_btn: 'Redigera'
-  },
-  sellingTextButtons: {
-    button_cancel: 'Avbryt',
-    button_change: 'Redigera',
-    button_preview: 'Förhandsgranska',
-    button_course_info: 'Kursinformationssida',
-    button_submit: 'Publicera'
+    courseDev_btn: 'Redigera',
+    courseInfo_linkBack: 'Kursinformationssida',
+    altLabel: {
+      start_link_back: 'Till kursinformationssida',
+      sellingText_btn: 'Redigera säljande beskrivning',
+      coursePM_btn: 'Skapa kurs-pm',
+      courseDev_btn: 'Redigera kursutveckling'
+    }
   },
   sellingTextLabels: {
     label_kopps_text_en: 'Kortbeskrivning i KOPPS på engleska',
@@ -85,7 +75,20 @@ module.exports = {
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_en: 'Engelsk text',
-    label_sv: 'Svensk text'
+    label_sv: 'Svensk text',
+    sellingTextButtons: {
+      button_cancel: 'Avbryt',
+      button_change: 'Redigera',
+      button_preview: 'Förhandsgranska',
+      button_submit: 'Publicera'
+    },
+    altLabel: {
+      start_link_back: 'Till kursinformationssida',
+      button_preview: 'Förhandsgranska säljande beskrivning',
+      button_cancel: 'Avbryt och gå till admin startsida',
+      button_submit: 'Spara och publicera säljande beskrivning',
+      image: 'Bild för kurssidasdekoration'
+    }
   },
   courseInformationLabels: {
     label_course_syllabus: 'Kursplan',

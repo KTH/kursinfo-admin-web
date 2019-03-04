@@ -118,6 +118,7 @@ class SellingInfo extends Component {
   doOpenEditorAndCount () {
     var lang = i18n.isSwedish() ? 'sv' : 'en'
     var langIndex = lang === 'en' ? 0 : 1
+    const translation = i18n.messages[langIndex].pageTitles.alertMessages
     const conf = {
       toolbarGroups: [
         {name: 'mode'},
@@ -142,12 +143,12 @@ class SellingInfo extends Component {
       if (htmlTextLen > 10000) { // this is max in api
         this.setState({
           isError: true,
-          errMsg: i18n.messages[langIndex].alertMessages.over_html_limit
+          errMsg: translation.over_html_limit
         })
       } else if (cleanTextLen > 1500) { // this is an abstract max
         this.setState({
           isError: true,
-          errMsg: i18n.messages[langIndex].alertMessages.over_text_limit
+          errMsg: translation.over_text_limit
         })
       } else if (cleanText.trim().length === 0) {
         this.setState({
@@ -183,6 +184,7 @@ class SellingInfo extends Component {
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
     const translation = i18n.messages[lang]
+    const pageTitles = translation.pageTitles
     const sellingTextLabels = translation.sellingTextLabels
 
     return (
@@ -218,10 +220,10 @@ class SellingInfo extends Component {
               </span>
             </span>
             <span className='button_group' key='controlButtons'>
-              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={translation.altLabel.button_cancel}>
-                {translation.sellingTextButtons.button_cancel}
+              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={sellingTextLabels.altLabel.button_cancel}>
+                {sellingTextLabels.sellingTextButtons.button_cancel}
               </Link>
-              <Button onClick={this.doPreview} color='primary' alt={translation.altLabel.button_preview} disabled={this.state.isError}>{translation.sellingTextButtons.button_preview}</Button>
+              <Button onClick={this.doPreview} color='primary' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>{sellingTextLabels.sellingTextButtons.button_preview}</Button>
             </span>
           </div>
         ) : (
@@ -231,23 +233,23 @@ class SellingInfo extends Component {
               <Row className='courseIntroText'>
                 <Col sm='12' xs='12'>
                   <h3>{sellingTextLabels.label_sv}</h3>
-                  <img src={this.props.adminStore.image} alt={translation.altLabel.image} height='auto' width='300px' />
+                  <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
                 </Col>
               </Row>
               <Row className='courseIntroText'>
                 <Col sm='12' xs='12'>
                   <h3>{sellingTextLabels.label_en}</h3>
-                  <img src={this.props.adminStore.image} alt={translation.altLabel.image} height='auto' width='300px' />
+                  <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
                   {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
                 </Col>
               </Row>
               <Row className='button_group'>
                 <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
-                  {translation.sellingTextButtons.button_cancel}
+                  {sellingTextLabels.sellingTextButtons.button_cancel}
                 </Link>
-                <Button onClick={this.doChangeText} color='primary' alt={translation.altLabel.button_cancel}>{translation.sellingTextButtons.button_change}</Button>
-                <Button onClick={this.doSubmit} color='success' alt={translation.altLabel.button_submit}>{translation.sellingTextButtons.button_submit}</Button>
+                <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
+                <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
               </Row>
             </Col>
           </Row>

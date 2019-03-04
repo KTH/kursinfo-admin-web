@@ -19,33 +19,35 @@ class AdminStartPage extends Component {
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
     const translation = i18n.messages[lang]
+    const pageTitles = translation.pageTitles
+    const startCards = translation.startCards
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={translation.pageTitles.administrate}
+          pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
         {this.props.location.data === 'success' ?
           <Alert color='success' aria-live='polite'>
-            {translation.alertMessages.success}
+            {pageTitles.alertMessages.success}
           </Alert>
         : ''
         }
         <div className='col'>
           <span className='Header--Link'>
-            <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} alt={translation.altLabel.start_link_back} class='link-back'>{translation.sellingTextButtons.button_course_info}</a>
+            <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} alt={startCards.start_link_back} class='link-back'>{startCards.courseInfo_linkBack}</a>
           </span>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
               <CardBody>
-                <CardTitle>{translation.startCards.sellingText_hd}</CardTitle>
-                <CardText>{translation.startCards.sellingText_desc}</CardText>
+                <CardTitle>{startCards.sellingText_hd}</CardTitle>
+                <CardText>{startCards.sellingText_desc}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`} alt={translation.altLabel.sellingText_btn} className='btn btn-primary'>{translation.startCards.sellingText_btn}</a>
+                <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`} alt={startCards.sellingText_btn} className='btn btn-primary'>{startCards.sellingText_btn}</a>
                 {/* <Link to={{ pathname: `/admin/kurser/kurs/edit/${courseCode}?l=${courseAdminData.lang}`,
                 data: 'hello'
                 }} className='btn btn-primary' onClick={this.doStartSellingText}>{translation.startCards.sellingText_btn}</Link> */}
@@ -54,20 +56,20 @@ class AdminStartPage extends Component {
             </Card>
             <Card>
               <CardBody>
-                <CardTitle>{translation.startCards.coursePM_hd}</CardTitle>
-                <CardText>{translation.startCards.coursePM_desc}</CardText>
+                <CardTitle>{startCards.coursePM_hd}</CardTitle>
+                <CardText>{startCards.coursePM_desc}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <Link to='#' className='btn btn-primary' alt={translation.altLabel.coursePM_btn}>{translation.startCards.coursePM_btn}</Link>
+                <Link to='#' className='btn btn-primary' alt={startCards.coursePM_btn}>{startCards.coursePM_btn}</Link>
               </CardFooter>
             </Card>
             <Card>
               <CardBody>
-                <CardTitle>{translation.startCards.courseDev_hd}</CardTitle>
-                <CardText>{translation.startCards.courseDev_decs}</CardText>
+                <CardTitle>{startCards.courseDev_hd}</CardTitle>
+                <CardText>{startCards.courseDev_decs}</CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <Link to='#' className='btn btn-primary' alt={translation.altLabel.courseDev_btn}>{translation.startCards.courseDev_btn}</Link>
+                <Link to='#' className='btn btn-primary' alt={startCards.courseDev_btn}>{startCards.courseDev_btn}</Link>
               </CardFooter>
             </Card>
           </span>

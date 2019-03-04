@@ -37,27 +37,17 @@ module.exports = {
     page_admin: 'ADMIN AT KTH COURSE INFORMATION',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
-  alertMessages: {
-    success: 'New version of selling description has been published in english and swedish languages.',
-    over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
-    over_html_limit: 'HTML texten should be less than 10 000 signs',
-    api_error: 'Failed to post data to API',
-    kopps_api_down: 'Something wrong with KOPPS api therefore some information is missing'
-  },
-  altLabel: {
-    start_link_back: 'To course information page',
-    sellingText_btn: 'Edit selling description',
-    coursePM_btn: 'Create course PM',
-    courseDev_btn: 'Edit course development information',
-    button_preview: 'Preview selling description',
-    button_cancel: 'Cancel and go back to admin start page',
-    button_submit: 'Save and publish selling description',
-    image: 'Picture for a course description decoration'
-  },
   pageTitles: {
     administrate: 'Administrate course information',
     editSelling: 'Edit a selling description',
-    previewSelling: 'Preview a selling description'
+    previewSelling: 'Preview a selling description',
+    alertMessages: {
+      success: 'New version of selling description has been published in english and swedish languages.',
+      over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
+      over_html_limit: 'HTML texten should be less than 10 000 signs',
+      api_error: 'Failed to post data to API',
+      kopps_api_down: 'Something wrong with KOPPS api therefore some information is missing'
+    }
   },
   startCards: {
     sellingText_hd: 'Selling description',
@@ -69,14 +59,14 @@ module.exports = {
     coursePM_btn: 'Create',
     courseDev_hd: 'Course development',
     courseDev_decs: 'Add a course development information to show course progress and control automated information',
-    courseDev_btn: 'Edit'
-  },
-  sellingTextButtons: {
-    button_cancel: 'Cancel',
-    button_change: 'Change text',
-    button_preview: 'Preview',
-    button_course_info: 'Course information',
-    button_submit: 'Publish'
+    courseDev_btn: 'Edit',
+    courseInfo_linkBack: 'Course information',
+    altLabel: {
+      start_link_back: 'To course information page',
+      sellingText_btn: 'Edit selling description',
+      coursePM_btn: 'Create course PM',
+      courseDev_btn: 'Edit course development information'
+    }
   },
   sellingTextLabels: {
     label_kopps_text_en: 'Short description from KOPPS in English',
@@ -85,7 +75,20 @@ module.exports = {
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     label_en: 'English text',
-    label_sv: 'Swedish text'
+    label_sv: 'Swedish text',
+    sellingTextButtons: {
+      button_cancel: 'Cancel',
+      button_change: 'Change text',
+      button_preview: 'Preview',
+      button_submit: 'Publish'
+    },
+    altLabel: {
+      start_link_back: 'To course information page',
+      button_preview: 'Preview selling description',
+      button_cancel: 'Cancel and go back to admin start page',
+      button_submit: 'Save and publish selling description',
+      image: 'Picture for a course description decoration'
+    }
   },
   courseInformationLabels: {
     label_course_syllabus: 'Course Syllabus',
