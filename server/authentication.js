@@ -5,6 +5,7 @@ const config = require('./configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
 const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
+const axios = require('axios')
 
 /**
  * Passport will maintain persistent login sessions. In order for persistent sessions to work, the authenticated
@@ -114,7 +115,7 @@ function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
 module.exports.requireRole = function () { // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
 
-  return function _hasCourseAcceptedRoles (req, res, next) {
+  return async function _hasCourseAcceptedRoles (req, res, next) {
     const ldapUser = req.session.authUser || {}
     const courseCode = req.params.courseCode.toUpperCase()
     const courseInitials = req.params.courseCode.slice(0, 2).toUpperCase()
@@ -128,9 +129,16 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
 
     if (!hasAuthorizedRole) {
-      const error = new Error('Forbidden')
-      error.status = 403
-      return next(error)
+      try {
+        await axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
+        const error = new Error('Forbidden')
+        error.status = 403
+        return next(error)
+      } catch (e) {
+        const error = new Error('Course is not found in KOPPS, it might be misspelled')
+        error.status = 404
+        return next(error)
+      }
     }
     return next()
   }
