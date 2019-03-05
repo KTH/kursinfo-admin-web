@@ -5,7 +5,6 @@ const config = require('./configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
 const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
-const axios = require('axios')
 
 /**
  * Passport will maintain persistent login sessions. In order for persistent sessions to work, the authenticated
@@ -130,7 +129,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
 
     if (!hasAuthorizedRole) {
       try {
-        await axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
+        await require('axios').get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
         const error = new Error('Forbidden')
         error.status = 403
         return next(error)
