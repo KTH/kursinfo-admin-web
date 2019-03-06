@@ -35,10 +35,7 @@ async function _getDescription (req, res, next) {
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    // like getItem function in adminClien.JS
-    const client = api.kursinfoApi.client
     const paths = api.kursinfoApi.paths
-    const respSellingDesc = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
@@ -46,10 +43,8 @@ async function _getDescription (req, res, next) {
       context
     }, appFactory())
 
-    console.log('==========================RENDER session=========================', req.session)
-
-    await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellingDesc.body, lang)
+    const koppsText = await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
+    const sellingText = await _addSellingTextFromKursinfoApiToStore(renderProps, courseCode, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
@@ -63,13 +58,24 @@ async function _getDescription (req, res, next) {
       debug: 'debug' in req.query,
       html: html,
       paths: JSON.stringify(paths),
-      initialState: JSON.stringify(hydrateStores(renderProps)),
-      // data: respSellingText.statusCode === 200 ? safeGet(() => { return respSellingText.body.sellingText }) : ''
-      error: respSellingDesc.statusCode !== 200 ? safeGet(() => { return respSellingDesc.body.message }) : ''
+      initialState: JSON.stringify(hydrateStores(renderProps))
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
     next(err)
+  }
+}
+
+async function _addSellingTextFromKursinfoApiToStore (renderProps, courseCode, lang) {
+  try {
+    const client = api.kursinfoApi.client
+    const paths = api.kursinfoApi.paths
+    const respSellingDesc = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
+    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellingDesc.body, lang)
+  } catch (error) {
+    const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
+    log.error('Error in _getSellingTextFromKursinfoApi', error)
+    throw apiError
   }
 }
 
