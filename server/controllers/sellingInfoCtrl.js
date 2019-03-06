@@ -1,17 +1,14 @@
 'use strict'
 
 const api = require('../api')
-// const sanitize = require('sanitize-html')
-
 const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
 const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
-const { StaticRouter, BrowserRouter } = require('inferno-router')
+const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
-const InfernoServer = require('inferno-server')
 
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -22,6 +19,17 @@ module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
   myCourses: co.wrap(_my_courses)
+}
+
+async function _addSellingTextFromKursinfoApiToStore (courseCode, ) {
+  try {
+    const client = api.kursinfoApi.client
+    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
+  } catch (error) {
+    const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
+    log.error('Error in _getSellingTextFromKursinfoApi', {error})
+    throw apiError
+  }
 }
 
 async function _getDescription (req, res, next) {
@@ -36,6 +44,7 @@ async function _getDescription (req, res, next) {
 
   try {
     const paths = api.kursinfoApi.paths
+    const respSellDesc = await _addSellingTextFromKursinfoApiToStore(courseCode, paths)
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
@@ -43,8 +52,8 @@ async function _getDescription (req, res, next) {
       context
     }, appFactory())
 
-    const koppsText = await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    const sellingText = await _addSellingTextFromKursinfoApiToStore(renderProps, courseCode, lang)
+    await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
+    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellDesc.body, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
@@ -57,25 +66,11 @@ async function _getDescription (req, res, next) {
     res.render('course/index', {
       debug: 'debug' in req.query,
       html: html,
-      paths: JSON.stringify(paths),
       initialState: JSON.stringify(hydrateStores(renderProps))
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
     next(err)
-  }
-}
-
-async function _addSellingTextFromKursinfoApiToStore (renderProps, courseCode, lang) {
-  try {
-    const client = api.kursinfoApi.client
-    const paths = api.kursinfoApi.paths
-    const respSellingDesc = await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
-    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellingDesc.body, lang)
-  } catch (error) {
-    const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
-    log.error('Error in _getSellingTextFromKursinfoApi', error)
-    throw apiError
   }
 }
 
