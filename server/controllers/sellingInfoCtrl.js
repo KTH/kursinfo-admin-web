@@ -21,9 +21,10 @@ module.exports = {
   myCourses: co.wrap(_my_courses)
 }
 
-async function _addSellingTextFromKursinfoApiToStore (courseCode, ) {
+async function _addSellingTextFromKursinfoApiToStore (courseCode) {
   try {
     const client = api.kursinfoApi.client
+    const paths = api.kursinfoApi.paths
     return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
   } catch (error) {
     const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
@@ -44,7 +45,7 @@ async function _getDescription (req, res, next) {
 
   try {
     const paths = api.kursinfoApi.paths
-    const respSellDesc = await _addSellingTextFromKursinfoApiToStore(courseCode, paths)
+    const respSellDesc = await _addSellingTextFromKursinfoApiToStore(courseCode)
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
