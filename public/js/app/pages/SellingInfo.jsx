@@ -100,7 +100,7 @@ class SellingInfo extends Component {
       this.setState({
         hasDoneSubmit: false,
         isError: true,
-        errMsg: i18n.messages[langIndex].alertMessages.api_error
+        errMsg: i18n.messages[langIndex].pageTitles.alertMessages.api_error
       })
     })
   }
