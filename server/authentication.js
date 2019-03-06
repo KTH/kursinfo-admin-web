@@ -113,7 +113,6 @@ function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
 
 module.exports.requireRole = function () { // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
-
   return async function _hasCourseAcceptedRoles (req, res, next) {
     const ldapUser = req.session.authUser || {}
     const courseCode = req.params.courseCode.toUpperCase()
@@ -128,9 +127,12 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
 
     if (!hasAuthorizedRole) {
+      const axios = require('axios')
       try {
-        await require('axios').get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
-        const error = new Error('Forbidden')
+        await axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
+        const error = new Error('Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
+          Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
+          https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459')
         error.status = 403
         return next(error)
       } catch (e) {
