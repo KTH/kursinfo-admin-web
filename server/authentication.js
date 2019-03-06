@@ -130,9 +130,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
       const axios = require('axios')
       try {
         await axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`)
-        const error = new Error('Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
-          Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
-          https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459')
+        const error = new Error('Forbidden')
         error.status = 403
         return next(error)
       } catch (e) {
