@@ -1,4 +1,4 @@
-import { Component, linkEvent } from 'inferno'
+import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 
@@ -20,7 +20,7 @@ function KoppsText ({header, text, label}) {
   return (
     <div className='courseIntroTextCollapse'>
       <div className='card collapsible'>
-        <div className='card-header primary' role='tab' id={'headingWhite' + label}>
+        <div className='card-header primary' role='tab' id={'headingWhite' + label} tabindex='0'>
           <h4 className='mb-0'>
             <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + label} aria-expanded='false' aria-controls={'collapseWhite' + label}>{header}</a>
           </h4>
@@ -46,9 +46,8 @@ class SellingInfo extends Component {
       leftTextSign_en: undefined,
       enteredEditMode: true,
       hasDoneSubmit: false,
-      isError: false, // TODO: en-sv
-      errMsg: '', // TODO: en-sv
-      isKopps: false
+      isError: false,
+      errMsg: ''
     }
     this.doChangeText = this.doChangeText.bind(this)
     this.doPreview = this.doPreview.bind(this)
@@ -64,7 +63,7 @@ class SellingInfo extends Component {
     window.removeEventListener('load', this.doOpenEditorAndCount)
   }
 
-  doChangeText (event) { // TODO: better name showing up from gransking to changing instaead of publishing
+  doChangeText (event) {
     event.preventDefault()
     this.setState({
       hasDoneSubmit: false,
@@ -72,12 +71,10 @@ class SellingInfo extends Component {
       isError: false
     })
     this.doOpenEditorAndCount(event)
-    console.log('Do some extra changes to text after Preview or Failed Submission')
   }
 
   doSubmit (event) {
     event.preventDefault()
-    console.log('TRY SUBMIT')
     const adminStore = this.props.adminStore
     const courseCode = adminStore.courseAdminData.courseTitleData.course_code
     const sellingTexts = {
@@ -85,7 +82,6 @@ class SellingInfo extends Component {
       en: this.state.sellingText_en
     }
     adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
-      console.log('didSubmit')
       this.setState({
         hasDoneSubmit: true,
         isError: false
@@ -96,7 +92,6 @@ class SellingInfo extends Component {
       })
     }).catch(err => {
       var langIndex = i18n.isSwedish() ? 1 : 0
-      console.log('#########Eroror', err) // TODO: improve error handling
       this.setState({
         hasDoneSubmit: false,
         isError: true,
@@ -192,7 +187,7 @@ class SellingInfo extends Component {
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={this.state.enteredEditMode ? translation.pageTitles.editSelling : translation.pageTitles.previewSelling}
+          pageTitle={this.state.enteredEditMode ? pageTitles.editSelling : pageTitles.previewSelling}
           language={courseAdminData.lang}
           />
 
@@ -203,7 +198,7 @@ class SellingInfo extends Component {
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
             <p>{sellingTextLabels.label_selling_info}</p>
-            <span class='Editors--Area' key='editorsArea'>
+            <span class='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
                 <h3 className='text-center'>{sellingTextLabels.label_sv}</h3>
                 <KoppsText header={sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
