@@ -224,7 +224,7 @@ class SellingInfo extends Component {
         ) : (
           <Row id='pageContainer' key='pageContainer'>
             {/* <Col sm='1' xs='1' id='left' key='left'> </Col> */}
-            <Col sm='12' xs='12' lg='10' id='middle' key='middle'>
+            <Col id='middle' key='middle'>
               <Row className='courseIntroText'>
                 <Col sm='12' xs='12'>
                   <h3>{sellingTextLabels.label_sv}</h3>
