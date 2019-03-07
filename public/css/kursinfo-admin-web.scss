@@ -50,6 +50,10 @@
 .courseIntroText {
     padding-top:10px;
     padding-bottom:10px;
+    &.row {
+        margin-right: -19px;
+        margin-left: -18px;
+    }
     img {
         float: left;
         margin: 8px 20px 10px 0;
