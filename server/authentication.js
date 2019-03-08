@@ -127,7 +127,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
 
     if (!hasAuthorizedRole) {
-      const error = new Error('Fel kurskoden som inte finns i KOPPS eller du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
+      const error = new Error('Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
         Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
         https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459')
       error.status = 403
