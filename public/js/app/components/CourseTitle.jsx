@@ -16,7 +16,7 @@ class CourseTitle extends Component {
           ? <h1><span property='aiiso:code'>{title.course_code}</span>
             <span property='teach:courseTitle'>
               <Alert color='info' aria-live='polite'>
-                {i18n.messages[langIndex].alertMessages.kopps_api_down}
+                {i18n.messages[langIndex].pageTitles.alertMessages.kopps_api_down}
               </Alert>
             </span>
           </h1>
