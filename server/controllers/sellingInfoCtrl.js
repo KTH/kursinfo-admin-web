@@ -9,7 +9,6 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
-
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 
@@ -18,16 +17,17 @@ let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
-  myCourses: co.wrap(_my_courses)
+  myCourses: co.wrap(_myCourses)
 }
 
-async function _addSellingTextFromKursinfoApiToStore (courseCode) {
+async function _getSellingTextFromKursinfoApi (courseCode) {
   try {
     const client = api.kursinfoApi.client
     const paths = api.kursinfoApi.paths
     return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
   } catch (error) {
     const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
+    // apiError.status = 500
     log.error('Error in _getSellingTextFromKursinfoApi', {error})
     throw apiError
   }
@@ -45,16 +45,18 @@ async function _getDescription (req, res, next) {
 
   try {
     const paths = api.kursinfoApi.paths
-    const respSellDesc = await _addSellingTextFromKursinfoApiToStore(courseCode)
+    const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
+    const userKthId = req.session.authUser.ugKthid
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
       location: req.url,
       context
     }, appFactory())
-
+    renderProps.props.children.props.adminStore.setUser(userKthId)
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellDesc.body, lang)
+    renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellDesc.body)
+    renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
@@ -75,7 +77,7 @@ async function _getDescription (req, res, next) {
   }
 }
 
-async function _my_courses (req, res, next) {
+async function _myCourses (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
     const tmp = require('../../dist/js/server/app.js')
@@ -84,10 +86,9 @@ async function _my_courses (req, res, next) {
   }
   try {
     const user = req.session.authUser.memberOf
-
     res.render('course/my_course', {
       debug: 'debug' in req.query,
-      html: user, // JSON.stringify(user)
+      html: user,
       courseCode: req.params.courseCode
     })
   } catch (err) {
@@ -101,10 +102,11 @@ async function _updateDescription (req, res, next) {
     const client = api.kursinfoApi.client
     const apipaths = api.kursinfoApi.paths
     let lang = language.getLanguage(res) || 'sv'
-
     const result = await client.postAsync({
       uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
-      body: {sellingText: req.body.sellingText, lang},
+      body: {sellingText: req.body.sellingText,
+        sellingTextAuthor: req.body.user,
+        lang},
       useCache: false
     })
     // TODO: fix what to do if there is a validation error

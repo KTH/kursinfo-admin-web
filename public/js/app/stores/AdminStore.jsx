@@ -29,6 +29,8 @@ class AdminStore {
     en: undefined,
     sv: undefined
   }
+  @observable sellingTextAuthor = ''
+  @observable user = ''
   @observable hasDoneSubmit = false
   @observable image = '#'
   @observable apiError = ''
@@ -70,9 +72,13 @@ class AdminStore {
     }
     return options
   }
-
-  @action addSellingTextAndImage (data, lang = 'sv') { // Fetched text from api send here to the store
-    // this.sellingText = safeGet(() => data[`sellingText_${lang}`], 'No data')// {en}
+  @action setUser (userKthId) {
+    this.user = userKthId
+  }
+  @action addChangedByLastTime (data) {
+    this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
+  }
+  @action addSellingTextAndImage (data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
@@ -83,7 +89,6 @@ class AdminStore {
   isValidData (dataObject, language = 0) {
     return !dataObject ? EMPTY : dataObject
   }
-  // TODO: REWRITE TO ASYNC/AWAIT BUT IT WILL CRUSH EVENT HANDLING SO NEED EXTRA PACKETS, MAYBE BABEL-POLYFILL
   @action getCourseRequirementFromKopps (courseCode, lang = 'sv') {
     return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then(res => {
       const course = res.data
@@ -125,7 +130,7 @@ class AdminStore {
   }
 
   @action doUpsertItem (text, courseCode) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}`, {sellingText: text}, this._getOptions())
+    return axios.post(`/admin/kurser/kurs/api/${courseCode}`, {sellingText: text, user: this.user}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
@@ -134,6 +139,7 @@ class AdminStore {
         throw new Error(res.data.body.message)
       } else {
         this.sellingText = text
+        this.sellingTextAuthor = this.user
       }
       return msg
     })

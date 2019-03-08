@@ -76,6 +76,7 @@ module.exports = {
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_en: 'Engelsk text',
     label_sv: 'Svensk text',
+    changed_by: 'Senast ändrad av:',
     sellingTextButtons: {
       button_cancel: 'Avbryt',
       button_change: 'Redigera',

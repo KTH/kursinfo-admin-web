@@ -76,6 +76,7 @@ module.exports = {
     label_left_number_letters: 'Left to use:',
     label_en: 'English text',
     label_sv: 'Swedish text',
+    changed_by: 'Last changed by user with kthId:',
     sellingTextButtons: {
       button_cancel: 'Cancel',
       button_change: 'Change text',

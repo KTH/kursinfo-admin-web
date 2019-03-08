@@ -81,10 +81,9 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
       username: ldapUser.ugUsername,
       displayName: ldapUser.displayName,
       email: ldapUser.mail,
+      ugKthid: ldapUser.ugKthid,
       pgtIou: pgtIou,
-      memberOf: getGroups(ldapUser), // memberOf important for requireRole
-      // This is where you can set custom roles
-      isAdmin: hasGroup(config.auth.adminGroup, ldapUser)
+      memberOf: getGroups(ldapUser) // memberOf important for requireRole
     }
   }
 })

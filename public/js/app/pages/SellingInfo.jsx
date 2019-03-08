@@ -42,6 +42,7 @@ class SellingInfo extends Component {
     this.state = {
       sellingText_sv: this.props.adminStore.sellingText.sv,
       sellingText_en: this.props.adminStore.sellingText.en,
+      sellingTextAuthor: this.props.adminStore.sellingTextAuthor,
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
       enteredEditMode: true,
@@ -214,6 +215,7 @@ class SellingInfo extends Component {
                 <textarea name='editorEN' id='editorEN' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
+            <p>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
             <span className='button_group' key='controlButtons'>
               <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={sellingTextLabels.altLabel.button_cancel}>
                 {sellingTextLabels.sellingTextButtons.button_cancel}
