@@ -66,7 +66,6 @@ gulp.task('moveResources', ['moveHandlebarPages'], function () {
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
-    moveResources.moveFontAwesome()
   )
 })
 
@@ -74,12 +73,6 @@ gulp.task('moveImages', function () {
   // Move project image files
   return gulp.src('./public/img/**/*')
     .pipe(gulp.dest('dist/img'))
-})
-
-gulp.task('moveIcons', function () {
-  // Move project image files
-  return gulp.src('./public/css/*')
-    .pipe(gulp.dest('dist/css'))
 })
 
 gulp.task('transpileSass', () => sass())
@@ -99,12 +92,11 @@ gulp.task('inferno', function () {
 
 gulp.task('clean', clean)
 
-gulp.task('build', ['moveResources', 'moveImages', 'moveIcons', 'vendor', 'inferno'], () => sass())
+gulp.task('build', ['moveResources', 'moveImages', 'vendor', 'inferno'], () => sass())
 
 gulp.task('watch', ['build'], function () {
   gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
   gulp.watch(['./public/img/**/*.*'], ['moveImages'])
-  gulp.watch(['./public/css/*.svg'], ['moveIcons'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
 })

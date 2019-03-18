@@ -34,7 +34,7 @@ module.exports = {
 
     site_name: 'Kursinformationsadmin',
     host_name: 'KTH',
-    page_admin: 'ADMIN PÅ KURSINFO',
+    page_admin: 'KURSINFO ADMIN',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
   pageTitles: {
@@ -43,10 +43,10 @@ module.exports = {
     previewSelling: 'Förhandsgranska säljande beskrivning',
     alertMessages: {
       success: 'Ny svensk och engelsk version av säljande beskrivning har publicerats på kursinformationssidan',
-      over_text_limit: 'Din texten måste vara mindre än 1 500 tecken',
-      over_html_limit: 'Din html texten måste vara mindre än 10 000 tecken',
-      api_error: 'Failed to post data to API',
-      kopps_api_down: 'Nånting fel med KOPPS-api så information delvis kommer att saknas'
+      over_text_limit: 'Texten får bara bestå av 1 500 tecken',
+      over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
+      api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
+      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas'
     }
   },
   startCards: {
@@ -58,7 +58,7 @@ module.exports = {
     coursePM_desc: 'Skapa kurs-pm i form av PDF',
     coursePM_btn: 'Skapa',
     courseDev_hd: 'Kursutveckling',
-    courseDev_decs: 'Lägg till Kursutveckling information för att studenter kan titta hur kursen utvecklas',
+    courseDev_decs: 'Lägg till information om kursutveckling så att ....',
     courseDev_btn: 'Redigera',
     courseInfo_linkBack: 'Kursinformationssida',
     altLabel: {

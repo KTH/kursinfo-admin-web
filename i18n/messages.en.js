@@ -32,9 +32,9 @@ module.exports = {
     lang_block_id: '1.77273',
     locale_text: 'Course information administration in English',
 
-    site_name: 'Course information administration',
+    site_name: 'Course information admin',
     host_name: 'KTH',
-    page_admin: 'ADMIN AT KTH COURSE INFORMATION',
+    page_admin: 'COURSE INFO ADMIN',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   pageTitles: {
@@ -43,10 +43,10 @@ module.exports = {
     previewSelling: 'Preview a selling description',
     alertMessages: {
       success: 'New version of selling description has been published in english and swedish languages.',
-      over_text_limit: 'You exceeded the limit of letters. The text must have no more 1 500',
-      over_html_limit: 'HTML texten should be less than 10 000 signs',
-      api_error: 'Failed to post data to API',
-      kopps_api_down: 'Something wrong with KOPPS api therefore some information is missing'
+      over_text_limit: 'The text can consist of no more than 1 500 chars',
+      over_html_limit: 'HTML texten should be less than 10 000 chars',
+      api_error: 'Failed to save text due to technical issues. Copy text and try again later',
+      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing'
     }
   },
   startCards: {
