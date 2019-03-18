@@ -19,10 +19,10 @@ function TextBlock ({text}) {
 function KoppsText ({header, text, label}) {
   return (
     <div className='courseIntroTextCollapse'>
-      <div className='card collapsible'>
-        <div className='card-header primary' role='tab' id={'headingWhite' + label} tabindex='0'>
+      <div className='card collapsible blue'>
+        <div className='card-header' role='tab' id={'headingWhite' + label} tabindex='0'>
           <h4 className='mb-0'>
-            <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + label} aria-expanded='false' aria-controls={'collapseWhite' + label}>{header}</a>
+            <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + label} load='false' aria-expanded='false' aria-controls={'collapseWhite' + label}>{header}</a>
           </h4>
         </div>
         <div id={'collapseWhite' + label} className='collapse hide' role='tabpanel' aria-labelledby={'headingWhite' + label}>

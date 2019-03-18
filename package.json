@@ -64,7 +64,7 @@
     "kth-node-server": "^3.0.3",
     "kth-node-session": "^1.0.0",
     "kth-node-web-common": "^3.0.5",
-    "kth-style": "^3.2.2",
+    "kth-style": "^3.2.4",
     "kth-style-inferno-bootstrap": "^0.1.23",
     "locale": "^0.1.0",
     "mobx": "^5.9.0",

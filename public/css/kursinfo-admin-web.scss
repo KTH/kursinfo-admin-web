@@ -2,35 +2,6 @@
 
 //@import "kth-style/public/sass/variables/sizes";
 //@import "kth-style/public/sass/variables/colors";
-
-// Bootstrap source
-/*@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/kth-style/public/sass/bootstrap/variables";
-@import "node_modules/bootstrap/scss/mixins";*/
-
-@mixin iconCommon {
-    font-size: 2em;
-    line-height: .5em;
-    vertical-align: middle;
-    position: absolute;
-    left: 0;
-  }
-
-  @keyframes rotateDown {
-    100% {
-      transform: rotate(180deg);
-      transform-origin: 50% 50%;
-    }
-  }
-
-  @keyframes rotateUp {
-    100% {
-      transform: rotate(-180deg);
-      transform-origin: 50% 50%;
-    }
-  }
-
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
@@ -92,35 +63,8 @@
         text-align: center;
     }
     .courseIntroTextCollapse {   
-
-        .card-header {
-            width: 100%;
-            background-color: #007fae;
-        }
         a.collapse-header  {
-            color: #ffffff;
             text-decoration: none;
-            margin-left: 2em;
-            &[aria-expanded~='false'] {
-                &:after {
-                    content: url('pill-dropdown.svg');
-                    @include iconCommon; 
-                    animation: rotateUp .3s ease-in-out forwards;
-                }
-            }
-            &[aria-expanded~='true'] {
-                &:after {
-                    content: url('pill-down.svg');
-                    @include iconCommon;
-                    animation: rotateDown .3s ease-in-out forwards;
-                }
-            }
-        }
-        .card-body {
-            p:first-of-type {
-                margin-bottom: 0;
-            }
-            word-wrap: break-word;
         }
     }   
 }
