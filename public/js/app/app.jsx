@@ -134,7 +134,6 @@ function doAllAsyncBefore ({
   }
 
   render ({ adminStore }) {
-    console.log('!!adminStore!!', adminStore, 'this.props', this.props)
     return (
       <div>
         {this.props.children}
