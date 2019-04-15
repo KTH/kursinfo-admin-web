@@ -37,7 +37,7 @@ describe('Index page', function () {
       id: '123',
       name: 'asdasd'
     })
-    const ctrl = require('../../server/controllers/courseCtrl')
+    const ctrl = require('../../server/controllers/sellingInfoCtrl')
     const { req, res } = httpMocks.createMocks()
     res.render = function (view, data) {
       expect(data).to.be.not.undefined
