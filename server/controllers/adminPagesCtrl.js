@@ -1,14 +1,14 @@
 'use strict'
 
-const api = require('../api')
 // const sanitize = require('sanitize-html')
+const { koppsApi } = require('../koppsApi')
 const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
 const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
-const { StaticRouter, BrowserRouter } = require('inferno-router')
+const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
 
 const browserConfig = require('../configuration').browser
@@ -33,14 +33,14 @@ async function _getAdminStart (req, res, next) {
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    // const paths = api.kursinfoApi.paths
     // Render inferno app
     const context = {}
     const renderProps = createElement(StaticRouter, {
       location: req.url,
       context
     }, appFactory())
-
+    // const koppsData = await getKoppsData(courseCode)
+    // await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(koppsData, courseCode, lang)
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
@@ -66,6 +66,10 @@ async function _getAdminStart (req, res, next) {
   }
 }
 
+// async function getKoppsData (courseCode, lang = 'sv') {
+//   return await koppsApi.getAsync({ uri: `course/${courseCode}`, useCache: true })
+// }
+
 function hydrateStores (renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
@@ -76,6 +80,5 @@ function hydrateStores (renderProps) {
       outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
     }
   }
-  console.log('hydrateStores', outp)
   return outp
 }
