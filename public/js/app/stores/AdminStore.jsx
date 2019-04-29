@@ -4,7 +4,6 @@ import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
 import { EMPTY } from '../util/constants'
-
 import { IDeserialize } from '../interfaces/utils'
 
 const paramRegex = /\/(:[^\/\s]*)/g
@@ -89,8 +88,10 @@ class AdminStore {
   isValidData (dataObject, language = 0) {
     return !dataObject ? EMPTY : dataObject
   }
+
   @action getCourseRequirementFromKopps (courseCode, lang = 'sv') {
-    return axios.get(`https://api-r.referens.sys.kth.se/api/kopps/v2/course/${courseCode}`).then(res => {
+    return axios.get(this.buildApiUrl(this.paths.api.koppsCourseData.uri, {courseCode}), this._getOptions())
+    .then(res => {
       const course = res.data
       const courseTitleData = {
         course_code: this.isValidData(course.code),
@@ -109,9 +110,6 @@ class AdminStore {
         lang
       }
     }).catch(err => {
-      if (err.response) {
-        // throw new Error(err.message, err.response.data)
-      }
       const courseTitleData = {
         course_code: courseCode.toUpperCase(),
         apiError: true
@@ -125,12 +123,12 @@ class AdminStore {
         koppsCourseDesc,
         lang
       }
-      // throw err
     })
   }
 
   @action doUpsertItem (text, courseCode) {
-    return axios.post(`/admin/kurser/kurs/api/${courseCode}`, {sellingText: text, user: this.user}, this._getOptions())
+    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}), {sellingText: text, user: this.user}, this._getOptions())
+     // `/admin/kurser/kurs/api/${encodeURIComponent(courseCode)}`, {sellingText: text, user: this.user}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
