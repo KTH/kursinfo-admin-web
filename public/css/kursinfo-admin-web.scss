@@ -5,7 +5,6 @@
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
-    //margin-bottom: 20px;
 }
 .courseTitle {
     margin: 0;
@@ -91,7 +90,10 @@
     }
 }
 
-
+.kip-menu {
+    max-width: 30em;
+    margin-left: 1em;
+}
 
 .TextEditor--SellingInfo {
     margin: 2em 0;
@@ -99,13 +101,6 @@
         margin-top: 1.5em;
     }
 }
-// .Description--TextBlock {
-//     margin: 2em 0;
-
-//     .alert-success, .alert-warning {
-//         margin-bottom: 1.5em;
-//     }
-// }
 
 .AdminPage--ShowDescription { //TODO: remove .AdminPage--ShowDescription,
     display: flex;
