@@ -14,6 +14,8 @@ const serverConfig = require('../configuration').server
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
+const serverPaths = require('../server').getPaths()
+
 module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
@@ -44,7 +46,6 @@ async function _getDescription (req, res, next) {
   let lang = language.getLanguage(res) || 'sv'
 
   try {
-    const paths = api.kursinfoApi.paths
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
     const userKthId = req.session.authUser.ugKthid
     // Render inferno app
@@ -54,11 +55,13 @@ async function _getDescription (req, res, next) {
       context
     }, appFactory())
     renderProps.props.children.props.adminStore.setUser(userKthId)
+    // Load browserConfig and server paths for internal api
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
+    // Load koppsData and kurinfo-api data
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingTextAndImage(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, paths, serverConfig.hostUrl)
-    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     await doAllAsyncBefore({
       pathname: req.originalUrl,
       query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
@@ -68,6 +71,7 @@ async function _getDescription (req, res, next) {
     const html = renderToString(renderProps)
     res.render('course/index', {
       debug: 'debug' in req.query,
+      title: courseCode,
       html: html,
       initialState: JSON.stringify(hydrateStores(renderProps))
     })
@@ -109,10 +113,8 @@ async function _updateDescription (req, res, next) {
         lang},
       useCache: false
     })
-    // TODO: fix what to do if there is a validation error
     if (safeGet(() => result.body.message)) {
       log.error('Error from API: ', result.body.message)
-      // throw new Error(result.body.message)
     }
     log.info('Selling text updated in kursinfo api')
     return res.json(result)
