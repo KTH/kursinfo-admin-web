@@ -224,32 +224,33 @@ class SellingInfo extends Component {
             </span>
           </div>
         ) : (
-          <Row id='pageContainer' key='pageContainer'>
-            {/* <Col sm='1' xs='1' id='left' key='left'> </Col> */}
-            <Col id='middle' key='middle'>
-              <Row className='courseIntroText'>
-                <Col sm='12' xs='12' className='sellingText'>
-                  <h3>{sellingTextLabels.label_sv}</h3>
-                  <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
-                  {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
-                </Col>
-              </Row>
-              <Row className='courseIntroText'>
-                <Col sm='12' xs='12' className='sellingText'>
-                  <h3>{sellingTextLabels.label_en}</h3>
-                  <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
-                  {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
-                </Col>
-              </Row>
-              <Row className='button_group'>
-                <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
-                  {sellingTextLabels.sellingTextButtons.button_cancel}
-                </Link>
-                <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
-                <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
-              </Row>
-            </Col>
-          </Row>
+          <div className='col'>
+            <Row id='pageContainer' key='pageContainer'>
+              <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
+                <Row className='courseIntroText'>
+                  <Col sm='12' xs='12' className='sellingText'>
+                    <h3>{sellingTextLabels.label_sv}</h3>
+                    <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
+                    {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
+                  </Col>
+                </Row>
+                <Row className='courseIntroText'>
+                  <Col sm='12' xs='12' className='sellingText'>
+                    <h3>{sellingTextLabels.label_en}</h3>
+                    <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
+                    {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
+                  </Col>
+                </Row>
+                <Row className='button_group'>
+                  <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+                    {sellingTextLabels.sellingTextButtons.button_cancel}
+                  </Link>
+                  <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
+                  <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
+                </Row>
+              </Col>
+            </Row>
+          </div>
         )}
       </div>
     )

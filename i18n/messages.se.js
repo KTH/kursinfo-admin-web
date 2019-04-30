@@ -69,13 +69,17 @@ module.exports = {
     }
   },
   sellingTextLabels: {
-    label_kopps_text_en: 'Kortbeskrivning i KOPPS på engleska',
-    label_kopps_text_sv: 'Kortbeskrivning i KOPPS på svenska',
     label_selling_info: 'Du kan här skapa / redigera säljande beskrivning av kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort säljande beskrivningen nedan',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_en: 'Engelsk text',
-    label_sv: 'Svensk text',
+    langLabelKopps: {
+      en: 'Kortbeskrivning i KOPPS på engleska',
+      sv: 'Kortbeskrivning i KOPPS på svenska'
+    },
+    langLabel: {
+      en: 'Engelsk text',
+      sv: 'Svensk text'
+    },
     changed_by: 'Senast ändrad av:',
     sellingTextButtons: {
       button_cancel: 'Avbryt',

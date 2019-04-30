@@ -8,8 +8,9 @@ import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
 import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
 import CardText from 'inferno-bootstrap/lib/Card/CardText'
 import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
-import {Link} from 'inferno-router'
+import { Link } from 'inferno-router'
 import Alert from 'inferno-bootstrap/lib/Alert'
+// import KipLinkNav from '../components/KipNav.jsx'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
@@ -30,6 +31,7 @@ class AdminStartPage extends Component {
           pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
+        {/* <KipLinkNav /> TODO: Activate after kursutveckling is ready*/}
         {this.props.location.data === 'success' ?
           <Alert color='success' aria-live='polite'>
             {pageTitles.alertMessages.success}
@@ -74,9 +76,6 @@ class AdminStartPage extends Component {
             </Card>
           </span>
         </div>
-        <span className='Header--Link'>
-          <a href={`/admin/kurser/kurs/${courseCode}/my`} class='link-back' alt='Översikt av mina kurser'>Översikt av mina kurser</a>
-        </span>
       </div>
     )
   }
