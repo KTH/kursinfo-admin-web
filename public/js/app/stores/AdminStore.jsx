@@ -31,7 +31,10 @@ class AdminStore {
   @observable sellingTextAuthor = ''
   @observable user = ''
   @observable hasDoneSubmit = false
-  @observable image = '#'
+  @observable image = {
+    uri: '#',
+    isHere: 'no_image'
+  }
   @observable apiError = ''
 
   buildApiUrl (path, params) {
@@ -82,7 +85,11 @@ class AdminStore {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
-    this.image = '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#')
+    // this.image = '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#')
+    this.image = {
+      uri: '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#'),
+      isHere: safeGet(() => data.imageInfo, 'no_image')
+    }
   }
 
   isValidData (dataObject, language = 0) {
@@ -103,7 +110,6 @@ class AdminStore {
         sv: this.isValidData(course.info.sv),
         en: this.isValidData(course.info.en)
       }
-
       this.courseAdminData = {
         koppsCourseDesc,
         courseTitleData,
