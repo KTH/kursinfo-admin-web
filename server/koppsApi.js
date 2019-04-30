@@ -13,7 +13,6 @@ const koppsApi = new BasicAPI({
 const koppsCourseData = async (courseCode) => {
   try {
     const course = await koppsApi.getAsync({ uri: `course/${encodeURIComponent(courseCode)}`, useCache: true })
-    console.log('coursekokdsfadssdsd', course.body)
     return course.body
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })

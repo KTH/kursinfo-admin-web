@@ -3,36 +3,27 @@ import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 
 import CourseTitle from '../components/CourseTitle.jsx'
+import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'
+import PreviewText from '../components/PreviewText.jsx'
 import Button from 'inferno-bootstrap/lib/Button'
 import Alert from 'inferno-bootstrap/lib/Alert'
 import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 
-function TextBlock ({text}) {
-  return (
-    <span className='textBlock' dangerouslySetInnerHTML={{__html: text}}>
-    </span>
-    )
-}
-
-function KoppsText ({header, text, label}) {
-  return (
-    <div className='courseIntroTextCollapse'>
-      <div className='card collapsible blue'>
-        <div className='card-header' role='tab' id={'headingWhite' + label} tabindex='0'>
-          <h4 className='mb-0'>
-            <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + label} load='false' aria-expanded='false' aria-controls={'collapseWhite' + label}>{header}</a>
-          </h4>
-        </div>
-        <div id={'collapseWhite' + label} className='collapse hide' role='tabpanel' aria-labelledby={'headingWhite' + label}>
-          <div className='card-body  col'>
-            <TextBlock text={text} />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+const userLang = i18n.isSwedish() ? 'sv' : 'en'
+const editorConf = {
+  toolbarGroups: [
+    {name: 'mode'},
+    {name: 'find'},
+    {name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ]},
+    {name: 'list'},
+    {name: 'links'},
+    {name: 'about'}
+  ],
+  removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
+  language: userLang,
+  width: ['98%']
 }
 
 @inject(['adminStore']) @observer
@@ -107,36 +98,26 @@ class SellingInfo extends Component {
       enteredEditMode: false,
       isError: false
     })
-    CKEDITOR.instances.editorSV.destroy(true)
-    CKEDITOR.instances.editorEN.destroy(true)
+    CKEDITOR.instances.sv.destroy(true)
+    CKEDITOR.instances.en.destroy(true)
   }
 
   doOpenEditorAndCount () {
-    var lang = i18n.isSwedish() ? 'sv' : 'en'
-    var langIndex = lang === 'en' ? 0 : 1
+    var langIndex = userLang === 'en' ? 0 : 1
     const translation = i18n.messages[langIndex].pageTitles.alertMessages
-    const conf = {
-      toolbarGroups: [
-        {name: 'mode'},
-        {name: 'find'},
-        {name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ]},
-        {name: 'list'},
-        {name: 'links'},
-        {name: 'about'}
-      ],
-      removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
-      language: lang,
-      width: ['550px']
-    }
-    const _doCalculateLength = (event, l) => {
-      this.setState({
+    const _doCalculateLength = (event, editorId) => {
+      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
+      const length = text.length
+      this.setState({[`leftTextSign_${editorId}`]: 1500 - length,
         isError: false,
         errMsg: ''
       })
-      const cleanText = event.editor.document.getBody().getText().replace(/\n/g, '')
-      const cleanTextLen = cleanText.length
-      const htmlTextLen = event.editor.getData().length
-      if (htmlTextLen > 10000) { // this is max in api
+      return [text, length]
+    }
+    const _doCheckTextLength = (event, l) => {
+      const [cleanText, cleanTextLen] = _doCalculateLength(event, l)
+      const htmlText = event.editor.getData()
+      if (htmlText.length > 10000) { // this is max in api
         this.setState({
           isError: true,
           errMsg: translation.over_html_limit
@@ -152,27 +133,15 @@ class SellingInfo extends Component {
         })
       } else {
         this.setState({
-          [`sellingText_${l}`]: event.editor.getData()
+          [`sellingText_${l}`]: htmlText
         })
       }
-      this.setState({[`leftTextSign_${l}`]: 1500 - cleanTextLen})
     }
-
-    ['editorSV', 'editorEN'].map(editorId => {
-      CKEDITOR.replace(editorId, conf)
+    ['sv', 'en'].map((editorId) => {
+      CKEDITOR.replace(editorId, editorConf)
+      CKEDITOR.instances[editorId].on('instanceReady', event => _doCalculateLength(event, editorId))
+      CKEDITOR.instances[editorId].on('change', event => _doCheckTextLength(event, editorId))
     })
-
-    CKEDITOR.instances.editorSV.on('instanceReady', event => {
-      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-      this.setState({leftTextSign_sv: 1500 - text.length})
-    })
-    CKEDITOR.instances.editorEN.on('instanceReady', event => {
-      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-      this.setState({leftTextSign_en: 1500 - text.length})
-    })
-    CKEDITOR.instances.editorSV.on('change', event => _doCalculateLength(event, 'sv'))
-
-    CKEDITOR.instances.editorEN.on('change', event => _doCalculateLength(event, 'en'))
   }
 
   render ({adminStore}) {
@@ -201,18 +170,16 @@ class SellingInfo extends Component {
             <p>{sellingTextLabels.label_selling_info}</p>
             <span class='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
-                <h3 className='text-center'>{sellingTextLabels.label_sv}</h3>
-                <KoppsText header={sellingTextLabels.label_kopps_text_sv} text={courseAdminData.koppsCourseDesc['sv']} label='sv' />
-                <p>{sellingTextLabels.label_max_number_letters}</p>
+                <KoppsTextCollapse instructions={sellingTextLabels}
+                  koppsText={courseAdminData.koppsCourseDesc['sv']} lang='sv' />
                 <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-                <textarea name='editorSV' id='editorSV' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
+                <textarea name='sv' id='sv' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
               </span>
               <span className='right' key='rightEditorForEnglish'>
-                <h3 className='text-center'>{sellingTextLabels.label_en}</h3>
-                <KoppsText header={sellingTextLabels.label_kopps_text_en} text={courseAdminData.koppsCourseDesc['en']} label='en' />
-                <p>{sellingTextLabels.label_max_number_letters}</p>
+                <KoppsTextCollapse instructions={sellingTextLabels}
+                  koppsText={courseAdminData.koppsCourseDesc['en']} lang='en' />
                 <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-                <textarea name='editorEN' id='editorEN' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
+                <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
             <p>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
@@ -227,20 +194,12 @@ class SellingInfo extends Component {
           <div className='col'>
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
-                <Row className='courseIntroText'>
-                  <Col sm='12' xs='12' className='sellingText'>
-                    <h3>{sellingTextLabels.label_sv}</h3>
-                    <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
-                    {this.state.sellingText_sv === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.sv} /> : <TextBlock text={this.state.sellingText_sv} />}
-                  </Col>
-                </Row>
-                <Row className='courseIntroText'>
-                  <Col sm='12' xs='12' className='sellingText'>
-                    <h3>{sellingTextLabels.label_en}</h3>
-                    <img src={this.props.adminStore.image} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
-                    {this.state.sellingText_en === '' ? <TextBlock text={courseAdminData.koppsCourseDesc.en} /> : <TextBlock text={this.state.sellingText_en} />}
-                  </Col>
-                </Row>
+                <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
+                  image={this.props.adminStore.image}
+                  sellingText={this.state.sellingText_sv} koppsTexts={courseAdminData.koppsCourseDesc} />
+                <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
+                  image={this.props.adminStore.image}
+                  sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row className='button_group'>
                   <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
                     {sellingTextLabels.sellingTextButtons.button_cancel}
