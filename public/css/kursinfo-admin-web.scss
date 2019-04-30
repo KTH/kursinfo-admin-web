@@ -5,6 +5,7 @@
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
+    width: 100%;
 }
 .courseTitle {
     margin: 0;
@@ -18,12 +19,8 @@
     }
 }
 .courseIntroText {
-    padding-top:10px;
-    padding-bottom:10px;
-    &.row {
-        margin-right: -19px;
-        margin-left: -18px;
-    }
+    padding-top: 10px;
+    padding-bottom: 10px;
     .sellingText {
         padding-right: 12px
     }
@@ -65,6 +62,9 @@
         a.collapse-header  {
             text-decoration: none;
         }
+        h4.mb-0 {
+            margin-top: 0;
+        }
     }   
 }
 
@@ -102,12 +102,13 @@
     }
 }
 
-.AdminPage--ShowDescription { //TODO: remove .AdminPage--ShowDescription,
+.AdminPage--ShowDescription {
     display: flex;
     justify-content: space-between;
     .card {
         max-width: 21em;
         min-width: 18em;
         margin-top: 1em;
+        margin-right: 3em;
     }
 }
