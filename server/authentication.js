@@ -115,6 +115,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
 
   return async function _hasCourseAcceptedRoles (req, res, next) {
     const ldapUser = req.session.authUser || {}
+    const admin = 'u1ask19i' // TODO: replace by ug admin group for this projekt
     const courseCode = req.params.courseCode.toUpperCase()
     const courseInitials = req.params.courseCode.slice(0, 2).toUpperCase()
     // TODO: Add date for courseresponsible
@@ -126,7 +127,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     // If we don't have one of these then access is forbidden
     const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
 
-    if (!hasAuthorizedRole) {
+    if (!hasAuthorizedRole && !ldapUser.ugKthid === admin) {
       const error = new Error('Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
         Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
         https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459')
