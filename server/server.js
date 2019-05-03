@@ -199,11 +199,11 @@ server.use('/', systemRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 appRoute.get('course.myCourses', config.proxyPrefixPath.uri + '/:courseCode/myCourses', getServerGatewayLogin(), SellingInfo.myCourses)
-appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator'), AdminPagesCtrl.getAdminStart)// requireRole('isCourseResponsible', 'isExaminator'),
-appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', getServerGatewayLogin(), /* serverLogin, */ requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.getDescription)
-appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', SellingInfo.updateDescription) // getServerGatewayLogin(), requireRole('isCourseResponsible', 'isExaminator'),
+appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isAdmin'), AdminPagesCtrl.getAdminStart)
+appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isAdmin'), SellingInfo.getDescription)
+appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isAdmin'), SellingInfo.updateDescription)
 appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/getKoppsCourseDataByCourse/:courseCode/', AdminPagesCtrl.getKoppsCourseData)
-appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), /* requireRole('isCourseResponsible', 'isExaminator'),*/ SellingInfo.getDescription)
+appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 
 // Not found etc
