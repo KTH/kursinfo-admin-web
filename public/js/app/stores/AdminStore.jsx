@@ -33,7 +33,7 @@ class AdminStore {
   @observable hasDoneSubmit = false
   @observable image = {
     uri: '#',
-    isHere: 'no_image'
+    isHere: 'localImage'
   }
   @observable apiError = ''
 
@@ -88,7 +88,7 @@ class AdminStore {
     // this.image = '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#')
     this.image = {
       uri: '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#'),
-      isHere: safeGet(() => data.imageInfo, 'no_image')
+      isHere: safeGet(() => data.imageInfo, 'localImage')
     }
   }
 

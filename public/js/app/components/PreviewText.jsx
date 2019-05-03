@@ -7,7 +7,7 @@ function PreviewText ({sellingTextLabels, whichLang, image, sellingText, koppsTe
     <Row className='courseIntroText'>
       <Col sm='12' xs='12' className='sellingText'>
         <h3>{sellingTextLabels.langLabel[whichLang]}</h3>
-        <img src={image.uri} className={image.isHere} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
+        <img src={image.uri} className='localImage'/* {image.isHere}*/ alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
         <span className='textBlock' dangerouslySetInnerHTML={{__html: text}}></span>
       </Col>
     </Row>
