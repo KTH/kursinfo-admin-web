@@ -63,9 +63,7 @@ module.exports = {
 
   // Authentication
   auth: {
-    // adminGroup: 'app.node.admin',
-    // responsibleGroup: 'edu.courses.SF.SF1624.20152.2.courseresponsible',
-    adminUser: getEnv('ADMIN_USER_KTHID', 'isnotanyAdminhere1234') // TODO: replace when it is time to improve admin
+    superuserGroup: 'app.kursinfo.kursinfo-admins'
   },
   cas: {
     ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL)
