@@ -110,11 +110,6 @@ function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
   return false
 }
 
-function isAdmin (ldapUser) { // TODO: replace by ug admin group for this projekt
-  const adminKthId = config.auth.adminUser
-  return ldapUser.ugKthid === adminKthId
-}
-
 module.exports.requireRole = function () { // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
 
@@ -126,7 +121,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const userCourseRoles = {
       isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
       isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser),
-      isAdmin: isAdmin(ldapUser)
+      isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
     }
 
     // If we don't have one of these then access is forbidden
