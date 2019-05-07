@@ -203,7 +203,7 @@ appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode'
 appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.updateDescription)
 appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/getKoppsCourseDataByCourse/:courseCode/', AdminPagesCtrl.getKoppsCourseData)
-appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator'), SellingInfo.getDescription)
+appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 
 // Not found etc
