@@ -83,7 +83,8 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
       email: ldapUser.mail,
       ugKthid: ldapUser.ugKthid,
       pgtIou: pgtIou,
-      memberOf: getGroups(ldapUser) // memberOf important for requireRole
+      memberOf: getGroups(ldapUser), // memberOf important for requireRole
+      isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
     }
   }
 })
@@ -121,7 +122,7 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const userCourseRoles = {
       isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
       isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser),
-      isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
+      isSuperUser: ldapUser.isSuperUser
     }
 
     // If we don't have one of these then access is forbidden
