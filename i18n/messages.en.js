@@ -40,9 +40,9 @@ module.exports = {
   pageTitles: {
     administrate: 'Administrate course information',
     editSelling: 'Edit a selling description',
-    previewSelling: 'Preview a selling description',
+    previewSelling: 'Preview a course introduction',
     alertMessages: {
-      success: 'New version of selling description has been published in english and swedish languages.',
+      success: 'New version of the course introduction has been published in english and swedish languages.',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
@@ -50,10 +50,10 @@ module.exports = {
     }
   },
   startCards: {
-    sellingText_hd: 'Selling description',
-    sellingText_desc: 'Add a selling text to attract students to the course',
+    sellingText_hd: 'Course introduction',
+    sellingText_desc: 'Add a course introduction to attract students to the course',
     sellingText_btn: 'Edit',
-    sellingText_alt: 'Edit a selling description',
+    sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course-PM',
     coursePM_desc: 'Create course pm as PDF',
     coursePM_btn: 'Create',
@@ -69,9 +69,7 @@ module.exports = {
     }
   },
   sellingTextLabels: {
-    // label_kopps_text_en: 'Short description from KOPPS in English',
-    // label_kopps_text_sv: 'Short description from KOPPS in Swedish',
-    label_selling_info: 'You can create / edit a selling text of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a selling text',
+    label_selling_info: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     langLabelKopps: {
@@ -91,9 +89,9 @@ module.exports = {
     },
     altLabel: {
       start_link_back: 'To course information page',
-      button_preview: 'Preview selling description',
+      button_preview: 'Preview a course introduction',
       button_cancel: 'Cancel and go back to admin start page',
-      button_submit: 'Save and publish selling description',
+      button_submit: 'Save and publish course introduction',
       image: 'Picture for a course description decoration'
     }
   }

@@ -39,10 +39,10 @@ module.exports = {
   },
   pageTitles: {
     administrate: 'Administrera kursinformationssida',
-    editSelling: 'Redigera säljande beskrivning',
-    previewSelling: 'Förhandsgranska säljande beskrivning',
+    editSelling: 'Redigera introduktion till kursen',
+    previewSelling: 'Förhandsgranska introduktion till kursen',
     alertMessages: {
-      success: 'Ny svensk och engelsk version av säljande beskrivning har publicerats på kursinformationssidan',
+      success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på kursinformationssidan',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
@@ -50,10 +50,10 @@ module.exports = {
     }
   },
   startCards: {
-    sellingText_hd: 'Säljande beskrivning',
-    sellingText_desc: 'Lägg till säljande beskrivning för att väcka studenternas intresse för kursen inför kursval',
+    sellingText_hd: 'Introduktion till kursen',
+    sellingText_desc: 'Lägg till introduktion till kursen för att väcka studenternas intresse för kursen inför kursval',
     sellingText_btn: 'Redigera',
-    sellingText_alt: 'Redigera säljande beskrivning',
+    sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Skapa kurs-pm i form av PDF',
     coursePM_btn: 'Skapa',
@@ -63,13 +63,13 @@ module.exports = {
     courseInfo_linkBack: 'Kursinformationssida',
     altLabel: {
       start_link_back: 'Till kursinformationssida',
-      sellingText_btn: 'Redigera säljande beskrivning',
+      sellingText_btn: 'Redigera introduktion till kursen',
       coursePM_btn: 'Skapa kurs-pm',
       courseDev_btn: 'Redigera kursutveckling'
     }
   },
   sellingTextLabels: {
-    label_selling_info: 'Du kan här skapa / redigera säljande beskrivning av kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort säljande beskrivningen nedan',
+    label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     langLabelKopps: {
@@ -89,9 +89,9 @@ module.exports = {
     },
     altLabel: {
       start_link_back: 'Till kursinformationssida',
-      button_preview: 'Förhandsgranska säljande beskrivning',
+      button_preview: 'Förhandsgranska introduktion till kursen',
       button_cancel: 'Avbryt och gå till admin startsida',
-      button_submit: 'Spara och publicera säljande beskrivning',
+      button_submit: 'Spara och publicera introduktion till kursen',
       image: 'Bild för kurssidasdekoration'
     }
   }
