@@ -39,9 +39,9 @@ class AdminStartPage extends Component {
         : ''
         }
         <div className='col'>
-          <span className='Header--Link'>
+          {/* <span className='Header--Link'>
             <a href={`/student/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} alt={startCards.start_link_back} className='link-back'>{startCards.courseInfo_linkBack}</a>
-          </span>
+          </span> */}
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
               <CardBody>
