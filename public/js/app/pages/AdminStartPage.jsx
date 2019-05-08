@@ -74,7 +74,7 @@ class AdminStartPage extends Component {
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <Link to='#' className='btn btn-primary' alt={startCards.courseDev_btn}>{startCards.courseDev_btn}</Link>
+                <Link to={`/admin/kursutveckling/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-primary' alt={startCards.courseDev_btn}>{startCards.courseDev_btn}</Link>
               </CardFooter>
             </Card>
           </span>
