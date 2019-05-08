@@ -1,6 +1,8 @@
 import Table from 'inferno-bootstrap/dist/Table'
 
-const KipLinkNav = (courseCode, lang, startCards) => {
+const KipLinkNav = ({courseCode, lang}) => { // courseCode, lang, startCards
+  const kursOmLink = `/student/kurser/kurs/${courseCode}?l=${lang}`
+  const kutvLink = `/kursutveckling/${courseCode}?l=${lang}`
   return (
     <span>
       <Table className='kip-menu'>
@@ -10,15 +12,15 @@ const KipLinkNav = (courseCode, lang, startCards) => {
               <h4>Om kursen</h4>
               <p>
                 {/* <a href={`/admin/kurser/kurs/edit/${courseCode}?l=${lang}`} alt={startCards.sellingText_btn} className='btn btn-primary'>{startCards.sellingText_btn}</a> */}
-                <a href='http://localhost:3003/student/kurser/kurs/SF1626?l=sv'>Kursinformation</a>
+                <a className='link-back' href={kursOmLink} alt='Tillbaka till Kursinformation vy'>Kursinformation</a>
               </p>
               <p>
-                <a href='http://localhost:3000/kursutveckling/SF1626'>Kursens utveckling och historik</a>
+                <a className='link-back' href={kutvLink} alt='Tillbaka till Kursens utveckling och historik vy'>Kursens utveckling och historik</a>
+              </p>
+              <p>
+                <b>Administrera</b>
               </p>
             </td>
-            {/* <td colSpan='2' className='link-to'>
-              <p><a href='http://localhost:3005/admin/kurser/kurs/SF1626?l=sv'>Administrera --></a></p>
-            </td> */}
           </tr>
         </tbody>
       </Table>
