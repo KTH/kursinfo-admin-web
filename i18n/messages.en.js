@@ -58,8 +58,9 @@ module.exports = {
     coursePM_desc: 'Create course pm as PDF',
     coursePM_btn: 'Create',
     courseDev_hd: 'Course development',
-    courseDev_decs: 'Add a course development information to show course progress and control automated information',
-    courseDev_btn: 'Edit',
+    courseDev_decs: 'TODO: Add a course development information to show course progress and control automated information',
+    courseDev_btn: 'Review and edit',
+    courseDev_link: 'Kursutveckling - mer information och hjälp',
     courseInfo_linkBack: 'Course information',
     altLabel: {
       start_link_back: 'To course information page',

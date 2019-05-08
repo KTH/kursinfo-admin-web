@@ -1,6 +1,6 @@
 import Table from 'inferno-bootstrap/dist/Table'
 
-const KipLinkNav = ({courseCode, lang}) => { // courseCode, lang, startCards
+const KipLinkNav = ({courseCode, trans, lang}) => { // courseCode, lang, startCards
   const kursOmLink = `/student/kurser/kurs/${courseCode}?l=${lang}`
   const kutvLink = `/kursutveckling/${courseCode}?l=${lang}`
   return (

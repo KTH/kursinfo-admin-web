@@ -31,7 +31,7 @@ class AdminStartPage extends Component {
           pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
-        <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} />
+        <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} trans={startCards} />
         {this.props.location.data === 'success' ?
           <Alert color='success' aria-live='polite'>
             {pageTitles.alertMessages.success}
@@ -68,7 +68,10 @@ class AdminStartPage extends Component {
             <Card>
               <CardBody>
                 <CardTitle>{startCards.courseDev_hd}</CardTitle>
-                <CardText>{startCards.courseDev_decs}</CardText>
+                <CardText>
+                  {startCards.courseDev_decs}
+                  <p><a href='#'> {startCards.courseDev_link}</a></p>
+                </CardText>
               </CardBody>
               <CardFooter className='text-right'>
                 <Link to='#' className='btn btn-primary' alt={startCards.courseDev_btn}>{startCards.courseDev_btn}</Link>

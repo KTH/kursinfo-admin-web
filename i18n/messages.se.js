@@ -58,8 +58,9 @@ module.exports = {
     coursePM_desc: 'Skapa kurs-pm i form av PDF',
     coursePM_btn: 'Skapa',
     courseDev_hd: 'Kursutveckling',
-    courseDev_decs: 'Lägg till information om kursutveckling så att ....',
-    courseDev_btn: 'Redigera',
+    courseDev_decs: 'Granska utkast, lägg till en ny information om kursomgångsutveckling eller redigera en redan tillagd kursomgång',
+    courseDev_btn: 'Granska och redigera',
+    courseDev_link: 'Courde development - more information and help',
     courseInfo_linkBack: 'Kursinformationssida',
     altLabel: {
       start_link_back: 'Till kursinformationssida',
