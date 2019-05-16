@@ -73,7 +73,6 @@ class AdminStartPage extends Component {
                 <CardTitle>{startCards.courseDev_hd}</CardTitle>
                 <CardText>
                   {startCards.courseDev_decs}
-                  <p><a href='#'> {startCards.courseDev_link}</a></p>
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
