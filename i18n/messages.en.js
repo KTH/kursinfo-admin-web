@@ -66,7 +66,7 @@ module.exports = {
     coursePM_btn: 'Upload',
     courseDev_hd: 'Course analys and course data',
     courseDev_decs: 'Edit and publish course data and course analys on the page "Course progress and history"',
-    courseDev_btn: 'Review and edit',
+    courseDev_btn: 'Edit and publish',
     courseDev_link: 'Kursutveckling - mer information och hjälp',
     courseInfo_linkBack: 'Course information',
     altLabel: {

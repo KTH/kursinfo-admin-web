@@ -64,16 +64,16 @@ module.exports = {
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Ladda upp kurs-pm i form av PDF',
     coursePM_btn: 'Ladda upp',
-    courseDev_hd: 'Kursutveckling',
+    courseDev_hd: 'Kusanalys och kursdata',
     courseDev_decs: 'Redigera och publicera kursdata och kursanalys på sidan ”Kursens utveckling och historik”',
-    courseDev_btn: 'Granska och redigera',
+    courseDev_btn: 'Redigera och publicera',
     courseDev_link: 'Courde development - more information and help',
     courseInfo_linkBack: 'Kursinformationssida',
     altLabel: {
       start_link_back: 'Till kursinformationssida',
       sellingText_btn: 'Redigera introduktion till kursen',
-      coursePM_btn: 'Skapa kurs-pm',
-      courseDev_btn: 'Redigera kursutveckling'
+      coursePM_btn: 'Ladda upp kurs-pm',
+      courseDev_btn: 'Redigera kusanalys och kursdata'
     }
   },
   sellingTextLabels: {
