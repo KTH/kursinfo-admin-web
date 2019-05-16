@@ -21,6 +21,25 @@
         //width: 50em;
     }
 }
+
+.kip-menu {
+    max-width: 30em;
+    margin-left: 1em;
+    .link-to::after{
+      content: '';
+      height: 1.5em;
+      width: 1.5em;
+      display: inline-block;
+      margin: -.6em 0 .3em .3em;
+      vertical-align: middle;
+      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+      transform: rotate(180deg);
+    }
+    td.admin-link > p > h4{
+        font-weight: 400;
+    }
+}
+
 .courseIntroText {
     padding-top: 10px;
     padding-bottom: 10px;
