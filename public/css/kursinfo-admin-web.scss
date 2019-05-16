@@ -21,6 +21,15 @@
         //width: 50em;
     }
 }
+span.intro {
+    margin-right: 7em;
+    span.right_intro {
+        margin-left: 3em;
+        max-width: 40em;
+        float:right;
+        text-align: left;
+    }
+}
 
 .kip-menu {
     max-width: 30em;
