@@ -28,7 +28,7 @@ class AdminStartPage extends Component {
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={pageTitles.course_dev_title}
+          pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
         <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
