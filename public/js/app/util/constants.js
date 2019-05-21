@@ -1,3 +1,12 @@
-export const PROGRAMME_URL = "https://www.kth.se/student/kurser/program"
-export const EMPTY = "--no information--"
-export const FORSKARUTB_URL = "https://www.kth.se/utbildning/forskarutbildning/kurser/org"
+export const PROGRAMME_URL = 'https://www.kth.se/student/kurser/program'
+export const EMPTY = '--no information--'
+export const FORSKARUTB_URL = 'https://www.kth.se/utbildning/forskarutbildning/kurser/org'
+export const COURSE_INFO_URL = '/student/kurser/kurs/'
+export const COURSE_UTVECKLING = '/kursutveckling/'
+export const ADMIN_OM_COURSE = '/admin/kurser/kurs/'
+export const ADMIN_COURSE_UTV = '/admin/kursutveckling/'
+export const USER_MANUAL_URL = 'https://intra.kth.se/utbildning/utbi/kursinformation/kursinfo-anvandarmanual'
+export const BETA_MORE_INFO_URL = 'https://intra.kth.se/utbildning/utbi/kursinformation/ny-plats-for-kursinformation'
+export const KOPPS_ADMIN_URL = 'https://app.kth.se/kopps/admin/'
+export const KOPPS_ADMIN_USERLIST_URL = 'https://app.kth.se/kopps/admin/userlist'
+export const KOPPS_ABOUT_URL = 'https://intra.kth.se/utbildning/utbildningsadministr/kopps/anvandarhanledning/behorigheter'
