@@ -31,10 +31,6 @@ class AdminStore {
   @observable sellingTextAuthor = ''
   @observable user = ''
   @observable hasDoneSubmit = false
-  @observable image = {
-    uri: '#',
-    isHere: 'localImage'
-  }
   @observable apiError = ''
 
   buildApiUrl (path, params) {
@@ -80,15 +76,10 @@ class AdminStore {
   @action addChangedByLastTime (data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
-  @action addSellingTextAndImage (data) {
+  @action addSellingText (data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
-    }
-    // this.image = '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#')
-    this.image = {
-      uri: '/student/kurser/kurs/static/img/courses/' + safeGet(() => data.imageInfo, '#'),
-      isHere: safeGet(() => data.imageInfo, 'localImage')
     }
   }
 
@@ -104,7 +95,6 @@ class AdminStore {
         course_code: this.isValidData(course.code),
         course_title: this.isValidData(course.title[lang]),
         course_credits: this.isValidData(course.credits),
-        // course_main_subject: this.isValidData(course.course_main_subject),
         apiError: false
       }
       const koppsCourseDesc = { // kopps recruitmentText
@@ -113,6 +103,7 @@ class AdminStore {
       }
       this.courseAdminData = {
         koppsCourseDesc,
+        image_file_name: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
         courseTitleData,
         lang
       }
@@ -128,6 +119,7 @@ class AdminStore {
       this.courseAdminData = {
         courseTitleData,
         koppsCourseDesc,
+        image_file_name: EMPTY,
         lang
       }
     })
@@ -135,7 +127,6 @@ class AdminStore {
 
   @action doUpsertItem (text, courseCode) {
     return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}), {sellingText: text, user: this.user}, this._getOptions())
-     // `/admin/kurser/kurs/api/${encodeURIComponent(courseCode)}`, {sellingText: text, user: this.user}, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
