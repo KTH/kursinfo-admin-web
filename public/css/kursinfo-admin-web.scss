@@ -21,32 +21,28 @@
         //width: 50em;
     }
 }
-span.intro {
-    margin-right: 7em;
+span.navigation {
+    margin-right: 3em;
+    display: flex;
+    justify-content: space-between;
+
     span.right_intro {
         margin-left: 3em;
-        max-width: 40em;
-        float:right;
-        text-align: left;
+        max-width: 50em;
     }
 }
 
-.kip-menu {
+.kip-menu, .Header--Link {
     max-width: 30em;
-    margin-left: 1em;
-    .link-to::after{
-      content: '';
-      height: 1.5em;
-      width: 1.5em;
-      display: inline-block;
-      margin: -.6em 0 .3em .3em;
-      vertical-align: middle;
-      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-      transform: rotate(180deg);
-    }
+    margin-left: 2em;
     td.admin-link > p {
-        margin-top: 1em;
+        margin-top: .2em;
     }
+}
+.Header--Link {
+    margin-top: 1em;
+    margin-bottom: .5em;
+    min-width: 30em;
 }
 
 .courseIntroText {
@@ -67,12 +63,7 @@ span.intro {
     }
 } 
 
-.Header--Link {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 1em;
-    margin-bottom: .5em;
-}
+
 
 .Editors--Area {
     display: flex;
@@ -105,12 +96,6 @@ span.intro {
     margin: 15px;
 }
 
-
-.kip-menu {
-    max-width: 30em;
-    margin-left: 1em;
-}
-
 .TextEditor--SellingInfo {
     margin: 2em 0;
     & > * {
@@ -126,6 +111,9 @@ span.intro {
         min-width: 18em;
         margin-top: 1em;
         margin-right: 3em;
+    }
+    .card-footer.text-right {
+        min-height: 4.2em;
     }
 }
 
