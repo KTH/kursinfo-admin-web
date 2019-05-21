@@ -10,3 +10,4 @@ export const BETA_MORE_INFO_URL = 'https://intra.kth.se/utbildning/utbi/kursinfo
 export const KOPPS_ADMIN_URL = 'https://app.kth.se/kopps/admin/'
 export const KOPPS_ADMIN_USERLIST_URL = 'https://app.kth.se/kopps/admin/userlist'
 export const KOPPS_ABOUT_URL = 'https://intra.kth.se/utbildning/utbildningsadministr/kopps/anvandarhanledning/behorigheter'
+export const KURSINFO_IMAGE_BLOB_URL = 'https://kursinfostorageprod.blob.core.windows.net/kursinfo-image-container/'
