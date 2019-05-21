@@ -193,7 +193,9 @@ class SellingInfo extends Component {
                 </Link>
               </Col>
               <Col sm='4' className='btn-next'>
-                <Button onClick={this.doPreview} color='success' className='pill-to' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>{sellingTextLabels.sellingTextButtons.button_preview}</Button>
+                <Button onClick={this.doPreview} color='success' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>
+                  {sellingTextLabels.sellingTextButtons.button_preview}
+                </Button>
               </Col>
             </Row>
           </div>
@@ -209,8 +211,8 @@ class SellingInfo extends Component {
                   image={this.props.adminStore.image}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row>
-                  <Col sm='4'>
-                    <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
+                  <Col sm='4' className='btn-back'>
+                    <Button onClick={this.doChangeText} alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
                   </Col>
                   <Col sm='4' className='btn-cancel'>
                     <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
@@ -218,7 +220,9 @@ class SellingInfo extends Component {
                     </Link>
                   </Col>
                   <Col sm='4' className='btn-next'>
-                    <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
+                    <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>
+                      {sellingTextLabels.sellingTextButtons.button_submit}
+                    </Button>
                   </Col>
                 </Row>
               </Col>
