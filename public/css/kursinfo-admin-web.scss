@@ -31,7 +31,7 @@ span.navigation {
         max-width: 50em;
     }
 }
-
+//Menu styles
 .kip-menu, .Header--Link {
     max-width: 30em;
     margin-left: 2em;
@@ -45,25 +45,28 @@ span.navigation {
     min-width: 30em;
 }
 
-.courseIntroText {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    .sellingText {
-        padding-right: 12px
+// Start page style
+.AdminPage--ShowDescription {
+    display: flex;
+    justify-content: space-between;
+    .card {
+        max-width: 21em;
+        min-width: 18em;
+        margin-top: 1em;
+        margin-right: 3em;
     }
-    img {
-        float: left;
-        margin: 8px 20px 10px 0;
-        width:100%;
-        max-width: 400px;
-        
-        &.localImage {
-            content: url(../img/studyPic.jpg)
-        }
+    .card-footer.text-right {
+        min-height: 4.2em;
     }
-} 
+}
 
-
+//Editing mode style
+.TextEditor--SellingInfo {
+    margin: 2em 0;
+    & > * {
+        margin-top: 1.5em;
+    }
+}
 
 .Editors--Area {
     display: flex;
@@ -84,6 +87,7 @@ span.navigation {
     .courseIntroTextCollapse {   
         a.collapse-header  {
             text-decoration: none;
+            // cursor: pointer;
         }
         & > h4 {
             margin-top: 1em;
@@ -91,56 +95,72 @@ span.navigation {
     }   
 }
 
+//Preview mode style
+
+.courseIntroText {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .sellingText {
+        padding-right: 12px
+    }
+    img {
+        float: left;
+        margin: 8px 20px 10px 0;
+        width:100%;
+        max-width: 400px;
+        
+        &.localImage {
+            content: url(../img/studyPic.jpg)
+        }
+    }
+}
+
 .alert {
     max-width: 100em;
     margin: 15px;
 }
 
-.TextEditor--SellingInfo {
-    margin: 2em 0;
-    & > * {
-        margin-top: 1.5em;
-    }
-}
-
-.AdminPage--ShowDescription {
-    display: flex;
-    justify-content: space-between;
-    .card {
-        max-width: 21em;
-        min-width: 18em;
-        margin-top: 1em;
-        margin-right: 3em;
-    }
-    .card-footer.text-right {
-        min-height: 4.2em;
-    }
-}
 
 //BUTTONS STYLES
+.btn {
+    border: 1px solid;
+    margin: 2em .3em;
 
+    &.btn-primary {
+        border-color: #007fae;
+    }
+    &.btn-success {
+        border-color: #62922e;
+    }
+}
+%arrow-icon {
+    content: '';
+    height: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+}
+
+.btn-secondary {
+    background-color: #f6f6f6;
+}
 .btn-cancel {
     text-align: center;
 }
+
+.btn-back {
+    .btn-secondary::before {
+        @extend %arrow-icon;
+        filter: grayscale(.9) brightness(.5);
+        vertical-align: middle;
+        margin-top: .2em;
+    }
+}
 .btn-next {
     text-align: end;
+    .btn-success::after {
+        @extend %arrow-icon;
+        filter: brightness(15);
+        transform: rotate(180deg);
+    }
 }
-
-// .button_group {
-//     display: flex;
-//     justify-content: center;
-//     // margin-left: 2em;
-
-//     .btn {
-//         border: 1px solid;
-//         margin: 2em .3em;
-
-//         &.btn-primary {
-//             border-color: #007fae;
-//         }
-//         &.btn-success {
-//             text-align: right;
-//             border-color: #62922e;
-//         }
-//     }
-// }
