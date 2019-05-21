@@ -104,7 +104,7 @@ class AdminStore {
         course_code: this.isValidData(course.code),
         course_title: this.isValidData(course.title[lang]),
         course_credits: this.isValidData(course.credits),
-        course_main_subject: this.isValidData(course.course_main_subject),
+        // course_main_subject: this.isValidData(course.course_main_subject),
         apiError: false
       }
       const koppsCourseDesc = { // kopps recruitmentText
