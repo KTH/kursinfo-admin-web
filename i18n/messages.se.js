@@ -109,7 +109,7 @@ module.exports = {
     sellingTextButtons: {
       button_cancel: 'Avbryt',
       button_change: 'Redigera',
-      button_preview: 'Förhandsgranska',
+      button_preview: 'Granska',
       button_submit: 'Publicera'
     },
     altLabel: {
