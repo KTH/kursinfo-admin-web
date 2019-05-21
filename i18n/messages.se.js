@@ -80,9 +80,15 @@ module.exports = {
     label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
+    label_step_1: 'Redigera svensk och engelsk text (steg 1 av 2)',
+    label_step_2: 'Granska och publicera (steg 2 av 2)',
     langLabelKopps: {
-      en: 'Kortbeskrivning i KOPPS på engleska',
-      sv: 'Kortbeskrivning i KOPPS på svenska'
+      en: 'Kortbeskrivning i KOPPS (EN)',
+      sv: 'Kortbeskrivning i KOPPS (SV)'
+    },
+    langLabelIntro: {
+      en: 'Introduktion till kursen (EN)',
+      sv: 'Introduktion till kursen (SV)'
     },
     langLabel: {
       en: 'Engelsk text',
@@ -102,5 +108,33 @@ module.exports = {
       button_submit: 'Spara och publicera introduktion till kursen',
       image: 'Bild för kurssidasdekoration'
     }
+  },
+  courseImage: {
+    Arkitektur: '',
+    Bioteknik: '',
+    'Datalogi och datateknik': '',
+    Elektroteknik: '',
+    Fysik: '',
+    'Industriell ekonomi': 'HH1800',
+    Informationsteknik: '',
+    'Informations- och kommunikationsteknik': '',
+    Kemiteknik: '',
+    'Kemi och kemiteknik	': '',
+    Matematik: 'test Matte',
+    Miljöteknik: '',
+    'Molekylära livsvetenskaper': '',
+    Maskinteknik: '',
+    Materialvetenskap: '',
+    'Medicinsk teknik': '',
+    Materialteknik: '',
+    Samhällsbyggnad: '',
+    'Teknisk fysik': '',
+    'Teknik och ekonomi': '',
+    'Teknik och hälsa': '',
+    'Teknik och management': '',
+    Teknik: '',
+    'Teknik och management': '',
+    'Teknik och lärande': '',
+    default: 'default'
   }
 }

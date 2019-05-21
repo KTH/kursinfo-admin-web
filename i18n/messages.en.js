@@ -80,9 +80,15 @@ module.exports = {
     label_selling_info: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
+    label_step_1: 'Edit swedish and english text (step 1 out of 2)',
+    label_step_2: 'Preview and publish (step 2 out of 2)',
     langLabelKopps: {
-      en: 'Short description from KOPPS in English',
-      sv: 'Short description from KOPPS in Swedish'
+      en: 'Short description from KOPPS (EN)',
+      sv: 'Short description from KOPPS (SW)'
+    },
+    langLabelIntro: {
+      en: 'Course introduction (EN)',
+      sv: 'Course introduction (SW)'
     },
     langLabel: {
       en: 'English text',
@@ -102,5 +108,34 @@ module.exports = {
       button_submit: 'Save and publish course introduction',
       image: 'Picture for a course description decoration'
     }
+  },
+  courseImage: {
+    Architecture: '',
+    Biotechnology: '',
+    'Computer Science and Engineering': '',
+    'Electrical Engineering': '',
+    Physics: '',
+    ' Industrial Management': '',
+    'Information Technology': '',
+    'Information and Communication Technology': '',
+    'Chemical Science and Engineering': '',
+    'Chemistry and Chemical Engineering': '',
+    Mathematics: '',
+    'Environmental Engineering': '',
+    'Molecular Life Science': '',
+    ' Mechanical Engineering': '',
+    'Materials Science': '',
+    'Medical Engineering': '',
+    'Materials Science and Engineering': '',
+    'Built Environment': '',
+    'Engineering Physics': '',
+    'Technology and Economics': '',
+    'Technology and Health': '',
+    'Technology and Management': '',
+    Technology: '',
+    'Engineering and Management': '',
+    'Technology and Learning': '',
+    default: ''
   }
 }
+
