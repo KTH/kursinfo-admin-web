@@ -21,12 +21,10 @@ class AdminStartPage extends Component {
     const courseAdminData = adminStore['courseAdminData']
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
-    // let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
-    // if (courseImage === undefined) courseImage = translation.courseImage.default
     const translation = i18n.messages[lang]
     const pageTitles = translation.pageTitles
     const startCards = translation.startCards
-    const isProd = true// process.env['NODE_ENV'] !== 'production'
+    const isProd = true// process.env['NODE_ENV'] === 'production'
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
@@ -37,10 +35,10 @@ class AdminStartPage extends Component {
           language={courseAdminData.lang}
         />
         <KipLinkNav isProd={isProd} courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
-        {this.props.location.data === 'success' ?
-          <Alert color='success' aria-live='polite'>
+        {this.props.location.data === 'success'
+        ? <Alert color='success' aria-live='polite'>
             {pageTitles.alertMessages.success}
-          </Alert>
+        </Alert>
         : ''
         }
         <div className='col'>

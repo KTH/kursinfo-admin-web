@@ -151,7 +151,8 @@ class SellingInfo extends Component {
     const translation = i18n.messages[lang]
     const pageTitles = translation.pageTitles
     const sellingTextLabels = translation.sellingTextLabels
-
+    let courseImage = translation.courseImage[courseAdminData.image_file_name]
+    if (courseImage === undefined) courseImage = translation.courseImage.default
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
@@ -205,10 +206,10 @@ class SellingInfo extends Component {
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
-                  image={this.props.adminStore.image}
+                  image={courseImage}
                   sellingText={this.state.sellingText_sv} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
-                  image={this.props.adminStore.image}
+                  image={courseImage}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row>
                   <Col sm='4' className='btn-back'>
