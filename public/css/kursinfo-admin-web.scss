@@ -44,6 +44,9 @@ span.intro {
       background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
       transform: rotate(180deg);
     }
+    td.admin-link > p {
+        margin-top: 1em;
+    }
 }
 
 .courseIntroText {
@@ -87,15 +90,12 @@ span.intro {
         width: 100%;
         margin-left: .5em;
     }
-    .text-center {
-        text-align: center;
-    }
     .courseIntroTextCollapse {   
         a.collapse-header  {
             text-decoration: none;
         }
-        h4.mb-0 {
-            margin-top: 0;
+        & > h4 {
+            margin-top: 1em;
         }
     }   
 }
@@ -105,22 +105,6 @@ span.intro {
     margin: 15px;
 }
 
-.button_group {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 2em;
-    .btn {
-        border: 1px solid;
-        margin: 2em .3em;
-
-        &.btn-primary {
-            border-color: #007fae;
-        }
-        &.btn-success {
-            border-color: #62922e;
-        }
-    }
-}
 
 .kip-menu {
     max-width: 30em;
@@ -144,3 +128,31 @@ span.intro {
         margin-right: 3em;
     }
 }
+
+//BUTTONS STYLES
+
+.btn-cancel {
+    text-align: center;
+}
+.btn-next {
+    text-align: end;
+}
+
+// .button_group {
+//     display: flex;
+//     justify-content: center;
+//     // margin-left: 2em;
+
+//     .btn {
+//         border: 1px solid;
+//         margin: 2em .3em;
+
+//         &.btn-primary {
+//             border-color: #007fae;
+//         }
+//         &.btn-success {
+//             text-align: right;
+//             border-color: #62922e;
+//         }
+//     }
+// }
