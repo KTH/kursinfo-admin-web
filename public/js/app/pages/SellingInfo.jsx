@@ -168,6 +168,7 @@ class SellingInfo extends Component {
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
             <p>{sellingTextLabels.label_selling_info}</p>
+            <h2>{sellingTextLabels.label_step_1}</h2>
             <span class='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
                 <KoppsTextCollapse instructions={sellingTextLabels}
@@ -183,15 +184,22 @@ class SellingInfo extends Component {
               </span>
             </span>
             <p>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
-            <span className='button_group' key='controlButtons'>
-              <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary' alt={sellingTextLabels.altLabel.button_cancel}>
-                {sellingTextLabels.sellingTextButtons.button_cancel}
-              </Link>
-              <Button onClick={this.doPreview} color='primary' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>{sellingTextLabels.sellingTextButtons.button_preview}</Button>
-            </span>
+            <Row>
+              <Col sm='4'>
+              </Col>
+              <Col sm='4' className='btn-cancel'>
+                <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
+                  {sellingTextLabels.sellingTextButtons.button_cancel}
+                </Link>
+              </Col>
+              <Col sm='4' className='btn-next'>
+                <Button onClick={this.doPreview} color='success' className='pill-to' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>{sellingTextLabels.sellingTextButtons.button_preview}</Button>
+              </Col>
+            </Row>
           </div>
         ) : (
           <div className='col'>
+            <h2>{sellingTextLabels.label_step_2}</h2>
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
@@ -200,12 +208,18 @@ class SellingInfo extends Component {
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
                   image={this.props.adminStore.image}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
-                <Row className='button_group'>
-                  <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
-                    {sellingTextLabels.sellingTextButtons.button_cancel}
-                  </Link>
-                  <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
-                  <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
+                <Row>
+                  <Col sm='4'>
+                    <Button onClick={this.doChangeText} color='primary' alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
+                  </Col>
+                  <Col sm='4' className='btn-cancel'>
+                    <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+                      {sellingTextLabels.sellingTextButtons.button_cancel}
+                    </Link>
+                  </Col>
+                  <Col sm='4' className='btn-next'>
+                    <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>{sellingTextLabels.sellingTextButtons.button_submit}</Button>
+                  </Col>
                 </Row>
               </Col>
             </Row>
