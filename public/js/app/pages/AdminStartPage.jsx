@@ -21,10 +21,12 @@ class AdminStartPage extends Component {
     const courseAdminData = adminStore['courseAdminData']
     const lang = courseAdminData.lang === 'en' ? 0 : 1
     const courseCode = courseAdminData.courseTitleData.course_code
+    // let courseImage = translation.courseImage[courseData.courseInfo.course_main_subject.split(',')[0]]
+    // if (courseImage === undefined) courseImage = translation.courseImage.default
     const translation = i18n.messages[lang]
     const pageTitles = translation.pageTitles
     const startCards = translation.startCards
-    const isProd = process.env['NODE_ENV'] === 'production'
+    const isProd = true// process.env['NODE_ENV'] !== 'production'
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
