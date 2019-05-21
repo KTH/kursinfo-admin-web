@@ -14,7 +14,6 @@ import KipLinkNav from '../components/KipNav.jsx'
 
 import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL} from '../util/constants'
 
-const isProd = process.env['NODE_ENV'] === 'production'
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
 
@@ -25,6 +24,7 @@ class AdminStartPage extends Component {
     const translation = i18n.messages[lang]
     const pageTitles = translation.pageTitles
     const startCards = translation.startCards
+    const isProd = process.env['NODE_ENV'] === 'production'
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
