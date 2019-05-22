@@ -57,7 +57,7 @@ module.exports = {
     instruction_kopps_alt: 'Till KOPPS',
     link_user_manual: 'Information och hjälp för att administrera Om-kursen',
     alertMessages: {
-      success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på kursinformationssidan',
+      success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',

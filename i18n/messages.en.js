@@ -56,7 +56,7 @@ module.exports = {
     instruction_kopps_5_link: 'access rights.',
     instruction_kopps_alt: 'To KOPPS',
     alertMessages: {
-      success: 'New version of the course introduction has been published in english and swedish languages.',
+      success: 'New version of the course introduction has been published in english and swedish languages on the page ',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
