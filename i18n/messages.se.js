@@ -143,7 +143,6 @@ module.exports = {
     'Teknik och hälsa': 'Picture_by_MainFieldOfStudy_21_Technology_Health.jpg',
     'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     Teknik: 'Picture_by_MainFieldOfStudy_23_Technology.jpg',
-    'Teknik och management': 'Picture_by_MainFieldOfStudy_22_Technology_Management.jpg',
     'Teknik och lärande': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
     default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
   }
