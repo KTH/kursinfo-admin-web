@@ -26,6 +26,7 @@
     "test"
   ],
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "applicationinsights": "^1.2.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.15.1",
@@ -69,7 +70,7 @@
     "locale": "^0.1.0",
     "mobx": "^5.9.0",
     "passport": "^0.3.2",
-    "query-string": "^6.2.0",
+    "query-string": "^5.1.1",
     "safe-utils": "^0.1.1"
   },
   "devDependencies": {
@@ -81,6 +82,7 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-inferno": "^5.0.1",
+    "babel-plugin-module-resolver": "^3.1.2",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
