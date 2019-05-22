@@ -155,10 +155,13 @@ span.navigation {
     }
 }
 .btn-next {
-    text-align: end;
     .btn-success::after {
         @extend %arrow-icon;
         filter: brightness(15);
         transform: rotate(180deg);
     }
+}
+
+.btn-next, .btn-last { 
+    text-align: end;
 }
