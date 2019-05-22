@@ -1,4 +1,3 @@
-import i18n from '../../../../i18n'
 
 function KoppsTextCollapse ({koppsText, lang, instructions}) {
   return ( // langLabelKopps , langLabel
