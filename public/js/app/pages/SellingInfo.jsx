@@ -184,8 +184,8 @@ class SellingInfo extends Component {
                 <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
               </span>
             </span>
-            <p>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
-            <Row>
+            <p className='changed-by'>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
+            <Row className='control-buttons'>
               <Col sm='4'>
               </Col>
               <Col sm='4' className='btn-cancel'>
@@ -211,7 +211,7 @@ class SellingInfo extends Component {
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
                   image={courseImage}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
-                <Row>
+                <Row className='control-buttons'>
                   <Col sm='4' className='btn-back'>
                     <Button onClick={this.doChangeText} alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
                   </Col>
