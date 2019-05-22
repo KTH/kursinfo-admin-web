@@ -55,6 +55,7 @@ module.exports = {
     instruction_kopps_4: 'read more about KOPPS ',
     instruction_kopps_5_link: 'access rights.',
     instruction_kopps_alt: 'To KOPPS',
+    link_user_manual: 'Information and help to administrate About course pages',
     alertMessages: {
       success: 'New version of the course introduction has been published in english and swedish languages on the page ',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
@@ -78,7 +79,7 @@ module.exports = {
     courseDev_link: 'Kursutveckling - mer information och hjälp',
     beta_courseDev: 'The course progress and history, course analysis and course data are under development now',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
-    beta_more_link: 'If you are interested to know more or participate in development …',
+    beta_more_link: 'Are you interested to know more or participate in development?',
     altLabel: {
       sellingText_btn: 'Edit selling description',
       coursePM_btn: 'Create course PM',

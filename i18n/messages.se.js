@@ -55,7 +55,7 @@ module.exports = {
     instruction_kopps_4: 'läs mer om Kopps ',
     instruction_kopps_5_link: 'behörigheter.',
     instruction_kopps_alt: 'Till KOPPS',
-    link_user_manual: 'Information och hjälp för att administrera Om-kursen',
+    link_user_manual: 'Information och hjälp för att administrera Om kursen',
     alertMessages: {
       success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
@@ -79,7 +79,7 @@ module.exports = {
     courseDev_link: 'Courde development - more information and help',
     beta_courseDev: 'Sidan Kursens utveckling och historik och funktionalitet för att där ladda upp och kursanalys med kursdata är under utveckling.',
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
-    beta_more_link: 'Vill du veta mer eller delta …',
+    beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
       start_link_back: 'Till kursinformationssida',
       sellingText_btn: 'Redigera introduktion till kursen',
