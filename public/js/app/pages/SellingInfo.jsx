@@ -168,8 +168,8 @@ class SellingInfo extends Component {
         {this.state.enteredEditMode ? (
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
-            <p>{sellingTextLabels.label_selling_info}</p>
             <h2>{sellingTextLabels.label_step_1}</h2>
+            <p>{sellingTextLabels.label_selling_info}</p>
             <span class='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
                 <KoppsTextCollapse instructions={sellingTextLabels}
@@ -220,7 +220,7 @@ class SellingInfo extends Component {
                       {sellingTextLabels.sellingTextButtons.button_cancel}
                     </Link>
                   </Col>
-                  <Col sm='4' className='btn-next'>
+                  <Col sm='4' className='btn-last'>
                     <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>
                       {sellingTextLabels.sellingTextButtons.button_submit}
                     </Button>
