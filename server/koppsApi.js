@@ -8,12 +8,12 @@ const koppsApi = new BasicAPI({
   basePath: server.kopps.basePath,
   https: server.kopps.https,
   json: true,
-  defaultTimeout: server.kopps.defaultTimeout,
-  redis: {
-    client: redis,
-    prefix: 'course-info-admin-kopps',
-    expire: 20000
-  }
+  defaultTimeout: server.kopps.defaultTimeout
+  // redis: {
+  //   client: redis,
+  //   prefix: 'course-info-admin-kopps',
+  //   expire: 20000
+  // }
 })
 
 const koppsCourseData = async (courseCode) => {
