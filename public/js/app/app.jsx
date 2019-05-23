@@ -40,8 +40,8 @@ function appFactory () {
     <Provider adminStore={adminStore} >
       <ProgressLayer>
         <Switch>
-          <Route path='/admin/kurser/kurs/edit' component={SellingInfo} />
-          <Route path='/admin/kurser/kurs/' component={AdminStartPage} />
+          <Route path='/kursinfoadmin/kurser/kurs/edit' component={SellingInfo} />
+          <Route path='/kursinfoadmin/kurser/kurs/' component={AdminStartPage} />
         </Switch>
       </ProgressLayer>
     </Provider>
