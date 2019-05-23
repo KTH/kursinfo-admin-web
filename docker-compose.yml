@@ -6,8 +6,8 @@ services:
     environment:
       WEB_VERSION: "^0.1.0"
       LOGGING_USER: "kursinfo-admin-web"
-      SERVICE_PUBLISH: "/admin/kurser/kurs"
-      #SERVER_HOST_URL: "https://www-r-new.referens.sys.kth.se/"
+      SERVICE_PUBLISH: "/kipadministration/kurser/kurs"
+      # SERVER_HOST_URL: "https://www-r.referens.sys.kth.se/"
       SERVER_PORT: 3000
       API_URI: 'https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000'
       CAS_SSO_URI: 'https://login-r.referens.sys.kth.se'
