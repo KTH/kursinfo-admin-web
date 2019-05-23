@@ -3,13 +3,13 @@ import {COURSE_INFO_URL, COURSE_UTVECKLING,
   USER_MANUAL_URL, KOPPS_ADMIN_URL, KOPPS_ADMIN_USERLIST_URL, KOPPS_ABOUT_URL} from '../util/constants'
 
 const KipLinkNav = ({courseCode, translate, lang, isProd}) => { // courseCode, lang, startCards
-  const kursOmLink = `${COURSE_INFO_URL}${courseCode}?l=${lang}`
+  const kursOmLink = `https://www.kth.se${COURSE_INFO_URL}${courseCode}?l=${lang}` // hardkoded because of admin is on app.kth.se but student is www.kth.se
   const kutvLink = `${COURSE_UTVECKLING}${courseCode}?l=${lang}`
   return (
     <span className='navigation row'>
      {isProd
         ? <span className='Header--Link'>
-          <a href={`${COURSE_INFO_URL}${courseCode}?l=${lang}`} alt={translate.start_link_back} className='link-back'>{translate.course_info_title}</a>
+          <a href={kursOmLink} alt={translate.start_link_back} className='link-back'>{translate.course_info_title}</a>
         </span>
         : <Table className='kip-menu'>
           <tbody>
