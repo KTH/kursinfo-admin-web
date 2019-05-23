@@ -79,7 +79,7 @@ class SellingInfo extends Component {
         isError: false
       })
       this.props.history.push({
-        pathname: `/admin/kurser/kurs/${courseCode}?l=${adminStore.courseAdminData.lang}`,
+        pathname: `/kipadministration/kurser/kurs/${courseCode}?l=${adminStore.courseAdminData.lang}`,
         data: 'success'
       })
     }).catch(err => {
@@ -189,7 +189,7 @@ class SellingInfo extends Component {
               <Col sm='4'>
               </Col>
               <Col sm='4' className='btn-cancel'>
-                <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
+                <Link to={`/kipadministration/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
                   {sellingTextLabels.sellingTextButtons.button_cancel}
                 </Link>
               </Col>
@@ -216,7 +216,7 @@ class SellingInfo extends Component {
                     <Button onClick={this.doChangeText} alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
                   </Col>
                   <Col sm='4' className='btn-cancel'>
-                    <Link to={`/admin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+                    <Link to={`/kipadministration/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
                       {sellingTextLabels.sellingTextButtons.button_cancel}
                     </Link>
                   </Col>
