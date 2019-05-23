@@ -37,8 +37,8 @@ class AdminStartPage extends Component {
         <KipLinkNav isProd={isProd} courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
         {this.props.location.data === 'success'
         ? <Alert color='success' aria-live='polite'>
-            {pageTitles.alertMessages.success}
-            <a href={`${COURSE_INFO_URL}${courseCode}?l=${courseAdminData.lang}`} alt={pageTitles.start_link_back}>{pageTitles.course_info_title}</a>
+          {pageTitles.alertMessages.success}
+          <a href={`https://www.kth.se${COURSE_INFO_URL}${courseCode}?l=${courseAdminData.lang}`} alt={pageTitles.start_link_back}>{pageTitles.course_info_title}</a>
         </Alert>
         : ''
         }
