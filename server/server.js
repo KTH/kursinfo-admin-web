@@ -142,7 +142,8 @@ const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, s
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   proxyPrefixPath: config.proxyPrefixPath.uri,
-  server: server
+  server: server,
+  cookieTimeout: config.cas.cookieTimeout
 })
 const { redirectAuthenticatedUserHandler } = require('./authentication')
 server.use(passport.initialize())

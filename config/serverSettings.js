@@ -66,7 +66,8 @@ module.exports = {
     superuserGroup: 'app.kursinfo.kursinfo-admins'
   },
   cas: {
-    ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL)
+    ssoBaseURL: getEnv('CAS_SSO_URI', devSsoBaseURL),
+    cookieTimeout: 5
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
   kopps: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
@@ -119,6 +120,6 @@ module.exports = {
 
   // APPLICATION INSIGHTS IN AZURE
   appInsights: {
-    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY')
+    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY', '')
   }
 }
