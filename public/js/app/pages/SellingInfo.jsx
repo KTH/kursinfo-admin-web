@@ -151,7 +151,7 @@ class SellingInfo extends Component {
     const translation = i18n.messages[lang]
     const pageTitles = translation.pageTitles
     const sellingTextLabels = translation.sellingTextLabels
-    let courseImage = translation.courseImage[courseAdminData.image_file_name]
+    let courseImage = translation.courseImage[courseAdminData.imageFileName]
     if (courseImage === undefined) courseImage = translation.courseImage.default
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >

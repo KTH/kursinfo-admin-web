@@ -103,7 +103,7 @@ class AdminStore {
       }
       this.courseAdminData = {
         koppsCourseDesc,
-        image_file_name: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
+        imageFileName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
         courseTitleData,
         lang
       }
@@ -119,7 +119,7 @@ class AdminStore {
       this.courseAdminData = {
         courseTitleData,
         koppsCourseDesc,
-        image_file_name: EMPTY,
+        imageFileName: EMPTY,
         lang
       }
     })
