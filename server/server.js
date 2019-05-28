@@ -149,27 +149,27 @@ const { redirectAuthenticatedUserHandler } = require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 function logoutHandlera () {
-  console.log('HALLLLLOaasalogoutHandlera')
+  log.error('HALLLLLOaasalogoutHandlera')
 }
 function logoutHandlerb () {
-  console.log('loooooooalalallogoutHandlerb')
+  log.error('loooooooalalallogoutHandlerb')
 }
 function logoutHandlerc () {
-  console.log('loooooooalalallogoutHandlerc')
+  log.error('loooooooalalallogoutHandlerc')
 }
 const authRoute = AppRouter()
-console.log('authRouteauthRouteauthRouteauthRoute', authRoute)
-console.log('getPathsgetPathsgetPathsgetPaths', getPaths())
+log.debug('authRouteauthRouteauthRouteauthRoute', authRoute)
+log.debug('getPathsgetPathsgetPathsgetPaths', getPaths())
 authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
 authRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler, redirectAuthenticatedUserHandler)
 authRoute.get('cas.logout', '/logout', logoutHandlera)
 authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandlerb)
-// authRoute.get('cas.logout', '/social/accounts/logout', logoutHandlerc)
+authRoute.get('cas.logout', '/social/accounts/logout', logoutHandlerc)
 
 // Optional pgtCallback (use config.cas.pgtUrl?)
 authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
-console.log('authRouteauthRouteauthRouteauthRoute222222', authRoute)
-console.log('authRoute.getRouter()authRoute.getRouter()', authRoute.getRouter())
+log.debug('authRouteauthRouteauthRouteauthRoute222222', authRoute)
+log.info('authRoute.getRouter()authRoute.getRouter()', authRoute.getRouter())
 
 server.use('/', authRoute.getRouter())
 
