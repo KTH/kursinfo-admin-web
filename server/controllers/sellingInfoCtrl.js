@@ -70,7 +70,7 @@ async function _getDescription (req, res, next) {
     })
     const html = renderToString(renderProps)
     res.render('course/index', {
-      debug: 'debug' in req.query,
+      // debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
       title: courseCode,
       html: html,
