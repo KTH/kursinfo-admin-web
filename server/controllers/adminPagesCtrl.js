@@ -51,6 +51,7 @@ async function _getAdminStart (req, res, next) {
       routes: renderProps.props.children.props.children.props.children.props.children
     })
     const html = renderToString(renderProps)
+    console.log('req.session', req.session)
     res.render('course/index', {
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,

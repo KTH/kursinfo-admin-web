@@ -148,13 +148,29 @@ const { authLoginHandler, authCheckHandler, logoutHandler, pgtCallbackHandler, s
 const { redirectAuthenticatedUserHandler } = require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
-
+function logoutHandlera () {
+  console.log('HALLLLLOaasalogoutHandlera')
+}
+function logoutHandlerb () {
+  console.log('loooooooalalallogoutHandlerb')
+}
+function logoutHandlerc () {
+  console.log('loooooooalalallogoutHandlerc')
+}
 const authRoute = AppRouter()
+console.log('authRouteauthRouteauthRouteauthRoute', authRoute)
+console.log('getPathsgetPathsgetPathsgetPaths', getPaths())
 authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
 authRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler, redirectAuthenticatedUserHandler)
-authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
+authRoute.get('cas.logout', '/logout', logoutHandlera)
+authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandlerb)
+// authRoute.get('cas.logout', '/social/accounts/logout', logoutHandlerc)
+
 // Optional pgtCallback (use config.cas.pgtUrl?)
 authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
+console.log('authRouteauthRouteauthRouteauthRoute222222', authRoute)
+console.log('authRoute.getRouter()authRoute.getRouter()', authRoute.getRouter())
+
 server.use('/', authRoute.getRouter())
 
 // Convenience methods that should really be removed
