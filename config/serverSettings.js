@@ -99,6 +99,10 @@ module.exports = {
   cache: {
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
+    },
+    kursinfoApi: {// TODO, CHECK IF IT IS NEEDED
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 60 * 60 * 1000)
     }
   },
 
