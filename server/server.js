@@ -149,22 +149,22 @@ const { redirectAuthenticatedUserHandler } = require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 function logoutHandlera () {
-  log.error('HALLLLLOaasalogoutHandlera')
+  log.debug('HALLLLLSSOaasalogoutHandlera')
 }
 function logoutHandlerb () {
-  log.error('loooooooalalallogoutHandlerb')
+  log.debug('loooooooalalSSallogoutHandlerb')
 }
 function logoutHandlerc () {
-  log.error('loooooooalalallogoutHandlerc')
+  log.debug('loooooooalalalSSlogoutHandlerc')
 }
 const authRoute = AppRouter()
 log.debug('authRouteauthRouteauthRouteauthRoute', authRoute)
 log.debug('getPathsgetPathsgetPathsgetPaths', getPaths())
 authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
 authRoute.get('cas.gateway', config.proxyPrefixPath.uri + '/loginGateway', authCheckHandler, redirectAuthenticatedUserHandler)
-authRoute.get('cas.logout', '/logout', logoutHandlera)
-authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandlerb)
-authRoute.get('cas.logout', '/social/accounts/logout', logoutHandlerc)
+authRoute.get('cas.logout1', '/logout', logoutHandlera)
+authRoute.get('cas.logout2', config.proxyPrefixPath.uri + '/logout', logoutHandlerb)
+authRoute.get('cas.logout3', '/social/accounts/logout', logoutHandlerc)
 
 // Optional pgtCallback (use config.cas.pgtUrl?)
 authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
@@ -220,7 +220,7 @@ appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode'
 appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.updateDescription)
 appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/getKoppsCourseDataByCourse/:courseCode/', AdminPagesCtrl.getKoppsCourseData)
-appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
+// appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 
 // Not found etc
