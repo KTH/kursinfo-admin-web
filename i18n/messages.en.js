@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Message keys
      */
-    service_name: 'course information administation',
+    service_name: 'course information administration',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -67,7 +67,7 @@ module.exports = {
   startCards: {
     sellingText_hd: 'Course introduction',
     sellingText_desc_p1: 'Replace a short description from kopps to a more informative introduction to a course to help students to make a right choice',
-    sellingText_desc_p2: '”Introduktion to course" displayed on top of ”Course Information” page.',
+    sellingText_desc_p2: '”Introduction to course" displayed on top of ”Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course-PM',
@@ -76,7 +76,7 @@ module.exports = {
     courseDev_hd: 'Course analysis with course data',
     courseDev_decs: 'Edit and publish course data and course analysis on the page "Course progress and history"',
     courseDev_btn: 'Edit and publish',
-    courseDev_link: 'Kursutveckling - mer information och hjälp',
+    courseDev_link: 'Course development - more information and help',
     beta_courseDev: 'The course progress and history, course analysis and course data are under development now',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
     beta_more_link: 'Are you interested to know more or participate in development?',
@@ -118,6 +118,34 @@ module.exports = {
       button_submit: 'Save and publish course introduction',
       image: 'Picture for a course description decoration'
     }
+  },
+  courseMainSubjects: {
+    Architecture: 'Arkitektur',
+    Biotechnology: 'Bioteknik',
+    'Computer Science and Engineering': 'Datalogi och datateknik',
+    'Electrical Engineering': 'Elektroteknik',
+    Physics: 'Fysik',
+    'Industrial Management': 'Industriell ekonomi',
+    'Information Technology': 'Informationsteknik',
+    'Information and Communication Technology': 'Informations- och kommunikationsteknik',
+    'Chemical Science and Engineering': 'Kemiteknik',
+    'Chemistry and Chemical Engineering': 'Kemi och kemiteknik',
+    Mathematics: 'Matematik',
+    'Environmental Engineering': 'Miljöteknik',
+    'Molecular Life Science': 'Molekylära livsvetenskaper',
+    'Mechanical Engineering': 'Maskinteknik',
+    'Materials Science': 'Materialvetenskap',
+    'Medical Engineering': 'Medicinsk teknik',
+    'Materials Science and Engineering': 'Materialteknik',
+    'Built Environment': 'Samhällsbyggnad',
+    'Engineering Physics': 'Teknisk fysik',
+    'Technology and Economics': 'Teknik och ekonomi',
+    'Technology and Health': 'Teknik och hälsa',
+    'Technology and Management': 'Teknik och management',
+    Technology: 'Teknik',
+    'Engineering and Management': 'Teknik och management',
+    'Technology and Learning': 'Teknik och lärande',
+    default: 'default'
   },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
