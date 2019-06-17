@@ -54,8 +54,9 @@ span.navigation {
         min-width: 18em;
         margin-top: 1em;
         margin-right: 3em;
-
-
+        .bth {
+            margin-bottom: .5em;
+        }
     }
     .card.course-development {
         max-width: 29em;
