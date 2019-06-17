@@ -34,7 +34,7 @@ class AdminStartPage extends Component {
           pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
-        <KipLinkNav isProd={isProd} courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
+        <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
         {this.props.location.data === 'success'
         ? <Alert color='success' aria-live='polite'>
           {pageTitles.alertMessages.success}
