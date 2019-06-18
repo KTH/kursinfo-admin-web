@@ -80,7 +80,7 @@ class SellingInfo extends Component {
       })
       this.props.history.push({
         pathname: `/kursinfoadmin/kurser/kurs/${courseCode}?l=${adminStore.courseAdminData.lang}`,
-        data: 'success'
+        sellingDesciprion: 'success'
       })
     }).catch(err => {
       var langIndex = i18n.isSwedish() ? 1 : 0
