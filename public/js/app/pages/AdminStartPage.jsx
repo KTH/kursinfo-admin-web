@@ -9,10 +9,10 @@ import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
 import CardText from 'inferno-bootstrap/lib/Card/CardText'
 import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
 import { Link } from 'inferno-router'
-import Alert from 'inferno-bootstrap/lib/Alert'
 import KipLinkNav from '../components/KipNav.jsx'
+import AlertMsg from '../components/AlertMsg.jsx'
 
-import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL, COURSE_INFO_URL} from '../util/constants'
+import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL} from '../util/constants'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
@@ -35,13 +35,7 @@ class AdminStartPage extends Component {
           language={courseAdminData.lang}
         />
         <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
-        {this.props.location.data === 'success'
-        ? <Alert color='success' aria-live='polite'>
-          {pageTitles.alertMessages.success}
-          <a href={`https://www.kth.se${COURSE_INFO_URL}${courseCode}?l=${courseAdminData.lang}`} alt={pageTitles.start_link_back}>{pageTitles.course_info_title}</a>
-        </Alert>
-        : ''
-        }
+        <AlertMsg props={this.props} lang={courseAdminData.lang} translate={pageTitles} />
         <div className='col'>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
