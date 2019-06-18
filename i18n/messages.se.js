@@ -44,8 +44,8 @@ module.exports = {
     course_info_title_alt: 'Till Kursinformation vy',
     course_admin_title: 'Administrera',
     about_course: 'Om kursen',
-    info_text: 'På denna ... ....',
-    info_admin_text: 'Ansvariga .......',
+    info_text: 'På denna sida kan nuvarande och presumtiva studenter ta del av kursdata och kursanalyser för tidigare kursomgångar för kursen för att hjälpa till vid kursval.',
+    info_admin_text: 'Ansvariga för kursen kan få en överblick över kursens utveckling och ansvarar för att publicera kursdata och kursanalys.',
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
@@ -72,6 +72,10 @@ module.exports = {
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
       kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas'
+    },
+    course_short_semester: {
+      1: 'VT ',
+      2: 'HT '
     }
   },
   startCards: {

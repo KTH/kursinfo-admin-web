@@ -17,7 +17,9 @@ const AlertMsg = ({props, courseCode, translate, lang}) => {
             ? params.ev === 's' || params.ev === 'p' || params.ev === 'd'
                 ? <Alert color='success' aria-live='polite'>
                   <h4>{translate.alertMessages['kutv'][params.ev]}</h4>
-                  <p>{translate.alertMessages.term}: {params.term}</p>
+                  <p>{translate.alertMessages.term}: {translate.course_short_semester[params.term.toString().substring(4, 5)]}
+                  {params.term.toString().substring(0, 4)}
+                  </p>
                   <p>{translate.alertMessages.course_round}: {decodeURIComponent(params.name)}</p>
                   {params.ev === 'p'
                     ? <p>{translate.alertMessages.see_more} <a href={`${KTH_SE_URL}${COURSE_UTVECKLING}${courseCode}?l=${lang}`} alt={translate.course_dev_title_alt}>{translate.course_dev_title}</a></p>

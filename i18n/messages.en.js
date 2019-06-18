@@ -72,6 +72,10 @@ module.exports = {
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
       kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing'
+    },
+    course_short_semester: {
+      1: 'Spring ',
+      2: 'Autumn '
     }
   },
   startCards: {
