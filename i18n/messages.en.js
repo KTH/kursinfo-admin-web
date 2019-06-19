@@ -39,7 +39,7 @@ module.exports = {
   },
   pageTitles: {
     course_dev_title: 'Course development and history',
-    course_dev_title_alt: 'To to Course development and history view',
+    course_dev_title_alt: 'To Course development and history view',
     course_info_title: 'Course information',
     course_info_title_alt: 'To Course information view',
     course_admin_title: 'Administrate',
