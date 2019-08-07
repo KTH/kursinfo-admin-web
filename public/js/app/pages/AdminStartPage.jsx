@@ -35,7 +35,7 @@ class AdminStartPage extends Component {
           language={courseAdminData.lang}
         />
         <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
-        <AlertMsg props={this.props} lang={courseAdminData.lang} translate={pageTitles} />
+        <AlertMsg courseCode={courseCode} props={this.props} lang={courseAdminData.lang} translate={pageTitles} />
         <div className='col'>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>

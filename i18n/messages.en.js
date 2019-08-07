@@ -59,10 +59,10 @@ module.exports = {
     link_user_manual: 'Information and help to administrate About course pages',
     alertMessages: {
       kutv: {
-        s: 'Draft for course development has been saved',
+        save: 'Draft for course development has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
-        p: 'Course development and course data have been published',
-        d: 'Draft for course development has been removed'
+        pub: 'Course development and course data have been published',
+        delete: 'Draft for course development has been removed'
       },
       see_more: 'Look at',
       term: 'Term',
