@@ -11,6 +11,7 @@ const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
+const i18n = require('../../i18n')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -54,7 +55,8 @@ async function _getAdminStart (req, res, next) {
     res.render('course/index', {
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      title: courseCode + 'ADMIN',
+      title: courseCode + ' | ' + i18n.messages[lang === 'en' ? 0 : 1].messages.title,
+      description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
       html: html,
       paths: JSON.stringify(serverPaths),
       initialState: JSON.stringify(hydrateStores(renderProps))
