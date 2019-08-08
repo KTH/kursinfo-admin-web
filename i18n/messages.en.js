@@ -19,6 +19,8 @@ module.exports = {
      * Message keys
      */
     service_name: 'course information administration',
+    title: 'Administrate About course information',
+    description: 'Here a course responsible or examinator for this course can administrate information for "About course" pages. For now it is possible to edit only "Course Introduction to this course" here',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -44,8 +46,6 @@ module.exports = {
     course_info_title_alt: 'To Course information view',
     course_admin_title: 'Administrate',
     about_course: 'About course',
-    info_text: 'På denna ... ....',
-    info_admin_text: 'Ansvariga .......',
     administrate: 'Administrate About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
@@ -71,7 +71,7 @@ module.exports = {
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
-      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing'
+      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
     },
     course_short_semester: {
       1: 'Spring ',
@@ -88,11 +88,11 @@ module.exports = {
     coursePM_desc: 'Upload a course pm file as PDF',
     coursePM_btn: 'Upload',
     courseDev_hd: 'Course analysis and course data',
-    courseDev_decs: 'Edit and publish course data and course analysis on the page "Course progress and history"',
+    courseDev_decs: 'Edit and publish course data and course analysis on the page "Course development and history"',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
-    beta_courseDev: 'The course progress and history, course analysis and course data are under development now',
+    beta_courseDev: 'The course development and history, course analysis and course data are under development now',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
     beta_more_link: 'Are you interested to know more or participate in development?',
     altLabel: {

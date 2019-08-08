@@ -19,7 +19,8 @@ module.exports = {
      * Message keys
      */
     service_name: 'Kursinfo-admin-web',
-
+    title: 'Kursens utveckling och historik',
+    description: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -44,8 +45,6 @@ module.exports = {
     course_info_title_alt: 'Till Kursinformation vy',
     course_admin_title: 'Administrera',
     about_course: 'Om kursen',
-    info_text: 'På denna sida kan nuvarande och presumtiva studenter ta del av kursdata och kursanalyser för tidigare kursomgångar för kursen för att hjälpa till vid kursval.',
-    info_admin_text: 'Ansvariga för kursen kan få en överblick över kursens utveckling och ansvarar för att publicera kursdata och kursanalys.',
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
@@ -71,7 +70,7 @@ module.exports = {
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
-      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas'
+      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
     },
     course_short_semester: {
       1: 'VT ',
