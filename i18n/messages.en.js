@@ -20,7 +20,7 @@ module.exports = {
      */
     service_name: 'course information administration',
     title: 'Administrate About course information',
-    description: 'Here a course responsible or examinator for this course can administrate information for "About course" pages. For now it is possible to edit only "Course Introduction to this course" here',
+    description: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -88,11 +88,10 @@ module.exports = {
     coursePM_desc: 'Upload a course pm file as PDF',
     coursePM_btn: 'Upload',
     courseDev_hd: 'Course analysis and course data',
-    courseDev_decs: 'Edit and publish course data and course analysis on the page "Course development and history"',
+    courseDev_decs: 'Publish or edit published course analysis and course data regarding the development and history of the course.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
-    beta_courseDev: 'The course development and history, course analysis and course data are under development now',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
     beta_more_link: 'Are you interested to know more or participate in development?',
     altLabel: {

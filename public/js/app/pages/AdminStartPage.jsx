@@ -74,15 +74,7 @@ class AdminStartPage extends Component {
               <CardBody>
                 <CardTitle>{startCards.courseDev_hd}</CardTitle>
                 <CardText>
-                {isProd
-                  ? <span>
-                    <p>{startCards.beta_courseDev}</p>
-                    <p>
-                      <a href={BETA_MORE_INFO_URL} alt={startCards.beta_more_link}>{startCards.beta_more_link}</a>
-                    </p>
-                  </span>
-                  : <p>{startCards.courseDev_decs}</p>
-                }
+                  <p>{startCards.courseDev_decs}</p>
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>

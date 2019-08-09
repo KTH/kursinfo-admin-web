@@ -87,11 +87,10 @@ module.exports = {
     coursePM_desc: 'Ladda upp kurs-pm i form av PDF',
     coursePM_btn: 'Ladda upp',
     courseDev_hd: 'Kursanalys och kursdata',
-    courseDev_decs: 'Redigera och publicera kursdata och kursanalys på sidan ”Kursens utveckling och historik”',
+    courseDev_decs: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
     courseDev_link: 'Kursens utveckling - mer information och hjälp',
-    beta_courseDev: 'Sidan Kursens utveckling och historik och funktionalitet för att där ladda upp och kursanalys med kursdata är under utveckling.',
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
