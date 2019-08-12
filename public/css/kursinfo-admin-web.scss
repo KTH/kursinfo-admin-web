@@ -1,7 +1,25 @@
-// Less code goes here...!
+//====Common style for both pages====
+#kth-kursinfo {
+    width: 100%;
+}
+.kursinfo-main-page {    
+    padding-bottom: 3em;
+    padding-top: 2em;
+    width: 100%;
+}
+.courseTitle {
+    margin: 0;
+    margin-top: 20px;
+    h1 {
+        margin-bottom: 0;
+    }
+    .alert {
+        margin-left: 0;
+        //width: 50em;
+    }
+}
 
-//@import "kth-style/public/sass/variables/sizes";
-//@import "kth-style/public/sass/variables/colors";
+//====START ADMIN PAGE WITH CARDS====
 %arrow-icon {
     content: '';
     height: 1.2em;
@@ -26,25 +44,7 @@
         }
     }
 }
-#kth-kursinfo {
-    width: 100%;
-}
-.kursinfo-main-page {    
-    padding-bottom: 3em;
-    padding-top: 2em;
-    width: 100%;
-}
-.courseTitle {
-    margin: 0;
-    margin-top: 20px;
-    h1 {
-        margin-bottom: 0;
-    }
-    .alert {
-        margin-left: 0;
-        //width: 50em;
-    }
-}
+//1.Navigation with KIP Links and right-located description text
 span.navigation {
     display: flex;
     flex-direction: column;
@@ -53,6 +53,7 @@ span.navigation {
         justify-content: space-between;
         margin-right: 3em;
     }
+    //3.right-located description text next to kip links
     span.right_intro {
         margin-left: 1em;
         max-width: 95%;
@@ -62,7 +63,7 @@ span.navigation {
         }
     }
 }
-//Menu styles
+//2.KIP-Navigation links style
 .kip-menu {
     @extend %responsive-table;
     max-width: 30em;
@@ -85,7 +86,7 @@ span.navigation {
     }
 }
 
-// Start page style
+// 4. Start page and cards style
 .AdminPage--ShowDescription {
     display: flex;
     flex-direction: column;
@@ -104,7 +105,6 @@ span.navigation {
         min-height: 4.2em;
     }
     @media (min-width: 768px) { 
-        display: flex;
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -132,7 +132,7 @@ span.navigation {
     }
 }
 
-//Editing mode style
+//====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo {
     margin: 2em 0;
     & > * {
@@ -145,19 +145,23 @@ span.navigation {
 
 .Editors--Area {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin-top: 1em;
+    margin-top: 2em;
     margin-bottom: -.7em;
-    .badge {
-        margin-left: .5em;
-    } 
-    span.left {
+    span.left, span.right {
         width: 100%;
-        margin-right: .5em; 
+        margin-bottom: 3em; 
     }
-    span.right {
-        width: 100%;
-        margin-left: .5em;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        .badge,  span.right {
+            margin-left: .5em;
+        } 
+        span.left {
+            margin-right: .5em; 
+        }
     }
     .courseIntroTextCollapse {   
         a.collapse-header  {
@@ -196,9 +200,23 @@ span.navigation {
 
 
 //BUTTONS STYLES
+.control-buttons {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #dee2e6;
+    padding-top: 1.5em; 
+
+    @media (min-width: 768px) { 
+        flex-direction: row;
+        margin: 0;
+        .btn-cancel {
+            text-align: center;
+        } 
+    }
+}
 .btn {
     border: 1px solid;
-
+    margin: 1em 0;
     &.btn-primary {
         border-color: #007fae;
     }
@@ -209,9 +227,6 @@ span.navigation {
 
 .btn-secondary {
     background-color: #f6f6f6;
-}
-.btn-cancel {
-    text-align: center;
 }
 
 .btn-back {
@@ -230,11 +245,6 @@ span.navigation {
     }
 }
 
-.btn-next, .btn-last { 
+.btn-next, .btn-last, .btn-cancel { 
     text-align: end;
-}
-.control-buttons {
-    border-top: 1px solid #dee2e6;
-    padding-top: 1.5em; 
-    margin: 0; 
 }
