@@ -74,15 +74,16 @@ class AdminStartPage extends Component {
               <CardBody>
                 <CardTitle>{startCards.courseDev_hd}</CardTitle>
                 <CardText>
-                  <p>{startCards.courseDev_decs}</p>
+                  <p>{startCards.courseDev_decs_p1}</p>
+                  <p>{startCards.courseDev_decs_p2}</p>
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=p&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_edit}>
-                  {startCards.courseDev_btn_edit}
-                </a>
                 <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=n&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_new}>
                   {startCards.courseDev_btn_new}
+                </a>
+                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=p&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_edit}>
+                  {startCards.courseDev_btn_edit}
                 </a>
               </CardFooter>
             </Card>

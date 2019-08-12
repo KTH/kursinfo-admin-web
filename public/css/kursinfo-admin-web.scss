@@ -2,6 +2,30 @@
 
 //@import "kth-style/public/sass/variables/sizes";
 //@import "kth-style/public/sass/variables/colors";
+%arrow-icon {
+    content: '';
+    height: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+}
+%responsive-table {
+    @media (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+        .table table, thead, tbody, th, td, tr { 
+            display: block; 
+            max-width: 95%;
+            }    
+        .table td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #fff; 
+            position: relative;
+            display: flex;
+            flex-direction: column;     
+        }
+    }
+}
 #kth-kursinfo {
     width: 100%;
 }
@@ -22,24 +46,32 @@
     }
 }
 span.navigation {
-    margin-right: 3em;
     display: flex;
-    justify-content: space-between;
-
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-right: 3em;
+    }
     span.right_intro {
-        margin-left: 3em;
-        max-width: 50em;
+        margin-left: 1em;
+        max-width: 95%;
+        @media (min-width: 768px) {
+            margin-left: 3em;
+            max-width: 50em;
+        }
     }
 }
 //Menu styles
 .kip-menu {
+    @extend %responsive-table;
+    max-width: 30em;
+    border: 0;
     margin-left: 1.95em;
     margin-right: 1em;
-    @media (min-width: 768px) {
-        max-width: 30em;
-    }
     h4 {
         margin-top: 0;
+        margin-bottom: .3em;
     }
     .link-to::after{
       content: '';
@@ -51,40 +83,52 @@ span.navigation {
       background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
       transform: rotate(180deg);
     }
-    td.admin-link {
-        padding-top: 1em;
-    }
 }
-
-// .kip-menu, .Header--Link {
-//     max-width: 30em;
-//     margin-left: 2em;
-//     td.admin-link > p {
-//         margin-top: .2em;
-//     }
-// }
 
 // Start page style
 .AdminPage--ShowDescription {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     .card {
-        max-width: 21em;
-        min-width: 18em;
-        margin-top: 1em;
-        margin-right: 3em;
-        .bth {
-            margin-bottom: .5em;
-        }
-    }
-    .card.course-development {
-        max-width: 29em;
+        width: 100%;
+        margin: 1em .5em 1em 0; 
         .btn {
-            margin-right: 1em;
+            margin-bottom: 1em;
+            margin-left: 1em;
         }
-    }
+        &:last-of-type {
+            margin-right: 0;
+        }
+    } 
     .card-footer.text-right {
         min-height: 4.2em;
+    }
+    @media (min-width: 768px) { 
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .card {
+            max-width: 30em;
+            min-width: 18em;
+            align-content: flex-start;
+            margin-right: 2em; 
+        }
+        .card.course-development {
+            max-width: 28em;
+        }
+    }
+    @media (min-width: 1024px) { 
+        flex-wrap: nowrap;
+        .card {
+            max-width: 20em;
+            min-width: 18em;
+            align-content: flex-start;
+            margin-right: 2em; 
+        }
+        .btn {
+            margin-left: 1em;
+        }
     }
 }
 
@@ -161,13 +205,6 @@ span.navigation {
     &.btn-success {
         border-color: #62922e;
     }
-}
-%arrow-icon {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
 }
 
 .btn-secondary {
