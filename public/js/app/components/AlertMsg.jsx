@@ -19,7 +19,7 @@ const AlertMsg = ({props, courseCode, translate, lang}) => {
                 ? <Alert color='success' aria-live='polite'>
                   <h4>{translate.alertMessages['kutv'][params.event]}</h4>
                   <p>{translate.alertMessages.term}: {translate.course_short_semester[params.term.toString().substring(4, 5)]}
-                  {params.term.toString().substring(0, 4)}
+                    {params.term.toString().substring(0, 4)}
                   </p>
                   <p>{translate.alertMessages.course_round}: {decodeURIComponent(params.name)}</p>
                   {params.event === 'pub'

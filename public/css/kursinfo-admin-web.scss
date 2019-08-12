@@ -206,6 +206,12 @@ span.navigation {
 .alert {
     max-width: 100em;
     margin: 15px;
+    p {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 0;
+    }
 }
 
 
