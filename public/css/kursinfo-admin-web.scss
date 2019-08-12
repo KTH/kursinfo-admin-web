@@ -6,6 +6,16 @@
     padding-bottom: 3em;
     padding-top: 2em;
     width: 100%;
+    .btn {
+        border: 1px solid;
+        margin: 1em 0;
+        &.btn-primary {
+            border-color: #007fae;
+        }
+        &.btn-success {
+            border-color: #62922e;
+        }
+    }
 }
 .courseTitle {
     margin: 0;
@@ -212,16 +222,6 @@ span.navigation {
         .btn-cancel {
             text-align: center;
         } 
-    }
-}
-.btn {
-    border: 1px solid;
-    margin: 1em 0;
-    &.btn-primary {
-        border-color: #007fae;
-    }
-    &.btn-success {
-        border-color: #62922e;
     }
 }
 
