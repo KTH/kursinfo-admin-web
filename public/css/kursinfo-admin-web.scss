@@ -51,14 +51,14 @@ span.navigation {
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
-        margin-right: 3em;
     }
     //3.right-located description text next to kip links
     span.right_intro {
         margin-left: 1em;
         max-width: 95%;
+        flex-wrap: wrap;
         @media (min-width: 768px) {
-            margin-left: 3em;
+            margin-left: 2em;
             max-width: 50em;
         }
     }
@@ -102,7 +102,7 @@ span.navigation {
         }
     } 
     .card-footer.text-right {
-        min-height: 4.2em;
+        min-height: 6.2em;
     }
     @media (min-width: 768px) { 
         flex-direction: row;
