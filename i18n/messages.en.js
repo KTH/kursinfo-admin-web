@@ -59,10 +59,10 @@ module.exports = {
     link_user_manual: 'Information and help to administrate About course pages',
     alertMessages: {
       kutv: {
-        save: 'Draft for course development has been saved',
+        save: 'Draft for course analysis and course data has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
-        pub: 'Course development and course data have been published',
-        delete: 'Draft for course development has been removed'
+        pub: 'Course analysis and course data have been published',
+        delete: 'Draft for course analysis and course data has been removed'
       },
       see_more: 'Look at',
       term: 'Term',
@@ -98,7 +98,7 @@ module.exports = {
     altLabel: {
       sellingText_btn: 'Edit selling description',
       coursePM_btn: 'Create course PM',
-      courseDev_btn: 'Edit course development information'
+      courseDev_btn: 'Edit course analysis and course data information'
     }
   },
   sellingTextLabels: {

@@ -58,10 +58,10 @@ module.exports = {
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
     alertMessages: {
       kutv: {
-        save: 'Utkast för kursutveckling har sparats',
+        save: 'Utkast för kursanalys och kursdata har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
-        pub: 'Kursutveckling har publicerats',
-        delete: 'Utkast för kursutveckling har raderats'
+        pub: 'Kursanalys och kursdata har publicerats',
+        delete: 'Utkast för kursanalys och kursdata har raderats'
       },
       see_more: 'Se',
       selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
