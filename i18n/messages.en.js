@@ -19,6 +19,8 @@ module.exports = {
      * Message keys
      */
     service_name: 'course information administration',
+    title: 'Administrate About course information',
+    description: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -39,16 +41,15 @@ module.exports = {
   },
   pageTitles: {
     course_dev_title: 'Course development and history',
+    course_dev_title_alt: 'To Course development and history view',
     course_info_title: 'Course information',
+    course_info_title_alt: 'To Course information view',
     course_admin_title: 'Administrate',
     about_course: 'About course',
-    info_text: 'På denna ... ....',
-    info_admin_text: 'Ansvariga .......',
     administrate: 'Administrate About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
-    start_link_back: 'To course information page',
-    instruction_1: 'Here a course responsible or examinator for this course can administrate information for "About course" pages. For now it is possible to edit only "Course Introduction to this course" here',
+    instruction_1: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
     instruction_kopps_1: 'If you need to change information or roles / access rights for this course it is possible to do it in ',
     instruction_kopps_2: 'for ',
     instruction_kopps_3_link: 'those who has access rights in KOPPS ',
@@ -57,11 +58,24 @@ module.exports = {
     instruction_kopps_alt: 'To KOPPS',
     link_user_manual: 'Information and help to administrate About course pages',
     alertMessages: {
-      success: 'New version of the course introduction has been published in english and swedish languages on the page ',
+      kutv: {
+        save: 'Draft for course analysis and course data has been saved',
+        s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
+        pub: 'Course analysis and course data have been published',
+        delete: 'Draft for course analysis and course data has been removed'
+      },
+      see_more: 'Look at',
+      term: 'Term',
+      course_round: 'Course round',
+      selling_description_success: 'New version of the course introduction has been published in english and swedish languages on the page ',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
-      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing'
+      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
+    },
+    course_short_semester: {
+      1: 'Spring ',
+      2: 'Autumn '
     }
   },
   startCards: {
@@ -73,17 +87,18 @@ module.exports = {
     coursePM_hd: 'Course-PM',
     coursePM_desc: 'Upload a course pm file as PDF',
     coursePM_btn: 'Upload',
-    courseDev_hd: 'Course analysis with course data',
-    courseDev_decs: 'Edit and publish course data and course analysis on the page "Course progress and history"',
-    courseDev_btn: 'Edit and publish',
+    courseDev_hd: 'Course analysis and course data',
+    courseDev_decs_p1: 'Publish or edit published course analysis and course data regarding the development and history of the course.',
+    courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development and history”.',
+    courseDev_btn_edit: 'Edit published',
+    courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
-    beta_courseDev: 'The course progress and history, course analysis and course data are under development now',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
     beta_more_link: 'Are you interested to know more or participate in development?',
     altLabel: {
       sellingText_btn: 'Edit selling description',
       coursePM_btn: 'Create course PM',
-      courseDev_btn: 'Edit course development information'
+      courseDev_btn: 'Edit course analysis and course data information'
     }
   },
   sellingTextLabels: {

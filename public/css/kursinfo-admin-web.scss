@@ -1,7 +1,4 @@
-// Less code goes here...!
-
-//@import "kth-style/public/sass/variables/sizes";
-//@import "kth-style/public/sass/variables/colors";
+//====Common style for both pages====
 #kth-kursinfo {
     width: 100%;
 }
@@ -9,6 +6,16 @@
     padding-bottom: 3em;
     padding-top: 2em;
     width: 100%;
+    .btn {
+        border: 1px solid;
+        margin: 1em 0;
+        &.btn-primary {
+            border-color: #007fae;
+        }
+        &.btn-success {
+            border-color: #62922e;
+        }
+    }
 }
 .courseTitle {
     margin: 0;
@@ -16,51 +23,129 @@
     h1 {
         margin-bottom: 0;
     }
+    h4 {
+        margin-top: 0;
+    }
     .alert {
         margin-left: 0;
         //width: 50em;
     }
 }
+
+//====START ADMIN PAGE WITH CARDS====
+%arrow-icon {
+    content: '';
+    height: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+}
+%responsive-table {
+    @media (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+        .table table, thead, tbody, th, td, tr { 
+            display: block; 
+            max-width: 95%;
+            }    
+        .table td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #fff; 
+            position: relative;
+            display: flex;
+            flex-direction: column;     
+        }
+    }
+}
+//1.Navigation with KIP Links and right-located description text
 span.navigation {
-    margin-right: 3em;
     display: flex;
-    justify-content: space-between;
-
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    //3.right-located description text next to kip links
     span.right_intro {
-        margin-left: 3em;
-        max-width: 50em;
+        margin-left: 1em;
+        max-width: 95%;
+        flex-wrap: wrap;
+        @media (min-width: 768px) {
+            margin-right: .5em;
+            max-width: 50em;
+        }
     }
 }
-//Menu styles
-.kip-menu, .Header--Link {
+//2.KIP-Navigation links style
+.kip-menu {
+    @extend %responsive-table;
     max-width: 30em;
-    margin-left: 2em;
-    td.admin-link > p {
-        margin-top: .2em;
+    border: 0;
+    margin-left: 1.95em;
+    margin-right: 1em;
+    h4 {
+        margin-top: 0;
+        margin-bottom: .3em;
     }
-}
-.Header--Link {
-    margin-top: 1em;
-    margin-bottom: .5em;
-    min-width: 30em;
+    .link-to::after{
+      content: '';
+      height: 1.5em;
+      width: 1.5em;
+      display: inline-block;
+      margin: -.6em 0 .3em .3em;
+      vertical-align: middle;
+      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+      transform: rotate(180deg);
+    }
 }
 
-// Start page style
+// 4. Start page and cards style
 .AdminPage--ShowDescription {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     .card {
-        max-width: 21em;
-        min-width: 18em;
-        margin-top: 1em;
-        margin-right: 3em;
-    }
+        width: 100%;
+        margin: 1em .5em 1em 0; 
+        .btn {
+            margin-bottom: 1em;
+            margin-left: 1em;
+        }
+        &:last-of-type {
+            margin-right: 0;
+        }
+    } 
     .card-footer.text-right {
-        min-height: 4.2em;
+        min-height: 6.2em;
+    }
+    @media (min-width: 768px) { 
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .card {
+            max-width: 30em;
+            min-width: 18em;
+            align-content: flex-start;
+            margin-right: 2em; 
+        }
+        .card.course-development {
+            max-width: 28em;
+        }
+    }
+    @media (min-width: 1024px) { 
+        flex-wrap: nowrap;
+        .card {
+            max-width: 20em;
+            min-width: 18em;
+            align-content: flex-start;
+            margin-right: 2em; 
+        }
+        .btn {
+            margin-left: 1em;
+        }
     }
 }
 
-//Editing mode style
+//====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo {
     margin: 2em 0;
     & > * {
@@ -73,19 +158,23 @@ span.navigation {
 
 .Editors--Area {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin-top: 1em;
+    margin-top: 2em;
     margin-bottom: -.7em;
-    .badge {
-        margin-left: .5em;
-    } 
-    span.left {
+    span.left, span.right {
         width: 100%;
-        margin-right: .5em; 
+        margin-bottom: 3em; 
     }
-    span.right {
-        width: 100%;
-        margin-left: .5em;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        .badge,  span.right {
+            margin-left: .5em;
+        } 
+        span.left {
+            margin-right: .5em; 
+        }
     }
     .courseIntroTextCollapse {   
         a.collapse-header  {
@@ -120,33 +209,33 @@ span.navigation {
 .alert {
     max-width: 100em;
     margin: 15px;
+    p {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        margin-top: 0;
+    }
 }
 
 
 //BUTTONS STYLES
-.btn {
-    border: 1px solid;
+.control-buttons {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #dee2e6;
+    padding-top: 1.5em; 
 
-    &.btn-primary {
-        border-color: #007fae;
+    @media (min-width: 768px) { 
+        flex-direction: row;
+        margin: 0;
+        .btn-cancel {
+            text-align: center;
+        } 
     }
-    &.btn-success {
-        border-color: #62922e;
-    }
-}
-%arrow-icon {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
 }
 
 .btn-secondary {
     background-color: #f6f6f6;
-}
-.btn-cancel {
-    text-align: center;
 }
 
 .btn-back {
@@ -165,11 +254,6 @@ span.navigation {
     }
 }
 
-.btn-next, .btn-last { 
+.btn-next, .btn-last, .btn-cancel { 
     text-align: end;
-}
-.control-buttons {
-    border-top: 1px solid #dee2e6;
-    padding-top: 1.5em; 
-    margin: 0; 
 }

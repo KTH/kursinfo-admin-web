@@ -9,10 +9,10 @@ import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
 import CardText from 'inferno-bootstrap/lib/Card/CardText'
 import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
 import { Link } from 'inferno-router'
-import Alert from 'inferno-bootstrap/lib/Alert'
 import KipLinkNav from '../components/KipNav.jsx'
+import AlertMsg from '../components/AlertMsg.jsx'
 
-import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL, COURSE_INFO_URL} from '../util/constants'
+import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL} from '../util/constants'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
@@ -34,14 +34,8 @@ class AdminStartPage extends Component {
           pageTitle={pageTitles.administrate}
           language={courseAdminData.lang}
         />
-        <KipLinkNav isProd={isProd} courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
-        {this.props.location.data === 'success'
-        ? <Alert color='success' aria-live='polite'>
-          {pageTitles.alertMessages.success}
-          <a href={`https://www.kth.se${COURSE_INFO_URL}${courseCode}?l=${courseAdminData.lang}`} alt={pageTitles.start_link_back}>{pageTitles.course_info_title}</a>
-        </Alert>
-        : ''
-        }
+        <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
+        <AlertMsg courseCode={courseCode} props={this.props} lang={courseAdminData.lang} translate={pageTitles} />
         <div className='col'>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
@@ -76,28 +70,21 @@ class AdminStartPage extends Component {
               }
               </CardFooter>
             </Card>
-            <Card>
+            <Card className='course-development'>
               <CardBody>
                 <CardTitle>{startCards.courseDev_hd}</CardTitle>
                 <CardText>
-                {isProd
-                  ? <span>
-                    <p>{startCards.beta_courseDev}</p>
-                    <p>
-                      <a href={BETA_MORE_INFO_URL} alt={startCards.beta_more_link}>{startCards.beta_more_link}</a>
-                    </p>
-                  </span>
-                  : <p>{startCards.courseDev_decs}</p>
-                }
+                  <p>{startCards.courseDev_decs_p1}</p>
+                  <p>{startCards.courseDev_decs_p2}</p>
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-              {isProd
-                ? ''
-                : <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn}>
-                  {startCards.courseDev_btn}
+                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=n&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_new}>
+                  {startCards.courseDev_btn_new}
                 </a>
-              }
+                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=p&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_edit}>
+                  {startCards.courseDev_btn_edit}
+                </a>
               </CardFooter>
             </Card>
           </span>

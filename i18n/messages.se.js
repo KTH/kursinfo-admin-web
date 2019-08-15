@@ -19,7 +19,8 @@ module.exports = {
      * Message keys
      */
     service_name: 'Kursinfo-admin-web',
-
+    title: 'Kursens utveckling och historik',
+    description: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -39,16 +40,15 @@ module.exports = {
   },
   pageTitles: {
     course_dev_title: 'Kursens utveckling och historik',
+    course_dev_title_alt: 'Till Kursens utveckling och historik vy',
     course_info_title: 'Kursinformation',
+    course_info_title_alt: 'Till Kursinformation vy',
     course_admin_title: 'Administrera',
     about_course: 'Om kursen',
-    info_text: 'På denna ... ....',
-    info_admin_text: 'Ansvariga .......',
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
-    start_link_back: 'Till kursinformationssida',
-    instruction_1: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
+    instruction_1: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
     instruction_kopps_1: 'Vill du ändra den grundinformation som hämtas eller ändra roller/ behörigheter för kursen så görs det i ',
     instruction_kopps_2: 'av ',
     instruction_kopps_3_link: 'personal som har behörighet i KOPPS ',
@@ -57,11 +57,24 @@ module.exports = {
     instruction_kopps_alt: 'Till KOPPS',
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
     alertMessages: {
-      success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
+      kutv: {
+        save: 'Utkast för kursanalys och kursdata har sparats',
+        s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
+        pub: 'Kursanalys och kursdata har publicerats',
+        delete: 'Utkast för kursanalys och kursdata har raderats'
+      },
+      see_more: 'Se',
+      selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
+      term: 'Termin',
+      course_round: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
-      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas'
+      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
+    },
+    course_short_semester: {
+      1: 'VT ',
+      2: 'HT '
     }
   },
   startCards: {
@@ -73,11 +86,12 @@ module.exports = {
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Ladda upp kurs-pm i form av PDF',
     coursePM_btn: 'Ladda upp',
-    courseDev_hd: 'Kursanalys med kursdata',
-    courseDev_decs: 'Redigera och publicera kursdata och kursanalys på sidan ”Kursens utveckling och historik”',
-    courseDev_btn: 'Redigera och publicera',
+    courseDev_hd: 'Kursanalys och kursdata',
+    courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
+    courseDev_decs_p2: 'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
+    courseDev_btn_edit: 'Ändra publicerad',
+    courseDev_btn_new: 'Publicera ny',
     courseDev_link: 'Kursens utveckling - mer information och hjälp',
-    beta_courseDev: 'Sidan Kursens utveckling och historik och funktionalitet för att där ladda upp och kursanalys med kursdata är under utveckling.',
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
