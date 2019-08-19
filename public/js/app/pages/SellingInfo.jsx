@@ -11,7 +11,6 @@ import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 
-const userLang = i18n.isSwedish() ? 'sv' : 'en'
 const editorConf = {
   toolbarGroups: [
     {name: 'mode'},
@@ -22,7 +21,7 @@ const editorConf = {
     {name: 'about'}
   ],
   removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
-  language: userLang,
+  language: i18n.isSwedish() ? 'sv' : 'en',
   width: ['98%']
 }
 
@@ -40,6 +39,14 @@ class SellingInfo extends Component {
       hasDoneSubmit: false,
       isError: false,
       errMsg: ''
+    }
+    this.courseAdminData = this.props.adminStore.courseAdminData
+    this.courseCode = this.courseAdminData.courseTitleData.course_code
+    this.userLang = this.courseAdminData.lang
+    this.langIndex = this.courseAdminData.lang === 'en' ? 0 : 1
+    this.sellingTexts = {
+      sv: this.state.sellingText_sv,
+      en: this.state.sellingText_en
     }
     this.doChangeText = this.doChangeText.bind(this)
     this.doPreview = this.doPreview.bind(this)
@@ -67,23 +74,18 @@ class SellingInfo extends Component {
 
   doSubmit (event) {
     event.preventDefault()
-    const adminStore = this.props.adminStore
-    const courseCode = adminStore.courseAdminData.courseTitleData.course_code
-    const sellingTexts = {
-      sv: this.state.sellingText_sv,
-      en: this.state.sellingText_en
-    }
+    const { adminStore } = this.props
+    const { courseCode, sellingTexts, langIndex, lang} = this
     adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
       this.setState({
         hasDoneSubmit: true,
         isError: false
       })
       this.props.history.push({
-        pathname: `/kursinfoadmin/kurser/kurs/${courseCode}?l=${adminStore.courseAdminData.lang}`,
+        pathname: `/kursinfoadmin/kurser/kurs/${courseCode}?l=${lang}`,
         sellingDesciprion: 'success'
       })
     }).catch(err => {
-      var langIndex = i18n.isSwedish() ? 1 : 0
       this.setState({
         hasDoneSubmit: false,
         isError: true,
@@ -103,8 +105,7 @@ class SellingInfo extends Component {
   }
 
   doOpenEditorAndCount () {
-    var langIndex = userLang === 'en' ? 0 : 1
-    const translation = i18n.messages[langIndex].pageTitles.alertMessages
+    const translation = i18n.messages[this.langIndex].pageTitles.alertMessages
     const _doCalculateLength = (event, editorId) => {
       const text = event.editor.document.getBody().getText().replace(/\n/g, '')
       const length = text.length
@@ -145,21 +146,17 @@ class SellingInfo extends Component {
   }
 
   render ({adminStore}) {
-    const courseAdminData = adminStore['courseAdminData']
-    const lang = courseAdminData.lang === 'en' ? 0 : 1
-    const courseCode = courseAdminData.courseTitleData.course_code
-    const translation = i18n.messages[lang]
-    const pageTitles = translation.pageTitles
-    const sellingTextLabels = translation.sellingTextLabels
-    let courseImage = translation.courseImage[courseAdminData.imageFileName]
-    if (courseImage === undefined) courseImage = translation.courseImage.default
+    const { courseAdminData, courseCode, userLang, langIndex} = this
+    const { courseImage, pageTitles, sellingTextLabels } = i18n.messages[langIndex]
+    let courseImageID = courseImage[courseAdminData.imageFileName]
+    if (courseImageID === undefined) courseImageID = courseImage.default
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
           pageTitle={this.state.enteredEditMode ? pageTitles.editSelling : pageTitles.previewSelling}
-          language={courseAdminData.lang}
+          language={userLang}
           />
 
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
@@ -170,6 +167,7 @@ class SellingInfo extends Component {
             {/* ---TEXT Editors for each language--- */}
             <h2>{sellingTextLabels.label_step_1}</h2>
             <p>{sellingTextLabels.label_selling_info}</p>
+
             <span class='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
                 <KoppsTextCollapse instructions={sellingTextLabels}
@@ -189,7 +187,7 @@ class SellingInfo extends Component {
               <Col sm='4'>
               </Col>
               <Col sm='4' className='btn-cancel'>
-                <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
+                <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${userLang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
                   {sellingTextLabels.sellingTextButtons.button_cancel}
                 </Link>
               </Col>
@@ -206,17 +204,17 @@ class SellingInfo extends Component {
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
-                  image={courseImage}
+                  image={courseImageID}
                   sellingText={this.state.sellingText_sv} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
-                  image={courseImage}
+                  image={courseImageID}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row className='control-buttons'>
                   <Col sm='4' className='btn-back'>
                     <Button onClick={this.doChangeText} alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
                   </Col>
                   <Col sm='4' className='btn-cancel'>
-                    <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${courseAdminData.lang}`} className='btn btn-secondary'>
+                    <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${userLang}`} className='btn btn-secondary'>
                       {sellingTextLabels.sellingTextButtons.button_cancel}
                     </Link>
                   </Col>
