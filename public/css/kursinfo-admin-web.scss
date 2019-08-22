@@ -195,15 +195,16 @@ span.navigation {
             margin: 0;
             padding:0;
             padding-top: .5em;
-            // button {
-            //     background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-upload-fa-solid.svg) no-repeat;
-            //     //  background-position: right;
-            // }
+            padding-right: 2em;
+            background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-upload-fa-solid.svg) no-repeat;
+            background-position: 75% center;
+            background-size: 2em;
             height: 5em;
-            width: 26em;
-            &:hover {
-                background-color: darken($color: #f5f5f5, $amount: 10);
-            }
+            width: 25em;
+            // &:focus, :hover {
+            //     background-color: darken($color: #f5f5f5, $amount: 10);
+            //     // outline: 0; 
+            // }
         }
         .preview-pic {
             display: flex;
