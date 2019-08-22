@@ -156,6 +156,76 @@ span.navigation {
     } 
 }
 
+.Upload--Area { 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 2em 0;
+    //radio buttons
+    form.picture-choice {
+        label {
+            font-size: 1.1rem;
+            margin-bottom: .7em;
+            font-weight: normal;
+            vertical-align: bottom;
+        }
+        input[type=radio] {
+            transform: scale(1.5);
+            margin-right: .5em;
+        }
+    }
+    .own-picture {
+        display: flex;
+        flex-direction: row;
+        // justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        input[type=file] {
+            filter: alpha(opacity=0);
+            opacity: 0;
+            border: 0;
+            padding: 2em;
+        }
+        label {
+            background-color: #f5f5f5;
+            border: 1px solid #65656c;
+            border-radius: .4em;  
+            text-align: center;
+            margin: 0;
+            padding:0;
+            padding-top: .5em;
+            // button {
+            //     background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-upload-fa-solid.svg) no-repeat;
+            //     //  background-position: right;
+            // }
+            height: 5em;
+            width: 26em;
+            &:hover {
+                background-color: darken($color: #f5f5f5, $amount: 10);
+            }
+        }
+        .preview-pic {
+            display: flex;
+            flex-direction: column;
+            margin-right: 5em;
+        }
+    }
+    @media (min-width: 768px) {
+        // flex-direction: row;
+        // justify-content: space-between;
+        .badge,  span.right {
+            margin-left: .5em;
+        } 
+        span.left {
+            margin-right: .5em; 
+        }
+    }
+    span.control-buttons {
+        margin: 1em 0;
+    }
+}
+
 .Editors--Area {
     display: flex;
     flex-direction: column;
@@ -217,7 +287,6 @@ span.navigation {
     }
 }
 
-
 //BUTTONS STYLES
 .control-buttons {
     display: flex;
@@ -228,6 +297,7 @@ span.navigation {
     @media (min-width: 768px) { 
         flex-direction: row;
         margin: 0;
+        width: 100%;
         .btn-cancel {
             text-align: center;
         } 

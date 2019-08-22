@@ -11,6 +11,8 @@ import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 
+import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
+
 const editorConf = {
   toolbarGroups: [
     {name: 'mode'},
@@ -62,6 +64,10 @@ class SellingInfo extends Component {
     window.removeEventListener('load', this.doOpenEditorAndCount)
   }
 
+  componentDidUpdate () {
+    window.addEventListener('load', this.doOpenEditorAndCount)
+  }
+
   doChangeText (event) {
     event.preventDefault()
     this.setState({
@@ -74,9 +80,8 @@ class SellingInfo extends Component {
 
   doSubmit (event) {
     event.preventDefault()
-    const { adminStore } = this.props
-    const { courseCode, sellingTexts, langIndex, lang} = this
-    adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
+    const {courseCode, sellingTexts, langIndex, lang} = this
+    this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
       this.setState({
         hasDoneSubmit: true,
         isError: false
@@ -146,10 +151,11 @@ class SellingInfo extends Component {
   }
 
   render ({adminStore}) {
-    const { courseAdminData, courseCode, userLang, langIndex} = this
+    const { courseAdminData, courseCode, userLang, langIndex } = this
     const { courseImage, pageTitles, sellingTextLabels } = i18n.messages[langIndex]
     let courseImageID = courseImage[courseAdminData.imageFileName]
     if (courseImageID === undefined) courseImageID = courseImage.default
+    const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
@@ -165,10 +171,9 @@ class SellingInfo extends Component {
         {this.state.enteredEditMode ? (
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
-            <h2>{sellingTextLabels.label_step_1}</h2>
+            <h2>{sellingTextLabels.label_step_2}</h2>
             <p>{sellingTextLabels.label_selling_info}</p>
-
-            <span class='Editors--Area' key='editorsArea' role='tablist'>
+            <span className='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
                 <KoppsTextCollapse instructions={sellingTextLabels}
                   koppsText={courseAdminData.koppsCourseDesc['sv']} lang='sv' />
@@ -197,17 +202,19 @@ class SellingInfo extends Component {
                 </Button>
               </Col>
             </Row>
+            <span className='Upload--Picture--Area' key='uploadFile'>
+            </span>
           </div>
         ) : (
           <div className='col'>
-            <h2>{sellingTextLabels.label_step_2}</h2>
+            <h2>{sellingTextLabels.label_step_3}</h2>
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
-                  image={courseImageID}
+                  image={imageUrl}
                   sellingText={this.state.sellingText_sv} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
-                  image={courseImageID}
+                  image={imageUrl}
                   sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row className='control-buttons'>
                   <Col sm='4' className='btn-back'>

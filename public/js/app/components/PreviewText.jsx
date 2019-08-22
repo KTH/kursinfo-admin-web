@@ -1,10 +1,8 @@
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
-import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 
-function PreviewText ({sellingTextLabels, whichLang, image, sellingText, koppsTexts}) {
+function PreviewText ({sellingTextLabels, whichLang, imageUrl, sellingText, koppsTexts}) {
   const text = sellingText === '' ? koppsTexts[whichLang] : sellingText
-  const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${image}`
   return (
     <Row className='courseIntroText'>
       <Col sm='12' xs='12' className='sellingText'>

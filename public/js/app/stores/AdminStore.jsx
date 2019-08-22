@@ -23,11 +23,14 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable courseAdminData = undefined
+  @observable enteredUploadMode = true
   // @observable sellingText = undefined
   @observable sellingText = {
     en: undefined,
     sv: undefined
   }
+  @observable imageInfo = undefined
+  @observable isUploadedImageInApi = false
   @observable sellingTextAuthor = ''
   @observable user = ''
   @observable hasDoneSubmit = false
@@ -81,6 +84,13 @@ class AdminStore {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
+  }
+
+  @action addPicture (data) {
+    this.imageInfo = safeGet(() => data.imageInfo, '')
+    this.isUploadedImage = this.imageInfo && this.imageInfo !== ''
+    // /remove next
+    this.imageInfo = 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg'
   }
 
   isValidData (dataObject, language = 0) {

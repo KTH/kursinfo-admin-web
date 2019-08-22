@@ -26,8 +26,9 @@
     "test"
   ],
   "dependencies": {
+    "@azure/storage-blob": "^10.4.0",
     "@babel/polyfill": "^7.4.4",
-    "applicationinsights": "^1.4.0",
+    "applicationinsights": "^1.4.1",
     "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",

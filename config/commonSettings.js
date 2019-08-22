@@ -14,6 +14,7 @@ const devPort = 3000
 const devUrl = 'http://localhost:' + devPort
 const devSsl = false
 const devPrefixPath = devDefaults('/kursinfoadmin/kurser/kurs')
+const devStorageUri = devDefaults('https://kursinfostoragestage.blob.core.windows.net/kursinfo-image-container/')
 
 module.exports = {
   hostUrl: getEnv('SERVER_HOST_URL', devUrl),
@@ -22,5 +23,6 @@ module.exports = {
   // The proxy prefix path if the application is proxied. E.g /places
   proxyPrefixPath: {
     uri: getEnv('SERVICE_PUBLISH', devPrefixPath)
-  }
+  },
+  storageUri: getEnv('STORAGE_URL', devStorageUri)
 }

@@ -9,6 +9,7 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
+const { runBlobStorage, updateMetaData, deleteBlob } = require('../blobStorage.js')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 
@@ -19,7 +20,10 @@ const serverPaths = require('../server').getPaths()
 module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
-  myCourses: co.wrap(_myCourses)
+  myCourses: co.wrap(_myCourses),
+  saveFileToStorage: co.wrap(_saveFileToStorage),
+  updateFileInStorage: co.wrap(_updateFileInStorage),
+  deleteFileInStorage: co.wrap(_deleteFileInStorage)
 }
 
 async function _getSellingTextFromKursinfoApi (courseCode) {
@@ -61,6 +65,8 @@ async function _getDescription (req, res, next) {
     // Load koppsData and kurinfo-api data
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingText(respSellDesc.body)
+    console.log('PICTURERRRR ', respSellDesc.body)
+    renderProps.props.children.props.adminStore.addPicture(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
     await doAllAsyncBefore({
       pathname: req.originalUrl,
@@ -122,6 +128,42 @@ async function _updateDescription (req, res, next) {
   } catch (err) {
     log.error('Error in _updateDescription', { error: err })
     next(err)
+  }
+}
+
+// ------- FILES IN BLOB STORAGE: SAVE, UPDATE, DELETE ------- /
+function * _saveFileToStorage (req, res, next) {
+  log.info('Saving uploaded file to storage ' + req.files.file)
+  let file = req.files.file
+  try {
+    const fileName = yield runBlobStorage(file, req.params.analysisid, req.params.type, req.params.published, req.body)
+    return res.json(res, fileName)
+  } catch (error) {
+    log.error('Exception from saveFileToStorage ', { error: error })
+    next(error)
+  }
+}
+
+function * _updateFileInStorage (req, res, next) {
+  log.info('_updateFileInStorage file name:' + req.params.fileName + ', metadata:' + req.body.params.metadata)
+  try {
+    const response = yield updateMetaData(req.params.fileName, req.body.params.metadata)
+    return res.json(res, response)
+  } catch (error) {
+    log.error('Exception from updateFileInStorage ', { error: error })
+    next(error)
+  }
+}
+
+function * _deleteFileInStorage (res, req, next) {
+  log.debug('_deleteFileInStorage, id:' + req.req.params.id)
+  try {
+    const response = yield deleteBlob(req.req.params.id)
+    log.debug('_deleteFileInStorage, id:', response)
+    return res.json(res.res)
+  } catch (error) {
+    log.error('Exception from _deleteFileInStorage ', { error: error })
+    next(error)
   }
 }
 

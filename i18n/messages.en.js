@@ -102,11 +102,21 @@ module.exports = {
     }
   },
   sellingTextLabels: {
+    chooseImage: {
+      reset_image: 'Reset',
+      choose_file: 'Choose file',
+      file_name: 'File name:',
+      no_choosen_file: 'No file chosen'
+    },
+    label_choose_picture: 'In first step, you can choose a picture for a description text',
+    label_radio_button_1: 'Default picture chosen by ...',
+    label_radio_button_2: 'Choose own picture',
     label_selling_info: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
-    label_step_1: 'Edit swedish and english text (step 1 out of 2)',
-    label_step_2: 'Preview and publish (step 2 out of 2)',
+    label_step_1: 'Choose a picture (step 1 out of 3)',
+    label_step_2: 'Edit swedish and english text (step 2 out of 3)',
+    label_step_3: 'Preview and publish (step 3 out of 3)',
     langLabelKopps: {
       en: 'Short description from KOPPS (EN)',
       sv: 'Short description from KOPPS (SW)'
@@ -123,11 +133,13 @@ module.exports = {
     sellingTextButtons: {
       button_cancel: 'Cancel',
       button_change: 'Change text',
+      button_edit_text: 'Edit text',
       button_preview: 'Preview',
       button_submit: 'Publish'
     },
     altLabel: {
       start_link_back: 'To course information page',
+      button_edit_text: 'Go to next step to edit introduction text page',
       button_preview: 'Preview a course introduction',
       button_cancel: 'Cancel and go back to admin start page',
       button_submit: 'Save and publish course introduction',

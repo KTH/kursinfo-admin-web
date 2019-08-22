@@ -102,11 +102,21 @@ module.exports = {
     }
   },
   sellingTextLabels: {
+    chooseImage: {
+      reset_image: 'Återställ',
+      choose_file: 'Välja en bild',
+      file_name: 'Filnamn:',
+      no_choosen_file: 'Ingen ny bild väljat'
+    },
+    label_choose_picture: 'I detta steg väljer du vilken bild som ska visas på sidan Kursinformation',
+    label_radio_button_1: 'Bild utvald för område ',
+    label_radio_button_2: 'Egen vald bild',
     label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_step_1: 'Redigera svensk och engelsk text (steg 1 av 2)',
-    label_step_2: 'Granska och publicera (steg 2 av 2)',
+    label_step_1: 'Välja bild (steg 1 av 3)',
+    label_step_2: 'Redigera svensk och engelsk text (steg 2 av 3)',
+    label_step_3: 'Granska och publicera (steg 3 av 3)',
     langLabelKopps: {
       en: 'Kortbeskrivning i KOPPS (EN)',
       sv: 'Kortbeskrivning i KOPPS (SV)'
@@ -123,10 +133,12 @@ module.exports = {
     sellingTextButtons: {
       button_cancel: 'Avbryt',
       button_change: 'Redigera',
+      button_edit_text: 'Redigera text',
       button_preview: 'Granska',
       button_submit: 'Publicera'
     },
     altLabel: {
+      button_edit_text: 'Till nästa steg att redigera text',
       button_preview: 'Förhandsgranska introduktion till kursen',
       button_cancel: 'Avbryt och gå till admin startsida',
       button_submit: 'Spara och publicera introduktion till kursen',
