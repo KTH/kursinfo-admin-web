@@ -1,7 +1,7 @@
 import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
-
+import Alert from 'inferno-bootstrap/lib/Alert'
 import ButtonGroup from 'inferno-bootstrap/lib/ButtonGroup'
 import Form from 'inferno-bootstrap/lib/Form/Form'
 import Input from 'inferno-bootstrap/lib/Form/Input'
@@ -16,6 +16,10 @@ var fileTypes = [
   'image/jpg',
   'image/png'
 ]
+
+const isNewTrue = true
+const isErrTrue = true
+var noFileAccepted // must be undefined
 
 function _validFileType (file) {
   for (var i = 0; i < fileTypes.length; i++) {
@@ -41,15 +45,14 @@ class PictureUpload extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isError: false,
-      tempFilePath: undefined, // To keep state if switchs
-      notValid: false,
-      isNewUploaded: false, // False
-    //   isPreviousChosen: false,
       isDefault: false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
-      isApiPic: true// this.props.adminStore.isUploadedImageInApi // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE
+      isError: false, // todo: remove
+      infoMsg: undefined,
+      errMsg: undefined,
+      isNewTempFile: false,
+      tempFilePath: undefined // To keep state if switchs
     }
-    this.isApiPicAvailable = true// this.props.adminStore.isUploadedImageInApi
+    this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.imageUrl // Default
     this.finalFileName = 'Picture_' + this.props.courseAdminData.courseTitleData.course_code // Never changes to replace previous files
@@ -59,63 +62,75 @@ class PictureUpload extends Component {
     this.hanleUploadFile = this.hanleUploadFile.bind(this)
     this.handleRemoveFile = this.handleRemoveFile.bind(this)
     this.isDefaultPicture = this.isDefaultPicture.bind(this)
-    this.usePrevApiPicture = this.usePrevApiPicture.bind(this)
-    // this.useUploadedPicture = this.useUploadedPicture.bind(this)
+    this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
-  _changeState (isDefaultPic) {
+  _choosenNewPicture (isNew, isError, fileUrl) {
     this.setState({
-      isDefault: isDefaultPic,
-      isApiPic: !isDefaultPic
-    })
-  }
-  _choosenNewPicture (isNew) {
-    this.setState({
-      isNewUploaded: isNew
-    //   isPreviousChosen: !isNew
+      isNewTempFile: isNew,
+      isError: isError,
+      tempFilePath: fileUrl
     })
   }
 
   updateImageDisplay (event) {
-    // var preview = document.querySelector('.preview-pic')
-    // while (preview.firstChild) {
-    //   preview.removeChild(preview.firstChild)
-    // }
-    var picFile = event.target.files[0]
-    if (_validFileType(picFile)) {
+    const picFile = event.target.files[0]
+    var errorIndex, infoMsg
+    if (picFile) {
+      if (_validFileType(picFile)) this._choosenNewPicture(isNewTrue, !isErrTrue, window.URL.createObjectURL(picFile))
+      else {
+        if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
+        else errorIndex = 'not_correct_format_return_to_api_pic'
 
+        this._choosenNewPicture(!isNewTrue, isErrTrue, noFileAccepted)
+      }
+    } else if (!this.isApiPicAvailable) { // no new picture and no api pic available and no default chosen
+      // show error and empty picture
+      const isTempFile = this.state.isNewTempFile
+      errorIndex = isTempFile ? undefined : 'no_file_chosen'
+      const tempFilePath = isTempFile ? this.state.tempFilePath : noFileAccepted
+
+      this._choosenNewPicture(isTempFile, !isTempFile, tempFilePath)
+    } else if (this.isApiPicAvailable) { // no new picture but still api pic available, no error
+      // leave everything as it is
+      this._choosenNewPicture(this.state.isNewTempFile, !isErrTrue, this.state.tempFilePath)
     }
-    // if type and size ok --> set state
-    this._choosenNewPicture(true)
-    this.setState({
-      tempFilePath: window.URL.createObjectURL(picFile)
-    })
+
+    this.setState({errMsg: errorIndex, infoMsg})
+    console.log('state', this.state)
   }
 
-  usePrevApiPicture (event) {
-    this._choosenNewPicture(false)
-    // this.setState({
-    //   isNewUploaded: false
-    // //   tempFilePath: undefined
-    // })
+  resetToPrevApiPicture (event) {
+    this._choosenNewPicture(!isNewTrue, !isErrTrue, noFileAccepted)
+    var el = document.querySelector('.pic-upload')
+    el.value = ''
   }
-//   useUploadedPicture (event) {
-//     this._choosenNewPicture(true)
-//   }
 
   doNextStep (event) {
     event.preventDefault()
     this.setState({
-      isError: false
+    //   isError: false
+    //   errMsg: undefined
     })
     this.props.nextStep()
   }
 
   isDefaultPicture (event) {
+    var infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
-    this._changeState(isDefaultPic)
+    this.setState({
+      isDefault: isDefaultPic
+    })
+    if (isDefaultPic) {
+        // if user choose to override api picture
+      if (this.isApiPicAvailable) infoMsg = this.state.tempFilePath ? 'replace_all_with_default' : 'replace_api_with_default'
+        // if user choose to override api picture
+      else if (this.state.tempFilePath) infoMsg = 'replace_new_with_default'
+    }
+    this.setState({infoMsg})
   }
 
   hanleUploadFile (id, file, e) {
+      // if no errror and if changes
     if (e.target.files[0].type === 'image/png' || e.target.files[0].type === 'image/jpg') {
       this._sendRequest(id, file, e)
     } else {
@@ -192,6 +207,11 @@ class PictureUpload extends Component {
       <span className='Upload--Area col' key='uploadArea'>
         <h2>{sellingTextLabels.label_step_1}</h2>
         <p>{sellingTextLabels.label_choose_picture}</p>
+        {this.state.isDefault
+          ? this.state.infoMsg ? <Alert color='info'>{this.state.infoMsg}</Alert> : ''
+          : this.state.isError && this.state.errMsg
+              ? <Alert color='danger'>{this.state.errMsg}</Alert> : ''
+        }
         <form className='picture-choice'>
           <span role='radiogroup'>
             <label for='defaultPicture'>
@@ -201,7 +221,7 @@ class PictureUpload extends Component {
             </label> <br />
             <label for='otherPicture'>
               <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
-                onClick={this.isDefaultPicture} checked={this.state.isApiPic} /> {' '}
+                onClick={this.isDefaultPicture} checked={!this.state.isDefault} /> {' '}
               {sellingTextLabels.label_radio_button_2}
             </label> <br />
           </span>
@@ -213,31 +233,35 @@ class PictureUpload extends Component {
         </span>
         : <span className='own-picture' key='uploader'>
           <span className='preview-pic'>
-              {this.isApiPicAvailable || this.state.isNewUploaded
-                ? <img src={this.state.isNewUploaded ? this.state.tempFilePath : apiImageUrl}
+              {this.isApiPicAvailable || this.state.tempFilePath
+                ? <img src={this.state.tempFilePath ? this.state.tempFilePath : apiImageUrl}
                   alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
                 : ''
               }
-            {this.state.isNewUploaded && this.isApiPicAvailable
-                ? <Button color='secondary' onClick={this.usePrevApiPicture}>{sellingTextLabels.chooseImage.reset_image}</Button>
+            {this.state.tempFilePath && this.isApiPicAvailable
+                ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{sellingTextLabels.chooseImage.reset_image}</Button>
                 : ''
             }
           </span>
           <span className='file-uploader-section'>
             <label for='pic-upload' className='label-pic-upload'>
               <h4>{sellingTextLabels.chooseImage.choose_file}</h4>
-              <input type='file' id='pic-upload' name='pic-upload'
-                accept='image/jpg,image/jpeg,image/png'
+              <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
+                // accept='image/jpg,image/jpeg,image/png'
                 onChange={this.updateImageDisplay}
                 />
             </label>
             <p>
-              <i>{this.state.isNewUploaded
+              <i>{this.state.tempFilePath
                 ? sellingTextLabels.chooseImage.file_name + ' ' + this.finalFileName
                 : sellingTextLabels.chooseImage.no_choosen_file}
               </i>
             </p>
           </span>
+          <input type='file' id='pic-upload-1' name='pic-upload-1s' className='pic-upload'
+                // accept='image/jpg,image/jpeg,image/png'
+            onChange={this.updateImageDisplay}
+                />
         </span>
         }
         <span className='control-buttons'>
