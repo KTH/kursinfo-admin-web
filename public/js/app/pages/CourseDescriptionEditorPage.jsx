@@ -29,9 +29,12 @@ class CourseDescriptionEditorPage extends Component {
     this.langIndex = this.courseAdminData.lang === 'en' ? 0 : 1
     this.doNextStep = this.doNextStep.bind(this)
   }
-  doNextStep () {
+  doNextStep (isNewFile, tempFile) {
     // event.preventDefault()
+    console.log('efter next step event', isNewFile, tempFile)
     this.setState({
+      isNewFile,
+      tempFile,
       enteredUploadMode: false
     })
   }

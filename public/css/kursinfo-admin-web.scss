@@ -177,7 +177,7 @@ span.navigation {
     }
     .own-picture {
         display: flex;
-        flex-direction: row;
+        flex-direction: column; //row;
         // justify-content: space-between;
         align-items: flex-start;
         width: 100%;
@@ -185,15 +185,15 @@ span.navigation {
             filter: alpha(opacity=0);
             opacity: 0;
             border: 0;
-            padding: 2em;
+            // padding: ;
         }
         label {
             background-color: #f5f5f5;
             border: 1px solid #65656c;
             border-radius: .4em;  
             text-align: center;
-            margin: 0;
-            padding:0;
+            margin: 1.2em 0;
+            padding: 0;
             padding-top: .5em;
             padding-right: 2em;
             background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-upload-fa-solid.svg) no-repeat;

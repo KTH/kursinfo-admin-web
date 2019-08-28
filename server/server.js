@@ -206,9 +206,9 @@ appRoute.get('course.editDescription', config.proxyPrefixPath.uri + '/picture/:c
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.updateDescription)
 appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/getKoppsCourseDataByCourse/:courseCode/', AdminPagesCtrl.getKoppsCourseData)
 // File upload for a course picture
-// appRoute.post('storage.saveFile', config.proxyPrefixPath.uri + '/storage/saveFile/:analysisid/:type/:published', AdminPagesCtrl.saveFileToStorage)
-// appRoute.post('storage.updateFile', config.proxyPrefixPath.uri + '/storage/updateFile/:fileName/', AdminPagesCtrl.updateFileInStorage)
-// appRoute.post('storage.deleteFile', config.proxyPrefixPath.uri + '/storage/deleteFile/:id', AdminPagesCtrl.deleteFileInStorage)
+appRoute.post('storage.saveFile', config.proxyPrefixPath.uri + '/storage/saveFile/:pictureid', SellingInfo.saveFileToStorage)
+// appRoute.post('storage.updateFile', config.proxyPrefixPath.uri + '/storage/updateFile/:fileName/', SellingInfo.updateFileInStorage)
+// appRoute.post('storage.deleteFile', config.proxyPrefixPath.uri + '/storage/deleteFile/:id', SellingInfo.deleteFileInStorage)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 

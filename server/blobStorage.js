@@ -33,25 +33,26 @@ const credentials = new SharedKeyCredential(STORAGE_ACCOUNT_NAME, ACCOUNT_ACCESS
 const pipeline = StorageURL.newPipeline(credentials)
 const serviceURL = new ServiceURL(`https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline)
 
-async function runBlobStorage (file, id, type, saveCopyOfFile, metadata) {
+async function runBlobStorage (file, pictureid, metadata) {
+  console.log('runBlobStorage ', file, ' pictureid ', pictureid, ' metadata ', metadata)
   const containerName = 'kursinfo-image-container'
-  let blobName = ''
+  let blobName = pictureid // ''
   const content = file.data
   const fileType = file.mimetype
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName)
   const aborter = Aborter.timeout(30 * ONE_MINUTE)
 
-  if (type === 'analysis') {
-    const draftFileName = `${type}-${id}.${file.name.split('.')[1]}`
-    const newFileName = `${type}-${id}-${getTodayDate()}.${file.name.split('.')[1]}`
-    if (saveCopyOfFile === 'true') {
-      blobName = newFileName
-    } else {
-      blobName = draftFileName
-    }
-  } else {
-    blobName = `${type}-${id}.${file.name.split('.')[1]}`
-  }
+  // if (type === 'analysis') {
+  //   const draftFileName = `${type}-${pictureid}.${file.name.split('.')[1]}`
+  //   const newFileName = `${type}-${pictureid}-${getTodayDate()}.${file.name.split('.')[1]}`
+  //   if (saveCopyOfFile === 'true') {
+  //     blobName = newFileName
+  //   } else {
+  //     blobName = draftFileName
+  //   }
+  // } else {
+  //   blobName = `${type}-${id}.${file.name.split('.')[1]}`
+  // }
 
   const uploadResponse = await uploadBlob(aborter, containerURL, blobName, content, fileType, metadata)
   log.debug(' Blobstorage - uploaded file response ', uploadResponse)

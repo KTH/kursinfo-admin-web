@@ -10,19 +10,19 @@ import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
+import axios from 'axios'
 
-var fileTypes = [
+let fileTypes = [
   'image/jpeg',
   'image/jpg',
   'image/png'
 ]
 
-const isNewTrue = true
 const isErrTrue = true
-var noFileAccepted // must be undefined
+let noFileAccepted // must be undefined
 
 function _validFileType (file) {
-  for (var i = 0; i < fileTypes.length; i++) {
+  for (let i = 0; i < fileTypes.length; i++) {
     if (file.type === fileTypes[i]) {
       return true
     }
@@ -49,8 +49,10 @@ class PictureUpload extends Component {
       isError: false, // todo: remove
       infoMsg: undefined,
       errMsg: undefined,
-      isNewTempFile: false,
-      tempFilePath: undefined // To keep state if switchs
+      tempFilePath: undefined, // To keep state if switchs
+      // move to final step
+      fileObj: undefined,
+      fileProgress: 0
     }
     this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
@@ -59,63 +61,20 @@ class PictureUpload extends Component {
 
     this.updateImageDisplay = this.updateImageDisplay.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
-    this.hanleUploadFile = this.hanleUploadFile.bind(this)
-    this.handleRemoveFile = this.handleRemoveFile.bind(this)
+    // this.hanleUploadFile = this.hanleUploadFile.bind(this)
+    // this.handleRemoveFile = this.handleRemoveFile.bind(this)
     this.isDefaultPicture = this.isDefaultPicture.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
-  _choosenNewPicture (isNew, isError, fileUrl) {
+  _choosenNewPicture (isError, fileUrl) {
     this.setState({
-      isNewTempFile: isNew,
       isError: isError,
       tempFilePath: fileUrl
     })
   }
 
-  updateImageDisplay (event) {
-    const picFile = event.target.files[0]
-    var errorIndex, infoMsg
-    if (picFile) {
-      if (_validFileType(picFile)) this._choosenNewPicture(isNewTrue, !isErrTrue, window.URL.createObjectURL(picFile))
-      else {
-        if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
-        else errorIndex = 'not_correct_format_return_to_api_pic'
-
-        this._choosenNewPicture(!isNewTrue, isErrTrue, noFileAccepted)
-      }
-    } else if (!this.isApiPicAvailable) { // no new picture and no api pic available and no default chosen
-      // show error and empty picture
-      const isTempFile = this.state.isNewTempFile
-      errorIndex = isTempFile ? undefined : 'no_file_chosen'
-      const tempFilePath = isTempFile ? this.state.tempFilePath : noFileAccepted
-
-      this._choosenNewPicture(isTempFile, !isTempFile, tempFilePath)
-    } else if (this.isApiPicAvailable) { // no new picture but still api pic available, no error
-      // leave everything as it is
-      this._choosenNewPicture(this.state.isNewTempFile, !isErrTrue, this.state.tempFilePath)
-    }
-
-    this.setState({errMsg: errorIndex, infoMsg})
-    console.log('state', this.state)
-  }
-
-  resetToPrevApiPicture (event) {
-    this._choosenNewPicture(!isNewTrue, !isErrTrue, noFileAccepted)
-    var el = document.querySelector('.pic-upload')
-    el.value = ''
-  }
-
-  doNextStep (event) {
-    event.preventDefault()
-    this.setState({
-    //   isError: false
-    //   errMsg: undefined
-    })
-    this.props.nextStep()
-  }
-
   isDefaultPicture (event) {
-    var infoMsg
+    let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     this.setState({
       isDefault: isDefaultPic
@@ -129,74 +88,124 @@ class PictureUpload extends Component {
     this.setState({infoMsg})
   }
 
-  hanleUploadFile (id, file, e) {
-      // if no errror and if changes
-    if (e.target.files[0].type === 'image/png' || e.target.files[0].type === 'image/jpg') {
-      this._sendRequest(id, file, e)
-    } else {
-      const notValid = id === 'analysis' ? ['analysisFile'] : ['pmFile']
-      this.setState({
-        notValid: notValid,
-        alertError: i18n.messages[this.props.routerStore.language].messages.alert_not_pdf
+  updateImageDisplay (event) {
+    const picFile = event.target.files[0]
+    const isTempFile = this.state.tempFilePath
+    let errorIndex, infoMsg
+    if (picFile) {
+      if (_validFileType(picFile)) {
+        this._choosenNewPicture(!isErrTrue, window.URL.createObjectURL(picFile))
+        this.setState({ fileObj: picFile })
+        console.log('state of file', this.state.fileObj)
+      } else {
+        if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
+        else errorIndex = 'not_correct_format_return_to_api_pic'
+        this._choosenNewPicture(isErrTrue, noFileAccepted)
+      }
+    } else if (!this.isApiPicAvailable) { // no new picture and no api pic available and no default chosen
+      // show error and empty picture
+      errorIndex = isTempFile ? undefined : 'no_file_chosen'
+      const tempFilePath = isTempFile ? this.state.tempFilePath : noFileAccepted
+
+      this._choosenNewPicture(!isTempFile, tempFilePath)
+    } else if (this.isApiPicAvailable) { // no new picture but still api pic available, no error
+      // leave everything as it is
+      this._choosenNewPicture(!isErrTrue, this.state.tempFilePath)
+    }
+
+    this.setState({errMsg: errorIndex, infoMsg})
+  }
+
+  resetToPrevApiPicture (event) {
+    this._choosenNewPicture(!isErrTrue, noFileAccepted)
+    let el = document.querySelector('.pic-upload')
+    el.value = ''
+  }
+  _sendRequest (imageFile, event) {
+    let { fileProgress } = this.state
+    // let formData = new FormData()
+    // formData.append('image', imageFile)
+    // formData.append('file', this.state.tempFilePath)
+    // const postUrl = `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${imageFile.name}`
+
+    // axios({
+    //   method: 'POST',
+    //   url: postUrl,
+    //   data: formData
+    //   // config: {headers: { 'Content-Type': 'multipart/form-data' }}
+    // })
+    //   .then(function (response) {
+    //       // handle success
+    //     console.log('THE', response)
+    //   })
+    //   .catch(function (response) {
+    //       // handle error
+    //     console.log('OLA', response)
+    //   })
+    return new Promise((resolve, reject) => {
+      console.log('3', imageFile.name)
+      const req = new XMLHttpRequest()
+      let formData = new FormData()
+
+      const data = this._getMetadata()
+      formData.append('image', imageFile, 'IMG_0325.JPG')
+      formData.forEach((value, key) => {
+        console.log('key %s: value %s', key, value)
       })
+      formData.append('courseCode', data.courseCode)
+      formData.append('pictureid', data.pictureName)
+      const postUrl = `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${imageFile.name}`
+      console.log('postUrl', postUrl)
+      req.open('POST', postUrl)
+      req.setRequestHeader('Content-Type', undefined)
+      console.log('REQ', req)
+      console.log('======')
+      req.send(formData)
+      console.log('done')
+
+      req.upload.addEventListener('progress', event => {
+        if (event.lengthComputable) {
+          fileProgress = (event.loaded / event.total) * 100
+          this.setState({ fileProgress })
+        }
+      })
+      req.onload = function () {
+        console.log("'success")
+      }
+
+
+      req.onreadystatechange = function () {
+        // let { values } = thisInstance.state
+        if (this.readyState === 4 && this.status === 200) {
+          fileProgress = 0
+          console.log('ReqiReq', req.responseText) // handle response.
+        }
+      }
+    })
+  }
+  _getMetadata () {
+    return {
+      courseCode: this.props.courseAdminData.courseTitleData.course_code,
+      picture: 'Picture chosen by user',
+      pictureName: this.finalFileName
     }
   }
 
-  _sendRequest (id, file, e) {
-    const thisInstance = this
-    const fileProgress = this.state.fileProgress
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest()
-      req.upload.addEventListener('progress', event => {
-        if (event.lengthComputable) {
-          fileProgress[id] = (event.loaded / event.total) * 100
-         // console.log(fileProgress[id])
-          this.setState({ fileProgress: fileProgress })
-        }
+  doNextStep (event) {
+    event.preventDefault()
+    const isNew = this.state.tempFilePath
+    const resultPicUrl = isNew
+        ? this.state.tempFilePath
+        : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
+    console.log('isNew', isNew, 'ResultPic', resultPicUrl)
+    if (isNew) {
+      console.log('Wowowo', this.state.fileObj)
+      return new Promise((resolve, reject) => {
+        this._sendRequest(this.state.fileObj, event)
       })
+    }
 
-      req.onreadystatechange = function () {
-        let values = thisInstance.state.values
-        if (this.readyState == 4 && this.status == 200) {
-
-          if (id === 'analysis') {
-            values.pdfAnalysisDate = getTodayDate()
-            fileProgress.analysis = 0
-            thisInstance.setState({
-              analysisFile: this.responseText,
-              alertSuccess: i18n.messages[thisInstance.props.routerStore.language].messages.alert_uploaded_file,
-              values: values,
-              hasNewUploadedFileAnalysis: true,
-              notValid: [],
-              alertError: ''
-            })
-          } else {
-            values.pdfPMDate = getTodayDate()
-            fileProgress.pm = 0
-            thisInstance.setState({
-              pmFile: this.responseText,
-              alertSuccess: i18n.messages[thisInstance.props.routerStore.language].messages.alert_uploaded_file,
-              values: values,
-              notValid: [],
-              alertError: ''
-            })
-          }
-        }
-      }
-
-      let formData = new FormData()
-      const data = this.getMetadata(this.state.isPublished ? 'published' : this.state.saved ? 'draft' : 'new')
-      formData.append('file', e.target.files[0], e.target.files[0].name)
-      formData.append('courseCode', data.courseCode)
-      formData.append('analysis', data.analysis)
-      formData.append('status', data.status)
-      req.open('POST', `${this.props.routerStore.browserConfig.hostUrl}${this.props.routerStore.paths.storage.saveFile.uri.split(':')[0]}${this.props.routerStore.analysisData._id}/${id}/${this.state.isPublished}`)
-      req.send(formData)
-    })
-  }
-
-  handleRemoveFile () {
-
+    // this.props.nextStep(isNew, resultPic)
   }
 
   render ({adminStore}) {

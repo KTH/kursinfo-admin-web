@@ -12,6 +12,7 @@ const { toJS } = require('mobx')
 const { runBlobStorage, updateMetaData, deleteBlob } = require('../blobStorage.js')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
+const httpResponse = require('kth-node-response')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -65,7 +66,6 @@ async function _getDescription (req, res, next) {
     // Load koppsData and kurinfo-api data
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingText(respSellDesc.body)
-    console.log('PICTURERRRR ', respSellDesc.body)
     renderProps.props.children.props.adminStore.addPicture(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
     await doAllAsyncBefore({
@@ -133,11 +133,18 @@ async function _updateDescription (req, res, next) {
 
 // ------- FILES IN BLOB STORAGE: SAVE, UPDATE, DELETE ------- /
 function * _saveFileToStorage (req, res, next) {
-  log.info('Saving uploaded file to storage ' + req.files.file)
-  let file = req.files.file
+  log.info('Saving uploaded file to storage ') // + req.files.file
+  console.log('===========================START=======================')
+  console.log('_saveFileToStorage started', req)
+  console.log('_saveFileToStorage', req.body)
+  console.log('===========================END=======================')
+  let file = req.files.image
   try {
-    const fileName = yield runBlobStorage(file, req.params.analysisid, req.params.type, req.params.published, req.body)
-    return res.json(res, fileName)
+    const fileName = yield runBlobStorage(file, req.params.pictureid, req.body)
+    console.log('fileName', fileName)
+    return httpResponse.json(res, fileName)
+
+    // return res.json(res, fileName)
   } catch (error) {
     log.error('Exception from saveFileToStorage ', { error: error })
     next(error)
