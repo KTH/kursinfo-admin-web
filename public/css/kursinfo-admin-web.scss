@@ -1,4 +1,6 @@
 //====Common style for both pages====
+$kth-blue: #007fae;
+
 #kth-kursinfo {
     width: 100%;
 }
@@ -10,7 +12,7 @@
         border: 1px solid;
         margin: 1em 0;
         &.btn-primary {
-            border-color: #007fae;
+            border-color: $kth-blue;
         }
         &.btn-success {
             border-color: #62922e;
@@ -31,7 +33,15 @@
         //width: 50em;
     }
 }
-
+.progress-bar1{
+    text-align: center;
+    border-bottom: 2px solid #d4d4d4;
+    font-weight: 900;
+    padding-top: 30px;
+    &.progress-active{
+      border-bottom: 3px solid $kth-blue;
+    }
+  }
 //====START ADMIN PAGE WITH CARDS====
 %arrow-icon {
     content: '';
