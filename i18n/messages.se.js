@@ -39,10 +39,6 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
   pageTitles: {
-    course_dev_title: 'Kursens utveckling och historik',
-    course_dev_title_alt: 'Till Kursens utveckling och historik vy',
-    course_info_title: 'Kursinformation',
-    course_info_title_alt: 'Till Kursinformation vy',
     course_admin_title: 'Administrera',
     header_progress_select_pic: '1. Välja bild',
     header_progress_edit: '2. Redigera text',
@@ -59,12 +55,32 @@ module.exports = {
     instruction_kopps_5_link: 'behörigheter.',
     instruction_kopps_alt: 'Till KOPPS',
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
+    links_to: {
+      kutv: {
+        a_title: 'Kursens utveckling och historik',
+        a_title_alt: 'Till Kursens utveckling och historik vy'
+      },
+      pm: {
+        a_title: 'Kursinformation',
+        a_title_alt: 'Till Kursinformation vy'
+      },
+      kinfo: {
+        a_title: 'Kursinformation',
+        a_title_alt: 'Till Kursinformation vy'
+      }
+    },
     alertMessages: {
       kutv: {
         save: 'Utkast för kursanalys och kursdata har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
         pub: 'Kursanalys och kursdata har publicerats',
         delete: 'Utkast för kursanalys och kursdata har raderats'
+      },
+      pm: {
+        save: 'Utkast för kurs-pm har sparats',
+        s_msg: 'Du hittar det sparade utkastet under Kurs-pm/ Publicera ny',
+        pub: 'Kurs-pm har publicerats',
+        delete: 'Utkast för kurs-pm har raderats'
       },
       see_more: 'Se',
       selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
@@ -86,9 +102,9 @@ module.exports = {
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
-    coursePM_hd: 'Kurs-PM',
-    coursePM_desc: 'Ladda upp kurs-pm i form av PDF',
-    coursePM_btn: 'Ladda upp',
+    coursePM_hd: 'Kurs-pm',
+    coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_btn: 'Publicera',
     courseDev_hd: 'Kursanalys och kursdata',
     courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
     courseDev_decs_p2: 'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',

@@ -40,10 +40,6 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   pageTitles: {
-    course_dev_title: 'Course development and history',
-    course_dev_title_alt: 'To Course development and history view',
-    course_info_title: 'Course information',
-    course_info_title_alt: 'To Course information view',
     course_admin_title: 'Administrate',
     header_progress_select_pic: '1. Choose image',
     header_progress_edit: '2. Edit text',
@@ -60,12 +56,32 @@ module.exports = {
     instruction_kopps_5_link: 'access rights.',
     instruction_kopps_alt: 'To KOPPS',
     link_user_manual: 'Information and help to administrate About course pages',
+    links_to: {
+      kutv: {
+        a_title: 'Course development and history',
+        a_title_alt: 'To Course development and history view'
+      },
+      pm: {
+        a_title: 'Course information',
+        a_title_alt: 'To Course information page'
+      },
+      kinfo: {
+        a_title: 'Course information',
+        a_title_alt: 'To Course information page'
+      }
+    },
     alertMessages: {
       kutv: {
         save: 'Draft for course analysis and course data has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
         pub: 'Course analysis and course data have been published',
         delete: 'Draft for course analysis and course data has been removed'
+      },
+      pm: {
+        save: 'Draft for course memo has been saved',
+        s_msg: 'You can find saved drafts under Course memo / Publish new',
+        pub: 'Course memo has been published',
+        delete: 'Draft for course memo has been removed'
       },
       see_more: 'Look at',
       term: 'Term',
@@ -87,9 +103,9 @@ module.exports = {
     sellingText_desc_p2: '”Introduction to course" displayed on top of ”Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
-    coursePM_hd: 'Course-PM',
-    coursePM_desc: 'Upload a course pm file as PDF',
-    coursePM_btn: 'Upload',
+    coursePM_hd: 'Course memo',
+    coursePM_desc: 'Publish course memo before start of course offerings. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
+    coursePM_btn: 'Publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1: 'Publish or edit published course analysis and course data regarding the development and history of the course.',
     courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development and history”.',
