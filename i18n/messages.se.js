@@ -39,10 +39,6 @@ module.exports = {
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN'
   },
   pageTitles: {
-    course_dev_title: 'Kursens utveckling och historik',
-    course_dev_title_alt: 'Till Kursens utveckling och historik vy',
-    course_info_title: 'Kursinformation',
-    course_info_title_alt: 'Till Kursinformation vy',
     course_admin_title: 'Administrera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
@@ -56,12 +52,32 @@ module.exports = {
     instruction_kopps_5_link: 'behörigheter.',
     instruction_kopps_alt: 'Till KOPPS',
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
+    links_to: {
+      kutv: {
+        a_title: 'Kursens utveckling och historik',
+        a_title_alt: 'Till Kursens utveckling och historik vy'
+      },
+      pm: {
+        a_title: 'Kursinformation',
+        a_title_alt: 'Till Kursinformation vy'
+      },
+      kinfo: {
+        a_title: 'Kursinformation',
+        a_title_alt: 'Till Kursinformation vy'
+      }
+    },
     alertMessages: {
       kutv: {
         save: 'Utkast för kursanalys och kursdata har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
         pub: 'Kursanalys och kursdata har publicerats',
         delete: 'Utkast för kursanalys och kursdata har raderats'
+      },
+      pm: {
+        save: 'Utkast för kurs-pm har sparats',
+        s_msg: 'Du hittar det sparade utkastet under Kurs-pm/ Publicera ny',
+        pub: 'Kurs-pm har publicerats',
+        delete: 'Utkast för kurs-pm har raderats'
       },
       see_more: 'Se',
       selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',

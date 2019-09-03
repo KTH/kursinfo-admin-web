@@ -40,10 +40,6 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
   },
   pageTitles: {
-    course_dev_title: 'Course development and history',
-    course_dev_title_alt: 'To Course development and history view',
-    course_info_title: 'Course information',
-    course_info_title_alt: 'To Course information view',
     course_admin_title: 'Administrate',
     about_course: 'About course',
     administrate: 'Administrate About course information',
@@ -57,12 +53,32 @@ module.exports = {
     instruction_kopps_5_link: 'access rights.',
     instruction_kopps_alt: 'To KOPPS',
     link_user_manual: 'Information and help to administrate About course pages',
+    links_to: {
+      kutv: {
+        a_title: 'Course development and history',
+        a_title_alt: 'To Course development and history view'
+      },
+      pm: {
+        a_title: 'Course information',
+        a_title_alt: 'To Course information page'
+      },
+      kinfo: {
+        a_title: 'Course information',
+        a_title_alt: 'To Course information page'
+      }
+    },
     alertMessages: {
       kutv: {
         save: 'Draft for course analysis and course data has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
         pub: 'Course analysis and course data have been published',
         delete: 'Draft for course analysis and course data has been removed'
+      },
+      pm: {
+        save: 'Draft for course memo has been saved',
+        s_msg: 'You can find saved drafts under Course memo / Publish new',
+        pub: 'Course memo has been published',
+        delete: 'Draft for course memo has been removed'
       },
       see_more: 'Look at',
       term: 'Term',
