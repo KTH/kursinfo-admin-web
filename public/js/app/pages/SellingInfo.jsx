@@ -57,7 +57,7 @@ class SellingInfo extends Component {
   }
 
   componentDidMount () {
-    window.addEventListener('load', this.doOpenEditorAndCount)
+    this.doOpenEditorAndCount()
   }
 
   componentWillUnmount () {
@@ -65,6 +65,7 @@ class SellingInfo extends Component {
   }
 
   componentDidUpdate () {
+    console.log('sell componentDidUpdate')
     window.addEventListener('load', this.doOpenEditorAndCount)
   }
 
@@ -109,44 +110,47 @@ class SellingInfo extends Component {
     CKEDITOR.instances.en.destroy(true)
   }
 
-  doOpenEditorAndCount () {
+  _doCalculateLength = (event, editorId) => {
+    const text = event.editor.document.getBody().getText().replace(/\n/g, '')
+    const length = text.length
+    this.setState({[`leftTextSign_${editorId}`]: 1500 - length,
+      isError: false,
+      errMsg: ''
+    })
+    return [text, length]
+  }
+
+  _doCheckTextLength = (event, l) => {
     const translation = i18n.messages[this.langIndex].pageTitles.alertMessages
-    const _doCalculateLength = (event, editorId) => {
-      const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-      const length = text.length
-      this.setState({[`leftTextSign_${editorId}`]: 1500 - length,
-        isError: false,
-        errMsg: ''
+    const [cleanText, cleanTextLen] = this._doCalculateLength(event, l)
+    const htmlText = event.editor.getData()
+    if (htmlText.length > 10000) { // this is max in api
+      this.setState({
+        isError: true,
+        errMsg: translation.over_html_limit
       })
-      return [text, length]
+    } else if (cleanTextLen > 1500) { // this is an abstract max
+      this.setState({
+        isError: true,
+        errMsg: translation.over_text_limit
+      })
+    } else if (cleanText.trim().length === 0) {
+      this.setState({
+        [`sellingText_${l}`]: ''
+      })
+    } else {
+      this.setState({
+        [`sellingText_${l}`]: htmlText
+      })
     }
-    const _doCheckTextLength = (event, l) => {
-      const [cleanText, cleanTextLen] = _doCalculateLength(event, l)
-      const htmlText = event.editor.getData()
-      if (htmlText.length > 10000) { // this is max in api
-        this.setState({
-          isError: true,
-          errMsg: translation.over_html_limit
-        })
-      } else if (cleanTextLen > 1500) { // this is an abstract max
-        this.setState({
-          isError: true,
-          errMsg: translation.over_text_limit
-        })
-      } else if (cleanText.trim().length === 0) {
-        this.setState({
-          [`sellingText_${l}`]: ''
-        })
-      } else {
-        this.setState({
-          [`sellingText_${l}`]: htmlText
-        })
-      }
-    }
+  }
+
+  doOpenEditorAndCount () {
     ['sv', 'en'].map((editorId) => {
+      let textArea = document.getElementById(editorId)
       CKEDITOR.replace(editorId, editorConf)
-      CKEDITOR.instances[editorId].on('instanceReady', event => _doCalculateLength(event, editorId))
-      CKEDITOR.instances[editorId].on('change', event => _doCheckTextLength(event, editorId))
+      CKEDITOR.instances[editorId].on('instanceReady', event => this._doCalculateLength(event, editorId))
+      CKEDITOR.instances[editorId].on('change', event => this._doCheckTextLength(event, editorId))
     })
   }
 
