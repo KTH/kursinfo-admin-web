@@ -12,30 +12,26 @@ import { Link } from 'inferno-router'
 import KipLinkNav from '../components/KipNav.jsx'
 import AlertMsg from '../components/AlertMsg.jsx'
 
-import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, BETA_MORE_INFO_URL} from '../util/constants'
+import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, ADMIN_COURSE_PM} from '../util/constants'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
 
   render ({adminStore}) {
-    const courseAdminData = adminStore['courseAdminData']
-    const lang = courseAdminData.lang === 'en' ? 0 : 1
-    const courseCode = courseAdminData.courseTitleData.course_code
-    const translation = i18n.messages[lang]
-    const pageTitles = translation.pageTitles
-    const startCards = translation.startCards
-    const isProd = true// process.env['NODE_ENV'] === 'production'
+    const { courseTitleData, lang } = adminStore.courseAdminData
+    const courseCode = courseTitleData.course_code
+    const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
-          courseTitleData={courseAdminData.courseTitleData}
+          courseTitleData={courseTitleData}
           pageTitle={pageTitles.administrate}
-          language={courseAdminData.lang}
+          language={lang}
         />
-        <KipLinkNav courseCode={courseCode} lang={courseAdminData.lang} translate={pageTitles} />
-        <AlertMsg courseCode={courseCode} props={this.props} lang={courseAdminData.lang} translate={pageTitles} />
+        <KipLinkNav courseCode={courseCode} lang={lang} translate={pageTitles} />
+        <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
         <div className='col'>
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
@@ -47,27 +43,20 @@ class AdminStartPage extends Component {
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${courseAdminData.lang}`} alt={startCards.sellingText_btn} className='btn btn-primary'>{startCards.sellingText_btn}</a>
+                <a href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`} alt={startCards.sellingText_btn} className='btn btn-primary'>{startCards.sellingText_btn}</a>
               </CardFooter>
             </Card>
             <Card>
               <CardBody>
                 <CardTitle>{startCards.coursePM_hd}</CardTitle>
                 <CardText>
-                {isProd
-                  ? <span>
-                    <p>{startCards.beta_coursePm}</p>
-                    <p><a href={BETA_MORE_INFO_URL}>{startCards.beta_more_link}</a></p>
-                  </span>
-                  : startCards.coursePM_desc
-                }
+                  {startCards.coursePM_desc}
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-              {isProd
-                  ? ''
-                  : <Link to='#' className='btn btn-primary' alt={startCards.coursePM_btn}>{startCards.coursePM_btn}</Link>
-              }
+                <a href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`} className='btn btn-primary' alt={startCards.coursePM_btn}>
+                  {startCards.coursePM_btn}
+                </a>
               </CardFooter>
             </Card>
             <Card className='course-development'>
@@ -79,10 +68,10 @@ class AdminStartPage extends Component {
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=n&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_new}>
+                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_new}>
                   {startCards.courseDev_btn_new}
                 </a>
-                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${courseAdminData.lang}&status=p&serv=admin&title=${courseAdminData.courseTitleData.course_title}_${courseAdminData.courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_edit}>
+                <a href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`} className='btn btn-primary' alt={startCards.courseDev_btn_edit}>
                   {startCards.courseDev_btn_edit}
                 </a>
               </CardFooter>
