@@ -5,6 +5,7 @@ import {COURSE_INFO_URL, COURSE_UTVECKLING,
 const KipLinkNav = ({courseCode, translate, lang}) => { // courseCode, lang, startCards
   const kursOmLink = `${COURSE_INFO_URL}${courseCode}?l=${lang}` // TODO https://www.kth.se hardkoded because of kursinfoadmin is on app.kth.se but student is www.kth.se
   const kutvLink = `${COURSE_UTVECKLING}${courseCode}?l=${lang}`
+  const { links_to } = translate
   return (
     <span className='navigation row'>
       <Table className='kip-menu'>
@@ -13,10 +14,10 @@ const KipLinkNav = ({courseCode, translate, lang}) => { // courseCode, lang, sta
             <td colSpan='2'>
               <h4>{translate.about_course}</h4>
               <p>
-                <a className='link-back' href={kursOmLink} alt={translate.course_info_title_alt}>{translate.course_info_title}</a>
+                <a className='link-back' href={kursOmLink} alt={links_to.kinfo.a_title_alt}>{links_to.kinfo.a_title}</a>
               </p>
               <p>
-                <a className='link-back' href={kutvLink} alt={translate.course_dev_title_alt}>{translate.course_dev_title}</a>
+                <a className='link-back' href={kutvLink} alt={links_to.kutv.a_title_alt}>{links_to.kutv.a_title}</a>
               </p>
             </td>
             <td className='admin-link'>
