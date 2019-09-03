@@ -9,6 +9,7 @@ import Button from 'inferno-bootstrap/lib/Button'
 import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
+import Progress from 'inferno-bootstrap/dist/Progress'
 import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 import axios from 'axios'
 
@@ -20,6 +21,15 @@ let fileTypes = [
 
 const isErrTrue = true
 let noFileAccepted // must be undefined
+
+const _getTodayDate = (date = '') => {
+  let today = date.length > 0 ? new Date(date) : new Date()
+  let dd = String(today.getDate()).padStart(2, '0')
+  let mm = String(today.getMonth() + 1).padStart(2, '0') // January is 0!
+  let yyyy = today.getFullYear()
+
+  return yyyy + '-' + mm + '-' + dd
+}
 
 function _validFileType (file) {
   for (let i = 0; i < fileTypes.length; i++) {
@@ -51,13 +61,16 @@ class PictureUpload extends Component {
       errMsg: undefined,
       tempFilePath: undefined, // To keep state if switchs
       // move to final step
-      fileObj: undefined,
-      fileProgress: 0
+      file: undefined,
+      fileSavedDate: undefined,
+      fileProgress: 0,
+      hasNewUploadedImage: false,
+      successMsg: undefined
     }
+    this.courseCode = this.props.courseAdminData.courseTitleData.course_code
     this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.imageUrl // Default
-    this.finalFileName = 'Picture_' + this.props.courseAdminData.courseTitleData.course_code // Never changes to replace previous files
 
     this.updateImageDisplay = this.updateImageDisplay.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
@@ -69,7 +82,8 @@ class PictureUpload extends Component {
   _choosenNewPicture (isError, fileUrl) {
     this.setState({
       isError: isError,
-      tempFilePath: fileUrl
+      tempFilePath: fileUrl, // ??
+      fileProgress: 0
     })
   }
 
@@ -95,8 +109,8 @@ class PictureUpload extends Component {
     if (picFile) {
       if (_validFileType(picFile)) {
         this._choosenNewPicture(!isErrTrue, window.URL.createObjectURL(picFile))
-        this.setState({ fileObj: picFile })
-        console.log('state of file', this.state.fileObj)
+        this.setState({ file: picFile })
+        // return this._sendRequest(picFile)
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
@@ -121,73 +135,59 @@ class PictureUpload extends Component {
     let el = document.querySelector('.pic-upload')
     el.value = ''
   }
-  _sendRequest (imageFile, event) {
-    let { fileProgress } = this.state
-    // let formData = new FormData()
-    // formData.append('image', imageFile)
-    // formData.append('file', this.state.tempFilePath)
-    // const postUrl = `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${imageFile.name}`
 
-    // axios({
-    //   method: 'POST',
-    //   url: postUrl,
-    //   data: formData
-    //   // config: {headers: { 'Content-Type': 'multipart/form-data' }}
-    // })
-    //   .then(function (response) {
-    //       // handle success
-    //     console.log('THE', response)
-    //   })
-    //   .catch(function (response) {
-    //       // handle error
-    //     console.log('OLA', response)
-    //   })
+  _sendRequest (file) {
+    const thisInstance = this
+    let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
-      console.log('3', imageFile.name)
       const req = new XMLHttpRequest()
-      let formData = new FormData()
-
-      const data = this._getMetadata()
-      formData.append('image', imageFile, 'IMG_0325.JPG')
-      formData.forEach((value, key) => {
-        console.log('key %s: value %s', key, value)
-      })
-      formData.append('courseCode', data.courseCode)
-      formData.append('pictureid', data.pictureName)
-      const postUrl = `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${imageFile.name}`
-      console.log('postUrl', postUrl)
-      req.open('POST', postUrl)
-      req.setRequestHeader('Content-Type', undefined)
-      console.log('REQ', req)
-      console.log('======')
-      req.send(formData)
-      console.log('done')
-
       req.upload.addEventListener('progress', event => {
         if (event.lengthComputable) {
           fileProgress = (event.loaded / event.total) * 100
-          this.setState({ fileProgress })
+          console.log(fileProgress)
+          this.setState({ fileProgress: fileProgress })
         }
       })
-      req.onload = function () {
-        console.log("'success")
-      }
-
 
       req.onreadystatechange = function () {
-        // let { values } = thisInstance.state
+        // console.log('onreadystatechange values', values)
+
         if (this.readyState === 4 && this.status === 200) {
-          fileProgress = 0
-          console.log('ReqiReq', req.responseText) // handle response.
+          if (file) {
+            thisInstance.state.fileSavedDate = _getTodayDate()
+            thisInstance.setState({
+              isError: false, // todo: remove
+              successMsg: 'Success', // i18n.messages[thisInstance.props.routerStore.language].messages.alert_uploaded_file,
+              errMsg: undefined,
+              hasNewUploadedImage: true
+            })
+            console.log('Ura 1', thisInstance.state)
+          }
+          console.log('Ura 2')
         }
       }
+
+      let formData = new FormData()
+      const metaData = this._getMetadataAndName(file.name) // this.getMetadata(this.state.isPublished ? 'published' : this.state.saved ? 'draft' : 'new')
+      console.log('metaData ', metaData)
+      formData.append('file', file, metaData.finalFileName)
+      formData.append('courseCode', metaData.courseCode)
+      formData.append('pictureid', metaData.finalFileName)
+      formData.append('pictureBy', metaData.pictureBy)
+      req.open('POST', `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${metaData.finalFileName}`)
+      req.send(formData)
     })
   }
-  _getMetadata () {
+
+  _getMetadataAndName (originFileName) {
+    const fileExtension = originFileName.toLowerCase().split('.').pop()
+    const { courseCode } = this
+    const finalFileName = `Picture_by_own_choice_${courseCode}.${fileExtension}`
     return {
-      courseCode: this.props.courseAdminData.courseTitleData.course_code,
-      picture: 'Picture chosen by user',
-      pictureName: this.finalFileName
+      courseCode,
+      pictureBy: 'Picture chosen by user',
+      fileExtension,
+      finalFileName
     }
   }
 
@@ -200,12 +200,10 @@ class PictureUpload extends Component {
     console.log('isNew', isNew, 'ResultPic', resultPicUrl)
     if (isNew) {
       console.log('Wowowo', this.state.fileObj)
-      return new Promise((resolve, reject) => {
-        this._sendRequest(this.state.fileObj, event)
-      })
+      // this._sendRequest(this.state.fileObj, event)
     }
 
-    // this.props.nextStep(isNew, resultPic)
+    this.props.nextStep(isNew, resultPicUrl, 2)
   }
 
   render ({adminStore}) {
@@ -218,8 +216,8 @@ class PictureUpload extends Component {
         <p>{sellingTextLabels.label_choose_picture}</p>
         {this.state.isDefault
           ? this.state.infoMsg ? <Alert color='info'>{this.state.infoMsg}</Alert> : ''
-          : this.state.isError && this.state.errMsg
-              ? <Alert color='danger'>{this.state.errMsg}</Alert> : ''
+          : this.state.successMsg || this.state.isError && this.state.errMsg
+              ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{this.state.errMsg}</Alert> : ''
         }
         <form className='picture-choice'>
           <span role='radiogroup'>
@@ -256,28 +254,28 @@ class PictureUpload extends Component {
             <label for='pic-upload' className='label-pic-upload'>
               <h4>{sellingTextLabels.chooseImage.choose_file}</h4>
               <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
-                // accept='image/jpg,image/jpeg,image/png'
+                accept='image/jpg,image/jpeg,image/png'
                 onChange={this.updateImageDisplay}
                 />
             </label>
             <p>
               <i>{this.state.tempFilePath
-                ? sellingTextLabels.chooseImage.file_name + ' ' + this.finalFileName
+                ? sellingTextLabels.chooseImage.file_name + ` Picture_by_own_choice_${this.courseCode}`
                 : sellingTextLabels.chooseImage.no_choosen_file}
               </i>
             </p>
           </span>
-          <input type='file' id='pic-upload-1' name='pic-upload-1s' className='pic-upload'
-                // accept='image/jpg,image/jpeg,image/png'
-            onChange={this.updateImageDisplay}
-                />
         </span>
         }
+        <span>
+          <div className='text-center'>{this.state.fileProgress}%</div>
+          <Progress value={this.state.fileProgress} />
+        </span>
         <span className='control-buttons'>
           <Col sm='4'>
           </Col>
           <Col sm='4' className='btn-cancel'>
-            <Link to={`/kursinfoadmin/kurser/kurs/${courseAdminData.courseTitleData.course_code}?l=${courseAdminData.lang}`}
+            <Link to={`/kursinfoadmin/kurser/kurs/edit/${courseAdminData.courseTitleData.course_code}?l=${courseAdminData.lang}`}
               className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
               {sellingTextLabels.sellingTextButtons.button_cancel}
             </Link>
