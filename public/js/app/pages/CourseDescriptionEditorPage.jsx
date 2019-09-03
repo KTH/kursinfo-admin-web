@@ -62,7 +62,7 @@ class CourseDescriptionEditorPage extends Component {
         {/* ---COURSE TITEL--- */}
         <CourseTitle key='title'
           courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={this.state.enteredEditMode ? pageTitles.editSelling : pageTitles.previewSelling}
+          pageTitle={pageTitles.edit_course_introduction}
           language={userLang}
           />
         <ProgressBar active={this.state.progress} language={langIndex} />

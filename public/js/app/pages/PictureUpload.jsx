@@ -212,6 +212,7 @@ class PictureUpload extends Component {
     // const path = this.props.adminStore.browserConfig.proxyPrefixPath.uri
     return (
       <span className='Upload--Area col' key='uploadArea'>
+        <p>{sellingTextLabels.edit_picture_desc}</p>
         <h2>{sellingTextLabels.label_step_1}</h2>
         <p>{sellingTextLabels.label_choose_picture}</p>
         {this.state.isDefault
