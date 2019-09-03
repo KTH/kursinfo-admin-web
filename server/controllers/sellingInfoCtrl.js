@@ -135,16 +135,15 @@ async function _updateDescription (req, res, next) {
 function * _saveFileToStorage (req, res, next) {
   log.info('Saving uploaded file to storage ') // + req.files.file
   console.log('===========================START=======================')
-  console.log('_saveFileToStorage started', req)
-  console.log('_saveFileToStorage', req.body)
+  console.log('File is ', req.body)
   console.log('===========================END=======================')
-  let file = req.files.image
+  const file = req.files.file
+  console.log('file', file, req.params.pictureid, req.body)
   try {
     const fileName = yield runBlobStorage(file, req.params.pictureid, req.body)
     console.log('fileName', fileName)
     return httpResponse.json(res, fileName)
-
-    // return res.json(res, fileName)
+    // return res.status(res).json(fileName)
   } catch (error) {
     log.error('Exception from saveFileToStorage ', { error: error })
     next(error)
