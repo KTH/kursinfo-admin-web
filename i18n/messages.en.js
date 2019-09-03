@@ -46,6 +46,7 @@ module.exports = {
     header_progress_review: '3. Review and publish',
     about_course: 'About course',
     administrate: 'Administrate About course information',
+    edit_course_introduction: 'Edit course introduction',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
     instruction_1: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
@@ -122,20 +123,21 @@ module.exports = {
   },
   sellingTextLabels: {
     chooseImage: {
-      reset_image: 'Reset',
-      choose_file: 'Choose file',
-      file_name: 'File name:',
-      no_choosen_file: 'No file chosen'
+      reset_image: 'Restore to previous published image',
+      choose_file: 'Choose image',
+      file_name: 'Image name:',
+      no_choosen_file: 'No image chosen'
     },
-    label_choose_picture: 'In first step, you can choose a picture for a description text',
-    label_radio_button_1: 'Default picture chosen by ...',
-    label_radio_button_2: 'Choose own picture',
+    edit_picture_desc: 'Choose what image to display on the Course information page (step 1 of3). Edit the introducing text in the next step (2 of 3). Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.',
+    label_choose_picture: 'Choose image that will be displayed on the course',
+    label_radio_button_1: 'Image basedon the main subject',
+    label_radio_button_2: 'Choose your own picture',
     label_selling_info: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
-    label_step_1: 'Choose a picture (step 1 out of 3)',
-    label_step_2: 'Edit swedish and english text (step 2 out of 3)',
-    label_step_3: 'Preview and publish (step 3 out of 3)',
+    label_step_1: 'Choose image',
+    label_step_2: 'Edit swedish and english text',
+    label_step_3: 'Preview and publish',
     langLabelKopps: {
       en: 'Short description from KOPPS (EN)',
       sv: 'Short description from KOPPS (SW)'

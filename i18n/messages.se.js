@@ -45,6 +45,7 @@ module.exports = {
     header_progress_review: '3. Granska och publicera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
+    edit_course_introduction: 'Administrera kursinformation',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
     instruction_1: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
@@ -122,20 +123,21 @@ module.exports = {
   },
   sellingTextLabels: {
     chooseImage: {
-      reset_image: 'Återställ',
-      choose_file: 'Välja en bild',
-      file_name: 'Filnamn:',
-      no_choosen_file: 'Ingen ny bild väljat'
+      reset_image: 'Återställ till sparad bild',
+      choose_file: 'Välj bild',
+      file_name: 'Bildnamn:',
+      no_choosen_file: 'Ingen bild vald'
     },
-    label_choose_picture: 'I detta steg väljer du vilken bild som ska visas på sidan Kursinformation',
-    label_radio_button_1: 'Bild utvald för område ',
+    edit_picture_desc: 'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.',
+    label_choose_picture: 'Välj bild som ska visas på kursinformationssidan:',
+    label_radio_button_1: 'Bild utvald utifrån teknikområde ',
     label_radio_button_2: 'Egen vald bild',
     label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_step_1: 'Välja bild (steg 1 av 3)',
-    label_step_2: 'Redigera svensk och engelsk text (steg 2 av 3)',
-    label_step_3: 'Granska och publicera (steg 3 av 3)',
+    label_step_1: 'Välja bild',
+    label_step_2: 'Redigera svensk och engelsk text',
+    label_step_3: 'Granska och publicera',
     langLabelKopps: {
       en: 'Kortbeskrivning i KOPPS (EN)',
       sv: 'Kortbeskrivning i KOPPS (SV)'
