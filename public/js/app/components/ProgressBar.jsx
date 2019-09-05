@@ -1,5 +1,4 @@
 
-import { Component } from 'inferno'
 import Row from 'inferno-bootstrap/dist/Row'
 import i18n from '../../../../i18n'
 

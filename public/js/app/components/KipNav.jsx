@@ -14,10 +14,10 @@ const KipLinkNav = ({courseCode, translate, lang}) => { // courseCode, lang, sta
             <td colSpan='2'>
               <h4>{translate.about_course}</h4>
               <p>
-                <a className='link-back' href={kursOmLink} alt={links_to.kinfo.a_title_alt}>{links_to.kinfo.a_title}</a>
+                <a className='link-back' href={kursOmLink} alt={links_to.kinfo.aAlt}>{links_to.kinfo.aTitle}</a>
               </p>
               <p>
-                <a className='link-back' href={kutvLink} alt={links_to.kutv.a_title_alt}>{links_to.kutv.a_title}</a>
+                <a className='link-back' href={kutvLink} alt={links_to.kutv.aAlt}>{links_to.kutv.aTitle}</a>
               </p>
             </td>
             <td className='admin-link'>
