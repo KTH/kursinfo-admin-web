@@ -2,16 +2,10 @@ import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 import Alert from 'inferno-bootstrap/lib/Alert'
-import ButtonGroup from 'inferno-bootstrap/lib/ButtonGroup'
-import Form from 'inferno-bootstrap/lib/Form/Form'
-import Input from 'inferno-bootstrap/lib/Form/Input'
-import Button from 'inferno-bootstrap/lib/Button'
-import {Link} from 'inferno-router'
-import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import Progress from 'inferno-bootstrap/dist/Progress'
+import ButtonModal from '../components/ButtonModal.jsx'
 import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
-import axios from 'axios'
 
 let fileTypes = [
   'image/jpeg',
@@ -59,7 +53,7 @@ class PictureUpload extends Component {
       isError: false, // todo: remove
       infoMsg: undefined,
       errMsg: undefined,
-      tempFilePath: undefined, // To keep state if switchs
+      tempFilePath: undefined, // remove
       // move to final step
       file: undefined,
       fileSavedDate: undefined,
@@ -68,7 +62,7 @@ class PictureUpload extends Component {
       successMsg: undefined
     }
     this.courseCode = this.props.courseAdminData.courseTitleData.course_code
-    this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
+    this.isApiPicAvailable = false// true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.imageUrl // Default
 
@@ -170,11 +164,12 @@ class PictureUpload extends Component {
       let formData = new FormData()
       const metaData = this._getMetadataAndName(file.name) // this.getMetadata(this.state.isPublished ? 'published' : this.state.saved ? 'draft' : 'new')
       console.log('metaData ', metaData)
-      formData.append('file', file, metaData.finalFileName)
+      formData.append('file', file)
       formData.append('courseCode', metaData.courseCode)
-      formData.append('pictureid', metaData.finalFileName)
+      formData.append('fileExtension', metaData.fileExtension)
       formData.append('pictureBy', metaData.pictureBy)
-      req.open('POST', `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${metaData.finalFileName}`)
+      req.open('POST',
+        `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}/${this.courseCode}/${this.state.isPublished}`)
       req.send(formData)
     })
   }
@@ -193,78 +188,85 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    const isNew = this.state.tempFilePath
-    const resultPicUrl = isNew
-        ? this.state.tempFilePath
-        : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
-    console.log('isNew', isNew, 'ResultPic', resultPicUrl)
-    if (isNew) {
-      console.log('Wowowo', this.state.fileObj)
-      // this._sendRequest(this.state.fileObj, event)
+    // const isNew = this.state.tempFilePath
+    // const resultPicUrl = isNew
+    //     ? this.state.tempFilePath
+    //     : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
+    // if (isNew) {
+    //   // this._sendRequest(this.state.fileObj, event)
+    // }
+    // this.props.updateParent(isNew, resultPicUrl, 2)
+    const states = {
+      enteredUploadMode: false,
+      progress: 2
     }
-
-    this.props.nextStep(isNew, resultPicUrl, 2)
+    this.props.updateParent(states)
   }
 
   render ({adminStore}) {
-    const { sellingTextLabels, imageUrl, courseAdminData } = this.props
+    const { introLabel, imageUrl, courseAdminData } = this.props
     const { apiImageUrl, defaultImageUrl } = this
     // const path = this.props.adminStore.browserConfig.proxyPrefixPath.uri
     return (
       <span className='Upload--Area col' key='uploadArea'>
-        <p>{sellingTextLabels.edit_picture_desc}</p>
-        <h2>{sellingTextLabels.label_step_1}</h2>
-        <p>{sellingTextLabels.label_choose_picture}</p>
+        <p>{introLabel.step_1_desc}</p>
+        <span className='title_and_info'>
+          <h2>{introLabel.label_step_1}</h2> {' '}
+          <ButtonModal id='info' step={1} infoText={introLabel.info_image} course={this.courseCode} />
+        </span>
+        <p>{introLabel.image.choiceInfo}</p>
         {this.state.isDefault
           ? this.state.infoMsg ? <Alert color='info'>{this.state.infoMsg}</Alert> : ''
           : this.state.successMsg || this.state.isError && this.state.errMsg
               ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{this.state.errMsg}</Alert> : ''
         }
-        <form className='picture-choice'>
+        <form className='Picture--Options input-label-row'>
           <span role='radiogroup'>
             <label for='defaultPicture'>
               <input type='radio' id='defaultPicture' name='choosePicture' value='defaultPicture'
                 onClick={this.isDefaultPicture} checked={this.state.isDefault} />{' '}
-              {sellingTextLabels.label_radio_button_1}
+              {introLabel.image.firstOption}
             </label> <br />
             <label for='otherPicture'>
               <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
                 onClick={this.isDefaultPicture} checked={!this.state.isDefault} /> {' '}
-              {sellingTextLabels.label_radio_button_2}
+              {introLabel.image.secondOption}
             </label> <br />
           </span>
         </form>
         {this.state.isDefault
         ? <span className='' key='picture'>
-          <h3>{sellingTextLabels.label_edit_picture}</h3>
-          <img src={defaultImageUrl} alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
+          <h3>{introLabel.label_edit_picture}</h3>
+          <img src={defaultImageUrl} alt={introLabel.alt.image} height='auto' width='300px' />
         </span>
-        : <span className='own-picture' key='uploader'>
-          <span className='preview-pic'>
+        : <span>
+          <span className='own-picture' key='uploader'>
+            <span className='preview-pic'>
               {this.isApiPicAvailable || this.state.tempFilePath
-                ? <img src={this.state.tempFilePath ? this.state.tempFilePath : apiImageUrl}
-                  alt={sellingTextLabels.altLabel.image} height='auto' width='300px' />
-                : ''
+                ? <img src={this.state.tempFilePath ? this.state.tempFilePath : apiImageUrl} height='auto' width='300px'
+                  alt={introLabel.alt.image} />
+                : <span className='empty-pic' alt={introLabel.alt.tempImage}>
+                  <p><i>{introLabel.image.noChosen}</i></p>
+                </span>
               }
-            {this.state.tempFilePath && this.isApiPicAvailable
-                ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{sellingTextLabels.chooseImage.reset_image}</Button>
-                : ''
-            }
+            </span>
+            <span className='file-uploader-section'>
+              <label for='pic-upload' className='label-pic-upload'>
+                <h4>{introLabel.image.choose}</h4>
+                <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
+                  accept='image/jpg,image/jpeg,image/png'
+                  onChange={this.updateImageDisplay}
+                  />
+              </label>
+              {this.state.tempFilePath && this.isApiPicAvailable
+                  ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
+                  : ''
+              }
+            </span>
           </span>
-          <span className='file-uploader-section'>
-            <label for='pic-upload' className='label-pic-upload'>
-              <h4>{sellingTextLabels.chooseImage.choose_file}</h4>
-              <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
-                accept='image/jpg,image/jpeg,image/png'
-                onChange={this.updateImageDisplay}
-                />
-            </label>
-            <p>
-              <i>{this.state.tempFilePath
-                ? sellingTextLabels.chooseImage.file_name + ` Picture_by_own_choice_${this.courseCode}`
-                : sellingTextLabels.chooseImage.no_choosen_file}
-              </i>
-            </p>
+          <span className='input-label-row'>
+            <input type='checkbox' id='termsAgreement' name='agreeToTerms' value='agree' />
+            <label for='termsAgreement'>{introLabel.image.agreeCheck}</label>
           </span>
         </span>
         }
@@ -276,15 +278,12 @@ class PictureUpload extends Component {
           <Col sm='4'>
           </Col>
           <Col sm='4' className='btn-cancel'>
-            <Link to={`/kursinfoadmin/kurser/kurs/edit/${courseAdminData.courseTitleData.course_code}?l=${courseAdminData.lang}`}
-              className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
-              {sellingTextLabels.sellingTextButtons.button_cancel}
-            </Link>
+            <ButtonModal id='cancel' step={1} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
           </Col>
           <Col sm='4' className='btn-next'>
-            <Button onClick={this.doNextStep} color='success' alt={sellingTextLabels.altLabel.button_edit_text}
+            <Button onClick={this.doNextStep} color='success' alt={introLabel.alt.step2Next}
               disabled={this.state.isError}>
-              {sellingTextLabels.sellingTextButtons.button_edit_text}
+              {introLabel.button.step2}
             </Button>
           </Col>
         </span>
