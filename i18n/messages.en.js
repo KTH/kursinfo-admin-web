@@ -46,7 +46,6 @@ module.exports = {
     header_progress_review: '3. Review and publish',
     about_course: 'About course',
     administrate: 'Administrate About course information',
-    edit_course_introduction: 'Edit course introduction',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
     instruction_1: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
@@ -59,16 +58,16 @@ module.exports = {
     link_user_manual: 'Information and help to administrate About course pages',
     links_to: {
       kutv: {
-        a_title: 'Course development and history',
-        a_title_alt: 'To Course development and history view'
+        aTitle: 'Course development and history',
+        aAlt: 'To Course development and history view'
       },
       pm: {
-        a_title: 'Course information',
-        a_title_alt: 'To Course information page'
+        aTitle: 'Course information',
+        aAlt: 'To Course information page'
       },
       kinfo: {
-        a_title: 'Course information',
-        a_title_alt: 'To Course information page'
+        aTitle: 'Course information',
+        aAlt: 'To Course information page'
       }
     },
     alertMessages: {
@@ -84,10 +83,12 @@ module.exports = {
         pub: 'Course memo has been published',
         delete: 'Draft for course memo has been removed'
       },
+      kinfo: {
+        save: 'New version of the course introduction has been published in english and swedish languages on the page '
+      },
       see_more: 'Look at',
       term: 'Term',
       course_round: 'Course round',
-      selling_description_success: 'New version of the course introduction has been published in english and swedish languages on the page ',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
@@ -121,18 +122,47 @@ module.exports = {
       courseDev_btn: 'Edit course analysis and course data information'
     }
   },
-  sellingTextLabels: {
-    chooseImage: {
-      reset_image: 'Restore to previous published image',
-      choose_file: 'Choose image',
-      file_name: 'Image name:',
-      no_choosen_file: 'No image chosen'
+  introLabel: {
+    info_publish: {
+      header: 'To be aware of before publishing!',
+      body: `<br/>  
+        <br/> 
+          The information will be published on the page Course information (image and text)
+        <br/> 
+        <br/> 
+        Do you want to publish?`,
+      btnCancel: 'No, go back',
+      btnConfirm: 'Yes, publish',
+      infoCourse: `You have chosen...<br/>
+      <br/>
+      Course: 
+      `
     },
-    edit_picture_desc: 'Choose what image to display on the Course information page (step 1 of3). Edit the introducing text in the next step (2 of 3). Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.',
-    label_choose_picture: 'Choose image that will be displayed on the course',
-    label_radio_button_1: 'Image basedon the main subject',
-    label_radio_button_2: 'Choose your own picture',
-    label_selling_info: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
+    info_cancel: {
+      header: 'To be aware of before cancelling!',
+      body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
+      btnCancel: 'No, go back',
+      btnConfirm: 'Yes, cancel',
+      infoCourse: `You have chosen...<br/>
+      <br/>
+      Course: 
+      `
+    },
+    editCourseIntro: 'Edit course introduction',
+    image: {
+      reset: 'Restore to previous published image',
+      choose: 'Choose image',
+      name: 'Image name:',
+      noChosen: 'No image chosen',
+      choiceInfo: 'Choose image that will be displayed on the course',
+      firstOption: 'Image based on the main subject',
+      secondOption: 'Choose your own picture',
+      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.',
+      modalInfo: 'Choose the image that will be displayed on the page Course information. You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.'
+    },
+    step_1_desc: 'Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.',
+    step_2_desc: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
+    step_3_desc: '............',
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     label_step_1: 'Choose image',
@@ -151,19 +181,21 @@ module.exports = {
       sv: 'Swedish text'
     },
     changed_by: 'Last changed by user with kthId:',
-    sellingTextButtons: {
-      button_cancel: 'Cancel',
-      button_change: 'Change text',
-      button_edit_text: 'Edit text',
-      button_preview: 'Preview',
-      button_submit: 'Publish'
+    button: {
+      cancel: 'Cancel',
+      publish: 'Publish',
+      step1: 'Choose image',
+      step2: 'Edit text',
+      step3: 'Preview'
     },
-    altLabel: {
+    alt: {
       start_link_back: 'To course information page',
-      button_edit_text: 'Go to next step to edit introduction text page',
-      button_preview: 'Preview a course introduction',
-      button_cancel: 'Cancel and go back to admin start page',
-      button_submit: 'Save and publish course introduction',
+      step1: '',
+      step2Next: 'Go to next step to edit introduction text',
+      step2Back: 'Go back to edit introduction text',
+      step3: 'Preview a course introduction',
+      cancel: 'Cancel and go back to admin start page',
+      publish: 'Save and publish course introduction',
       image: 'Picture for a course description decoration'
     }
   },

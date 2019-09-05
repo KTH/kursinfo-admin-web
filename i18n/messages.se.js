@@ -45,7 +45,6 @@ module.exports = {
     header_progress_review: '3. Granska och publicera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
-    edit_course_introduction: 'Administrera kursinformation',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
     instruction_1: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
@@ -58,16 +57,16 @@ module.exports = {
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
     links_to: {
       kutv: {
-        a_title: 'Kursens utveckling och historik',
-        a_title_alt: 'Till Kursens utveckling och historik vy'
+        aTitle: 'Kursens utveckling och historik',
+        aAlt: 'Till Kursens utveckling och historik vy'
       },
       pm: {
-        a_title: 'Kursinformation',
-        a_title_alt: 'Till Kursinformation vy'
+        aTitle: 'Kursinformation',
+        aAlt: 'Till Kursinformation vy'
       },
       kinfo: {
-        a_title: 'Kursinformation',
-        a_title_alt: 'Till Kursinformation vy'
+        aTitle: 'Kursinformation',
+        aAlt: 'Till Kursinformation vy'
       }
     },
     alertMessages: {
@@ -83,8 +82,10 @@ module.exports = {
         pub: 'Kurs-pm har publicerats',
         delete: 'Utkast för kurs-pm har raderats'
       },
+      kinfo: {
+        save: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan '
+      },
       see_more: 'Se',
-      selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
       term: 'Termin',
       course_round: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
@@ -121,22 +122,52 @@ module.exports = {
       courseDev_btn: 'Redigera kusanalys och kursdata'
     }
   },
-  sellingTextLabels: {
-    chooseImage: {
-      reset_image: 'Återställ till sparad bild',
-      choose_file: 'Välj bild',
-      file_name: 'Bildnamn:',
-      no_choosen_file: 'Ingen bild vald'
+  introLabel: {
+    info_publish: {
+      header: 'Att tänka på innan du publicerar!',
+      body: `<br/>
+        <br/> 
+        Publicering kommer att ske på sidan: Kursinformation och ersätta befintlig introduktion (bild och text) till kursen.
+        <br/>
+        <br/>
+        Vill du fortsätta att publicera?`,
+      btnCancel: 'Nej, gå tillbaka',
+      btnConfirm: 'Ja, fortsätt publicera',
+      infoCourse: `Du har valt...<br/>
+      <br/>
+      Kurs: `
     },
-    edit_picture_desc: 'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.',
-    label_choose_picture: 'Välj bild som ska visas på kursinformationssidan:',
-    label_radio_button_1: 'Bild utvald utifrån teknikområde ',
-    label_radio_button_2: 'Egen vald bild',
-    label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
+    info_cancel: {
+      header: 'Att tänka på innan du avbryter!',
+      body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
+      <br/>  
+      <br/> 
+            Vill du fortsätta att avbryta?`,
+      btnCancel: 'Nej, gå tillbaka',
+      btnConfirm: 'Ja, fortsätt avbryta',
+      infoCourse: `Du har valt...<br/>
+      <br/>
+      Kurs: `
+    },
+    editCourseIntro: 'Administrera kursinformation',
+    image: {
+      reset: 'Återställ till sparad bild',
+      choose: 'Välj bild',
+      name: 'Bildnamn:',
+      noChosen: 'Ingen bild vald',
+      choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
+      firstOption: 'Bild utvald utifrån huvudområde',
+      secondOption: 'Egen vald bild',
+      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer i användarvillkoren.',
+      modalInfo: 'Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.'
+    },
+    step_1_desc: 'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.',
+    step_2_desc: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
+    step_3_desc: 'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan Kursinformation (svensk och engelsk sida). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på Kursinformationssidan.',
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_step_1: 'Välja bild',
-    label_step_2: 'Redigera svensk och engelsk text',
+    label_step_2: 'Redigera text',
     label_step_3: 'Granska och publicera',
     langLabelKopps: {
       en: 'Kortbeskrivning i KOPPS (EN)',
@@ -151,18 +182,20 @@ module.exports = {
       sv: 'Svensk text'
     },
     changed_by: 'Senast ändrad av:',
-    sellingTextButtons: {
-      button_cancel: 'Avbryt',
-      button_change: 'Redigera',
-      button_edit_text: 'Redigera text',
-      button_preview: 'Granska',
-      button_submit: 'Publicera'
+    button: {
+      cancel: 'Avbryt',
+      publish: 'Publicera',
+      step1: 'Välj bild',
+      step2: 'Redigera text',
+      step3: 'Granska'
     },
-    altLabel: {
-      button_edit_text: 'Till nästa steg att redigera text',
-      button_preview: 'Förhandsgranska introduktion till kursen',
-      button_cancel: 'Avbryt och gå till admin startsida',
-      button_submit: 'Spara och publicera introduktion till kursen',
+    alt: {
+      step1: 'Till förra steg att välja bild',
+      step2Next: 'Till nästa steg att redigera text',
+      step2Back: 'Till förra steg att redigera text',
+      step3: 'Till nästa steg att Förhandsgranska introduktion till kursen',
+      cancel: 'Avbryt och gå till admin startsida',
+      publish: 'Spara och publicera introduktion till kursen',
       image: 'Bild för kurssidasdekoration'
     }
   },
