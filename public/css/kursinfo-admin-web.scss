@@ -1,5 +1,10 @@
 //====Common style for both pages====
 $kth-blue: #007fae;
+$black: #000000;
+$white: #ffffff;
+$light-grey: #d4d4d4;
+$dark-grey: #65656c;
+
 %row {
     display: flex;
     flex-direction: row;
@@ -213,9 +218,17 @@ span.title_and_info {
             opacity: 0;
             border: 0;
         }
+        span.empty-pic {
+            display: flex;
+            background-color: $light-grey;
+            height: 225px;
+            width: 300px;
+            justify-content: center;
+            p {align-self: center;}
+        }
         label.label-pic-upload {
             background-color: #f5f5f5;
-            border: 1px solid #65656c;
+            border: 1px solid $dark-grey;
             border-radius: .4em;  
             text-align: center;
             padding: 0;
