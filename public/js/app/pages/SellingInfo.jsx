@@ -2,16 +2,15 @@ import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 
-import CourseTitle from '../components/CourseTitle.jsx'
 import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'
 import PreviewText from '../components/PreviewText.jsx'
 import Button from 'inferno-bootstrap/lib/Button'
 import Alert from 'inferno-bootstrap/lib/Alert'
-import {Link} from 'inferno-router'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
+import ButtonModal from '../components/ButtonModal.jsx'
 
-import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
+import { KURSINFO_IMAGE_BLOB_URL, ADMIN_OM_COURSE } from '../util/constants'
 
 const editorConf = {
   toolbarGroups: [
@@ -32,8 +31,8 @@ class SellingInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sellingText_sv: this.props.adminStore.sellingText.sv,
-      sellingText_en: this.props.adminStore.sellingText.en,
+      sv: this.props.adminStore.sellingText.sv,
+      en: this.props.adminStore.sellingText.en,
       sellingTextAuthor: this.props.adminStore.sellingTextAuthor,
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
@@ -47,50 +46,52 @@ class SellingInfo extends Component {
     this.userLang = this.courseAdminData.lang
     this.langIndex = this.courseAdminData.lang === 'en' ? 0 : 1
     this.sellingTexts = {
-      sv: this.state.sellingText_sv,
-      en: this.state.sellingText_en
+      sv: this.state.sv,
+      en: this.state.en
     }
-    this.doChangeText = this.doChangeText.bind(this)
-    this.doPreview = this.doPreview.bind(this)
-    this.doSubmit = this.doSubmit.bind(this)
-    this.doOpenEditorAndCount = this.doOpenEditorAndCount.bind(this)
+    this.goToEditMode = this.goToEditMode.bind(this)
+    this.goToPreview = this.goToPreview.bind(this)
+    this.handlePublish = this.handlePublish.bind(this)
+    this.startEditor = this.startEditor.bind(this)
   }
 
   componentDidMount () {
-    this.doOpenEditorAndCount()
+    this.startEditor()
   }
 
   componentWillUnmount () {
-    window.removeEventListener('load', this.doOpenEditorAndCount)
+    window.removeEventListener('load', this.startEditor)
   }
 
   componentDidUpdate () {
     console.log('sell componentDidUpdate')
-    window.addEventListener('load', this.doOpenEditorAndCount)
+    window.addEventListener('load', this.startEditor)
   }
 
-  doChangeText (event) {
+  goToEditMode (event) {
     event.preventDefault()
     this.setState({
       hasDoneSubmit: false,
       enteredEditMode: true,
       isError: false
     })
-    this.doOpenEditorAndCount(event)
+    this.startEditor(event)
+    const states = {
+      // enteredUploadMode: false,
+      progress: 2
+    }
+    this.props.updateParent(states)
   }
 
-  doSubmit (event) {
-    event.preventDefault()
+  handlePublish () {
+    // event.preventDefault()
     const {courseCode, sellingTexts, langIndex, lang} = this
     this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
       this.setState({
         hasDoneSubmit: true,
         isError: false
       })
-      this.props.history.push({
-        pathname: `/kursinfoadmin/kurser/kurs/${courseCode}?l=${lang}`,
-        sellingDesciprion: 'success'
-      })
+      window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${lang}&serv=kinfo&event=pub`
     }).catch(err => {
       this.setState({
         hasDoneSubmit: false,
@@ -100,7 +101,7 @@ class SellingInfo extends Component {
     })
   }
 
-  doPreview (event) {
+  goToPreview (event) {
     event.preventDefault()
     this.setState({
       enteredEditMode: false,
@@ -108,12 +109,18 @@ class SellingInfo extends Component {
     })
     CKEDITOR.instances.sv.destroy(true)
     CKEDITOR.instances.en.destroy(true)
+    const states = {
+      // enteredUploadMode: false,
+      progress: 3
+    }
+    this.props.updateParent(states)
   }
 
   _doCalculateLength = (event, editorId) => {
     const text = event.editor.document.getBody().getText().replace(/\n/g, '')
     const length = text.length
-    this.setState({[`leftTextSign_${editorId}`]: 1500 - length,
+    this.setState({
+      [`leftTextSign_${editorId}`]: 1500 - length,
       isError: false,
       errMsg: ''
     })
@@ -136,16 +143,16 @@ class SellingInfo extends Component {
       })
     } else if (cleanText.trim().length === 0) {
       this.setState({
-        [`sellingText_${l}`]: ''
+        [l]: ''
       })
     } else {
       this.setState({
-        [`sellingText_${l}`]: htmlText
+        [l]: htmlText
       })
     }
   }
 
-  doOpenEditorAndCount () {
+  startEditor () {
     ['sv', 'en'].map((editorId) => {
       let textArea = document.getElementById(editorId)
       CKEDITOR.replace(editorId, editorConf)
@@ -155,19 +162,13 @@ class SellingInfo extends Component {
   }
 
   render ({adminStore}) {
-    const { courseAdminData, courseCode, userLang, langIndex } = this
-    const { courseImage, pageTitles, sellingTextLabels } = i18n.messages[langIndex]
+    const { courseAdminData, langIndex } = this
+    const { courseImage, introLabel } = i18n.messages[langIndex]
     let courseImageID = courseImage[courseAdminData.imageFileName]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
-        {/* ---COURSE TITEL--- */}
-        <CourseTitle key='title'
-          courseTitleData={courseAdminData.courseTitleData}
-          pageTitle={this.state.enteredEditMode ? pageTitles.editSelling : pageTitles.previewSelling}
-          language={userLang}
-          />
 
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
 
@@ -175,64 +176,64 @@ class SellingInfo extends Component {
         {this.state.enteredEditMode ? (
           <div className='TextEditor--SellingInfo col'>
             {/* ---TEXT Editors for each language--- */}
-            <h2>{sellingTextLabels.label_step_2}</h2>
-            <p>{sellingTextLabels.label_selling_info}</p>
+            <p>{introLabel.step_2_desc}</p>
+            <h2>{introLabel.label_step_2}</h2>
             <span className='Editors--Area' key='editorsArea' role='tablist'>
               <span className='left' key='leftEditorForSwedish'>
-                <KoppsTextCollapse instructions={sellingTextLabels}
+                <KoppsTextCollapse instructions={introLabel}
                   koppsText={courseAdminData.koppsCourseDesc['sv']} lang='sv' />
-                <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-                <textarea name='sv' id='sv' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_sv}</textarea>
+                <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
+                <textarea name='sv' id='sv' className='editor' style='visibility: hidden; display: none;'>{this.state.sv}</textarea>
               </span>
               <span className='right' key='rightEditorForEnglish'>
-                <KoppsTextCollapse instructions={sellingTextLabels}
+                <KoppsTextCollapse instructions={introLabel}
                   koppsText={courseAdminData.koppsCourseDesc['en']} lang='en' />
-                <p>{sellingTextLabels.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-                <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.sellingText_en}</textarea>
+                <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
+                <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.en}</textarea>
               </span>
             </span>
-            <p className='changed-by'>{sellingTextLabels.changed_by} {this.state.sellingTextAuthor}</p>
+            <p className='changed-by'>{introLabel.changed_by} {this.state.sellingTextAuthor}</p>
             <Row className='control-buttons'>
-              <Col sm='4'>
+              <Col sm='4' className='btn-back'>
+                <Button onClick={this.doNextStep} alt={introLabel.alt.step1}>
+                  {introLabel.button.step1}
+                </Button>
               </Col>
               <Col sm='4' className='btn-cancel'>
-                <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${userLang}`} className='btn btn-secondary text-center' alt={sellingTextLabels.altLabel.button_cancel}>
-                  {sellingTextLabels.sellingTextButtons.button_cancel}
-                </Link>
+                <ButtonModal id='cancel' step={2} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
               </Col>
               <Col sm='4' className='btn-next'>
-                <Button onClick={this.doPreview} color='success' alt={sellingTextLabels.altLabel.button_preview} disabled={this.state.isError}>
-                  {sellingTextLabels.sellingTextButtons.button_preview}
+                <Button onClick={this.goToPreview} color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
+                  {introLabel.button.step3}
                 </Button>
               </Col>
             </Row>
-            <span className='Upload--Picture--Area' key='uploadFile'>
-            </span>
           </div>
         ) : (
           <div className='col'>
-            <h2>{sellingTextLabels.label_step_3}</h2>
+            <h2>{introLabel.label_step_3}</h2>
             <Row id='pageContainer' key='pageContainer'>
               <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
-                <PreviewText sellingTextLabels={sellingTextLabels} whichLang='sv'
+                <PreviewText introLabel={introLabel} whichLang='sv'
                   image={imageUrl}
-                  sellingText={this.state.sellingText_sv} koppsTexts={courseAdminData.koppsCourseDesc} />
-                <PreviewText sellingTextLabels={sellingTextLabels} whichLang='en'
+                  sellingText={this.state.sv} koppsTexts={courseAdminData.koppsCourseDesc} />
+                <PreviewText introLabel={introLabel} whichLang='en'
                   image={imageUrl}
-                  sellingText={this.state.sellingText_en} koppsTexts={courseAdminData.koppsCourseDesc} />
+                  sellingText={this.state.en} koppsTexts={courseAdminData.koppsCourseDesc} />
                 <Row className='control-buttons'>
                   <Col sm='4' className='btn-back'>
-                    <Button onClick={this.doChangeText} alt={sellingTextLabels.altLabel.button_cancel}>{sellingTextLabels.sellingTextButtons.button_change}</Button>
+                    <Button onClick={this.goToEditMode} alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
                   </Col>
                   <Col sm='4' className='btn-cancel'>
-                    <Link to={`/kursinfoadmin/kurser/kurs/${courseCode}?l=${userLang}`} className='btn btn-secondary'>
-                      {sellingTextLabels.sellingTextButtons.button_cancel}
-                    </Link>
+                    <ButtonModal id='cancel' step={3} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
                   </Col>
                   <Col sm='4' className='btn-last'>
-                    <Button onClick={this.doSubmit} color='success' alt={sellingTextLabels.altLabel.button_submit}>
-                      {sellingTextLabels.sellingTextButtons.button_submit}
-                    </Button>
+                    <ButtonModal id='publish' buttonLabel={introLabel.button.publish}
+                      handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish} />
+{/*
+                    <Button id='publish' key='publish' onClick={this.toggleModal} color='success' alt={introLabel.alt.publish}>
+                      {introLabel.button.publish}
+                    </Button> */}
                   </Col>
                 </Row>
               </Col>
