@@ -1,5 +1,38 @@
 //====Common style for both pages====
 $kth-blue: #007fae;
+%row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+%column {
+    display: flex;
+    flex-direction: column;
+}
+%arrow-icon {
+    content: '';
+    height: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+}
+%responsive-table {
+    @media (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+        .table table, thead, tbody, th, td, tr { 
+            display: block; 
+            max-width: 95%;
+            }    
+        .table td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #fff; 
+            position: relative;
+            display: flex;
+            flex-direction: column;  
+        }
+    }
+}
 
 #kth-kursinfo {
     width: 100%;
@@ -43,34 +76,10 @@ $kth-blue: #007fae;
     }
   }
 //====START ADMIN PAGE WITH CARDS====
-%arrow-icon {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-}
-%responsive-table {
-    @media (max-width: 767px) {
-    /* Force table to not be like tables anymore */
-        .table table, thead, tbody, th, td, tr { 
-            display: block; 
-            max-width: 95%;
-            }    
-        .table td { 
-            /* Behave  like a "row" */
-            border: none;
-            border-bottom: 1px solid #fff; 
-            position: relative;
-            display: flex;
-            flex-direction: column;     
-        }
-    }
-}
+
 //1.Navigation with KIP Links and right-located description text
 span.navigation {
-    display: flex;
-    flex-direction: column;
+    @extend %column;  
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
@@ -111,8 +120,7 @@ span.navigation {
 
 // 4. Start page and cards style
 .AdminPage--ShowDescription {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     .card {
         width: 100%;
         margin: 1em .5em 1em 0; 
@@ -154,6 +162,29 @@ span.navigation {
         }
     }
 }
+//common elements
+span.title_and_info {
+    @extend %row;
+    h2 {
+        margin-right: .5em;
+    }
+    .btn-info-modal {
+        border: transparent;
+    }
+}
+
+.input-label-row {
+    @extend %row;
+    label {
+        font-size: 1.1rem;
+        margin-bottom: .7em;
+        font-weight: normal;
+    }
+    input[type=radio], input[type=checkbox] {
+        transform: scale(1.5);
+        margin-right: .5em;
+    }
+}
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo {
@@ -167,42 +198,26 @@ span.navigation {
 }
 
 .Upload--Area { 
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     justify-content: space-between;
     align-items: baseline;
     margin: 2em 0;
-    //radio buttons
-    form.picture-choice {
-        label {
-            font-size: 1.1rem;
-            margin-bottom: .7em;
-            font-weight: normal;
-            vertical-align: bottom;
-        }
-        input[type=radio] {
-            transform: scale(1.5);
-            margin-right: .5em;
-        }
-    }
+    //radio and checkbox
+
     .own-picture {
-        display: flex;
-        flex-direction: column; //row;
-        // justify-content: space-between;
+        @extend %row;
         align-items: flex-start;
         width: 100%;
         input[type=file] {
             filter: alpha(opacity=0);
             opacity: 0;
             border: 0;
-            // padding: ;
         }
-        label {
+        label.label-pic-upload {
             background-color: #f5f5f5;
             border: 1px solid #65656c;
             border-radius: .4em;  
             text-align: center;
-            margin: 1.2em 0;
             padding: 0;
             padding-top: .5em;
             padding-right: 2em;
@@ -217,9 +232,9 @@ span.navigation {
             // }
         }
         .preview-pic {
-            display: flex;
-            flex-direction: column;
+            @extend %column;
             margin-right: 5em;
+            margin-bottom: 1.5em;
         }
     }
     @media (min-width: 768px) {
@@ -238,8 +253,7 @@ span.navigation {
 }
 
 .Editors--Area {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     justify-content: space-between;
     margin-top: 2em;
     margin-bottom: -.7em;
@@ -300,8 +314,7 @@ span.navigation {
 
 //BUTTONS STYLES
 .control-buttons {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     border-top: 1px solid #dee2e6;
     padding-top: 1.5em; 
 
