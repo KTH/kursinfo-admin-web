@@ -84,7 +84,7 @@ module.exports = {
         delete: 'Draft for course memo has been removed'
       },
       kinfo: {
-        save: 'New version of the course introduction has been published in english and swedish languages on the page '
+        pub: 'New version of the course introduction has been published in english and swedish languages on the page '
       },
       see_more: 'Look at',
       term: 'Term',
@@ -148,6 +148,11 @@ module.exports = {
       Course: 
       `
     },
+    info_image: {
+      header: 'Info',
+      body: 'Choose the image that will be displayed on the page Course information. You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.',
+      btnCancel: 'Close'
+    },
     editCourseIntro: 'Edit course introduction',
     image: {
       reset: 'Restore to previous published image',
@@ -157,8 +162,7 @@ module.exports = {
       choiceInfo: 'Choose image that will be displayed on the course',
       firstOption: 'Image based on the main subject',
       secondOption: 'Choose your own picture',
-      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.',
-      modalInfo: 'Choose the image that will be displayed on the page Course information. You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.'
+      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.'
     },
     step_1_desc: 'Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.',
     step_2_desc: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
@@ -196,7 +200,8 @@ module.exports = {
       step3: 'Preview a course introduction',
       cancel: 'Cancel and go back to admin start page',
       publish: 'Save and publish course introduction',
-      image: 'Picture for a course description decoration'
+      image: 'Picture for a course description decoration',
+      tempImage: 'Placeholder to show up a chosen picture'
     }
   },
   courseMainSubjects: {

@@ -83,7 +83,7 @@ module.exports = {
         delete: 'Utkast för kurs-pm har raderats'
       },
       kinfo: {
-        save: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan '
+        pub: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan '
       },
       see_more: 'Se',
       term: 'Termin',
@@ -149,6 +149,11 @@ module.exports = {
       <br/>
       Kurs: `
     },
+    info_image: {
+      header: 'Info',
+      body: 'Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.',
+      btnCancel: 'Stäng'
+    },
     editCourseIntro: 'Administrera kursinformation',
     image: {
       reset: 'Återställ till sparad bild',
@@ -158,8 +163,7 @@ module.exports = {
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
       firstOption: 'Bild utvald utifrån huvudområde',
       secondOption: 'Egen vald bild',
-      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer i användarvillkoren.',
-      modalInfo: 'Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.'
+      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer i användarvillkoren.'
     },
     step_1_desc: 'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.',
     step_2_desc: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
@@ -196,7 +200,8 @@ module.exports = {
       step3: 'Till nästa steg att Förhandsgranska introduktion till kursen',
       cancel: 'Avbryt och gå till admin startsida',
       publish: 'Spara och publicera introduktion till kursen',
-      image: 'Bild för kurssidasdekoration'
+      image: 'Bild för kurssidasdekoration',
+      tempImage: 'Tomt plats för att visa väld bilden'
     }
   },
   courseImage: {
