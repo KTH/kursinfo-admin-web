@@ -138,9 +138,9 @@ function * _saveFileToStorage (req, res, next) {
   console.log('File is ', req.body)
   console.log('===========================END=======================')
   const file = req.files.file
-  console.log('file', file, req.params.pictureid, req.body)
+  console.log('file', file, req.params.courseCode, req.body)
   try {
-    const fileName = yield runBlobStorage(file, req.params.pictureid, req.body)
+    const fileName = yield runBlobStorage(file, req.params.courseCode, req.params.published, req.body)
     console.log('fileName', fileName)
     return httpResponse.json(res, fileName)
     // return res.status(res).json(fileName)
