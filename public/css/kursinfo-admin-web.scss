@@ -244,6 +244,9 @@ span.title_and_info {
             //     // outline: 0; 
             // }
         }
+        .file-uploader-section {
+            @extend %column;
+        }
         .preview-pic {
             @extend %column;
             margin-right: 5em;
