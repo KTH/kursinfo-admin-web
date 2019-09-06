@@ -53,7 +53,7 @@ class PictureUpload extends Component {
       hasNewUploadedImage: false,
       successMsg: undefined
     }
-    this.courseCode = this.props.courseAdminData.courseTitleData.course_code
+    this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.imageUrl // Default
@@ -152,7 +152,6 @@ class PictureUpload extends Component {
     }
     // this.props.updateParent(isNew, resultPicUrl, 2)
     const states = {
-      enteredUploadMode: false,
       imageFile: this.state.image, // for preview
       progress: 2
     }
@@ -161,7 +160,7 @@ class PictureUpload extends Component {
   }
 
   render ({adminStore}) {
-    const { introLabel, imageUrl, courseAdminData } = this.props
+    const { introLabel, imageUrl, koppsData } = this.props
     const { apiImageUrl, defaultImageUrl } = this
     // const path = this.props.adminStore.browserConfig.proxyPrefixPath.uri
     return (
