@@ -31,9 +31,8 @@ class SellingInfo extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sv: this.props.adminStore.sellingText.sv,
+      sv: this.props.adminStore.sellingText.sv,
       en: this.props.adminStore.sellingText.en,
-      sellingTextAuthor: this.props.adminStore.sellingTextAuthor,
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
       enteredEditMode: true,
@@ -41,16 +40,13 @@ class SellingInfo extends Component {
       isError: false,
       errMsg: ''
     }
+    this.sellingTextAuthor = this.props.adminStore.sellingTextAuthor,
     this.courseAdminData = this.props.adminStore.courseAdminData
     this.courseCode = this.courseAdminData.courseTitleData.course_code
     this.userLang = this.courseAdminData.lang
     this.langIndex = this.courseAdminData.lang === 'en' ? 0 : 1
-    this.sellingTexts = {
-      sv: this.state.sv,
-      en: this.state.en
-    }
+    this.goTo = this.goTo.bind(this)
     this.goToEditMode = this.goToEditMode.bind(this)
-    this.goToPreview = this.goToPreview.bind(this)
     this.handlePublish = this.handlePublish.bind(this)
     this.startEditor = this.startEditor.bind(this)
   }
@@ -85,7 +81,9 @@ class SellingInfo extends Component {
 
   handlePublish () {
     // event.preventDefault()
-    const {courseCode, sellingTexts, langIndex, lang} = this
+    const {courseCode, langIndex, lang} = this
+    const sellingTexts = this._shapeText()
+    this.props.uploadFinalPic()
     this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
       this.setState({
         hasDoneSubmit: true,
@@ -101,8 +99,20 @@ class SellingInfo extends Component {
     })
   }
 
-  goToPreview (event) {
+  _shapeText () {
+    return {
+      sv: this.state.sv,
+      en: this.state.en
+    }
+  }
+
+  goTo (event) {
     event.preventDefault()
+    const sellingTexts = this._shapeText()
+    const progress = event.target.id === 'back-to-image' ? 1 : 3
+    console.log('this.sellingText in1', sellingTexts)
+    console.log('en 1', this.state.en)
+    this.props.adminStore.updateSellingText(sellingTexts)
     this.setState({
       enteredEditMode: false,
       isError: false
@@ -110,11 +120,11 @@ class SellingInfo extends Component {
     CKEDITOR.instances.sv.destroy(true)
     CKEDITOR.instances.en.destroy(true)
     const states = {
-      // enteredUploadMode: false,
-      progress: 3
+      progress
     }
     this.props.updateParent(states)
   }
+
 
   _doCalculateLength = (event, editorId) => {
     const text = event.editor.document.getBody().getText().replace(/\n/g, '')
@@ -192,10 +202,10 @@ class SellingInfo extends Component {
                 <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.en}</textarea>
               </span>
             </span>
-            <p className='changed-by'>{introLabel.changed_by} {this.state.sellingTextAuthor}</p>
+            <p className='changed-by'>{introLabel.changed_by} {this.sellingTextAuthor}</p>
             <Row className='control-buttons'>
               <Col sm='4' className='btn-back'>
-                <Button onClick={this.doNextStep} alt={introLabel.alt.step1}>
+                <Button onClick={this.goTo} id='back-to-image' alt={introLabel.alt.step1}>
                   {introLabel.button.step1}
                 </Button>
               </Col>
@@ -203,7 +213,7 @@ class SellingInfo extends Component {
                 <ButtonModal id='cancel' step={2} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
               </Col>
               <Col sm='4' className='btn-next'>
-                <Button onClick={this.goToPreview} color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
+                <Button onClick={this.goTo} id='to-peview' color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
                   {introLabel.button.step3}
                 </Button>
               </Col>
