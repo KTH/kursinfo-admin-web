@@ -18,7 +18,7 @@ import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, ADMIN_COURSE_PM} from '../util/consta
 class AdminStartPage extends Component {
 
   render ({adminStore}) {
-    const { courseTitleData, lang } = adminStore.courseAdminData
+    const { courseTitleData, lang } = adminStore.koppsData
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
