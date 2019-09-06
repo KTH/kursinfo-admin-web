@@ -2,9 +2,9 @@ import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 import Alert from 'inferno-bootstrap/lib/Alert'
-import Col from 'inferno-bootstrap/dist/Col'
-import Progress from 'inferno-bootstrap/dist/Progress'
+import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
+import Col from 'inferno-bootstrap/dist/Col'
 import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 
 let fileTypes = [
@@ -13,17 +13,8 @@ let fileTypes = [
   'image/png'
 ]
 
-const isErrTrue = true
-let noFileAccepted // must be undefined
-
-const _getTodayDate = (date = '') => {
-  let today = date.length > 0 ? new Date(date) : new Date()
-  let dd = String(today.getDate()).padStart(2, '0')
-  let mm = String(today.getMonth() + 1).padStart(2, '0') // January is 0!
-  let yyyy = today.getFullYear()
-
-  return yyyy + '-' + mm + '-' + dd
-}
+const errTrue = true
+let noFile // must be undefined
 
 function _validFileType (file) {
   for (let i = 0; i < fileTypes.length; i++) {
@@ -34,7 +25,7 @@ function _validFileType (file) {
   return false
 }
 
-function _returnFileSize (number) {
+function _returnFileSize (number) { // TO DO OPTIMISE PICTURE IF TOO BIG BEFORE UPLOAD
   if (number < 1024) {
     return number + 'bytes'
   } else if (number > 1024 && number < 1048576) {
@@ -49,43 +40,55 @@ class PictureUpload extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      errMsg: undefined,
+      image: undefined,
       isDefault: false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
       isError: false, // todo: remove
+      isAgree: false,
       infoMsg: undefined,
-      errMsg: undefined,
       tempFilePath: undefined, // remove
       // move to final step
-      file: undefined,
-      fileSavedDate: undefined,
+      // fileSavedDate: undefined,
       fileProgress: 0,
       hasNewUploadedImage: false,
       successMsg: undefined
     }
     this.courseCode = this.props.courseAdminData.courseTitleData.course_code
-    this.isApiPicAvailable = false// true // this.props.adminStore.isUploadedImageInApi
+    this.isApiPicAvailable = true // this.props.adminStore.isUploadedImageInApi
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.imageUrl // Default
 
+    this.checkTerms = this.checkTerms.bind(this)
     this.updateImageDisplay = this.updateImageDisplay.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
     // this.hanleUploadFile = this.hanleUploadFile.bind(this)
     // this.handleRemoveFile = this.handleRemoveFile.bind(this)
-    this.isDefaultPicture = this.isDefaultPicture.bind(this)
+    this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
-  _choosenNewPicture (isError, fileUrl) {
+
+  checkTerms (event) {
+    const isAgreeToTerms = event.target.checked
     this.setState({
-      isError: isError,
-      tempFilePath: fileUrl, // ??
-      fileProgress: 0
+      isAgree: isAgreeToTerms,
+      isError: !isAgreeToTerms
     })
   }
 
-  isDefaultPicture (event) {
+  _choosenNewPicture (isError, fileUrl) { // ??
+    this.setState({
+      isError: isError,
+      tempFilePath: fileUrl
+    })
+  }
+
+  switchOption (event) {
     let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     this.setState({
-      isDefault: isDefaultPic
+      isDefault: isDefaultPic,
+      isError: !isDefaultPic,
+      isAgree: isDefaultPic
     })
     if (isDefaultPic) {
         // if user choose to override api picture
@@ -102,105 +105,59 @@ class PictureUpload extends Component {
     let errorIndex, infoMsg
     if (picFile) {
       if (_validFileType(picFile)) {
-        this._choosenNewPicture(!isErrTrue, window.URL.createObjectURL(picFile))
-        this.setState({ file: picFile })
-        // return this._sendRequest(picFile)
+        this._choosenNewPicture(!errTrue, window.URL.createObjectURL(picFile))
+        this.setState({ image: this._getFileData(picFile) })
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
-        this._choosenNewPicture(isErrTrue, noFileAccepted)
+        this._choosenNewPicture(errTrue, noFile)
       }
     } else if (!this.isApiPicAvailable) { // no new picture and no api pic available and no default chosen
       // show error and empty picture
       errorIndex = isTempFile ? undefined : 'no_file_chosen'
-      const tempFilePath = isTempFile ? this.state.tempFilePath : noFileAccepted
+      const tempFilePath = isTempFile ? this.state.tempFilePath : noFile
 
       this._choosenNewPicture(!isTempFile, tempFilePath)
     } else if (this.isApiPicAvailable) { // no new picture but still api pic available, no error
       // leave everything as it is
-      this._choosenNewPicture(!isErrTrue, this.state.tempFilePath)
+      this._choosenNewPicture(!errTrue, this.state.tempFilePath)
     }
 
     this.setState({errMsg: errorIndex, infoMsg})
   }
 
   resetToPrevApiPicture (event) {
-    this._choosenNewPicture(!isErrTrue, noFileAccepted)
+    this._choosenNewPicture(!errTrue, noFile)
     let el = document.querySelector('.pic-upload')
     el.value = ''
   }
 
-  _sendRequest (file) {
-    const thisInstance = this
-    let fileProgress = this.state.fileProgress
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest()
-      req.upload.addEventListener('progress', event => {
-        if (event.lengthComputable) {
-          fileProgress = (event.loaded / event.total) * 100
-          console.log(fileProgress)
-          this.setState({ fileProgress: fileProgress })
-        }
-      })
-
-      req.onreadystatechange = function () {
-        // console.log('onreadystatechange values', values)
-
-        if (this.readyState === 4 && this.status === 200) {
-          if (file) {
-            thisInstance.state.fileSavedDate = _getTodayDate()
-            thisInstance.setState({
-              isError: false, // todo: remove
-              successMsg: 'Success', // i18n.messages[thisInstance.props.routerStore.language].messages.alert_uploaded_file,
-              errMsg: undefined,
-              hasNewUploadedImage: true
-            })
-            console.log('Ura 1', thisInstance.state)
-          }
-          console.log('Ura 2')
-        }
-      }
-
-      let formData = new FormData()
-      const metaData = this._getMetadataAndName(file.name) // this.getMetadata(this.state.isPublished ? 'published' : this.state.saved ? 'draft' : 'new')
-      console.log('metaData ', metaData)
-      formData.append('file', file)
-      formData.append('courseCode', metaData.courseCode)
-      formData.append('fileExtension', metaData.fileExtension)
-      formData.append('pictureBy', metaData.pictureBy)
-      req.open('POST',
-        `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}/${this.courseCode}/${this.state.isPublished}`)
-      req.send(formData)
-    })
-  }
-
-  _getMetadataAndName (originFileName) {
-    const fileExtension = originFileName.toLowerCase().split('.').pop()
-    const { courseCode } = this
-    const finalFileName = `Picture_by_own_choice_${courseCode}.${fileExtension}`
-    return {
-      courseCode,
-      pictureBy: 'Picture chosen by user',
-      fileExtension,
-      finalFileName
-    }
+  _getFileData (file) {
+    let formData = new FormData()
+    formData.append('file', file)
+    formData.append('courseCode', this.courseCode)
+    formData.append('fileExtension', file.name.toLowerCase().split('.').pop())
+    formData.append('pictureBy', 'Picture chosen by user')
+    return formData
   }
 
   doNextStep (event) {
     event.preventDefault()
-    // const isNew = this.state.tempFilePath
+    const isNew = this.state.tempFilePath
     // const resultPicUrl = isNew
     //     ? this.state.tempFilePath
     //     : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
-    // if (isNew) {
-    //   // this._sendRequest(this.state.fileObj, event)
-    // }
+    if (isNew) {
+      // this._sendRequest(this.state.fileObj, event)
+    }
     // this.props.updateParent(isNew, resultPicUrl, 2)
     const states = {
       enteredUploadMode: false,
+      imageFile: this.state.image, // for preview
       progress: 2
     }
-    this.props.updateParent(states)
+    // this.props.sendTempImage(this.state.image)
+    this.props.updateParent(states) // be replaced by send temp image or in parent look at step
   }
 
   render ({adminStore}) {
@@ -224,12 +181,12 @@ class PictureUpload extends Component {
           <span role='radiogroup'>
             <label for='defaultPicture'>
               <input type='radio' id='defaultPicture' name='choosePicture' value='defaultPicture'
-                onClick={this.isDefaultPicture} checked={this.state.isDefault} />{' '}
+                onClick={this.switchOption} checked={this.state.isDefault} />{' '}
               {introLabel.image.firstOption}
             </label> <br />
             <label for='otherPicture'>
               <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
-                onClick={this.isDefaultPicture} checked={!this.state.isDefault} /> {' '}
+                onClick={this.switchOption} checked={!this.state.isDefault} /> {' '}
               {introLabel.image.secondOption}
             </label> <br />
           </span>
@@ -264,16 +221,15 @@ class PictureUpload extends Component {
               }
             </span>
           </span>
-          <span className='input-label-row'>
-            <input type='checkbox' id='termsAgreement' name='agreeToTerms' value='agree' />
+          {this.state.tempFilePath
+          ? <span className='input-label-row'>
+            <input type='checkbox' onClick={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
             <label for='termsAgreement'>{introLabel.image.agreeCheck}</label>
           </span>
+          : ''
+          }
         </span>
         }
-        <span>
-          <div className='text-center'>{this.state.fileProgress}%</div>
-          <Progress value={this.state.fileProgress} />
-        </span>
         <span className='control-buttons'>
           <Col sm='4'>
           </Col>
