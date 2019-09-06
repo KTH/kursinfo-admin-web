@@ -22,7 +22,7 @@ function _webUsesSSL (url) {
 }
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
-  @observable courseAdminData
+  @observable koppsData
   @observable sellingText = {
     en: undefined,
     sv: undefined
@@ -111,12 +111,12 @@ class AdminStore {
         course_credits: this.isValidData(course.credits),
         apiError: false
       }
-      const koppsCourseDesc = { // kopps recruitmentText
+      const koppsText = { // kopps recruitmentText
         sv: this.isValidData(course.info.sv),
         en: this.isValidData(course.info.en)
       }
-      this.courseAdminData = {
-        koppsCourseDesc,
+      this.koppsData = {
+        koppsText,
         imageFileName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
         courseTitleData,
         lang
@@ -126,13 +126,13 @@ class AdminStore {
         course_code: courseCode.toUpperCase(),
         apiError: true
       }
-      const koppsCourseDesc = { // kopps recruitmentText
+      const koppsText = { // kopps recruitmentText
         sv: EMPTY,
         en: EMPTY
       }
-      this.courseAdminData = {
+      this.koppsData = {
         courseTitleData,
-        koppsCourseDesc,
+        koppsText,
         imageFileName: EMPTY,
         lang
       }
