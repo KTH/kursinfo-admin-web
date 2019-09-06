@@ -23,6 +23,9 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable koppsData
+  @observable newImageFile
+  @observable tempImagePath
+
   @observable sellingText = {
     en: undefined,
     sv: undefined
@@ -89,7 +92,10 @@ class AdminStore {
       sv: data.sv
     }
   }
-
+  @action addNewImage (imageFile, tempImagePath) {
+    this.newImageFile = imageFile
+    this.tempImagePath = tempImagePath
+  }
   @action addPicture (data) {
     this.imageInfo = safeGet(() => data.imageInfo, '')
     this.isUploadedImage = this.imageInfo && this.imageInfo !== ''
@@ -117,7 +123,7 @@ class AdminStore {
       }
       this.koppsData = {
         koppsText,
-        imageFileName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
+        defaultPicName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
         courseTitleData,
         lang
       }
@@ -133,7 +139,7 @@ class AdminStore {
       this.koppsData = {
         courseTitleData,
         koppsText,
-        imageFileName: EMPTY,
+        defaultPicName: EMPTY,
         lang
       }
     })
