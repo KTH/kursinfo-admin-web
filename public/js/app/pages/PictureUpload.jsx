@@ -41,12 +41,12 @@ class PictureUpload extends Component {
     super(props)
     this.state = {
       errMsg: undefined,
-      image: undefined,
+      newImage: this.props.adminStore.newImageFile,
       isDefault: false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
       isError: false, // todo: remove
       isAgree: false,
       infoMsg: undefined,
-      tempFilePath: undefined, // remove
+      tempFilePath: this.props.adminStore.tempImagePath, // remove
       // move to final step
       // fileSavedDate: undefined,
       fileProgress: 0,
@@ -128,6 +128,7 @@ class PictureUpload extends Component {
 
   resetToPrevApiPicture (event) {
     this._choosenNewPicture(!errTrue, noFile)
+    console.log('reset', this.state.tempFilePath)
     let el = document.querySelector('.pic-upload')
     el.value = ''
   }
@@ -148,11 +149,11 @@ class PictureUpload extends Component {
     //     ? this.state.tempFilePath
     //     : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
     if (isNew) {
-      // this._sendRequest(this.state.fileObj, event)
+      console.log('New')
     }
-    // this.props.updateParent(isNew, resultPicUrl, 2)
+    this.props.adminStore.addNewImage(this.state.image, this.state.tempFilePath)
     const states = {
-      imageFile: this.state.image, // for preview
+      // imageFile: this.state.image, // for preview
       progress: 2
     }
     // this.props.sendTempImage(this.state.image)

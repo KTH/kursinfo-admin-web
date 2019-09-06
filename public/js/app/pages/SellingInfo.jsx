@@ -3,14 +3,13 @@ import { inject, observer } from 'inferno-mobx'
 import i18n from '../../../../i18n'
 
 import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'
-import PreviewText from '../components/PreviewText.jsx'
 import Button from 'inferno-bootstrap/lib/Button'
 import Alert from 'inferno-bootstrap/lib/Alert'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import ButtonModal from '../components/ButtonModal.jsx'
 
-import { KURSINFO_IMAGE_BLOB_URL, ADMIN_OM_COURSE } from '../util/constants'
+import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 
 const editorConf = {
   toolbarGroups: [
@@ -42,7 +41,6 @@ class SellingInfo extends Component {
     this.sellingTextAuthor = this.props.adminStore.sellingTextAuthor
     this.koppsData = this.props.adminStore.koppsData
     this.courseCode = this.koppsData.courseTitleData.course_code
-    this.userLang = this.koppsData.lang
     this.langIndex = this.koppsData.lang === 'en' ? 0 : 1
     this.startEditor = this.startEditor.bind(this)
     this.quiteEditor = this.quiteEditor.bind(this)
@@ -105,7 +103,6 @@ class SellingInfo extends Component {
 
   startEditor () {
     ['sv', 'en'].map((editorId) => {
-      let textArea = document.getElementById(editorId)
       CKEDITOR.replace(editorId, editorConf)
       CKEDITOR.instances[editorId].on('instanceReady', event => this._countTextLen(event, editorId))
       CKEDITOR.instances[editorId].on('change', event => this._validateLen(event, editorId))
@@ -123,10 +120,10 @@ class SellingInfo extends Component {
     this.props.updateParent({progress})
   }
 
-  render ({adminStore}) {
+  render () {
     const { koppsData, langIndex } = this
     const { courseImage, introLabel } = i18n.messages[langIndex]
-    let courseImageID = courseImage[koppsData.imageFileName]
+    let courseImageID = courseImage[koppsData.defaultPicName]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
     return (
