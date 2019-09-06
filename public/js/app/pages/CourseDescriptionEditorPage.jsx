@@ -8,6 +8,7 @@ import ProgressBar from '../components/ProgressBar.jsx'
 import PictureUpload from './PictureUpload.jsx'
 import SellingInfo from './SellingInfo.jsx'
 import Progress from 'inferno-bootstrap/dist/Progress'
+import Preview from '../components/PreviewText.jsx'
 
 const _getTodayDate = (date = '') => {
   let today = date.length > 0 ? new Date(date) : new Date()
@@ -22,17 +23,16 @@ class CourseDescriptionEditorPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      // enteredUploadMode: this.props.adminStore.enteredUploadMode,
       progress: 1,
       isNewFile: false, // ????
       imageFile: undefined,
       fileProgress: 0, // ???
       isPublished: 'published' // false
     }
-    this.courseAdminData = this.props.adminStore.courseAdminData
-    this.courseCode = this.courseAdminData.courseTitleData.course_code
-    this.userLang = this.courseAdminData.lang
-    this.langIndex = this.courseAdminData.lang === 'en' ? 0 : 1
+    this.koppsData = this.props.adminStore.koppsData
+    this.courseCode = this.koppsData.courseTitleData.course_code
+    this.userLang = this.koppsData.lang
+    this.langIndex = this.koppsData.lang === 'en' ? 0 : 1
     // this.doNextStep = this.doNextStep.bind(this)
     this.doUpdateStates = this.doUpdateStates.bind(this)
     this.handleUploadImage = this.handleUploadImage.bind(this)
@@ -101,25 +101,27 @@ class CourseDescriptionEditorPage extends Component {
   }
 
   render () {
-    const { courseAdminData, userLang, langIndex } = this
+    const { koppsData, userLang, langIndex } = this
     const { courseImage, introLabel } = i18n.messages[langIndex]
-    let courseImageID = courseImage[courseAdminData.imageFileName]
+    let courseImageID = courseImage[koppsData.imageFileName]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <CourseTitle key='title'
-          courseTitleData={courseAdminData.courseTitleData}
+          courseTitleData={koppsData.courseTitleData}
           pageTitle={introLabel.editCourseIntro}
           language={userLang}
           />
         <ProgressBar active={this.state.progress} language={langIndex} />
         {this.state.progress === 1
         ? <PictureUpload imageUrl={imageUrl} introLabel={introLabel}
-          courseAdminData={courseAdminData}
+          koppsData={koppsData}
           updateParent={this.doUpdateStates} />
-        : <SellingInfo courseAdminData={courseAdminData} updateParent={this.doUpdateStates}
-          uploadFinalPic={this.handleUploadImage}
+        : this.state.progress === 2
+          ? <SellingInfo koppsData={koppsData} updateParent={this.doUpdateStates}
+          />
+          : <Preview introLabel={introLabel} updateParent={this.doUpdateStates} uploadFinalPic={this.handleUploadImage}
           />
         }
         <span>
