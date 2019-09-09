@@ -3,7 +3,7 @@ import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-import { EMPTY } from '../util/constants'
+import { EMPTY, KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 import { IDeserialize } from '../interfaces/utils'
 
 const paramRegex = /\/(:[^\/\s]*)/g
@@ -23,18 +23,29 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable koppsData
-  @observable newImageFile
-  @observable tempImagePath
+
 
   @observable sellingText = {
     en: undefined,
     sv: undefined
   }
-  @observable imageInfo
-  @observable isUploadedImageInApi = false
+  // Saving temporary state for picture between classes
+  @observable newImageFile
+  @observable tempImagePath
+
+  // Default image according to school
+  @observable isDefaultChosen  // true-false
+  // @observable defaultImageUrl
+
+  // Kursinfo-api, published image info
+  @observable imageNameFromApi  // name.jpg
+  @observable isApiPicAvailable // true-false
+  @observable apiImageUrl  // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
+
+  // info for saving who change text
   @observable sellingTextAuthor = ''
   @observable user = ''
-  @observable hasDoneSubmit = false
+  // @observable hasDoneSubmit = false
   @observable apiError = ''
 
   buildApiUrl (path, params) {
@@ -80,27 +91,30 @@ class AdminStore {
   @action addChangedByLastTime (data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
-  @action addSellingText (data) {
+  @action addPictureFromApi (data) {
+    this.imageNameFromApi = safeGet(() => data.imageInfo, '')
+    this.isApiPicAvailable = this.imageNameFromApi !== ''
+    this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
+    this.isDefaultChosen = !this.isApiPicAvailable
+    // /remove next
+    this.imageNameFromApi = 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg'
+  }
+  @action addSellingTextFromApi (data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
   }
-  @action updateSellingText (data) {
+  @action tempSaveText (data) {
     this.sellingText = {
       en: data.en,
       sv: data.sv
     }
   }
-  @action addNewImage (imageFile, tempImagePath) {
+  @action tempSaveNewImage (imageFile, tempImagePath, isDefaultChosen) {
     this.newImageFile = imageFile
     this.tempImagePath = tempImagePath
-  }
-  @action addPicture (data) {
-    this.imageInfo = safeGet(() => data.imageInfo, '')
-    this.isUploadedImage = this.imageInfo && this.imageInfo !== ''
-    // /remove next
-    this.imageInfo = 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg'
+    this.isDefaultChosen = isDefaultChosen
   }
 
   isValidData (dataObject, language = 0) {
