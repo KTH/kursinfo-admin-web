@@ -21,7 +21,7 @@ const AlertMsg = ({props, courseCode, translate, lang}) => {
           {translate.alertMessages.selling_description_success}
           <a href={`${KTH_SE_URL}${COURSE_INFO_URL}${courseCode}?l=${lang}`} alt={translate.links_to.kinfo.a_title_alt}>{translate.links_to.kinfo.a_title}</a>
         </Alert>
-        : params.serv && (params.serv === 'kutv' || params.serv === 'pm') && params.term
+        : params && (params.serv === 'kutv' || params.serv === 'pm') && params.term
             ? params.event === 'save' || params.event === 'pub' || params.event === 'delete'
                 ? <Alert color='success' aria-live='polite'>
                   <h4>{translate.alertMessages[params.serv][params.event]}</h4>
