@@ -13,14 +13,15 @@ const _fetchParameters = (props) => {
 
 const AlertMsg = ({props, courseCode, translate, lang}) => {
   const params = _fetchParameters(props)
-  const serviceName = params.serv === 'kutv' ? COURSE_UTVECKLING : COURSE_INFO_URL
+  console.log('params', params)
+  const serviceName = (params && params.serv === 'kutv') ? COURSE_UTVECKLING : COURSE_INFO_URL
   return (
     props.location.sellingDesciprion === 'success'
         ? <Alert color='success' aria-live='polite'>
           {translate.alertMessages.selling_description_success}
           <a href={`${KTH_SE_URL}${COURSE_INFO_URL}${courseCode}?l=${lang}`} alt={translate.links_to.kinfo.a_title_alt}>{translate.links_to.kinfo.a_title}</a>
         </Alert>
-        : (params.serv === 'kutv' || params.serv === 'pm') && params.term
+        : params.serv && (params.serv === 'kutv' || params.serv === 'pm') && params.term
             ? params.event === 'save' || params.event === 'pub' || params.event === 'delete'
                 ? <Alert color='success' aria-live='polite'>
                   <h4>{translate.alertMessages[params.serv][params.event]}</h4>
