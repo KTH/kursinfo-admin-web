@@ -9,7 +9,6 @@ import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import ButtonModal from '../components/ButtonModal.jsx'
 
-import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 
 const editorConf = {
   toolbarGroups: [
@@ -113,7 +112,7 @@ class SellingInfo extends Component {
     event.preventDefault()
     const sellingTexts = this._shapeText()
     const progress = event.target.id === 'back-to-image' ? 1 : 3
-    this.props.adminStore.updateSellingText(sellingTexts)
+    this.props.adminStore.tempSaveText(sellingTexts)
     this.setState({ isError: false })
     CKEDITOR.instances.sv.destroy(true)
     CKEDITOR.instances.en.destroy(true)
@@ -122,10 +121,8 @@ class SellingInfo extends Component {
 
   render () {
     const { koppsData, langIndex } = this
-    const { courseImage, introLabel } = i18n.messages[langIndex]
-    let courseImageID = courseImage[koppsData.defaultPicName]
-    if (courseImageID === undefined) courseImageID = courseImage.default
-    const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
+    const { introLabel } = i18n.messages[langIndex]
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
 
