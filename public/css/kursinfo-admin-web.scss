@@ -171,10 +171,12 @@ span.navigation {
 //common elements
 span.title_and_info {
     @extend %row;
+    align-items: flex-start;
     h2 {
         margin-right: .5em;
     }
     .btn-info-modal {
+        margin-top: 2.4em;
         border: transparent;
     }
 }
