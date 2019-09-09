@@ -51,8 +51,8 @@ class Preview extends Component {
   }
 
   handleUploadImage (/** */) {
-    const formData = this.newImage// this.state.imageFile
-    // const thisInstance = this
+    const formData = this.newImage
+    console.log('this.newImage', this.newImage)
     let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
@@ -80,7 +80,8 @@ class Preview extends Component {
           //   console.log('Ura 1', thisInstance.state)
           // }
           console.log('Ura 2')
-        } else reject({fileName: ''})
+        }
+        if (this.readyState === 4 && this.status !== 200) reject({fileName: ''})
       }
       req.open('POST', `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${this.courseCode}/${this.state.isPublished}`)
       req.send(formData)
