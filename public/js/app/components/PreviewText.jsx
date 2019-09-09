@@ -8,7 +8,8 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Progress from 'inferno-bootstrap/dist/Progress'
 
-import { ADMIN_OM_COURSE } from '../util/constants'
+import { ADMIN_OM_COURSE, KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
+
 
 @inject(['adminStore']) @observer
 class Preview extends Component {
@@ -18,9 +19,14 @@ class Preview extends Component {
       sv: this.props.adminStore.sellingText.sv,
       en: this.props.adminStore.sellingText.en,
       fileProgress: 0,
-      newImage: this.props.adminStore.newImageFile,
       isPublished: 'published' // 'draft'
     }
+    this.isDefaultChosen = this.props.adminStore.isDefaultChosen
+    this.isPrevApiChosen = !this.props.adminStore.isDefaultChosen && !this.props.adminStore.tempImagePath
+
+    this.newImage = this.props.adminStore.newImageFile
+    this.tempFilePath = this.props.adminStore.tempImagePath
+    this.apiImageUrl = this.props.adminStore.apiImageUrl
     this.koppsData = this.props.adminStore.koppsData
     this.courseCode = this.koppsData.courseTitleData.course_code
     this.userLang = this.koppsData.lang
@@ -45,7 +51,7 @@ class Preview extends Component {
   }
 
   handleUploadImage (/** */) {
-    const formData = this.state.newImage// this.state.imageFile
+    const formData = this.newImage// this.state.imageFile
     // const thisInstance = this
     let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
@@ -74,7 +80,7 @@ class Preview extends Component {
           //   console.log('Ura 1', thisInstance.state)
           // }
           console.log('Ura 2')
-        }
+        } else reject({fileName: ''})
       }
       req.open('POST', `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${this.courseCode}/${this.state.isPublished}`)
       req.send(formData)
@@ -102,11 +108,9 @@ class Preview extends Component {
   }
 
   handlePublish () {
-    this.handleUploadImage().then((res) => {
-
-      console.log('result', res)
-      return this.handleSellingText(res)
-    })
+    if (this.tempFilePath) this.handleUploadImage().then(res => this.handleSellingText(res))
+    else if (this.isDefaultChosen) this.handleSellingText()
+    // else this.handleSellingText
 
     // this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
     //   this.setState({
@@ -124,7 +128,10 @@ class Preview extends Component {
   }
   render () {
     const { koppsTexts } = this.koppsData
-    const { introLabel } = this.props
+    const { introLabel, defaultImageUrl } = this.props
+    const { tempFilePath, isPrevApiChosen, apiImageUrl } = this
+    const pictureUrl = tempFilePath || (isPrevApiChosen ? apiImageUrl : defaultImageUrl)
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col' >
 
@@ -137,7 +144,7 @@ class Preview extends Component {
                 <Row className='courseIntroText' key={key}>
                   <Col sm='12' xs='12' className='sellingText'>
                     <h3>{introLabel.langLabel[lang]}</h3>
-                    <img src={'imageUrl'} alt={introLabel.alt.image} height='auto' width='300px' />
+                    <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
                     <span className='textBlock' dangerouslySetInnerHTML={{__html: this.state[lang] === '' ? koppsTexts[lang] : this.state[lang]}}>
                     </span>
                   </Col>
