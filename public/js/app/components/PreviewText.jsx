@@ -31,10 +31,11 @@ class Preview extends Component {
     this.handlePublish = this.handlePublish.bind(this)
   }
 
-  _shapeText () {
+  _shapeText (file) {
     return {
       sv: this.state.sv,
-      en: this.state.en
+      en: this.state.en,
+      imageInfo: file
     }
   }
 
@@ -61,7 +62,7 @@ class Preview extends Component {
         console.log('onreadystatechange values', this)
 
         if (this.readyState === 4 && this.status === 200) {
-          resolve(this.response)
+          resolve({fileName: this.response})
           // if (formData) {
           //   thisInstance.state.fileSavedDate = _getTodayDate()
           //   thisInstance.setState({
@@ -80,11 +81,33 @@ class Preview extends Component {
     })
   }
 
-  handlePublish () {
+  handleSellingText (res) {
     const {courseCode, langIndex, userLang} = this
-    const sellingTexts = this._shapeText()
+    console.log('filename', res)
+    const sellingTexts = this._shapeText(res ? res : '')
     // this.props.uploadFinalPic().then((res) => console.log('result', res))
-    this.handleUploadImage().then((res) => console.log('result', res))
+    this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
+      this.setState({
+        hasDoneSubmit: true,
+        isError: false
+      })
+      // window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
+    }).catch(err => {
+      this.setState({
+        hasDoneSubmit: false,
+        isError: true,
+        errMsg: i18n.messages[langIndex].pageTitles.alertMessages.api_error
+      })
+    })
+  }
+
+  handlePublish () {
+    this.handleUploadImage().then((res) => {
+
+      console.log('result', res)
+      return this.handleSellingText(res)
+    })
+
     // this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
     //   this.setState({
     //     hasDoneSubmit: true,

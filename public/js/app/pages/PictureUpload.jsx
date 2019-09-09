@@ -68,10 +68,8 @@ class PictureUpload extends Component {
   }
 
   checkTerms (event) {
-    const isAgreeToTerms = event.target.checked
     this.setState({
-      isAgree: isAgreeToTerms,
-      isError: !isAgreeToTerms
+      isAgree: event.target.checked
     })
   }
 
@@ -86,9 +84,7 @@ class PictureUpload extends Component {
     let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     this.setState({
-      isDefault: isDefaultPic,
-      isError: !isDefaultPic,
-      isAgree: isDefaultPic
+      isDefault: isDefaultPic
     })
     if (isDefaultPic) {
         // if user choose to override api picture
@@ -145,19 +141,25 @@ class PictureUpload extends Component {
   doNextStep (event) {
     event.preventDefault()
     const isNew = this.state.tempFilePath
+
     // const resultPicUrl = isNew
     //     ? this.state.tempFilePath
     //     : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
     if (isNew) {
-      console.log('New')
+      this.setState({
+        isError: !this.state.isAgree,
+        errMsg: this.state.isAgree ? '' : 'approve_term'
+      })
     }
-    this.props.adminStore.addNewImage(this.state.image, this.state.tempFilePath)
-    const states = {
-      // imageFile: this.state.image, // for preview
-      progress: 2
+    if (!this.state.isError) {
+      this.props.adminStore.addNewImage(this.state.image, this.state.tempFilePath)
+      const states = {
+        // imageFile: this.state.image, // for preview
+        progress: 2
+      }
+      // this.props.sendTempImage(this.state.image)
+      this.props.updateParent(states) // be replaced by send temp image or in parent look at step
     }
-    // this.props.sendTempImage(this.state.image)
-    this.props.updateParent(states) // be replaced by send temp image or in parent look at step
   }
 
   render ({adminStore}) {
@@ -173,9 +175,9 @@ class PictureUpload extends Component {
         </span>
         <p>{introLabel.image.choiceInfo}</p>
         {this.state.isDefault
-          ? this.state.infoMsg ? <Alert color='info'>{this.state.infoMsg}</Alert> : ''
+          ? this.state.infoMsg ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert> : ''
           : this.state.successMsg || this.state.isError && this.state.errMsg
-              ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{this.state.errMsg}</Alert> : ''
+              ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
         }
         <form className='Picture--Options input-label-row'>
           <span role='radiogroup'>

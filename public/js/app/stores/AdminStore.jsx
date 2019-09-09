@@ -30,7 +30,7 @@ class AdminStore {
     en: undefined,
     sv: undefined
   }
-  @observable imaeInfo
+  @observable imageInfo
   @observable isUploadedImageInApi = false
   @observable sellingTextAuthor = ''
   @observable user = ''
