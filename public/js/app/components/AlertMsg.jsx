@@ -13,7 +13,7 @@ const _fetchParameters = (props) => {
 
 const AlertMsg = ({props, courseCode, translate, lang}) => {
   const params = _fetchParameters(props)
-  const serviceName = params.serv === 'kutv' ? COURSE_UTVECKLING : COURSE_INFO_URL
+  const serviceName = (params && params.serv === 'kutv') ? COURSE_UTVECKLING : COURSE_INFO_URL
   return (
     params.serv === 'kutv' || params.serv === 'pm' || params.serv === 'kinfo'
     ? params.event === 'save' || params.event === 'pub' || params.event === 'delete'
