@@ -216,7 +216,8 @@ module.exports = {
       publish: 'Save and publish course introduction',
       image: 'Picture for a course description decoration',
       tempImage: 'Placeholder to show up a chosen picture'
-    }
+    },
+    obligatory: 'Required'
   },
   courseMainSubjects: {
     Architecture: 'Arkitektur',

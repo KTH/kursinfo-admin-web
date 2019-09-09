@@ -216,7 +216,8 @@ module.exports = {
       publish: 'Spara och publicera introduktion till kursen',
       image: 'Bild för kurssidasdekoration',
       tempImage: 'Tomt plats för att visa väld bilden'
-    }
+    },
+    obligatory: 'Obligatoriskt'
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
