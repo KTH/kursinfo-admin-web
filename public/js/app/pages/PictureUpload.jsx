@@ -42,23 +42,19 @@ class PictureUpload extends Component {
     this.state = {
       errMsg: undefined,
       newImage: this.props.adminStore.newImageFile,
-      isDefault: true, // false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
+      isDefault: this.props.adminStore.isDefaultChosen, // false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
       isError: false, // todo: remove
-      // isAgree: false,
       infoMsg: undefined,
-      tempFilePath: this.props.adminStore.tempImagePath, // remove
+      tempFilePath: this.props.adminStore.tempImagePath,
       // move to final step
-      // fileSavedDate: undefined,
-      fileProgress: 0,
-      hasNewUploadedImage: false,
       successMsg: undefined
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
-    this.isApiPicAvailable = false// true // this.props.adminStore.isUploadedImageInApi
+    this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
     this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
-    this.defaultImageUrl = this.props.imageUrl // Default
+    this.defaultImageUrl = this.props.defaultImageUrl // Default
 
-    this.updateImageDisplay = this.updateImageDisplay.bind(this)
+    this.displayValidatedPic = this.displayValidatedPic.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
     this.checkTerms = this.checkTerms.bind(this)
     // this.hanleUploadFile = this.hanleUploadFile.bind(this)
@@ -94,7 +90,6 @@ class PictureUpload extends Component {
 
   resetToPrevApiPicture (event) {
     this._choosenNewPicture(!errTrue, noFile)
-    console.log('reset', this.state.tempFilePath)
     let el = document.querySelector('.pic-upload')
     el.value = ''
   }
@@ -111,13 +106,13 @@ class PictureUpload extends Component {
     if (isDefaultPic) {
         // if user choose to override api picture
       if (this.isApiPicAvailable) infoMsg = this.state.tempFilePath ? 'replace_all_with_default' : 'replace_api_with_default'
-        // if user choose to override api picture
+        // if user choose to override new picture
       else if (this.state.tempFilePath) infoMsg = 'replace_new_with_default'
     }
     this.setState({infoMsg})
   }
 
-  updateImageDisplay (event) {
+  displayValidatedPic (event) {
     const picFile = event.target.files[0]
     const isTempFile = this.state.tempFilePath
     let errorIndex, infoMsg
@@ -157,7 +152,7 @@ class PictureUpload extends Component {
       this.setState({isError: true, errMsg: 'no_file_chosen'})
     }
     if (!this.state.isError) {
-      this.props.adminStore.addNewImage(this.state.newImage, isNew)
+      this.props.adminStore.tempSaveNewImage(this.state.newImage, isNew, this.state.isDefault)
       const states = {
         // imageFile: this.state.image, // for preview
         progress: 2
@@ -219,7 +214,7 @@ class PictureUpload extends Component {
                 <h4>{introLabel.image.choose}</h4>
                 <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
                   accept='image/jpg,image/jpeg,image/png'
-                  onChange={this.updateImageDisplay}
+                  onChange={this.displayValidatedPic}
                   />
               </label>
               {this.state.tempFilePath && this.isApiPicAvailable
