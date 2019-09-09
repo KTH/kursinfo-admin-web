@@ -119,7 +119,7 @@ class PictureUpload extends Component {
     if (picFile) {
       if (_validFileType(picFile)) {
         this._choosenNewPicture(!errTrue, window.URL.createObjectURL(picFile))
-        this.setState({ image: this._getFileData(picFile) })
+        this.setState({ newImage: this._getFileData(picFile) })
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
