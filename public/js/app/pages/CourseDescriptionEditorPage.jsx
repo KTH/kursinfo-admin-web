@@ -23,14 +23,11 @@ class CourseDescriptionEditorPage extends Component {
     super(props)
     this.state = {
       progress: 1
-      // isNewFile: false,
-      // imageFile: undefined,
     }
     this.koppsData = this.props.adminStore.koppsData
     this.courseCode = this.koppsData.courseTitleData.course_code
     this.userLang = this.koppsData.lang
     this.langIndex = this.koppsData.lang === 'en' ? 0 : 1
-    // this.doNextStep = this.doNextStep.bind(this)
     this.doUpdateStates = this.doUpdateStates.bind(this)
   }
   componentDidMount () {
@@ -59,13 +56,12 @@ class CourseDescriptionEditorPage extends Component {
     this._handleAction()
   }
 
-
   render () {
     const { koppsData, userLang, langIndex } = this
     const { courseImage, introLabel } = i18n.messages[langIndex]
     let courseImageID = courseImage[koppsData.defaultPicName]
     if (courseImageID === undefined) courseImageID = courseImage.default
-    const imageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
+    const defaultImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${courseImageID}`
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <CourseTitle key='title'
@@ -75,13 +71,14 @@ class CourseDescriptionEditorPage extends Component {
           />
         <ProgressBar active={this.state.progress} language={langIndex} />
         {this.state.progress === 1
-        ? <PictureUpload imageUrl={imageUrl} introLabel={introLabel}
+        ? <PictureUpload defaultImageUrl={defaultImageUrl} introLabel={introLabel}
           koppsData={koppsData}
           updateParent={this.doUpdateStates} />
         : this.state.progress === 2
           ? <SellingInfo koppsData={koppsData} updateParent={this.doUpdateStates}
           />
-          : <Preview introLabel={introLabel} updateParent={this.doUpdateStates} /* uploadFinalPic={this.handleUploadImage} */
+          : <Preview introLabel={introLabel} defaultImageUrl={defaultImageUrl}
+            updateParent={this.doUpdateStates} /* uploadFinalPic={this.handleUploadImage} */
           />
         }
       </div>
