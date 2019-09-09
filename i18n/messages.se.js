@@ -123,6 +123,20 @@ module.exports = {
     }
   },
   introLabel: {
+    alertMessages: {
+      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan)',
+      no_file_chosen: 'Du måste välja en bild för att kunna gå vidare till ”Redigera text”.',
+      not_correct_format_choose_another: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
+        markering i rött nedan) för att kunna gå vidare till ”Redigera text".`,
+      not_correct_format_return_to_api_pic: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
+        markering i rött nedan) för att kunna gå vidare till ”Redigera text". Återställd till före publicerad bilden`,
+      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerad bilden att raderas (spara ner
+      bilden på datorn för att inte förlora den).`,
+      replace_api_with_default: `Observera: vid publicering kommer den publicerad bilden att raderas (spara ner
+        bilden på datorn för att inte förlora den).`,
+      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas (spara ner
+        bilden på datorn för att inte förlora den).`
+    },
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
       body: `<br/>

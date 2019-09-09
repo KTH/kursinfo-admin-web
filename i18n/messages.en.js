@@ -123,6 +123,20 @@ module.exports = {
     }
   },
   introLabel: {
+    alertMessages: {
+      approve_term: 'You must approve the terms (see red markings below)',
+      no_file_chosen: 'You must first choose an image to continue to ”Edit text”.',
+      not_correct_format_choose_another: `You must choose an image with format 300px * 400 px and file format
+      .png. eller .jpg (see red markings below) to continue to ”Edit text”.`,
+      not_correct_format_return_to_api_pic: `You must choose an image with format 300px * 400 px and file format
+      .png. eller .jpg (see red markings below) to continue to ”Edit text”. Othervise you can continue wutg oreviously published image.`,
+      replace_all_with_default: `Notice: your previously chosen and/or published image will be deleted if you publish the
+      default image (save the image on your computer to keep a copy).`,
+      replace_api_with_default: `Notice: your previously published image will be deleted if you publish the
+      default image (save the image on your computer to keep a copy).`,
+      replace_new_with_default: `Notice: your previously chosen image will be deleted if you publish the
+      default image (save the image on your computer to keep a copy).`
+    },
     info_publish: {
       header: 'To be aware of before publishing!',
       body: `<br/>  
