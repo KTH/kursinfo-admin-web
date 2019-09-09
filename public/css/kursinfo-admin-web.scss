@@ -4,6 +4,7 @@ $black: #000000;
 $white: #ffffff;
 $light-grey: #d4d4d4;
 $dark-grey: #65656c;
+$red: #e01f28;
 
 %row {
     display: flex;
@@ -188,19 +189,12 @@ span.title_and_info {
     input[type=radio], input[type=checkbox] {
         transform: scale(1.5);
         margin-right: .5em;
+        margin-left: .5em;
     }
 }
 
-//====SELLING COURSE DESCRIPTION, EDITING PAGE====
-.TextEditor--SellingInfo {
-    margin: 2em 0;
-    & > * {
-        margin-top: 1.5em;
-    }
-    p.changed-by {
-        margin-bottom: 0;
-    } 
-}
+
+//====UPLOAD PICTURE====
 
 .Upload--Area { 
     @extend %column;
@@ -209,7 +203,20 @@ span.title_and_info {
     margin: 2em 0;
     //radio and checkbox
 
-    .own-picture {
+    .error-area {
+        visibility: visible;
+        border: solid 1px $red;
+        border-radius: .25rem;
+        padding: 1em .5em;
+    }
+    .error-label {
+        color:$red;
+    }
+    .no-error {
+        visibility: hidden;
+    }
+
+    #own-picture {
         @extend %row;
         align-items: flex-start;
         width: 100%;
@@ -268,6 +275,16 @@ span.title_and_info {
     }
 }
 
+//====SELLING COURSE DESCRIPTION, EDITING PAGE====
+.TextEditor--SellingInfo {
+    margin: 2em 0;
+    & > * {
+        margin-top: 1.5em;
+    }
+    p.changed-by {
+        margin-bottom: 0;
+    } 
+}
 .Editors--Area {
     @extend %column;
     justify-content: space-between;
