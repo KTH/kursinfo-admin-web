@@ -41,7 +41,6 @@ class ButtonModal extends Component {
     const { fade, className, infoText, id, step } = this.props
     const fadeModal = (this.props.hasOwnProperty('fade') ? fade : true)
     const color = id === 'publish' ? 'success' : ''
-    console.log('this.props.course', this.props.course)
     return (
       <span>
         <Button id={id} type='button' onClick={this.toggle} className={id === 'info' ? 'btn-info-modal' : ''} color={color}>

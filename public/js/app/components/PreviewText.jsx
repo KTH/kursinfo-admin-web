@@ -47,7 +47,7 @@ class Preview extends Component {
     this.props.updateParent({progress: 2})
   }
 
-  handleUploadImage (/** */) {
+  handleUploadImage () {
     const formData = this.newImage
     const hostUrl = this.props.adminStore.browserConfig.hostUrl
     const saveFileUrl = this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]
@@ -74,18 +74,15 @@ class Preview extends Component {
   }
 
   handleSellingText (storageRes) {
-    const {courseCode, langIndex, userLang} = this
-    console.log('handleSellingText storageRes filename', storageRes)
-    const imageName = storageRes.fileName || ''
+    const { courseCode, langIndex, userLang } = this
+    const imageName = storageRes.error ? this.props.adminStore.imageNameFromApi : storageRes.fileName
     const sellingTexts = this._shapeText()
-    // this.props.uploadFinalPic().then((res) => console.log('result', res))
     this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then((res) => {
-      console.log('After publishing')
       this.setState({
         hasDoneSubmit: true,
         isError: false
       })
-      // window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
+      window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
     }).catch(error => {
       this.setState({
         hasDoneSubmit: false,
@@ -96,18 +93,22 @@ class Preview extends Component {
   }
 
   handlePublish () {
-    console.log('STARTED PUBLISHING handlePublish')
-    let noFile
     if (this.tempFilePath) {
       this.handleUploadImage()
       .then(storageRes => {
-        console.log('storageRes after publishing picture', storageRes)
-        this.handleSellingText(storageRes)
+        if (storageRes.fileName) {
+          this.handleSellingText(storageRes)
+        } else {
+          this.setState({
+            hasDoneSubmit: false,
+            isError: true,
+            errMsg: i18n.messages[this.langIndex].pageTitles.alertMessages.storage_api_error
+          })
+        }
       })
       .catch(err => console.log('catch error', err))
-    } else if (this.isDefaultChosen) {
-      this.handleSellingText({fileName: ''})
-    } else this.handleSellingText({fileName: this.props.adminStore.imageNameFromApi})
+    } else if (this.isDefaultChosen) this.handleSellingText({fileName: ''})
+      else this.handleSellingText({fileName: this.props.adminStore.imageNameFromApi})
   }
 
   render () {
@@ -119,7 +120,7 @@ class Preview extends Component {
     return (
       <div className='Preview--Changes col'>
         <p>{introLabel.step_3_desc}</p>
-        {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
+        {this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_3}</h2> {' '}
           {/* <ButtonModal id='info' step={3} infoText={introLabel.info_image} course={this.courseCode} /> */}
