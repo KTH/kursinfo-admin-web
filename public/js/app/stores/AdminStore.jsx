@@ -3,7 +3,7 @@ import { globalRegistry } from 'component-registry'
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-import { EMPTY, KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
+import { EMPTY } from '../util/constants'
 import { IDeserialize } from '../interfaces/utils'
 
 const paramRegex = /\/(:[^\/\s]*)/g
@@ -94,7 +94,7 @@ class AdminStore {
   @action addPictureFromApi (data) {
     this.imageNameFromApi = safeGet(() => data.imageInfo, '')
     this.isApiPicAvailable = this.imageNameFromApi !== ''
-    this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
+    this.apiImageUrl = `${this.browserConfig.storageUri}${this.imageNameFromApi}`
     this.isDefaultChosen = !this.isApiPicAvailable
     // /remove next
     this.imageNameFromApi = 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg'
@@ -159,8 +159,13 @@ class AdminStore {
     })
   }
 
-  @action doUpsertItem (text, courseCode) {
-    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}), {sellingText: text, user: this.user}, this._getOptions())
+  @action doUpsertItem (text, courseCode, imageName) {
+    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}),
+      {
+        sellingText: text,
+        imageName,
+        user: this.user
+      }, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {
