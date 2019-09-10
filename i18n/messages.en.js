@@ -147,23 +147,17 @@ module.exports = {
         Do you want to publish?`,
       btnCancel: 'No, go back',
       btnConfirm: 'Yes, publish',
-      infoCourse: `You have chosen...<br/>
-      <br/>
-      Course: 
-      `
+      infoCourse: 'Course: '
     },
     info_cancel: {
       header: 'To be aware of before cancelling!',
       body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
       btnCancel: 'No, go back',
       btnConfirm: 'Yes, cancel',
-      infoCourse: `You have chosen...<br/>
-      <br/>
-      Course: 
-      `
+      infoCourse: 'Course: '
     },
     info_image: {
-      header: 'Info',
+      header: 'Choose image',
       body: 'Choose the image that will be displayed on the page Course information. You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.',
       btnCancel: 'Close'
     },
@@ -174,7 +168,7 @@ module.exports = {
       name: 'Image name:',
       noChosen: 'No image chosen',
       choiceInfo: 'Choose image that will be displayed on the course',
-      firstOption: 'Image based on the main subject',
+      firstOption: 'Image based on the course main subject',
       secondOption: 'Choose your own picture',
       agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.'
     },
@@ -185,7 +179,7 @@ module.exports = {
     label_left_number_letters: 'Left to use:',
     label_step_1: 'Choose image',
     label_step_2: 'Edit swedish and english text',
-    label_step_3: 'Preview and publish',
+    label_step_3: 'Preview',
     langLabelKopps: {
       en: 'Short description from KOPPS (EN)',
       sv: 'Short description from KOPPS (SW)'
@@ -207,8 +201,7 @@ module.exports = {
       step3: 'Preview'
     },
     alt: {
-      start_link_back: 'To course information page',
-      step1: '',
+      step1: 'Go to previous step to choose image',
       step2Next: 'Go to next step to edit introduction text',
       step2Back: 'Go back to edit introduction text',
       step3: 'Preview a course introduction',

@@ -147,9 +147,7 @@ module.exports = {
         Vill du fortsätta att publicera?`,
       btnCancel: 'Nej, gå tillbaka',
       btnConfirm: 'Ja, fortsätt publicera',
-      infoCourse: `Du har valt...<br/>
-      <br/>
-      Kurs: `
+      infoCourse: 'Kurs: '
     },
     info_cancel: {
       header: 'Att tänka på innan du avbryter!',
@@ -159,12 +157,10 @@ module.exports = {
             Vill du fortsätta att avbryta?`,
       btnCancel: 'Nej, gå tillbaka',
       btnConfirm: 'Ja, fortsätt avbryta',
-      infoCourse: `Du har valt...<br/>
-      <br/>
-      Kurs: `
+      infoCourse: 'Kurs: '
     },
     info_image: {
-      header: 'Info',
+      header: 'Välj bild',
       body: 'Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.',
       btnCancel: 'Stäng'
     },
@@ -175,7 +171,7 @@ module.exports = {
       name: 'Bildnamn:',
       noChosen: 'Ingen bild vald',
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
-      firstOption: 'Bild utvald utifrån huvudområde',
+      firstOption: 'Bild utvald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
       agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer i användarvillkoren.'
     },
@@ -186,7 +182,7 @@ module.exports = {
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_step_1: 'Välja bild',
     label_step_2: 'Redigera text',
-    label_step_3: 'Granska och publicera',
+    label_step_3: 'Granska',
     langLabelKopps: {
       en: 'Kortbeskrivning i KOPPS (EN)',
       sv: 'Kortbeskrivning i KOPPS (SV)'
