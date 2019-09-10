@@ -117,13 +117,14 @@ async function _updateDescription (req, res, next) {
       uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
       body: {sellingText: req.body.sellingText,
         sellingTextAuthor: req.body.user,
+        imageInfo: req.body.imageName,
         lang},
       useCache: false
     })
     if (safeGet(() => result.body.message)) {
       log.error('Error from API: ', result.body.message)
     }
-    log.info('Selling text updated in kursinfo api')
+    log.info('Selling text and picture updated in kursinfo api')
     return res.json(result)
   } catch (err) {
     log.error('Error in _updateDescription', { error: err })
