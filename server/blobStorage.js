@@ -38,8 +38,8 @@ async function runBlobStorage (file, courseCode, saveCopyOfFile, metadata) {
   log.info('runBlobStorage: ', file, ', courseCode: ', courseCode, ', saveCopyOfFile: ', saveCopyOfFile, ', metadata: ', metadata)
   const containerName = 'kursinfo-image-container'
   let blobName = ''
-  const content = file.data
-  // const content = await sharp(file.data).resize(400, 300).toBuffer() // file.data
+  // const content = file.data
+  const content = await sharp(file.data).resize(400, 300).toBuffer() // file.data
   const fileType = file.mimetype
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName)
   const aborter = Aborter.timeout(30 * ONE_MINUTE)
