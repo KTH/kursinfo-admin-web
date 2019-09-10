@@ -50,7 +50,7 @@ class CourseDescriptionEditorPage extends Component {
           ? <SellingInfo koppsData={koppsData} updateParent={this.doUpdateStates}
           />
           : <Preview introLabel={introLabel} defaultImageUrl={defaultImageUrl}
-            updateParent={this.doUpdateStates} /* uploadFinalPic={this.handleUploadImage} */
+            updateParent={this.doUpdateStates}
           />
         }
       </div>

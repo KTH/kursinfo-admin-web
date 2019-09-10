@@ -96,8 +96,6 @@ class AdminStore {
     this.isApiPicAvailable = this.imageNameFromApi !== ''
     this.apiImageUrl = `${this.browserConfig.storageUri}${this.imageNameFromApi}`
     this.isDefaultChosen = !this.isApiPicAvailable
-    // /remove next
-    this.imageNameFromApi = 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg'
   }
   @action addSellingTextFromApi (data) {
     this.sellingText = {
