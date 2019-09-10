@@ -43,7 +43,7 @@ async function runBlobStorage (file, courseCode, saveCopyOfFile, metadata) {
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName)
   const aborter = Aborter.timeout(30 * ONE_MINUTE)
 
-  console.log('runBlobStorage newFilenewFile', content)
+  log.info('runBlobStorage newFilenewFile', content)
 
   const draftFileName = `Picture_by_own_choice_${courseCode}.${metadata.fileExtension}` // `${metadata.fileExtension}${type}-${pictureid}.${file.name.split('.')[1]}`
   const newFileName = `Picture_by_own_choice_temp_${courseCode}.${metadata.fileExtension}` // `${metadata.fileExtension}${type}-${pictureid}-${getTodayDate()}.${file.name.split('.')[1]}`
