@@ -42,11 +42,27 @@ $red: #e01f28;
 
 #kth-kursinfo {
     width: 100%;
+    .alert {
+        max-width: 100em;
+        width: 100%;
+        margin: 1em 0;
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-top: 0;
+        }
+    }
+    .alert.alert-success {
+        width: 97%;
+        margin: 1em 15px;
+    }
 }
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
     width: 100%;
+
     .btn {
         border: 1px solid;
         margin: 1em 0;
@@ -67,11 +83,8 @@ $red: #e01f28;
     h4 {
         margin-top: 0;
     }
-    .alert {
-        margin-left: 0;
-        //width: 50em;
-    }
 }
+
 .progress-bar1{
     text-align: center;
     border-bottom: 2px solid #d4d4d4;
@@ -278,19 +291,18 @@ span.title_and_info {
 }
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
-.TextEditor--SellingInfo {
+.TextEditor--SellingInfo, .Preview--Changes {
     margin: 2em 0;
-    & > * {
-        margin-top: 1.5em;
-    }
     p.changed-by {
         margin-bottom: 0;
     } 
+    h3 {
+        margin-top: 0;
+    }
 }
 .Editors--Area {
     @extend %column;
     justify-content: space-between;
-    margin-top: 2em;
     margin-bottom: -.7em;
     span.left, span.right {
         width: 100%;
@@ -311,6 +323,7 @@ span.title_and_info {
             text-decoration: none;
             // cursor: pointer;
         }
+
         & > h4 {
             margin-top: 1em;
         }
@@ -323,7 +336,8 @@ span.title_and_info {
 //Preview mode style
 
 .courseIntroText {
-    padding-top: 10px;
+    // padding-top: 10px;
+    word-wrap: break-word;
     padding-bottom: 10px;
     .sellingText {
         padding-right: 12px
@@ -333,17 +347,6 @@ span.title_and_info {
         margin: 8px 20px 10px 0;
         width:100%;
         max-width: 400px;
-    }
-}
-
-.alert {
-    max-width: 100em;
-    margin: 15px;
-    p {
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        margin-top: 0;
     }
 }
 
