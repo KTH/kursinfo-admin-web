@@ -38,7 +38,7 @@ async function runBlobStorage (file, courseCode, saveCopyOfFile, metadata) {
   log.info('runBlobStorage: ', file, ', courseCode: ', courseCode, ', saveCopyOfFile: ', saveCopyOfFile, ', metadata: ', metadata)
   const containerName = 'kursinfo-image-container'
   let blobName = ''
-  const content = await sharp(file.data).resize(400, 300) // file.data
+  const content = await sharp(file.data).resize(400, 300).toBuffer() // file.data
   const fileType = file.mimetype
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName)
   const aborter = Aborter.timeout(30 * ONE_MINUTE)
@@ -78,7 +78,7 @@ async function uploadBlob (aborter, containerURL, blobName, content, fileType, m
       aborter,
       metadata
     )
-    // console.log('blockBlobURL', blockBlobURL)
+    console.log('uploadBlobResponse', uploadBlobResponse)
     return uploadBlobResponse
   } catch (error) {
     log.error('Error when uploading file in blobStorage: ' + blobName, { error: error })
