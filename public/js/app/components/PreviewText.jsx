@@ -8,8 +8,7 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Progress from 'inferno-bootstrap/dist/Progress'
 
-import { ADMIN_OM_COURSE, KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
-
+import { ADMIN_OM_COURSE } from '../util/constants'
 
 @inject(['adminStore']) @observer
 class Preview extends Component {
@@ -18,8 +17,7 @@ class Preview extends Component {
     this.state = {
       sv: this.props.adminStore.sellingText.sv,
       en: this.props.adminStore.sellingText.en,
-      fileProgress: 0,
-      isPublished: 'published' // 'draft'
+      fileProgress: 0
     }
     this.isDefaultChosen = this.props.adminStore.isDefaultChosen
     this.isPrevApiChosen = !this.props.adminStore.isDefaultChosen && !this.props.adminStore.tempImagePath
@@ -40,8 +38,7 @@ class Preview extends Component {
   _shapeText (file) {
     return {
       sv: this.state.sv,
-      en: this.state.en,
-      imageInfo: file
+      en: this.state.en
     }
   }
 
@@ -52,54 +49,44 @@ class Preview extends Component {
 
   handleUploadImage (/** */) {
     const formData = this.newImage
-    console.log('this.newImage', this.newImage)
+    const hostUrl = this.props.adminStore.browserConfig.hostUrl
+    const saveFileUrl = this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]
+
     let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
       req.upload.addEventListener('progress', event => {
         if (event.lengthComputable) {
           fileProgress = (event.loaded / event.total) * 100
-          console.log(fileProgress)
           this.setState({ fileProgress: fileProgress })
         }
       })
 
       req.onreadystatechange = function () {
-        console.log('onreadystatechange values', this)
-
         if (this.readyState === 4 && this.status === 200) {
           resolve({fileName: this.response})
-          // if (formData) {
-          //   thisInstance.state.fileSavedDate = _getTodayDate()
-          //   thisInstance.setState({
-          //     isError: false, // todo: remove
-          //     successMsg: 'Success', // i18n.messages[thisInstance.props.routerStore.language].messages.alert_uploaded_file,
-          //     errMsg: undefined,
-          //     hasNewUploadedImage: true
-          //   })
-          //   console.log('Ura 1', thisInstance.state)
-          // }
-          console.log('Ura 2')
         }
-        if (this.readyState === 4 && this.status !== 200) reject({fileName: ''})
+        if (this.readyState === 4 && this.status !== 200) reject({error: this})
       }
-      req.open('POST', `${this.props.adminStore.browserConfig.hostUrl}${this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]}${this.courseCode}/${this.state.isPublished}`)
+      req.open('POST', `${hostUrl}${saveFileUrl}${this.courseCode}/published`)
       req.send(formData)
     })
   }
 
-  handleSellingText (res) {
+  handleSellingText (storageRes) {
     const {courseCode, langIndex, userLang} = this
-    console.log('filename', res)
-    const sellingTexts = this._shapeText(res ? res : '')
+    console.log('handleSellingText storageRes filename', storageRes)
+    const imageName = storageRes.fileName || ''
+    const sellingTexts = this._shapeText()
     // this.props.uploadFinalPic().then((res) => console.log('result', res))
-    this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
+    this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then((res) => {
+      console.log('After publishing')
       this.setState({
         hasDoneSubmit: true,
         isError: false
       })
       // window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
-    }).catch(err => {
+    }).catch(error => {
       this.setState({
         hasDoneSubmit: false,
         isError: true,
@@ -109,24 +96,20 @@ class Preview extends Component {
   }
 
   handlePublish () {
-    if (this.tempFilePath) this.handleUploadImage().then(res => this.handleSellingText(res))
-    else if (this.isDefaultChosen) this.handleSellingText()
-    // else this.handleSellingText
-
-    // this.props.adminStore.doUpsertItem(sellingTexts, courseCode).then(() => {
-    //   this.setState({
-    //     hasDoneSubmit: true,
-    //     isError: false
-    //   })
-    //   // window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
-    // }).catch(err => {
-    //   this.setState({
-    //     hasDoneSubmit: false,
-    //     isError: true,
-    //     errMsg: i18n.messages[langIndex].pageTitles.alertMessages.api_error
-    //   })
-    // })
+    console.log('STARTED PUBLISHING handlePublish')
+    let noFile
+    if (this.tempFilePath) {
+      this.handleUploadImage()
+      .then(storageRes => {
+        console.log('storageRes after publishing picture', storageRes)
+        this.handleSellingText(storageRes)
+      })
+      .catch(err => console.log('catch error', err))
+    } else if (this.isDefaultChosen) {
+      this.handleSellingText({fileName: ''})
+    } else this.handleSellingText({fileName: this.props.adminStore.imageNameFromApi})
   }
+
   render () {
     const { koppsTexts } = this.koppsData
     const { introLabel, defaultImageUrl } = this.props
@@ -134,43 +117,44 @@ class Preview extends Component {
     const pictureUrl = tempFilePath || (isPrevApiChosen ? apiImageUrl : defaultImageUrl)
 
     return (
-      <div key='kursinfo-container' className='kursinfo-main-page col' >
-
+      <div className='Preview--Changes col'>
+        <p>{introLabel.step_3_desc}</p>
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
-        <div className='col'>
-          <h2>{introLabel.label_step_3}</h2>
-          <Row id='pageContainer' key='pageContainer'>
-            <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
-              {['sv', 'en'].map((lang, key) =>
-                <Row className='courseIntroText' key={key}>
-                  <Col sm='12' xs='12' className='sellingText'>
-                    <h3>{introLabel.langLabel[lang]}</h3>
-                    <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
-                    <span className='textBlock' dangerouslySetInnerHTML={{__html: this.state[lang] === '' ? koppsTexts[lang] : this.state[lang]}}>
-                    </span>
-                  </Col>
-                </Row>
-                )
-              }
-              <Row className='control-buttons'>
-                <Col sm='4' className='btn-back'>
-                  <Button onClick={this.returnToEditor} alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
-                </Col>
-                <Col sm='4' className='btn-cancel'>
-                  <ButtonModal id='cancel' step={3} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
-                </Col>
-                <Col sm='4' className='btn-last'>
-                  <ButtonModal id='publish' buttonLabel={introLabel.button.publish}
-                    handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish} />
+        <span className='title_and_info'>
+          <h2>{introLabel.label_step_3}</h2> {' '}
+          {/* <ButtonModal id='info' step={3} infoText={introLabel.info_image} course={this.courseCode} /> */}
+        </span>
+        <Row id='pageContainer' key='pageContainer'>
+          <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
+            {['sv', 'en'].map((lang, key) =>
+              <Row className='courseIntroText' key={key}>
+                <Col sm='12' xs='12' className='sellingText'>
+                  <h3>{introLabel.langLabel[lang]}</h3>
+                  <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
+                  <span className='textBlock' dangerouslySetInnerHTML={{__html: this.state[lang] === '' ? koppsTexts[lang] : this.state[lang]}}>
+                  </span>
                 </Col>
               </Row>
-            </Col>
-          </Row>
-        </div>
-        <span>
-          <div className='text-center'>{this.state.fileProgress}%</div>
+              )
+            }
+            <Row className='control-buttons'>
+              <Col sm='4' className='btn-back'>
+                <Button onClick={this.returnToEditor} alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
+              </Col>
+              <Col sm='4' className='btn-cancel'>
+                <ButtonModal id='cancel' step={3} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
+              </Col>
+              <Col sm='4' className='btn-last'>
+                <ButtonModal id='publish' buttonLabel={introLabel.button.publish} course={this.courseCode}
+                  handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish} />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          {/* <div className='text-center'>{this.state.fileProgress}%</div> */}
           <Progress value={this.state.fileProgress} />
-        </span>
+        </Row>
       </div>
     )
   }
