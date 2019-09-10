@@ -31,14 +31,17 @@ class ButtonModal extends Component {
     console.log('handleConfirm', this.props.id)
 
     if (this.props.id === 'cancel') this._goBackToStartPage()
-    else this.props.handleConfirm()
+    else {
+      this.props.handleConfirm()
+      this.toggle()
+    } // .then(res => console.log('HendleModal', res))
   }
 
   render () {
     const { fade, className, infoText, id, step } = this.props
     const fadeModal = (this.props.hasOwnProperty('fade') ? fade : true)
     const color = id === 'publish' ? 'success' : ''
-
+    console.log('this.props.course', this.props.course)
     return (
       <span>
         <Button id={id} type='button' onClick={this.toggle} className={id === 'info' ? 'btn-info-modal' : ''} color={color}>
@@ -50,7 +53,7 @@ class ButtonModal extends Component {
             {
               id === 'info'
               ? ''
-              : <p dangerouslySetInnerHTML={{__html: infoText.infoCourse}}>{' ' + this.props.course}</p>
+              : <p>{infoText.infoCourse + ' ' + this.props.course}</p>
             }
             <p dangerouslySetInnerHTML={{__html: infoText.body}} />
           </ModalBody>
