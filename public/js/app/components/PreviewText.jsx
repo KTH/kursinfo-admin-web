@@ -152,10 +152,10 @@ class Preview extends Component {
             </Row>
           </Col>
         </Row>
-        <Row>
-          {/* <div className='text-center'>{this.state.fileProgress}%</div> */}
+        <span>
+          <div className='text-center'>{this.state.fileProgress}%</div>
           <Progress value={this.state.fileProgress} />
-        </Row>
+        </span>
       </div>
     )
   }

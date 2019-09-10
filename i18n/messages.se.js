@@ -83,7 +83,7 @@ module.exports = {
         delete: 'Utkast för kurs-pm har raderats'
       },
       kinfo: {
-        pub: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan '
+        pub: 'Introduktion till kursen har publicerats '
       },
       see_more: 'Se',
       term: 'Termin',

@@ -84,7 +84,7 @@ module.exports = {
         delete: 'Draft for course memo has been removed'
       },
       kinfo: {
-        pub: 'New version of the course introduction has been published in english and swedish languages on the page '
+        pub: 'New version of the course introduction has been published '
       },
       see_more: 'Look at',
       term: 'Term',
