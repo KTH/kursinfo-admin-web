@@ -3,7 +3,6 @@ import Row from 'inferno-bootstrap/dist/Row'
 import i18n from '../../../../i18n'
 
 const ProgressBar = ({language, active}) => {
-  console.log('i18n.messages[language]', i18n.messages[language])
   return (
     <Row className='progress-bar-container'>
       <div className={`col-md-4 col-sm-12 progress-bar1 ${active === 1 ? 'progress-active' : ''}`}>
