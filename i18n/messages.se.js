@@ -91,6 +91,7 @@ module.exports = {
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
+      storage_api_error: 'Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. Gå tillbaka till <i> Valj bild </i> för att byta bild. Prova sedan att Publicera.',
       kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
     },
     course_short_semester: {
