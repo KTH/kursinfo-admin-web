@@ -74,7 +74,8 @@
     "mobx": "^5.13.0",
     "passport": "^0.3.2",
     "query-string": "^5.1.1",
-    "safe-utils": "^0.1.1"
+    "safe-utils": "^0.1.1",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "@kth/kth-ckeditor-build": "^1.4.1",

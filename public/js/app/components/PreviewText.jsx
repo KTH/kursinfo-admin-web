@@ -76,6 +76,7 @@ class Preview extends Component {
   handleSellingText (storageRes) {
     const { courseCode, langIndex, userLang } = this
     const imageName = storageRes.error ? this.props.adminStore.imageNameFromApi : storageRes.fileName
+    console.log('imageName', imageName)
     const sellingTexts = this._shapeText()
     this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then((res) => {
       this.setState({
@@ -93,20 +94,29 @@ class Preview extends Component {
   }
 
   handlePublish () {
+    const {langIndex} = this
     if (this.tempFilePath) {
       this.handleUploadImage()
       .then(storageRes => {
         if (storageRes.fileName) {
+          console.log('save texte')
           this.handleSellingText(storageRes)
         } else {
           this.setState({
             hasDoneSubmit: false,
             isError: true,
-            errMsg: i18n.messages[this.langIndex].pageTitles.alertMessages.storage_api_error
+            errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error
           })
         }
       })
-      .catch(err => console.log('catch error', err))
+      .catch(err => {
+        console.log('catch error', err)
+        this.setState({
+          hasDoneSubmit: false,
+          isError: true,
+          errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error
+        })
+      })
     } else if (this.isDefaultChosen) this.handleSellingText({fileName: ''})
       else this.handleSellingText({fileName: this.props.adminStore.imageNameFromApi})
   }

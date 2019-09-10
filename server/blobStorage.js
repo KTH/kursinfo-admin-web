@@ -11,6 +11,7 @@ const {
 
 const serverConfig = require('./configuration').server
 const log = require('kth-node-log')
+const sharp = require('sharp')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -34,21 +35,21 @@ const pipeline = StorageURL.newPipeline(credentials)
 const serviceURL = new ServiceURL(`https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net`, pipeline)
 
 async function runBlobStorage (file, courseCode, saveCopyOfFile, metadata) {
-  console.log('runBlobStorage: ', file, ', courseCode: ', courseCode, ', saveCopyOfFile: ', saveCopyOfFile, ', metadata: ', metadata)
+  log.info('runBlobStorage: ', file, ', courseCode: ', courseCode, ', saveCopyOfFile: ', saveCopyOfFile, ', metadata: ', metadata)
   const containerName = 'kursinfo-image-container'
   let blobName = ''
-  const content = file.data
+  const content = await sharp(file.data).resize(400, 300) // file.data
   const fileType = file.mimetype
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName)
   const aborter = Aborter.timeout(30 * ONE_MINUTE)
 
-  const draftFileName = `Picture_by_own_choice_${courseCode}.${metadata.fileExtension}` // `${type}-${pictureid}.${file.name.split('.')[1]}`
-  const newFileName = `Picture_by_own_choice_temp_${courseCode}.${metadata.fileExtension}` // `${type}-${pictureid}-${getTodayDate()}.${file.name.split('.')[1]}`
+  console.log('runBlobStorage newFilenewFile', content)
+
+  const draftFileName = `Picture_by_own_choice_${courseCode}.${metadata.fileExtension}` // `${metadata.fileExtension}${type}-${pictureid}.${file.name.split('.')[1]}`
+  const newFileName = `Picture_by_own_choice_temp_${courseCode}.${metadata.fileExtension}` // `${metadata.fileExtension}${type}-${pictureid}-${getTodayDate()}.${file.name.split('.')[1]}`
   if (saveCopyOfFile === 'true') {
-    console.log('newFileName', newFileName)
     blobName = newFileName
   } else {
-    console.log('draftFileName', draftFileName)
     blobName = draftFileName
   }
 

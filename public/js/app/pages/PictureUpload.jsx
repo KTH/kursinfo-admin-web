@@ -49,7 +49,7 @@ class PictureUpload extends Component {
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
-    this.apiImageUrl = `${this.props.adminStore.browserConfig.storageUri}${this.props.adminStore.imageInfo}`
+    this.apiImageUrl = `${this.props.adminStore.browserConfig.storageUri}${this.props.adminStore.imageNameFromApi}`
     this.defaultImageUrl = this.props.defaultImageUrl // Default
 
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
@@ -194,7 +194,7 @@ class PictureUpload extends Component {
           <span id='own-picture' className={this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''} key='uploader'>
             <span className='preview-pic'>
               {this.isApiPicAvailable || this.state.tempFilePath
-                ? <img src={this.state.tempFilePath ? this.state.tempFilePath : apiImageUrl} height='auto' width='300px'
+                ? <img src={this.state.tempFilePath || apiImageUrl} height='auto' width='300px'
                   alt={introLabel.alt.image} />
                 : <span className='empty-pic' alt={introLabel.alt.tempImage}>
                   <p><i>{introLabel.image.noChosen}</i></p>
