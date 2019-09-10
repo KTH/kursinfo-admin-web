@@ -1,11 +1,9 @@
 import { Component } from 'inferno'
 import { inject, observer } from 'inferno-mobx'
-import i18n from '../../../../i18n'
 import Alert from 'inferno-bootstrap/lib/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Col from 'inferno-bootstrap/dist/Col'
-import { KURSINFO_IMAGE_BLOB_URL } from '../util/constants'
 
 let fileTypes = [
   'image/jpeg',
@@ -51,7 +49,7 @@ class PictureUpload extends Component {
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
-    this.apiImageUrl = `${KURSINFO_IMAGE_BLOB_URL}${this.props.adminStore.imageInfo}`
+    this.apiImageUrl = `${this.props.adminStore.browserConfig.storageUri}${this.props.adminStore.imageInfo}`
     this.defaultImageUrl = this.props.defaultImageUrl // Default
 
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
@@ -142,43 +140,37 @@ class PictureUpload extends Component {
   doNextStep (event) {
     event.preventDefault()
     const isNew = this.state.tempFilePath
-
-    // const resultPicUrl = isNew
-    //     ? this.state.tempFilePath
-    //     : this.state.isDefault ? this.defaultImageUrl : this.apiImageUrl
     if (isNew) {
-      /* const isAgree =*/ this.checkTerms()
+      this.checkTerms()
     } else if (!this.isApiPicAvailable && !this.state.isDefault) {
       this.setState({isError: true, errMsg: 'no_file_chosen'})
     }
     if (!this.state.isError) {
       this.props.adminStore.tempSaveNewImage(this.state.newImage, isNew, this.state.isDefault)
       const states = {
-        // imageFile: this.state.image, // for preview
         progress: 2
       }
-      // this.props.sendTempImage(this.state.image)
-      this.props.updateParent(states) // be replaced by send temp image or in parent look at step
+      this.props.updateParent(states)
     }
   }
 
   render ({adminStore}) {
-    const { introLabel, imageUrl, koppsData } = this.props
+    const { introLabel } = this.props
     const { apiImageUrl, defaultImageUrl } = this
     // const path = this.props.adminStore.browserConfig.proxyPrefixPath.uri
     return (
       <span className='Upload--Area col' key='uploadArea'>
         <p>{introLabel.step_1_desc}</p>
-        <span className='title_and_info'>
-          <h2>{introLabel.label_step_1}</h2> {' '}
-          <ButtonModal id='info' step={1} infoText={introLabel.info_image} course={this.courseCode} />
-        </span>
-        <p>{introLabel.image.choiceInfo}</p>
         {this.state.isDefault
           ? this.state.infoMsg ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert> : ''
           : this.state.successMsg || this.state.isError && this.state.errMsg
               ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
         }
+        <span className='title_and_info'>
+          <h2>{introLabel.label_step_1}</h2> {' '}
+          <ButtonModal id='info' step={1} infoText={introLabel.info_image} course={this.courseCode} />
+        </span>
+        <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
           <span role='radiogroup'>
             <label for='defaultPicture'>
