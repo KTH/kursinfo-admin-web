@@ -6,6 +6,10 @@ $light-grey: #d4d4d4;
 $dark-grey: #65656c;
 $red: #e01f28;
 
+@function kthStyleIcon($base) {
+    $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
+    @return $url;
+}
 %row {
     display: flex;
     flex-direction: row;
@@ -15,13 +19,18 @@ $red: #e01f28;
     display: flex;
     flex-direction: column;
 }
-%arrow-icon {
+%icon-general-style {
     content: '';
     height: 1.2em;
     width: 1.5em;
     display: inline-block;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
 }
+%arrow-icon {
+    @extend %icon-general-style;
+    background: kthStyleIcon('pill-back') no-repeat; //url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+}
+
+
 %responsive-table {
     @media (max-width: 767px) {
     /* Force table to not be like tables anymore */
@@ -87,7 +96,7 @@ $red: #e01f28;
 
 .progress-bar1{
     text-align: center;
-    border-bottom: 2px solid #d4d4d4;
+    border-bottom: 2px solid $light-grey;
     font-weight: 900;
     padding-top: 30px;
     &.progress-active{
@@ -126,13 +135,10 @@ span.navigation {
         margin-bottom: .3em;
     }
     .link-to::after{
-      content: '';
+      @extend %arrow-icon;
       height: 1.5em;
-      width: 1.5em;
-      display: inline-block;
       margin: -.6em 0 .3em .3em;
       vertical-align: middle;
-      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
       transform: rotate(180deg);
     }
 }
@@ -232,7 +238,11 @@ span.title_and_info {
     }
 
     #own-picture {
-        @extend %row;
+        flex-direction: column;
+        @media (min-width: 768px) {
+            display: flex;
+            flex-direction: row;
+        }
         align-items: flex-start;
         width: 100%;
         input[type=file] {
@@ -247,24 +257,20 @@ span.title_and_info {
             width: 300px;
             justify-content: center;
             p {align-self: center;}
-        }
-        label.label-pic-upload {
-            background-color: #f5f5f5;
-            border: 1px solid $dark-grey;
-            border-radius: .4em;  
-            text-align: center;
-            padding: 0;
-            padding-top: .5em;
-            padding-right: 2em;
-            background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/file-upload-fa-solid.svg) no-repeat;
-            background-position: 75% center;
-            background-size: 2em;
-            height: 5em;
-            width: 25em;
-            // &:focus, :hover {
-            //     background-color: darken($color: #f5f5f5, $amount: 10);
-            //     // outline: 0; 
-            // }
+        } 
+        label.btn-secondary {
+            h4 {
+                margin:0;
+                position: absolute;
+                left: 43%;
+            }
+            h4::after {
+                @extend %icon-general-style;
+                margin-left: 1em;
+                vertical-align: middle;
+                background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
+                background-size: 1em;   
+            }
         }
         .file-uploader-section {
             @extend %column;
@@ -276,8 +282,6 @@ span.title_and_info {
         }
     }
     @media (min-width: 768px) {
-        // flex-direction: row;
-        // justify-content: space-between;
         .badge,  span.right {
             margin-left: .5em;
         } 
