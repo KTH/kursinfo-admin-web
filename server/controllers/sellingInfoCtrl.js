@@ -13,6 +13,7 @@ const { runBlobStorage, updateMetaData, deleteBlob } = require('../blobStorage.j
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const httpResponse = require('kth-node-response')
+const i18n = require('../../i18n')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -49,6 +50,7 @@ async function _getDescription (req, res, next) {
   }
   const courseCode = req.params.courseCode
   let lang = language.getLanguage(res) || 'sv'
+  const langIndex = lang === 'en' ? 0 : 1
 
   try {
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
@@ -77,10 +79,11 @@ async function _getDescription (req, res, next) {
     const html = renderToString(renderProps)
     res.render('course/index', {
       // debug: 'debug' in req.query,
+      description: i18n.messages[langIndex].messages.description,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      title: courseCode,
       html: html,
-      initialState: JSON.stringify(hydrateStores(renderProps))
+      initialState: JSON.stringify(hydrateStores(renderProps)),
+      title: i18n.messages[langIndex].messages.title + ' | ' + courseCode
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
@@ -134,15 +137,11 @@ async function _updateDescription (req, res, next) {
 
 // ------- FILES IN BLOB STORAGE: SAVE, UPDATE, DELETE ------- /
 function * _saveFileToStorage (req, res, next) {
-  log.info('Saving uploaded file to storage ') // + req.files.file
-  console.log('===========================START=======================')
-  console.log('File is ', req.body)
-  console.log('===========================END=======================')
+  log.info('Saving uploaded file to storage ', req.body) // + req.files.file
   const file = req.files.file
-  console.log('file', file, req.params.courseCode, req.body)
+  log.info('file', file, req.params.courseCode, req.body)
   try {
     const fileName = yield runBlobStorage(file, req.params.courseCode, req.params.published, req.body)
-    console.log('fileName', fileName)
     return httpResponse.json(res, fileName)
     // return res.status(res).json(fileName)
   } catch (error) {
