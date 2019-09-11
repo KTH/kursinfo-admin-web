@@ -17,6 +17,9 @@ class Preview extends Component {
     this.state = {
       sv: this.props.adminStore.sellingText.sv,
       en: this.props.adminStore.sellingText.en,
+      hasDoneSubmit: false,
+      isError: false,
+      errMsg: '',
       fileProgress: 0
     }
     this.isDefaultChosen = this.props.adminStore.isDefaultChosen
@@ -35,7 +38,7 @@ class Preview extends Component {
     this.handlePublish = this.handlePublish.bind(this)
   }
 
-  _shapeText (file) {
+  _shapeText () {
     return {
       sv: this.state.sv,
       en: this.state.en
@@ -51,7 +54,6 @@ class Preview extends Component {
     const formData = this.newImage
     const hostUrl = this.props.adminStore.browserConfig.hostUrl
     const saveFileUrl = this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]
-
     let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
@@ -61,12 +63,16 @@ class Preview extends Component {
           this.setState({ fileProgress: fileProgress })
         }
       })
-
       req.onreadystatechange = function () {
+        console.log('')
         if (this.readyState === 4 && this.status === 200) {
           resolve({fileName: this.response})
+          // reject({error: this})
         }
-        if (this.readyState === 4 && this.status !== 200) reject({error: this})
+        if (this.readyState === 4 && this.status !== 200) {
+          this.setState({ fileProgress: 0 })
+          reject({error: this})
+        }
       }
       req.open('POST', `${hostUrl}${saveFileUrl}${this.courseCode}/published`)
       req.send(formData)
@@ -94,6 +100,10 @@ class Preview extends Component {
 
   handlePublish () {
     const {langIndex} = this
+    this.setState({
+      hasDoneSubmit: true,
+      isError: false
+    })
     if (this.tempFilePath) {
       this.handleUploadImage()
       .then(storageRes => {
@@ -154,14 +164,16 @@ class Preview extends Component {
               </Col>
               <Col sm='4' className='btn-last'>
                 <ButtonModal id='publish' buttonLabel={introLabel.button.publish} course={this.courseCode}
-                  handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish} />
+                  handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish}
+                  disabled={this.state.hasDoneSubmit}
+                />
               </Col>
             </Row>
           </Col>
         </Row>
-        <span className='spinner-border text-primary' role='status'>
-          <div className='text-center'>{this.state.fileProgress}%</div>
-          <Progress value={this.state.fileProgress} />
+        <span className={this.state.isError ? 'text-danger' : 'text-primary'} role='status'>
+          <div className='text-center'>{this.state.isError ? this.state.errMsg : this.state.fileProgress + '%'}</div>
+          <Progress value={this.state.fileProgress} color={this.state.isError ? 'danger' : 'info'} />
         </span>
       </div>
     )

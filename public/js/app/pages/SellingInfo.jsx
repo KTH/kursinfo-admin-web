@@ -32,7 +32,6 @@ class SellingInfo extends Component {
       en: this.props.adminStore.sellingText.en,
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
-      hasDoneSubmit: false,
       isError: false,
       errMsg: ''
     }
