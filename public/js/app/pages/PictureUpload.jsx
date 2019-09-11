@@ -193,6 +193,7 @@ class PictureUpload extends Component {
         : <span>
           <span id='own-picture' className={this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''} key='uploader'>
             <span className='preview-pic'>
+
               {this.isApiPicAvailable || this.state.tempFilePath
                 ? <img src={this.state.tempFilePath || apiImageUrl} height='auto' width='300px'
                   alt={introLabel.alt.image} />
@@ -202,13 +203,15 @@ class PictureUpload extends Component {
               }
             </span>
             <span className='file-uploader-section'>
-              <label for='pic-upload' className='label-pic-upload'>
+
+              <label for='pic-upload' className='btn btn-secondary'>
                 <h4>{introLabel.image.choose}</h4>
                 <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
                   accept='image/jpg,image/jpeg,image/png'
                   onChange={this.displayValidatedPic}
                   />
               </label>
+
               {this.state.tempFilePath && this.isApiPicAvailable
                   ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
                   : ''
