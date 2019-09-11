@@ -19,7 +19,7 @@ module.exports = {
      * Message keys
      */
     service_name: 'Kursinfo-admin-web',
-    title: 'Kursens utveckling och historik',
+    title: 'Kursinformationsadmin',
     description: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
     example_message_key: 'Här är en svensk översättning på en label',
 
@@ -91,7 +91,7 @@ module.exports = {
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
-      storage_api_error: 'Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. Gå tillbaka till <i> Valj bild </i> för att byta bild. Prova sedan att Publicera.',
+      storage_api_error: 'Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. Gå tillbaka till "1. Valj bild" för att byta bild. Prova sedan att Publicera.',
       kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
     },
     course_short_semester: {
