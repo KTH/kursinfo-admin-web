@@ -22,19 +22,16 @@ class ButtonModal extends Component {
     })
   }
   _goBackToStartPage () {
-    console.log('_goBackToStartPage')
     window.location = `${ADMIN_OM_COURSE}${this.props.course}?serv=kinfo&event=cancel`
   }
 
   handleConfirm (event) {
     event.preventDefault()
-    console.log('handleConfirm', this.props.id)
-
     if (this.props.id === 'cancel') this._goBackToStartPage()
     else {
       this.props.handleConfirm()
       this.toggle()
-    } // .then(res => console.log('HendleModal', res))
+    }
   }
 
   render () {

@@ -76,9 +76,8 @@ class Preview extends Component {
   handleSellingText (storageRes) {
     const { courseCode, langIndex, userLang } = this
     const imageName = storageRes.error ? this.props.adminStore.imageNameFromApi : storageRes.fileName
-    console.log('imageName', imageName)
     const sellingTexts = this._shapeText()
-    this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then((res) => {
+    this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then(() => {
       this.setState({
         hasDoneSubmit: true,
         isError: false
@@ -99,7 +98,6 @@ class Preview extends Component {
       this.handleUploadImage()
       .then(storageRes => {
         if (storageRes.fileName) {
-          console.log('save texte')
           this.handleSellingText(storageRes)
         } else {
           this.setState({
@@ -110,7 +108,6 @@ class Preview extends Component {
         }
       })
       .catch(err => {
-        console.log('catch error', err)
         this.setState({
           hasDoneSubmit: false,
           isError: true,
@@ -162,7 +159,7 @@ class Preview extends Component {
             </Row>
           </Col>
         </Row>
-        <span>
+        <span className='spinner-border text-primary' role='status'>
           <div className='text-center'>{this.state.fileProgress}%</div>
           <Progress value={this.state.fileProgress} />
         </span>

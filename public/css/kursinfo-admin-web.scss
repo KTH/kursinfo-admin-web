@@ -27,7 +27,7 @@ $red: #e01f28;
 }
 %arrow-icon {
     @extend %icon-general-style;
-    background: kthStyleIcon('pill-back') no-repeat; //url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
+    background: kthStyleIcon('pill-back') no-repeat;
 }
 
 
