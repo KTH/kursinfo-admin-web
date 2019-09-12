@@ -18,6 +18,7 @@ class Preview extends Component {
       sv: this.props.adminStore.sellingText.sv,
       en: this.props.adminStore.sellingText.en,
       hasDoneSubmit: false,
+      redirectAfterSubmit: false,
       isError: false,
       errMsg: '',
       fileProgress: 0
@@ -64,9 +65,8 @@ class Preview extends Component {
         }
       })
       req.onreadystatechange = function () {
-        console.log('')
         if (this.readyState === 4 && this.status === 200) {
-          resolve({fileName: this.response})
+          resolve({imageName: this.response})
           // reject({error: this})
         }
         if (this.readyState === 4 && this.status !== 200) {
@@ -79,17 +79,22 @@ class Preview extends Component {
     })
   }
 
-  handleSellingText (storageRes) {
+  handleSellingText (image) {
     const { courseCode, langIndex, userLang } = this
-    const imageName = storageRes.error ? this.props.adminStore.imageNameFromApi : storageRes.fileName
+    console.log('3.5 ', i18n.messages[langIndex].pageTitles.alertMessages.api_error)
+
+    const imageName = image.imageName
     const sellingTexts = this._shapeText()
-    this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName).then(() => {
+    this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName)
+    .then(() => {
       this.setState({
         hasDoneSubmit: true,
+        redirectAfterSubmit: true,
+        fileProgress: 100,
         isError: false
       })
       window.location = `${ADMIN_OM_COURSE}${courseCode}?l=${userLang}&serv=kinfo&event=pub`
-    }).catch(error => {
+    }).catch(err => {
       this.setState({
         hasDoneSubmit: false,
         isError: true,
@@ -99,24 +104,14 @@ class Preview extends Component {
   }
 
   handlePublish () {
-    const {langIndex} = this
+    const { langIndex } = this
     this.setState({
       hasDoneSubmit: true,
       isError: false
     })
     if (this.tempFilePath) {
       this.handleUploadImage()
-      .then(storageRes => {
-        if (storageRes.fileName) {
-          this.handleSellingText(storageRes)
-        } else {
-          this.setState({
-            hasDoneSubmit: false,
-            isError: true,
-            errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error
-          })
-        }
-      })
+      .then(imageName => this.handleSellingText(imageName))
       .catch(err => {
         this.setState({
           hasDoneSubmit: false,
@@ -124,12 +119,12 @@ class Preview extends Component {
           errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error
         })
       })
-    } else if (this.isDefaultChosen) this.handleSellingText({fileName: ''})
-      else this.handleSellingText({fileName: this.props.adminStore.imageNameFromApi})
+    } else if (this.isDefaultChosen) this.handleSellingText({imageName: ''})
+      else this.handleSellingText({imageName: this.props.adminStore.imageNameFromApi})
   }
 
   render () {
-    const { koppsTexts } = this.koppsData
+    const { koppsText } = this.koppsData
     const { introLabel, defaultImageUrl } = this.props
     const { tempFilePath, isPrevApiChosen, apiImageUrl } = this
     const pictureUrl = tempFilePath || (isPrevApiChosen ? apiImageUrl : defaultImageUrl)
@@ -137,7 +132,7 @@ class Preview extends Component {
     return (
       <div className='Preview--Changes col'>
         <p>{introLabel.step_3_desc}</p>
-        {this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
+        {this.state.isError && this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_3}</h2> {' '}
           {/* <ButtonModal id='info' step={3} infoText={introLabel.info_image} course={this.courseCode} /> */}
@@ -149,7 +144,7 @@ class Preview extends Component {
                 <Col sm='12' xs='12' className='sellingText'>
                   <h3>{introLabel.langLabel[lang]}</h3>
                   <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
-                  <span className='textBlock' dangerouslySetInnerHTML={{__html: this.state[lang] === '' ? koppsTexts[lang] : this.state[lang]}}>
+                  <span className='textBlock' dangerouslySetInnerHTML={{ __html: this.state[lang].length > 0 ? this.state[lang] : koppsText[lang] }}>
                   </span>
                 </Col>
               </Row>
@@ -171,9 +166,17 @@ class Preview extends Component {
             </Row>
           </Col>
         </Row>
-        <span className={this.state.isError ? 'text-danger' : 'text-primary'} role='status'>
-          <div className='text-center'>{this.state.isError ? this.state.errMsg : this.state.fileProgress + '%'}</div>
-          <Progress value={this.state.fileProgress} color={this.state.isError ? 'danger' : 'info'} />
+        <span className={this.state.isError
+          ? 'text-danger' : this.state.redirectAfterSubmit ? 'text-success' : 'text-primary'}
+          role='status'>
+          <div className='text-center'>
+            {this.state.isError
+              ? this.state.errMsg
+              : this.state.redirectAfterSubmit
+                ? introLabel.redirectToStart
+                : this.state.fileProgress + '%'}
+          </div>
+          <Progress value={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
         </span>
       </div>
     )
