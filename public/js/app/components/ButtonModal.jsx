@@ -40,7 +40,8 @@ class ButtonModal extends Component {
     const color = id === 'publish' ? 'success' : ''
     return (
       <span>
-        <Button id={id} type='button' onClick={this.toggle} className={id === 'info' ? 'btn-info-modal' : ''} color={color}>
+        <Button id={id} type='button' onClick={this.toggle} className={id === 'info' ? 'btn-info-modal' : ''}
+          color={color} disabled={this.props.disabled}>
           {this.props.buttonLabel}
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={className} fade={fadeModal} id={id + step}>
