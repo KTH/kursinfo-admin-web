@@ -267,7 +267,7 @@ span.title_and_info {
             h4::after {
                 @extend %icon-general-style;
                 margin-left: 1em;
-                vertical-align: middle;
+                vertical-align: bottom;
                 background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
                 background-size: 1em;   
             }
