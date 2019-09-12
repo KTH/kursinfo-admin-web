@@ -159,7 +159,9 @@ module.exports = {
     },
     info_image: {
       header: 'Choose image',
-      body: 'Choose the image that will be displayed on the page Course information. You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.',
+      body: `Choose the image that will be displayed on the page Course information. 
+      You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. 
+      The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.`,
       btnCancel: 'Close'
     },
     editCourseIntro: 'Edit course introduction',
@@ -173,9 +175,14 @@ module.exports = {
       secondOption: 'Choose your own picture',
       agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.'
     },
-    step_1_desc: 'Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.',
-    step_2_desc: 'You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. If you want to use KOPPS short description then remove a course introduction text',
-    step_3_desc: '............',
+    step_1_desc: `Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
+    Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.`,
+    step_2_desc: `You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. 
+    If you want to use KOPPS short description then remove a course introduction text`,
+    step_3_desc: `In this step (3 of 3) a preview of the image and the text is presented as it will 
+    be published on the page Course information. It is possible to go back to change the image and edit text or move forward to 
+    publish the information on the page Course information.
+    Alternativ`,
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     label_step_1: 'Choose image',
@@ -211,7 +218,8 @@ module.exports = {
       image: 'Picture for a course description decoration',
       tempImage: 'Placeholder to show up a chosen picture'
     },
-    obligatory: 'Required'
+    obligatory: 'Required',
+    redirectToStart: 'Success, redirecting to start page...'
   },
   courseMainSubjects: {
     Architecture: 'Arkitektur',

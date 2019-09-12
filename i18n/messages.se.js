@@ -20,7 +20,8 @@ module.exports = {
      */
     service_name: 'Kursinfo-admin-web',
     title: 'Kursinformationsadmin',
-    description: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
+    description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
+    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -91,7 +92,8 @@ module.exports = {
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
-      storage_api_error: 'Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. Gå tillbaka till "1. Valj bild" för att byta bild. Prova sedan att Publicera.',
+      storage_api_error: `Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. 
+      Gå tillbaka till "1. Valj bild" för att byta bild. Prova sedan att Publicera.`,
       kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
     },
     course_short_semester: {
@@ -162,7 +164,8 @@ module.exports = {
     },
     info_image: {
       header: 'Välj bild',
-      body: 'Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.',
+      body: `Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
+      Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.`,
       btnCancel: 'Stäng'
     },
     editCourseIntro: 'Administrera kursinformation',
@@ -174,11 +177,15 @@ module.exports = {
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
       firstOption: 'Bild utvald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
-      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer i användarvillkoren.'
+      agreeCheck: `Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. 
+      Läs mer i användarvillkoren.`
     },
-    step_1_desc: 'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.',
-    step_2_desc: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
-    step_3_desc: 'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan Kursinformation (svensk och engelsk sida). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på Kursinformationssidan.',
+    step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.`,
+    step_2_desc: `Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
+    Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan`,
+    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan Kursinformation (svensk och engelsk sida). 
+    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på Kursinformationssidan.`,
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_step_1: 'Välja bild',
@@ -214,7 +221,8 @@ module.exports = {
       image: 'Bild för kurssidasdekoration',
       tempImage: 'Tomt plats för att visa väld bilden'
     },
-    obligatory: 'Obligatoriskt'
+    obligatory: 'Obligatoriskt',
+    redirectToStart: 'Framgång, omdirigerar till startsidan...'
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
