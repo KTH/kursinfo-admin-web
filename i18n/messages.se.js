@@ -103,7 +103,7 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Introduktion till kursen',
-    sellingText_desc_p1: 'Ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
+    sellingText_desc_p1: 'Välj en egen bild till kurssidan och/eller ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
