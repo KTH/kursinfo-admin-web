@@ -81,8 +81,6 @@ class Preview extends Component {
 
   handleSellingText (image) {
     const { courseCode, langIndex, userLang } = this
-    console.log('3.5 ', i18n.messages[langIndex].pageTitles.alertMessages.api_error)
-
     const imageName = image.imageName
     const sellingTexts = this._shapeText()
     this.props.adminStore.doUpsertItem(sellingTexts, courseCode, imageName)
