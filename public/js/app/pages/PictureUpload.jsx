@@ -41,11 +41,9 @@ class PictureUpload extends Component {
       errMsg: undefined,
       newImage: this.props.adminStore.newImageFile,
       isDefault: this.props.adminStore.isDefaultChosen, // false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
-      isError: false, // todo: remove
+      isError: false,
       infoMsg: undefined,
-      tempFilePath: this.props.adminStore.tempImagePath,
-      // move to final step
-      successMsg: undefined
+      tempFilePath: this.props.adminStore.tempImagePath
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
@@ -161,10 +159,10 @@ class PictureUpload extends Component {
     return (
       <span className='Upload--Area col' key='uploadArea'>
         <p>{introLabel.step_1_desc}</p>
-        {this.state.isDefault
-          ? this.state.infoMsg ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert> : ''
-          : this.state.successMsg || this.state.isError && this.state.errMsg
-              ? <Alert color={this.state.successMsg ? 'success' : 'danger'}>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
+        {this.state.isDefault && this.state.infoMsg
+          ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert>
+          : this.state.isError && this.state.errMsg
+              ? <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
         }
         <span className='title_and_info'>
           <h2>{introLabel.label_step_1}</h2> {' '}
