@@ -12,7 +12,7 @@ import { Link } from 'inferno-router'
 import KipLinkNav from '../components/KipNav.jsx'
 import AlertMsg from '../components/AlertMsg.jsx'
 
-import {ADMIN_OM_COURSE, ADMIN_COURSE_UTV, ADMIN_COURSE_PM} from '../util/constants'
+import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_OM_COURSE, PM_TEMPLATE } from '../util/constants'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
@@ -43,7 +43,9 @@ class AdminStartPage extends Component {
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
-                <a href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`} alt={startCards.sellingText_btn} className='btn btn-primary'>{startCards.sellingText_btn}</a>
+                <a href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`} alt={startCards.sellingText_btn} className='btn btn-primary' >
+                {startCards.sellingText_btn}
+                </a>
               </CardFooter>
             </Card>
             <Card>
@@ -54,6 +56,9 @@ class AdminStartPage extends Component {
                 </CardText>
               </CardBody>
               <CardFooter className='text-right'>
+                <a href={PM_TEMPLATE} className='btn btn-primary' alt={startCards.coursePM_btn_template} target='_blank'>
+                  {startCards.coursePM_btn_template}
+                </a>
                 <a href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`} className='btn btn-primary' alt={startCards.coursePM_btn}>
                   {startCards.coursePM_btn}
                 </a>
