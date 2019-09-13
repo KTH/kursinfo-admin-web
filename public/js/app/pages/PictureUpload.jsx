@@ -5,7 +5,7 @@ import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Col from 'inferno-bootstrap/dist/Col'
 
-let fileTypes = [
+const fileTypes = [
   'image/jpeg',
   'image/jpg',
   'image/png'
@@ -23,16 +23,6 @@ function _validFileType (file) {
   return false
 }
 
-function _returnFileSize (number) { // TO DO OPTIMISE PICTURE IF TOO BIG BEFORE UPLOAD
-  if (number < 1024) {
-    return number + 'bytes'
-  } else if (number > 1024 && number < 1048576) {
-    return (number / 1024).toFixed(1) + 'KB'
-  } else if (number > 1048576) {
-    return (number / 1048576).toFixed(1) + 'MB'
-  }
-}
-
 @inject(['adminStore']) @observer
 class PictureUpload extends Component {
   constructor (props) {
@@ -40,7 +30,7 @@ class PictureUpload extends Component {
     this.state = {
       errMsg: undefined,
       newImage: this.props.adminStore.newImageFile,
-      isDefault: this.props.adminStore.isDefaultChosen, // false, //! this.props.adminStore.isUploadedImageInApi, // TODO: DEPENDS IF PICTURE IS CHOSEN BEFORE IN COURSEUTVECKLING
+      isDefault: this.props.adminStore.isDefaultChosen,
       isError: false,
       infoMsg: undefined,
       tempFilePath: this.props.adminStore.tempImagePath
@@ -53,8 +43,6 @@ class PictureUpload extends Component {
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
     this.checkTerms = this.checkTerms.bind(this)
-    // this.hanleUploadFile = this.hanleUploadFile.bind(this)
-    // this.handleRemoveFile = this.handleRemoveFile.bind(this)
     this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
@@ -67,7 +55,7 @@ class PictureUpload extends Component {
     return formData
   }
 
-  _choosenNewPicture (isError, fileUrl) { // ??
+  _choosenNewPicture (isError, fileUrl) {
     this.setState({
       isError: isError,
       tempFilePath: fileUrl
@@ -75,8 +63,7 @@ class PictureUpload extends Component {
   }
 
   checkTerms () {
-    // const isNew = this.state.tempFilePath
-    const termsAgreement = document.getElementById('termsAgreement')// event.target.checked
+    const termsAgreement = document.getElementById('termsAgreement')
     this.setState({
       isError: !termsAgreement.checked,
       errMsg: termsAgreement.checked ? '' : 'approve_term'
@@ -121,13 +108,15 @@ class PictureUpload extends Component {
         else errorIndex = 'not_correct_format_return_to_api_pic'
         this._choosenNewPicture(errTrue, noFile)
       }
-    } else if (!this.isApiPicAvailable) { // no new picture and no api pic available and no default chosen
+    } else if (!this.isApiPicAvailable) {
+      // no new picture and no api pic available and no default chosen
       // show error and empty picture
       errorIndex = isTempFile ? undefined : 'no_file_chosen'
       const tempFilePath = isTempFile ? this.state.tempFilePath : noFile
 
       this._choosenNewPicture(!isTempFile, tempFilePath)
-    } else if (this.isApiPicAvailable) { // no new picture but still api pic available, no error
+    } else if (this.isApiPicAvailable) {
+      // no new picture but still api pic available, no error
       // leave everything as it is
       this._choosenNewPicture(!errTrue, this.state.tempFilePath)
     }
@@ -152,10 +141,9 @@ class PictureUpload extends Component {
     }
   }
 
-  render ({adminStore}) {
+  render () {
     const { introLabel } = this.props
     const { apiImageUrl, defaultImageUrl } = this
-    // const path = this.props.adminStore.browserConfig.proxyPrefixPath.uri
     return (
       <span className='Upload--Area col' key='uploadArea'>
         <p>{introLabel.step_1_desc}</p>

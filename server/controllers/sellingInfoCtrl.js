@@ -9,7 +9,7 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
-const { runBlobStorage, updateMetaData, deleteBlob } = require('../blobStorage.js')
+const { runBlobStorage } = require('../blobStorage.js')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const httpResponse = require('kth-node-response')
@@ -23,9 +23,7 @@ module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
   myCourses: co.wrap(_myCourses),
-  saveFileToStorage: co.wrap(_saveFileToStorage),
-  updateFileInStorage: co.wrap(_updateFileInStorage),
-  deleteFileInStorage: co.wrap(_deleteFileInStorage)
+  saveFileToStorage: co.wrap(_saveFileToStorage)
 }
 
 async function _getSellingTextFromKursinfoApi (courseCode) {
@@ -91,6 +89,7 @@ async function _getDescription (req, res, next) {
   }
 }
 
+// This function to see which groups user is in
 async function _myCourses (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
@@ -111,6 +110,7 @@ async function _myCourses (req, res, next) {
   }
 }
 
+// ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
 async function _updateDescription (req, res, next) {
   try {
     const client = api.kursinfoApi.client
@@ -127,7 +127,7 @@ async function _updateDescription (req, res, next) {
     if (safeGet(() => result.body.message)) {
       log.error('Error from API: ', result.body.message)
     }
-    log.info('Selling text and picture updated in kursinfo api')
+    log.info('Selling text and picture updated in kursinfo api for course:', req.params.courseCode)
     return res.json(result)
   } catch (err) {
     log.error('Error in _updateDescription', { error: err })
@@ -135,40 +135,16 @@ async function _updateDescription (req, res, next) {
   }
 }
 
-// ------- FILES IN BLOB STORAGE: SAVE, UPDATE, DELETE ------- /
+// ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
 function * _saveFileToStorage (req, res, next) {
   log.info('Saving uploaded file to storage ', req.body) // + req.files.file
   const file = req.files.file
   log.info('file', file, req.params.courseCode, req.body)
   try {
-    const fileName = yield runBlobStorage(file, req.params.courseCode, req.params.published, req.body)
-    return httpResponse.json(res, fileName)
-    // return res.status(res).json(fileName)
+    const savedImageName = yield runBlobStorage(file, req.params.courseCode, req.body)
+    return httpResponse.json(res, savedImageName)
   } catch (error) {
     log.error('Exception from saveFileToStorage ', { error: error })
-    next(error)
-  }
-}
-
-function * _updateFileInStorage (req, res, next) {
-  log.info('_updateFileInStorage file name:' + req.params.fileName + ', metadata:' + req.body.params.metadata)
-  try {
-    const response = yield updateMetaData(req.params.fileName, req.body.params.metadata)
-    return res.json(res, response)
-  } catch (error) {
-    log.error('Exception from updateFileInStorage ', { error: error })
-    next(error)
-  }
-}
-
-function * _deleteFileInStorage (res, req, next) {
-  log.debug('_deleteFileInStorage, id:' + req.req.params.id)
-  try {
-    const response = yield deleteBlob(req.req.params.id)
-    log.debug('_deleteFileInStorage, id:', response)
-    return res.json(res.res)
-  } catch (error) {
-    log.error('Exception from _deleteFileInStorage ', { error: error })
     next(error)
   }
 }
