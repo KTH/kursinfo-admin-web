@@ -17,9 +17,7 @@ class CourseDescriptionEditorPage extends Component {
       progress: 1
     }
     this.koppsData = this.props.adminStore.koppsData
-    this.courseCode = this.koppsData.courseTitleData.course_code
     this.storageUri = this.props.adminStore.browserConfig.storageUri
-    this.userLang = this.koppsData.lang
     this.langIndex = this.koppsData.lang === 'en' ? 0 : 1
     this.doUpdateStates = this.doUpdateStates.bind(this)
   }
@@ -29,7 +27,7 @@ class CourseDescriptionEditorPage extends Component {
   }
 
   render () {
-    const { koppsData, userLang, langIndex } = this
+    const { koppsData, langIndex } = this
     const { courseImage, introLabel } = i18n.messages[langIndex]
     let courseImageID = courseImage[koppsData.defaultPicName]
     if (courseImageID === undefined) courseImageID = courseImage.default
@@ -39,7 +37,7 @@ class CourseDescriptionEditorPage extends Component {
         <CourseTitle key='title'
           courseTitleData={koppsData.courseTitleData}
           pageTitle={introLabel.editCourseIntro}
-          language={userLang}
+          language={koppsData.lang}
           />
         <ProgressBar active={this.state.progress} language={langIndex} />
         {this.state.progress === 1
