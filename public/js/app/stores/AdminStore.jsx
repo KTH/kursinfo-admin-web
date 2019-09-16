@@ -22,15 +22,30 @@ function _webUsesSSL (url) {
 }
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
-  @observable courseAdminData = undefined
-  // @observable sellingText = undefined
+  @observable koppsData
+
+
   @observable sellingText = {
     en: undefined,
     sv: undefined
   }
+  // Saving temporary state for picture between classes
+  @observable newImageFile
+  @observable tempImagePath
+
+  // Default image according to school
+  @observable isDefaultChosen  // true-false
+  // @observable defaultImageUrl
+
+  // Kursinfo-api, published image info
+  @observable imageNameFromApi  // name.jpg
+  @observable isApiPicAvailable // true-false
+  @observable apiImageUrl  // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
+
+  // info for saving who change text
   @observable sellingTextAuthor = ''
   @observable user = ''
-  @observable hasDoneSubmit = false
+  // @observable hasDoneSubmit = false
   @observable apiError = ''
 
   buildApiUrl (path, params) {
@@ -76,11 +91,28 @@ class AdminStore {
   @action addChangedByLastTime (data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
-  @action addSellingText (data) {
+  @action addPictureFromApi (data) {
+    this.imageNameFromApi = safeGet(() => data.imageInfo, '')
+    this.isApiPicAvailable = this.imageNameFromApi !== ''
+    this.apiImageUrl = `${this.browserConfig.storageUri}${this.imageNameFromApi}`
+    this.isDefaultChosen = !this.isApiPicAvailable
+  }
+  @action addSellingTextFromApi (data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
+  }
+  @action tempSaveText (data) {
+    this.sellingText = {
+      en: data.en,
+      sv: data.sv
+    }
+  }
+  @action tempSaveNewImage (imageFile, tempImagePath, isDefaultChosen) {
+    this.newImageFile = imageFile
+    this.tempImagePath = tempImagePath
+    this.isDefaultChosen = isDefaultChosen
   }
 
   isValidData (dataObject, language = 0) {
@@ -97,13 +129,13 @@ class AdminStore {
         course_credits: this.isValidData(course.credits),
         apiError: false
       }
-      const koppsCourseDesc = { // kopps recruitmentText
+      const koppsText = { // kopps recruitmentText
         sv: this.isValidData(course.info.sv),
         en: this.isValidData(course.info.en)
       }
-      this.courseAdminData = {
-        koppsCourseDesc,
-        imageFileName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
+      this.koppsData = {
+        koppsText,
+        defaultPicName: course.mainSubjects && course.mainSubjects.length > 0 ? course.mainSubjects[0].name[lang] : EMPTY,
         courseTitleData,
         lang
       }
@@ -112,21 +144,26 @@ class AdminStore {
         course_code: courseCode.toUpperCase(),
         apiError: true
       }
-      const koppsCourseDesc = { // kopps recruitmentText
+      const koppsText = { // kopps recruitmentText
         sv: EMPTY,
         en: EMPTY
       }
-      this.courseAdminData = {
+      this.koppsData = {
         courseTitleData,
-        koppsCourseDesc,
-        imageFileName: EMPTY,
+        koppsText,
+        defaultPicName: EMPTY,
         lang
       }
     })
   }
 
-  @action doUpsertItem (text, courseCode) {
-    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}), {sellingText: text, user: this.user}, this._getOptions())
+  @action doUpsertItem (text, courseCode, imageName) {
+    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}),
+      {
+        sellingText: text,
+        imageName,
+        user: this.user
+      }, this._getOptions())
     .then(res => {
       let msg = null
       if (safeGet(() => res.data.body.message)) {

@@ -19,8 +19,9 @@ module.exports = {
      * Message keys
      */
     service_name: 'Kursinfo-admin-web',
-    title: 'Kursens utveckling och historik',
-    description: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.',
+    title: 'Kursinformationsadmin',
+    description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
+    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -40,6 +41,9 @@ module.exports = {
   },
   pageTitles: {
     course_admin_title: 'Administrera',
+    header_progress_select_pic: '1. Välja bild',
+    header_progress_edit: '2. Redigera text',
+    header_progress_review: '3. Granska och publicera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
@@ -54,16 +58,16 @@ module.exports = {
     link_user_manual: 'Information och hjälp för att administrera Om kursen',
     links_to: {
       kutv: {
-        a_title: 'Kursens utveckling och historik',
-        a_title_alt: 'Till Kursens utveckling och historik vy'
+        aTitle: 'Kursens utveckling och historik',
+        aAlt: 'Till Kursens utveckling och historik vy'
       },
       pm: {
-        a_title: 'Kursinformation',
-        a_title_alt: 'Till Kursinformation vy'
+        aTitle: 'Kursinformation',
+        aAlt: 'Till Kursinformation vy'
       },
       kinfo: {
-        a_title: 'Kursinformation',
-        a_title_alt: 'Till Kursinformation vy'
+        aTitle: 'Kursinformation',
+        aAlt: 'Till Kursinformation vy'
       }
     },
     alertMessages: {
@@ -79,13 +83,17 @@ module.exports = {
         pub: 'Kurs-pm har publicerats',
         delete: 'Utkast för kurs-pm har raderats'
       },
+      kinfo: {
+        pub: 'Introduktion till kursen har publicerats '
+      },
       see_more: 'Se',
-      selling_description_success: 'Ny svensk och engelsk version av introduktion till kursen har publicerats på sidan ',
       term: 'Termin',
       course_round: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
+      storage_api_error: `Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. 
+      Gå tillbaka till "1. Valj bild" för att byta bild. Prova sedan att Publicera.`,
       kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
     },
     course_short_semester: {
@@ -95,12 +103,13 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Introduktion till kursen',
-    sellingText_desc_p1: 'Ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
+    sellingText_desc_p1: 'Välj en egen bild till kurssidan och/eller ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-pm',
-    coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Använd gärna mall för kurs-pm. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',
     courseDev_hd: 'Kursanalys och kursdata',
     courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
@@ -117,12 +126,72 @@ module.exports = {
       courseDev_btn: 'Redigera kusanalys och kursdata'
     }
   },
-  sellingTextLabels: {
-    label_selling_info: 'Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan',
+  introLabel: {
+    alertMessages: {
+      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan)',
+      no_file_chosen: 'Du måste välja en bild för att kunna gå vidare till ”Redigera text”.',
+      not_correct_format_choose_another: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
+        markering i rött nedan) för att kunna gå vidare till ”Redigera text".`,
+      not_correct_format_return_to_api_pic: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
+        markering i rött nedan) för att kunna gå vidare till ”Redigera text". Återställd till före publicerad bilden`,
+      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerad bilden att raderas (spara ner
+      bilden på datorn för att inte förlora den).`,
+      replace_api_with_default: `Observera: vid publicering kommer den publicerad bilden att raderas (spara ner
+        bilden på datorn för att inte förlora den).`,
+      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas (spara ner
+        bilden på datorn för att inte förlora den).`
+    },
+    info_publish: {
+      header: 'Att tänka på innan du publicerar!',
+      body: `<br/>
+        <br/> 
+        Publicering kommer att ske på sidan: Kursinformation och ersätta befintlig introduktion (bild och text) till kursen.
+        <br/>
+        <br/>
+        Vill du fortsätta att publicera?`,
+      btnCancel: 'Nej, gå tillbaka',
+      btnConfirm: 'Ja, fortsätt publicera',
+      infoCourse: 'Kurs: '
+    },
+    info_cancel: {
+      header: 'Att tänka på innan du avbryter!',
+      body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
+      <br/>  
+      <br/> 
+            Vill du fortsätta att avbryta?`,
+      btnCancel: 'Nej, gå tillbaka',
+      btnConfirm: 'Ja, fortsätt avbryta',
+      infoCourse: 'Kurs: '
+    },
+    info_image: {
+      header: 'Välj bild',
+      body: `Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
+      Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.`,
+      btnCancel: 'Stäng'
+    },
+    editCourseIntro: 'Administrera kursinformation',
+    image: {
+      reset: 'Återställ till sparad bild',
+      choose: 'Välj bild',
+      name: 'Bildnamn:',
+      noChosen: 'Ingen bild vald',
+      choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
+      firstOption: 'Bild utvald utifrån kursens huvudområde',
+      secondOption: 'Egen vald bild',
+      agreeCheck: `Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. 
+      Läs mer i användarvillkoren.`
+    },
+    step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.`,
+    step_2_desc: `Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
+    Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan`,
+    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan Kursinformation (svensk och engelsk sida). 
+    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på Kursinformationssidan.`,
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_step_1: 'Redigera svensk och engelsk text (steg 1 av 2)',
-    label_step_2: 'Granska och publicera (steg 2 av 2)',
+    label_step_1: 'Välja bild',
+    label_step_2: 'Redigera text',
+    label_step_3: 'Granska',
     langLabelKopps: {
       en: 'Kortbeskrivning i KOPPS (EN)',
       sv: 'Kortbeskrivning i KOPPS (SV)'
@@ -136,18 +205,25 @@ module.exports = {
       sv: 'Svensk text'
     },
     changed_by: 'Senast ändrad av:',
-    sellingTextButtons: {
-      button_cancel: 'Avbryt',
-      button_change: 'Redigera',
-      button_preview: 'Granska',
-      button_submit: 'Publicera'
+    button: {
+      cancel: 'Avbryt',
+      publish: 'Publicera',
+      step1: 'Välj bild',
+      step2: 'Redigera text',
+      step3: 'Granska'
     },
-    altLabel: {
-      button_preview: 'Förhandsgranska introduktion till kursen',
-      button_cancel: 'Avbryt och gå till admin startsida',
-      button_submit: 'Spara och publicera introduktion till kursen',
-      image: 'Bild för kurssidasdekoration'
-    }
+    alt: {
+      step1: 'Till förra steg att välja bild',
+      step2Next: 'Till nästa steg att redigera text',
+      step2Back: 'Till förra steg att redigera text',
+      step3: 'Till nästa steg att Förhandsgranska introduktion till kursen',
+      cancel: 'Avbryt och gå till admin startsida',
+      publish: 'Spara och publicera introduktion till kursen',
+      image: 'Bild för kurssidasdekoration',
+      tempImage: 'Tomt plats för att visa väld bilden'
+    },
+    obligatory: 'Obligatoriskt',
+    redirectToStart: 'Framgång, omdirigerar till startsidan...'
   },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',

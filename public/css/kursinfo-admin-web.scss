@@ -1,16 +1,82 @@
 //====Common style for both pages====
+$kth-blue: #007fae;
+$black: #000000;
+$white: #ffffff;
+$light-grey: #d4d4d4;
+$dark-grey: #65656c;
+$red: #e01f28;
+
+@function kthStyleIcon($base) {
+    $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
+    @return $url;
+}
+%row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+%column {
+    display: flex;
+    flex-direction: column;
+}
+%icon-general-style {
+    content: '';
+    height: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+}
+%arrow-icon {
+    @extend %icon-general-style;
+    background: kthStyleIcon('pill-back') no-repeat;
+}
+
+
+%responsive-table {
+    @media (max-width: 767px) {
+    /* Force table to not be like tables anymore */
+        .table table, thead, tbody, th, td, tr { 
+            display: block; 
+            max-width: 95%;
+            }    
+        .table td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #fff; 
+            position: relative;
+            display: flex;
+            flex-direction: column;  
+        }
+    }
+}
+
 #kth-kursinfo {
     width: 100%;
+    .alert {
+        max-width: 100em;
+        width: 100%;
+        margin: 1em 0;
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-top: 0;
+        }
+    }
+    .alert.alert-success {
+        width: 97%;
+        margin: 1em 15px;
+    }
 }
 .kursinfo-main-page {    
     padding-bottom: 3em;
     padding-top: 2em;
     width: 100%;
+
     .btn {
         border: 1px solid;
         margin: 1em 0;
         &.btn-primary {
-            border-color: #007fae;
+            border-color: $kth-blue;
         }
         &.btn-success {
             border-color: #62922e;
@@ -26,41 +92,22 @@
     h4 {
         margin-top: 0;
     }
-    .alert {
-        margin-left: 0;
-        //width: 50em;
-    }
 }
 
-//====START ADMIN PAGE WITH CARDS====
-%arrow-icon {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-    background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
-}
-%responsive-table {
-    @media (max-width: 767px) {
-    /* Force table to not be like tables anymore */
-        .table table, thead, tbody, th, td, tr { 
-            display: block; 
-            max-width: 95%;
-            }    
-        .table td { 
-            /* Behave  like a "row" */
-            border: none;
-            border-bottom: 1px solid #fff; 
-            position: relative;
-            display: flex;
-            flex-direction: column;     
-        }
+.progress-bar1{
+    text-align: center;
+    border-bottom: 2px solid $light-grey;
+    font-weight: 900;
+    padding-top: 30px;
+    &.progress-active{
+      border-bottom: 3px solid $kth-blue;
     }
-}
+  }
+//====START ADMIN PAGE WITH CARDS====
+
 //1.Navigation with KIP Links and right-located description text
 span.navigation {
-    display: flex;
-    flex-direction: column;
+    @extend %column;  
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
@@ -88,26 +135,22 @@ span.navigation {
         margin-bottom: .3em;
     }
     .link-to::after{
-      content: '';
+      @extend %arrow-icon;
       height: 1.5em;
-      width: 1.5em;
-      display: inline-block;
       margin: -.6em 0 .3em .3em;
       vertical-align: middle;
-      background: url(https://app.kth.se/style/kth-style/img/kth-style/icons/pill-back.svg) no-repeat;
       transform: rotate(180deg);
     }
 }
 
 // 4. Start page and cards style
 .AdminPage--ShowDescription {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     .card {
         width: 100%;
         margin: 1em .5em 1em 0; 
-        .btn {
-            margin-bottom: 1em;
+        .btn:last-of-type {
+            margin-top: 1em;
             margin-left: 1em;
         }
         &:last-of-type {
@@ -130,37 +173,140 @@ span.navigation {
         .card.course-development {
             max-width: 28em;
         }
+        .KursInfo--SellingText.card {
+            max-width: 19.5em;
+        }
+        .card-footer {
+            padding: .75rem 1.25rem .75rem .75rem
+        }
     }
     @media (min-width: 1024px) { 
         flex-wrap: nowrap;
         .card {
-            max-width: 20em;
-            min-width: 18em;
-            align-content: flex-start;
-            margin-right: 2em; 
+            max-width: 28em;
         }
-        .btn {
-            margin-left: 1em;
+    }
+}
+//common elements
+span.title_and_info {
+    @extend %row;
+    align-items: flex-start;
+    h2 {
+        margin-right: .5em;
+    }
+    .btn-info-modal {
+        margin-top: 2.4em;
+        border: transparent;
+    }
+}
+
+.input-label-row {
+    @extend %row;
+    label {
+        font-size: 1.1rem;
+        margin-bottom: .7em;
+        font-weight: normal;
+    }
+    input[type=radio], input[type=checkbox] {
+        transform: scale(1.5);
+        margin-right: .5em;
+        margin-left: .5em;
+    }
+}
+
+
+//====UPLOAD PICTURE====
+
+.Upload--Area { 
+    @extend %column;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 2em 0;
+    //radio and checkbox
+
+    .error-area {
+        visibility: visible;
+        border: solid 1px $red;
+        border-radius: .25rem;
+        padding: 1em .5em;
+    }
+    .error-label {
+        color:$red;
+    }
+    .no-error {
+        visibility: hidden;
+    }
+
+    #own-picture {
+        flex-direction: column;
+        @media (min-width: 768px) {
+            display: flex;
+            flex-direction: row;
         }
+        align-items: flex-start;
+        width: 100%;
+        input[type=file] {
+            filter: alpha(opacity=0);
+            opacity: 0;
+            border: 0;
+        }
+        span.empty-pic {
+            display: flex;
+            background-color: $light-grey;
+            height: 225px;
+            width: 300px;
+            justify-content: center;
+            p {align-self: center;}
+        } 
+        label.btn-secondary {
+            h4 {
+                margin:0;
+                position: absolute;
+                left: 43%;
+            }
+            h4::after {
+                @extend %icon-general-style;
+                margin-left: 1em;
+                vertical-align: bottom;
+                background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
+                background-size: 1em;   
+            }
+        }
+        .file-uploader-section {
+            @extend %column;
+        }
+        .preview-pic {
+            @extend %column;
+            margin-right: 5em;
+            margin-bottom: 1.5em;
+        }
+    }
+    @media (min-width: 768px) {
+        .badge,  span.right {
+            margin-left: .5em;
+        } 
+        span.left {
+            margin-right: .5em; 
+        }
+    }
+    span.control-buttons {
+        margin: 1em 0;
     }
 }
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
-.TextEditor--SellingInfo {
+.TextEditor--SellingInfo, .Preview--Changes {
     margin: 2em 0;
-    & > * {
-        margin-top: 1.5em;
-    }
     p.changed-by {
         margin-bottom: 0;
     } 
+    h3 {
+        margin-top: 0;
+    }
 }
-
 .Editors--Area {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     justify-content: space-between;
-    margin-top: 2em;
     margin-bottom: -.7em;
     span.left, span.right {
         width: 100%;
@@ -181,6 +327,7 @@ span.navigation {
             text-decoration: none;
             // cursor: pointer;
         }
+
         & > h4 {
             margin-top: 1em;
         }
@@ -193,7 +340,8 @@ span.navigation {
 //Preview mode style
 
 .courseIntroText {
-    padding-top: 10px;
+    // padding-top: 10px;
+    word-wrap: break-word;
     padding-bottom: 10px;
     .sellingText {
         padding-right: 12px
@@ -206,28 +354,16 @@ span.navigation {
     }
 }
 
-.alert {
-    max-width: 100em;
-    margin: 15px;
-    p {
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        margin-top: 0;
-    }
-}
-
-
 //BUTTONS STYLES
 .control-buttons {
-    display: flex;
-    flex-direction: column;
+    @extend %column;
     border-top: 1px solid #dee2e6;
     padding-top: 1.5em; 
 
     @media (min-width: 768px) { 
         flex-direction: row;
         margin: 0;
+        width: 100%;
         .btn-cancel {
             text-align: center;
         } 

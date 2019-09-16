@@ -9,8 +9,11 @@ const { createElement } = require('inferno-create-element')
 const { renderToString } = require('inferno-server')
 const { StaticRouter } = require('inferno-router')
 const { toJS } = require('mobx')
+const { runBlobStorage } = require('../blobStorage.js')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
+const httpResponse = require('kth-node-response')
+const i18n = require('../../i18n')
 
 let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
 
@@ -19,7 +22,8 @@ const serverPaths = require('../server').getPaths()
 module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
-  myCourses: co.wrap(_myCourses)
+  myCourses: co.wrap(_myCourses),
+  saveFileToStorage: co.wrap(_saveFileToStorage)
 }
 
 async function _getSellingTextFromKursinfoApi (courseCode) {
@@ -44,6 +48,7 @@ async function _getDescription (req, res, next) {
   }
   const courseCode = req.params.courseCode
   let lang = language.getLanguage(res) || 'sv'
+  const langIndex = lang === 'en' ? 0 : 1
 
   try {
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
@@ -60,7 +65,8 @@ async function _getDescription (req, res, next) {
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     // Load koppsData and kurinfo-api data
     await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingText(respSellDesc.body)
+    renderProps.props.children.props.adminStore.addSellingTextFromApi(respSellDesc.body)
+    renderProps.props.children.props.adminStore.addPictureFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
     await doAllAsyncBefore({
       pathname: req.originalUrl,
@@ -71,10 +77,11 @@ async function _getDescription (req, res, next) {
     const html = renderToString(renderProps)
     res.render('course/index', {
       // debug: 'debug' in req.query,
+      description: i18n.messages[langIndex].messages.description,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      title: courseCode,
       html: html,
-      initialState: JSON.stringify(hydrateStores(renderProps))
+      initialState: JSON.stringify(hydrateStores(renderProps)),
+      title: i18n.messages[langIndex].messages.title + ' | ' + courseCode
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
@@ -82,6 +89,7 @@ async function _getDescription (req, res, next) {
   }
 }
 
+// This function to see which groups user is in
 async function _myCourses (req, res, next) {
   if (process.env['NODE_ENV'] === 'development') {
     delete require.cache[require.resolve('../../dist/js/server/app.js')]
@@ -102,6 +110,7 @@ async function _myCourses (req, res, next) {
   }
 }
 
+// ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
 async function _updateDescription (req, res, next) {
   try {
     const client = api.kursinfoApi.client
@@ -111,17 +120,32 @@ async function _updateDescription (req, res, next) {
       uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
       body: {sellingText: req.body.sellingText,
         sellingTextAuthor: req.body.user,
+        imageInfo: req.body.imageName,
         lang},
       useCache: false
     })
     if (safeGet(() => result.body.message)) {
       log.error('Error from API: ', result.body.message)
     }
-    log.info('Selling text updated in kursinfo api')
+    log.info('Selling text and picture updated in kursinfo api for course:', req.params.courseCode)
     return res.json(result)
   } catch (err) {
     log.error('Error in _updateDescription', { error: err })
     next(err)
+  }
+}
+
+// ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
+function * _saveFileToStorage (req, res, next) {
+  log.info('Saving uploaded file to storage ', req.body) // + req.files.file
+  const file = req.files.file
+  log.info('file', file, req.params.courseCode, req.body)
+  try {
+    const savedImageName = yield runBlobStorage(file, req.params.courseCode, req.body)
+    return httpResponse.json(res, savedImageName)
+  } catch (error) {
+    log.error('Exception from saveFileToStorage ', { error: error })
+    next(error)
   }
 }
 

@@ -26,8 +26,9 @@
     "test"
   ],
   "dependencies": {
+    "@azure/storage-blob": "^10.4.0",
     "@babel/polyfill": "^7.4.4",
-    "applicationinsights": "^1.4.0",
+    "applicationinsights": "^1.4.1",
     "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
@@ -37,6 +38,7 @@
     "cookie-parser": "^1.4.4",
     "dotenv": "^4.0.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.4",
     "express-handlebars": "^3.1.0",
     "gulp-install": "^1.1.0",
     "inferno": "^5.6.1",
@@ -62,6 +64,7 @@
     "kth-node-monitor": "^0.1.11",
     "kth-node-passport-cas": "^3.1.7",
     "kth-node-redis": "^1.2.0",
+    "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.0.3",
     "kth-node-session": "^1.0.0",
     "kth-node-web-common": "^3.0.6",
@@ -71,7 +74,8 @@
     "mobx": "^5.13.0",
     "passport": "^0.3.2",
     "query-string": "^5.1.1",
-    "safe-utils": "^0.1.1"
+    "safe-utils": "^0.1.1",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "@kth/kth-ckeditor-build": "^1.4.1",
@@ -95,7 +99,7 @@
     "browser-sync": "^2.26.7",
     "chai": "^4.0.2",
     "concurrently": "^2.1.0",
-    "cross-env": "^2.0.0",
+    "cross-env": "^2.0.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-jsx": "^6.0.2",
     "gulp": "^3.9.1",

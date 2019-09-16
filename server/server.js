@@ -182,6 +182,16 @@ server.use(excludeExpression, require('kth-node-web-common/lib/web/crawlerRedire
   hostUrl: config.hostUrl
 }))
 
+/* ********************************
+ * ******* FILE UPLOAD*******
+ * ********************************
+ */
+
+const fileUpload = require('express-fileupload')
+server.use(fileUpload())
+server.use(bodyParser.json({ limit: '50mb' }))
+server.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
+
 /* **********************************
  * ******* APPLICATION ROUTES *******
  * **********************************
@@ -202,8 +212,11 @@ const appRoute = AppRouter()
 appRoute.get('course.myCourses', config.proxyPrefixPath.uri + '/:courseCode/myCourses', getServerGatewayLogin(), SellingInfo.myCourses)
 appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), AdminPagesCtrl.getAdminStart)
 appRoute.get('course.editAdminStart', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
+appRoute.get('course.editDescription', config.proxyPrefixPath.uri + '/picture/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.updateDescription)
 appRoute.get('api.koppsCourseData', config.proxyPrefixPath.uri + '/getKoppsCourseDataByCourse/:courseCode/', AdminPagesCtrl.getKoppsCourseData)
+// File upload for a course picture
+appRoute.post('storage.saveFile', config.proxyPrefixPath.uri + '/storage/saveFile/:courseCode/:published', SellingInfo.saveFileToStorage)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 server.use('/', appRoute.getRouter())
 
