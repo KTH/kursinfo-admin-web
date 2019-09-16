@@ -15,7 +15,6 @@ import { IMobxStore } from './interfaces/utils'
 import i18n from '../../../i18n'
 
 import AdminStore from './stores/AdminStore.jsx'
-import SellingInfo from './pages/SellingInfo.jsx'
 import AdminStartPage from './pages/AdminStartPage.jsx'
 import CourseDescriptionEditorPage from './pages/CourseDescriptionEditorPage.jsx'
 
@@ -40,7 +39,6 @@ function appFactory () {
     <Provider adminStore={adminStore} >
       <ProgressLayer>
         <Switch>
-          <Route path='/kursinfoadmin/kurser/kurs/editInfo' component={SellingInfo} />
           <Route path='/kursinfoadmin/kurser/kurs/edit' component={CourseDescriptionEditorPage} />
           <Route path='/kursinfoadmin/kurser/kurs/' component={AdminStartPage} />
         </Switch>
