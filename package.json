@@ -62,7 +62,7 @@
     "kth-node-ldap": "^2.4.0",
     "kth-node-log": "^3.0.0",
     "kth-node-monitor": "^0.1.11",
-    "kth-node-passport-cas": "^3.1.7",
+    "kth-node-passport-cas": "^3.1.9",
     "kth-node-redis": "^1.2.0",
     "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.0.3",
