@@ -8,6 +8,7 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import Row from 'inferno-bootstrap/dist/Row'
 import Col from 'inferno-bootstrap/dist/Col'
 import ButtonModal from '../components/ButtonModal.jsx'
+import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
 const editorConf = {
   toolbarGroups: [
@@ -152,7 +153,9 @@ class SellingInfo extends Component {
             </Button>
           </Col>
           <Col sm='4' className='btn-cancel'>
-            <ButtonModal id='cancel' step={2} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
+            <ButtonModal id='cancelStep2' type='cancel' course={this.courseCode}
+              returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
+              btnLabel={introLabel.button.cancel} modalLabels={introLabel.info_cancel} />
           </Col>
           <Col sm='4' className='btn-next'>
             <Button onClick={this.quitEditor} id='to-peview' color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
