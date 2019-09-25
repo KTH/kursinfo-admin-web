@@ -4,6 +4,7 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Col from 'inferno-bootstrap/dist/Col'
+import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
 const fileTypes = [
   'image/jpeg',
@@ -46,6 +47,7 @@ class PictureUpload extends Component {
     this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
+
   _getFileData (file) {
     let formData = new FormData()
     formData.append('file', file)
@@ -154,7 +156,8 @@ class PictureUpload extends Component {
         }
         <span className='title_and_info'>
           <h2>{introLabel.label_step_1}</h2> {' '}
-          <ButtonModal id='info' step={1} infoText={introLabel.info_image} course={this.courseCode} />
+          <ButtonModal id='infoPic' type='info-icon'
+            modalLabels={introLabel.info_image} course={this.courseCode} />
         </span>
         <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
@@ -220,7 +223,10 @@ class PictureUpload extends Component {
           <Col sm='4'>
           </Col>
           <Col sm='4' className='btn-cancel'>
-            <ButtonModal id='cancel' step={1} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
+            <ButtonModal id='cancelStep1' type='cancel' course={this.courseCode}
+              returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
+              btnLabel={introLabel.button.cancel}
+              modalLabels={introLabel.info_cancel} />
           </Col>
           <Col sm='4' className='btn-next'>
             <Button onClick={this.doNextStep} color='success' alt={introLabel.alt.step2Next}
