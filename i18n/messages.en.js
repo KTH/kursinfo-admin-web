@@ -174,7 +174,8 @@ module.exports = {
       choiceInfo: 'Choose image that will be displayed on the course',
       firstOption: 'Image based on the course main subject',
       secondOption: 'Choose your own picture',
-      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read the Terms.'
+      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
+      imagesOnTheWeb: 'Images on the web.'
     },
     step_1_desc: `Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
     Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.`,
