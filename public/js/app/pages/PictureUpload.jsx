@@ -4,7 +4,7 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Col from 'inferno-bootstrap/dist/Col'
-import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
+import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 
 const fileTypes = [
   'image/jpeg',
@@ -37,6 +37,7 @@ class PictureUpload extends Component {
       tempFilePath: this.props.adminStore.tempImagePath
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
+    this.lang = this.props.koppsData.lang
     this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
     this.apiImageUrl = `${this.props.adminStore.browserConfig.storageUri}${this.props.adminStore.imageNameFromApi}`
     this.defaultImageUrl = this.props.defaultImageUrl // Default
@@ -145,7 +146,7 @@ class PictureUpload extends Component {
 
   render () {
     const { introLabel } = this.props
-    const { apiImageUrl, defaultImageUrl } = this
+    const { apiImageUrl, defaultImageUrl, lang } = this
     return (
       <span className='Upload--Area col' key='uploadArea'>
         <p>{introLabel.step_1_desc}</p>
@@ -193,7 +194,7 @@ class PictureUpload extends Component {
             </span>
             <span className='file-uploader-section'>
 
-              <label for='pic-upload' className='btn btn-secondary'>
+              <label for='pic-upload' className='btn btn-secondary' >
                 <h4>{introLabel.image.choose}</h4>
                 <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
                   accept='image/jpg,image/jpeg,image/png'
@@ -210,7 +211,7 @@ class PictureUpload extends Component {
           {this.state.tempFilePath
           ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
-            <label for='termsAgreement'>{introLabel.image.agreeCheck}</label>
+            <label for='termsAgreement'>{introLabel.image.agreeCheck}{' '}<a href={INTRA_IMAGE_INFO[lang]}>{introLabel.image.imagesOnTheWeb}</a></label>
           </span>
           : ''
           }
