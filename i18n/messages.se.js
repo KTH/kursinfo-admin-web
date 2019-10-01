@@ -178,8 +178,8 @@ module.exports = {
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
       firstOption: 'Bild utvald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
-      agreeCheck: `Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. 
-      Läs mer i användarvillkoren.`
+      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
+      imagesOnTheWeb: 'Bilder på webben.'
     },
     step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
     I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.`,
