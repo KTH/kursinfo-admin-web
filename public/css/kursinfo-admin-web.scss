@@ -258,11 +258,10 @@ span.title_and_info {
             justify-content: center;
             p {align-self: center;}
         } 
-        label.btn-secondary {
+        .file-uploader-section {
+            @extend %column;
             h4 {
                 margin:0;
-                position: absolute;
-                left: 43%;
             }
             h4::after {
                 @extend %icon-general-style;
@@ -271,9 +270,6 @@ span.title_and_info {
                 background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
                 background-size: 1em;   
             }
-        }
-        .file-uploader-section {
-            @extend %column;
         }
         .preview-pic {
             @extend %column;
