@@ -245,11 +245,6 @@ span.title_and_info {
         }
         align-items: flex-start;
         width: 100%;
-        input[type=file] {
-            filter: alpha(opacity=0);
-            opacity: 0;
-            border: 0;
-        }
         span.empty-pic {
             display: flex;
             background-color: $light-grey;
@@ -260,15 +255,20 @@ span.title_and_info {
         } 
         .file-uploader-section {
             @extend %column;
+            input[type=file] {
+                filter: alpha(opacity=0);
+                opacity: 0;
+                border: 0;
+            }
             h4 {
                 margin:0;
-            }
-            h4::after {
-                @extend %icon-general-style;
-                margin-left: 1em;
-                vertical-align: bottom;
-                background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
-                background-size: 1em;   
+                &::after {
+                    @extend %icon-general-style;
+                    margin-left: 1em;
+                    vertical-align: bottom;
+                    background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
+                    background-size: 1em;   
+                }
             }
         }
         .preview-pic {
