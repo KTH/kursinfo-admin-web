@@ -42,6 +42,7 @@ class ButtonModal extends Component {
                 //* *** Properties *** *//
     // type: {info-icon, publish, cancel, remove}
     // btnLabel: t.e., 'Publish and quit', if it is info modal then no btnLabel need
+    // returnToUrl: where to return after canceling process
     // header: 'Modal header'
     /* modalLabels = {
       header: 'To be aware of before cancelling!',
