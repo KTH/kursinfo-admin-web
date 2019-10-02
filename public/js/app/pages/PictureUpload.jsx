@@ -1,9 +1,7 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
-import Alert from 'inferno-bootstrap/lib/Alert'
-import Button from 'inferno-bootstrap/lib/Button'
+import React, { Component } from 'react'
+import { inject, observer} from 'mobx-react'
+import { Alert, Button, Col } from 'reactstrap'
 import ButtonModal from '../components/ButtonModal.jsx'
-import Col from 'inferno-bootstrap/dist/Col'
 import FileInput from '../components/FileInput.jsx'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 

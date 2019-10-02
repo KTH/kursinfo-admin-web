@@ -1,16 +1,11 @@
-import { Component, linkEvent } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import CourseTitle from '../components/CourseTitle.jsx'
-import Card from 'inferno-bootstrap/lib/Card/Card'
-import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
-import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
-import CardText from 'inferno-bootstrap/lib/Card/CardText'
-import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
-import { Link } from 'inferno-router'
-import KipLinkNav from '../components/KipNav.jsx'
-import AlertMsg from '../components/AlertMsg.jsx'
+import CourseTitle from '../components/CourseTitle'
+import { Card, CardBody, CardTitle, CardText, CardFooter } from 'reactstrap'
+import KipLinkNav from '../components/KipNav'
+import AlertMsg from '../components/AlertMsg'
 
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_OM_COURSE, PM_TEMPLATE } from '../util/constants'
 

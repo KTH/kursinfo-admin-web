@@ -1,4 +1,4 @@
-import Alert from 'inferno-bootstrap/lib/Alert'
+import { Alert } from 'reactstrap'
 import { KTH_SE_URL, COURSE_INFO_URL, COURSE_UTVECKLING } from '../util/constants'
 
 const _fetchParameters = (props) => {

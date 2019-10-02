@@ -1,5 +1,5 @@
 
-import Row from 'inferno-bootstrap/dist/Row'
+import { Row } from 'reactstrap'
 import i18n from '../../../../i18n'
 
 const ProgressBar = ({language, active}) => {

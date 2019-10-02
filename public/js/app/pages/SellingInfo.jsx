@@ -1,5 +1,5 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
 import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'

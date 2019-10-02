@@ -1,5 +1,5 @@
-import { Component } from 'inferno'
-import Button from 'inferno-bootstrap/dist/Button'
+import React, { Component } from 'react'
+import { Button } from 'reactstrap'
 
 class FileInput extends Component {
   constructor (props) {
