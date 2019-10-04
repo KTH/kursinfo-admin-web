@@ -56,7 +56,7 @@ class FileInput extends Component {
     const { accept, id, btnLabel } = this.props
 
     return <span className='file-uploader-section'>
-      <label for={id} onClick={this.clickFileInput}>
+      <label htmlFor={id} onClick={this.clickFileInput}>
         <Button color='secondary' block><h4>{btnLabel}</h4></Button>
       </label>
 

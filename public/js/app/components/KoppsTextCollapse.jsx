@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 
 function KoppsTextCollapse ({koppsText, lang, instructions}) {
   return ( // langLabelKopps , langLabel

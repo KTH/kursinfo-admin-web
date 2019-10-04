@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import { Table } from 'reactstrap'
 import {COURSE_INFO_URL, COURSE_UTVECKLING,
   USER_MANUAL_URL, KOPPS_ADMIN_URL, KOPPS_ADMIN_USERLIST_URL, KOPPS_ABOUT_URL} from '../util/constants'

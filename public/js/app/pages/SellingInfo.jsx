@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import { inject, observer} from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'
-import Button from 'inferno-bootstrap/lib/Button'
-import Alert from 'inferno-bootstrap/lib/Alert'
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
-import ButtonModal from '../components/ButtonModal.jsx'
+import KoppsTextCollapse from '../components/KoppsTextCollapse'
+import { Alert, Button, Col, Row } from 'reactstrap'
+import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
 const editorConf = {

@@ -1,8 +1,8 @@
-import { Alert, Button, Col, Row, Progress } from 'reactstrap'
 import React, { Component } from 'react'
-import { inject, observer} from 'mobx-react'
+import { Alert, Button, Col, Row, Progress } from 'reactstrap'
+import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
-import ButtonModal from '../components/ButtonModal.jsx'
+import ButtonModal from '../components/ButtonModal'
 
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { inject, observer} from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { Alert, Button, Col } from 'reactstrap'
-import ButtonModal from '../components/ButtonModal.jsx'
-import FileInput from '../components/FileInput.jsx'
+import ButtonModal from '../components/ButtonModal'
+import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 
 const fileTypes = [
@@ -167,14 +167,14 @@ class PictureUpload extends Component {
         <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
           <span role='radiogroup'>
-            <label for='defaultPicture'>
+            <label htmlFor='defaultPicture'>
               <input type='radio' id='defaultPicture' name='choosePicture' value='defaultPicture'
-                onClick={this.switchOption} checked={this.state.isDefault} />{' '}
+                onClick={this.switchOption} defaultChecked={this.state.isDefault} />{' '}
               {introLabel.image.firstOption}
             </label> <br />
-            <label for='otherPicture'>
+            <label htmlFor='otherPicture'>
               <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
-                onClick={this.switchOption} checked={!this.state.isDefault} /> {' '}
+                onClick={this.switchOption} defaultChecked={!this.state.isDefault} /> {' '}
               {introLabel.image.secondOption}
             </label> <br />
           </span>

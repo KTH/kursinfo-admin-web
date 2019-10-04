@@ -12,8 +12,8 @@ import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_OM_COURSE, PM_TEMPLATE } from 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
 
-  render ({adminStore}) {
-    const { courseTitleData, lang } = adminStore.koppsData
+  render () {
+    const { courseTitleData, lang } = this.props.adminStore.koppsData
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
