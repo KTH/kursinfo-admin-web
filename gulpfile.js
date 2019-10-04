@@ -10,27 +10,6 @@ const globals = {
 const { moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
 const { moveHandlebarPages } = require('kth-node-web-common/gulp')
 
-/* Inferno build tasks */
-
-const infernoTask = require('kth-node-inferno/gulpTasks/infernoTask')({
-  src: [
-    'public/js/app/app.jsx'
-    // 'public/js/app/embed.jsx'
-  ],
-  destinationPath: 'dist/js',
-  exclude: /node_modules\/(?!(safe-utils)\/).*/,
-  dirname: __dirname
-})
-
-const infernoServerTask = require('kth-node-inferno/gulpTasks/infernoServerTask')({
-  src: [
-    'public/js/app/app.jsx',
-    'public/js/app/embed.jsx'
-  ],
-  destinationPath: 'dist/js/server',
-  dirname: __dirname
-})
-
 /**
  * Usage:
  *
@@ -77,13 +56,6 @@ gulp.task('moveImages', function () {
 
 gulp.task('transpileSass', () => sass())
 
-gulp.task('inferno', function () {
-  return mergeStream(
-    infernoTask(),
-    infernoServerTask()
-  )
-})
-
 /**
  *
  *  Public tasks used by developer:
@@ -92,10 +64,10 @@ gulp.task('inferno', function () {
 
 gulp.task('clean', clean)
 
-gulp.task('build', ['moveResources', 'moveImages', 'vendor', 'inferno'], () => sass())
+gulp.task('build', ['moveResources', 'moveImages', 'vendor'], () => sass())
 
 gulp.task('watch', ['build'], function () {
-  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'], ['inferno'])
+  gulp.watch(['./public/js/app/**/*.jsx', './public/js/app/**/*.js'])
   gulp.watch(['./public/img/**/*.*'], ['moveImages'])
   gulp.watch(['./public/js/vendor.js'], ['vendor'])
   gulp.watch(['./public/css/**/*.scss'], ['transpileSass'])
