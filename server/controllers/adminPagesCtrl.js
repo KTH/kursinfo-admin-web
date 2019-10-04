@@ -1,82 +1,21 @@
 'use strict'
 
 // const sanitize = require('sanitize-html')
-const { koppsCourseData } = require('../koppsApi')
 const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
-const { createElement } = require('inferno-create-element')
-const { renderToString } = require('inferno-server')
-const { StaticRouter } = require('react-router')
+const ReactDOMServer = require('react-dom/server')
+const { filteredKoppsData } = require('../koppsApi')
 const { toJS } = require('mobx')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')
 
-let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
-
 module.exports = {
   getAdminStart: co.wrap(_getAdminStart),
-  getKoppsCourseData: co.wrap(_getKoppsCourseData)
 }
 
 const serverPaths = require('../server').getPaths()
-
-async function _getAdminStart (req, res, next) {
-  if (process.env['NODE_ENV'] === 'development') {
-    delete require.cache[require.resolve('../../dist/js/server/app.js')]
-    const tmp = require('../../dist/js/server/app.js')
-    appFactory = tmp.appFactory
-    doAllAsyncBefore = tmp.doAllAsyncBefore
-  }
-  const courseCode = req.params.courseCode
-  let lang = language.getLanguage(res) || 'sv'
-
-  try {
-    // Render inferno app
-    const context = {}
-    const renderProps = createElement(StaticRouter, {
-      location: req.url,
-      context
-    }, appFactory())
-    // setBrowserConfig should be first because of setting paths for other next functions
-    // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
-    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
-    // Load koppsData
-    await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
-    await doAllAsyncBefore({
-      pathname: req.originalUrl,
-      query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-      adminStore: renderProps.props.children.props.adminStore,
-      routes: renderProps.props.children.props.children.props.children.props.children
-    })
-    const html = renderToString(renderProps)
-    res.render('course/index', {
-      debug: 'debug' in req.query,
-      instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      title: courseCode + ' | ' + i18n.messages[lang === 'en' ? 0 : 1].messages.title,
-      description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
-      html: html,
-      paths: JSON.stringify(serverPaths),
-      initialState: JSON.stringify(hydrateStores(renderProps))
-    })
-  } catch (error) {
-    log.error('Error in _getAdminStart', { error })
-    next(error)
-  }
-}
-
-function * _getKoppsCourseData (req, res, next) {
-  const courseCode = req.params.courseCode
-  try {
-    const apiResponse = yield koppsCourseData(courseCode)
-    return res.json(apiResponse)
-  } catch (error) {
-    log.error('Exception calling from koppsAPI  in _getKoppsCourseData', { error })
-    next(error)
-  }
-}
 
 function hydrateStores (renderProps) {
   // This assumes that all stores are specified in a root element called Provider
@@ -89,4 +28,42 @@ function hydrateStores (renderProps) {
     }
   }
   return outp
+}
+
+function _staticRender (context, location) {
+  if (process.env.NODE_ENV === 'development') {
+    delete require.cache[require.resolve('../../dist/app.js')]
+  }
+  const { staticRender } = require('../../dist/app.js')
+  return staticRender(context, location)
+}
+
+async function _getAdminStart (req, res, next) {
+  const { courseCode } = req.params
+  let lang = language.getLanguage(res) || 'sv'
+
+  try {
+    // Render inferno app
+    const renderProps = _staticRender()
+    // setBrowserConfig should be first because of setting paths for other next functions
+    // Load browserConfig and server paths for internal api
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
+    // Load koppsData
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
+
+    const html = ReactDOMServer.renderToString(renderProps)
+    res.render('course/index', {
+      debug: 'debug' in req.query,
+      instrumentationKey: serverConfig.appInsights.instrumentationKey,
+      title: courseCode + ' | ' + i18n.messages[lang === 'en' ? 0 : 1].messages.title,
+      description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
+      html,
+      paths: JSON.stringify(serverPaths),
+      initialState: JSON.stringify(hydrateStores(renderProps))
+    })
+  } catch (error) {
+    log.error('Error in _getAdminStart', { error })
+    next(error)
+  }
 }
