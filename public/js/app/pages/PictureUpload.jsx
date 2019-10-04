@@ -4,6 +4,8 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import Button from 'inferno-bootstrap/lib/Button'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Col from 'inferno-bootstrap/dist/Col'
+import FileInput from '../components/FileInput.jsx'
+import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 
 const fileTypes = [
   'image/jpeg',
@@ -36,16 +38,19 @@ class PictureUpload extends Component {
       tempFilePath: this.props.adminStore.tempImagePath
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
+    this.lang = this.props.koppsData.lang
     this.isApiPicAvailable = this.props.adminStore.isApiPicAvailable
     this.apiImageUrl = `${this.props.adminStore.browserConfig.storageUri}${this.props.adminStore.imageNameFromApi}`
     this.defaultImageUrl = this.props.defaultImageUrl // Default
 
+    this.checkTerms = this.checkTerms.bind(this)
+    this.clickFileInput = this.clickFileInput.bind(this)
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
-    this.checkTerms = this.checkTerms.bind(this)
     this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
+
   _getFileData (file) {
     let formData = new FormData()
     formData.append('file', file)
@@ -69,6 +74,10 @@ class PictureUpload extends Component {
       errMsg: termsAgreement.checked ? '' : 'approve_term'
     })
     return termsAgreement.checked
+  }
+
+  clickFileInput (event) {
+    if (event.target !== event.currentTarget) event.currentTarget.click()
   }
 
   resetToPrevApiPicture (event) {
@@ -143,7 +152,7 @@ class PictureUpload extends Component {
 
   render () {
     const { introLabel } = this.props
-    const { apiImageUrl, defaultImageUrl } = this
+    const { apiImageUrl, defaultImageUrl, lang } = this
     return (
       <span className='Upload--Area col' key='uploadArea'>
         <p>{introLabel.step_1_desc}</p>
@@ -154,7 +163,8 @@ class PictureUpload extends Component {
         }
         <span className='title_and_info'>
           <h2>{introLabel.label_step_1}</h2> {' '}
-          <ButtonModal id='info' step={1} infoText={introLabel.info_image} course={this.courseCode} />
+          <ButtonModal id='infoPic' type='info-icon'
+            modalLabels={introLabel.info_image} course={this.courseCode} />
         </span>
         <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
@@ -179,7 +189,6 @@ class PictureUpload extends Component {
         : <span>
           <span id='own-picture' className={this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''} key='uploader'>
             <span className='preview-pic'>
-
               {this.isApiPicAvailable || this.state.tempFilePath
                 ? <img src={this.state.tempFilePath || apiImageUrl} height='auto' width='300px'
                   alt={introLabel.alt.image} />
@@ -188,26 +197,21 @@ class PictureUpload extends Component {
                 </span>
               }
             </span>
-            <span className='file-uploader-section'>
-
-              <label for='pic-upload' className='btn btn-secondary'>
-                <h4>{introLabel.image.choose}</h4>
-                <input type='file' id='pic-upload' name='pic-upload' className='pic-upload'
-                  accept='image/jpg,image/jpeg,image/png'
-                  onChange={this.displayValidatedPic}
-                  />
-              </label>
-
+            <FileInput id='pic-upload' onChange={this.displayValidatedPic}
+              accept='image/jpg,image/jpeg,image/png'
+              btnLabel={introLabel.image.choose}>
               {this.state.tempFilePath && this.isApiPicAvailable
-                  ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
-                  : ''
-              }
-            </span>
+                    ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
+                    : ''
+                }
+            </FileInput>
           </span>
           {this.state.tempFilePath
           ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
-            <label for='termsAgreement'>{introLabel.image.agreeCheck}</label>
+            <label for='termsAgreement'>{introLabel.image.agreeCheck}{' '}
+              <a href={INTRA_IMAGE_INFO[lang]} alt={introLabel.image.imagesOnTheWeb} target='_blank'>{introLabel.image.imagesOnTheWeb}</a>
+            </label>
           </span>
           : ''
           }
@@ -220,7 +224,10 @@ class PictureUpload extends Component {
           <Col sm='4'>
           </Col>
           <Col sm='4' className='btn-cancel'>
-            <ButtonModal id='cancel' step={1} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
+            <ButtonModal id='cancelStep1' type='cancel' course={this.courseCode}
+              returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
+              btnLabel={introLabel.button.cancel}
+              modalLabels={introLabel.info_cancel} />
           </Col>
           <Col sm='4' className='btn-next'>
             <Button onClick={this.doNextStep} color='success' alt={introLabel.alt.step2Next}

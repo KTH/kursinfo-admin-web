@@ -32,6 +32,7 @@
     "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
     "co": "^4.6.0",
     "component-registry": "^0.2.0",
     "compression": "^1.7.4",

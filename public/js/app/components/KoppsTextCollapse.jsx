@@ -4,7 +4,7 @@ function KoppsTextCollapse ({koppsText, lang, instructions}) {
     <div className='courseIntroTextCollapse'>
       <h3>{instructions.langLabel[lang]}</h3>
       <div className='card collapsible blue'>
-        <div className='card-header' role='tab' id={'headingWhite' + lang} tabindex='0'>
+        <div className='card-header' role='tab' id={'headingWhite' + lang}>
           <h4 className='mb-0'>
             <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + lang} load='false' aria-expanded='false' aria-controls={'collapseWhite' + lang}>
               {instructions.langLabelKopps[lang]}

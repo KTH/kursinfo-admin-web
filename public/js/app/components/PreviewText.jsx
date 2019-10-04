@@ -8,7 +8,7 @@ import Alert from 'inferno-bootstrap/lib/Alert'
 import ButtonModal from '../components/ButtonModal.jsx'
 import Progress from 'inferno-bootstrap/dist/Progress'
 
-import { ADMIN_OM_COURSE } from '../util/constants'
+import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
 @inject(['adminStore']) @observer
 class Preview extends Component {
@@ -133,7 +133,7 @@ class Preview extends Component {
         {this.state.isError && this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_3}</h2> {' '}
-          {/* <ButtonModal id='info' step={3} infoText={introLabel.info_image} course={this.courseCode} /> */}
+          {/* <ButtonModal id='infoPreview' type='info-icon' modalLabels={introLabel.info_image} course={this.courseCode} /> */}
         </span>
         <Row id='pageContainer' key='pageContainer'>
           <Col sm='12' xs='12' lg='12' id='middle' key='middle'>
@@ -153,13 +153,16 @@ class Preview extends Component {
                 <Button onClick={this.returnToEditor} alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
               </Col>
               <Col sm='4' className='btn-cancel'>
-                <ButtonModal id='cancel' step={3} course={this.courseCode} buttonLabel={introLabel.button.cancel} infoText={introLabel.info_cancel} />
+                <ButtonModal id='cancelStep3' type='cancel' btnLabel={introLabel.button.cancel}
+                  returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
+                  modalLabels={introLabel.info_cancel} course={this.courseCode}
+                  />
               </Col>
               <Col sm='4' className='btn-last'>
-                <ButtonModal id='publish' buttonLabel={introLabel.button.publish} course={this.courseCode}
-                  handleConfirm={this.handlePublish} infoText={introLabel.info_publish} alt={introLabel.alt.publish}
+                <ButtonModal id='publish' type='submit' btnLabel={introLabel.button.publish} handleParentConfirm={this.handlePublish}
+                  modalLabels={introLabel.info_publish} course={this.courseCode} alt={introLabel.alt.publish}
                   disabled={this.state.hasDoneSubmit}
-                />
+                  />
               </Col>
             </Row>
           </Col>
