@@ -1,3 +1,4 @@
+'use strict'
 const { BasicAPI } = require('kth-node-api-call')
 const { server } = require('./configuration')
 const log = require('kth-node-log')
@@ -8,12 +9,12 @@ const koppsApi = new BasicAPI({
   basePath: server.kopps.basePath,
   https: server.kopps.https,
   json: true,
-  defaultTimeout: server.kopps.defaultTimeout
-  // redis: {
-  //   client: redis,
-  //   prefix: 'course-info-admin-kopps',
-  //   expire: 20000
-  // }
+  defaultTimeout: server.kopps.defaultTimeout,
+  redis: {
+    client: redis,
+    prefix: 'course-info-admin-kopps',
+    expire: 20000
+  }
 })
 
 const koppsCourseData = async (courseCode) => {
@@ -26,4 +27,51 @@ const koppsCourseData = async (courseCode) => {
   }
 }
 
-module.exports = {koppsApi, koppsCourseData}
+function isValidData (dataObject) {
+  return !dataObject ? ' ' : dataObject
+}
+
+
+const filteredKoppsData = async (courseCode, lang) => {
+  try {
+    const courseObj = await koppsCourseData(courseCode)
+    console.log('courseObj', courseObj)
+    const courseTitleData = {
+      course_code: isValidData(courseObj.code),
+      course_title: isValidData(courseObj.title[lang]),
+      course_credits: isValidData(courseObj.credits),
+      apiError: false
+    }
+    const koppsText = { // kopps recruitmentText
+      sv: isValidData(courseObj.info.sv),
+      en: isValidData(courseObj.info.en)
+    }
+    return {
+      koppsText,
+      defaultPicName: courseObj.mainSubjects && courseObj.mainSubjects.length > 0 ? courseObj.mainSubjects[0].name[lang] : ' ',
+      courseTitleData,
+      lang,
+      langIndex: lang === 'en' ? 0 : 1
+    }
+  } catch(error) {
+    log.error("Error in filteredKoppsData while trying to filter data from KOPPS", {error})
+      const courseTitleData = {
+        course_code: courseCode.toUpperCase(),
+        apiError: true
+      }
+      const koppsText = { // kopps recruitmentText
+        sv: ' ',
+        en: ' '
+      }
+      return {
+        courseTitleData,
+        koppsText,
+        defaultPicName: ' ',
+        lang
+      }
+  }
+}
+
+module.exports = {koppsApi, koppsCourseData, filteredKoppsData}
+
+
