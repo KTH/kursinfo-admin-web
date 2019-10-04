@@ -207,7 +207,7 @@ class PictureUpload extends Component {
           {this.state.tempFilePath
           ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
-            <label for='termsAgreement'>{introLabel.image.agreeCheck}{' '}
+            <label htmlFor='termsAgreement'>{introLabel.image.agreeCheck}{' '}
               <a href={INTRA_IMAGE_INFO[lang]} alt={introLabel.image.imagesOnTheWeb} target='_blank'>{introLabel.image.imagesOnTheWeb}</a>
             </label>
           </span>

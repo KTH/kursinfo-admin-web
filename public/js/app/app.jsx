@@ -8,7 +8,6 @@ import { StaticRouter } from 'react-router'
 import AdminStore from './stores/AdminStore'
 import AdminStartPage from './pages/AdminStartPage'
 import CourseDescriptionEditorPage from './pages/CourseDescriptionEditorPage'
-import '../../css/kursinfo-admin-web.scss'
 
 function appFactory () {
   if (process.env['NODE_ENV'] !== 'production') {

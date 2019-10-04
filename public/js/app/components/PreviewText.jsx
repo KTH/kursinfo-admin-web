@@ -173,7 +173,7 @@ class Preview extends Component {
                 ? introLabel.redirectToStart
                 : this.state.fileProgress + '%'}
           </div>
-          <Progress value={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
+          <Progress defaultValue={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
         </span>
       </div>
     )
