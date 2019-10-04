@@ -16,12 +16,10 @@
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build",
-    "build-dev": "cross-env NODE_ENV=development gulp watch",
-    "build-react": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
-    "inferno-dev": "cross-env NODE_ENV=development gulp inferno",
+    "build-gulp": "cross-env NODE_ENV=development gulp watch",
+    "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
-    "start-react": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-react\" \"nodemon --ignore dist/ --ignore public/ app.js\"",
-    "start-dev": "cross-env NODE_ENV=development gulp build && cross-env NODE_ENV=development concurrently --kill-others \"nodemon --ignore dist/**/* app.js\" \"gulp watch\""
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-react\" \"nodemon --ignore dist/ --ignore public/ app.js\"  \"gulp watch\" "
   },
   "pre-push": [
     "codecheck",
