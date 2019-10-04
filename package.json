@@ -15,7 +15,7 @@
     "test": "mocha test/unit/*.js",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
-    "build": "NODE_ENV=production gulp build",
+    "build": "NODE_ENV=production gulp build && parcel build ./public/js/app/app.jsx",
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
     "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
