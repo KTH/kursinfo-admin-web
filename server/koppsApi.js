@@ -48,7 +48,7 @@ const filteredKoppsData = async (courseCode, lang) => {
     }
     return {
       koppsText,
-      defaultPicName: courseObj.mainSubjects && courseObj.mainSubjects.length > 0 ? courseObj.mainSubjects[0].name[lang] : ' ',
+      defaultPicName: courseObj.mainSubjects && courseObj.mainSubjects.length > 0 ? courseObj.mainSubjects.sort()[0].name[lang] : ' ',
       courseTitleData,
       lang,
       langIndex: lang === 'en' ? 0 : 1
