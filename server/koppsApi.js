@@ -3,7 +3,10 @@ const { BasicAPI } = require('kth-node-api-call')
 const { server } = require('./configuration')
 const log = require('kth-node-log')
 const redis = require('kth-node-redis')
-
+const EMPTY = {
+  en: 'No information inserted',
+  sv: 'Ingen information tillagd'
+}
 const koppsApi = new BasicAPI({
   hostname: server.kopps.host,
   basePath: server.kopps.basePath,
@@ -27,24 +30,23 @@ const koppsCourseData = async (courseCode) => {
   }
 }
 
-function isValidData (dataObject) {
-  return !dataObject ? ' ' : dataObject
+function isValidData (dataObject, lang='sv') {
+  return !dataObject ? EMPTY[lang] : dataObject
 }
 
 
-const filteredKoppsData = async (courseCode, lang) => {
+const filteredKoppsData = async (courseCode, lang='sv') => {
   try {
     const courseObj = await koppsCourseData(courseCode)
-    console.log('courseObj', courseObj)
     const courseTitleData = {
-      course_code: isValidData(courseObj.code),
-      course_title: isValidData(courseObj.title[lang]),
-      course_credits: isValidData(courseObj.credits),
+      course_code: isValidData(courseObj.code, lang),
+      course_title: isValidData(courseObj.title[lang], lang),
+      course_credits: isValidData(courseObj.credits, lang),
       apiError: false
     }
     const koppsText = { // kopps recruitmentText
-      sv: isValidData(courseObj.info.sv),
-      en: isValidData(courseObj.info.en)
+      sv: isValidData(courseObj.info.sv, lang),
+      en: isValidData(courseObj.info.en, lang)
     }
     const mainSubject = courseObj.mainSubjects ? courseObj.mainSubjects.map(s => s.name[lang]).sort()[0] : ' '
     return {
@@ -73,6 +75,6 @@ const filteredKoppsData = async (courseCode, lang) => {
   }
 }
 
-module.exports = {koppsApi, koppsCourseData, filteredKoppsData}
+module.exports = { filteredKoppsData }
 
 
