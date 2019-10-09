@@ -46,9 +46,10 @@ const filteredKoppsData = async (courseCode, lang) => {
       sv: isValidData(courseObj.info.sv),
       en: isValidData(courseObj.info.en)
     }
+    const mainSubject = courseObj.mainSubjects ? courseObj.mainSubjects.map(s => s.name[lang]).sort()[0] : ' '
     return {
       koppsText,
-      defaultPicName: courseObj.mainSubjects && courseObj.mainSubjects.length > 0 ? courseObj.mainSubjects.sort()[0].name[lang] : ' ',
+      mainSubject,
       courseTitleData,
       lang,
       langIndex: lang === 'en' ? 0 : 1
@@ -66,7 +67,7 @@ const filteredKoppsData = async (courseCode, lang) => {
       return {
         courseTitleData,
         koppsText,
-        defaultPicName: ' ',
+        mainSubject: ' ',
         lang
       }
   }
