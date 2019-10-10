@@ -30,7 +30,7 @@ class CourseDescriptionEditorPage extends Component {
     const { koppsData, langIndex } = this
     const { introLabel } = i18n.messages[langIndex]
     const { courseImage } = i18n.messages[1]
-    let courseImageID = courseImage[koppsData.defaultPicName]
+    let courseImageID = courseImage[koppsData.mainSubject]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const defaultImageUrl = `${this.storageUri}${courseImageID}`
     return (
