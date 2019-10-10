@@ -1,13 +1,10 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import KoppsTextCollapse from '../components/KoppsTextCollapse.jsx'
-import Button from 'inferno-bootstrap/lib/Button'
-import Alert from 'inferno-bootstrap/lib/Alert'
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
-import ButtonModal from '../components/ButtonModal.jsx'
+import KoppsTextCollapse from '../components/KoppsTextCollapse'
+import { Alert, Button, Col, Row } from 'reactstrap'
+import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
 const editorConf = {
@@ -136,13 +133,13 @@ class SellingInfo extends Component {
             <KoppsTextCollapse instructions={introLabel}
               koppsText={koppsData.koppsText['sv']} lang='sv' />
             <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-            <textarea name='sv' id='sv' className='editor' style='visibility: hidden; display: none;'>{this.state.sv}</textarea>
+            <textarea name='sv' id='sv' className='editor' value={this.state.sv}></textarea>
           </span>
           <span className='right' key='rightEditorForEnglish'>
             <KoppsTextCollapse instructions={introLabel}
               koppsText={koppsData.koppsText['en']} lang='en' />
             <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-            <textarea name='en' id='en' className='editor' style='visibility: hidden; display: none;'>{this.state.en}</textarea>
+            <textarea name='en' id='en' className='editor' value={this.state.en}></textarea>
           </span>
         </span>
         <p className='changed-by'>{introLabel.changed_by} {this.sellingTextAuthor}</p>

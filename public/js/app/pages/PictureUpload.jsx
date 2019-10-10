@@ -1,10 +1,8 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
-import Alert from 'inferno-bootstrap/lib/Alert'
-import Button from 'inferno-bootstrap/lib/Button'
-import ButtonModal from '../components/ButtonModal.jsx'
-import Col from 'inferno-bootstrap/dist/Col'
-import FileInput from '../components/FileInput.jsx'
+import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
+import { Alert, Button, Col } from 'reactstrap'
+import ButtonModal from '../components/ButtonModal'
+import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 
 const fileTypes = [
@@ -169,14 +167,14 @@ class PictureUpload extends Component {
         <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
           <span role='radiogroup'>
-            <label for='defaultPicture'>
+            <label htmlFor='defaultPicture'>
               <input type='radio' id='defaultPicture' name='choosePicture' value='defaultPicture'
-                onClick={this.switchOption} checked={this.state.isDefault} />{' '}
+                onClick={this.switchOption} defaultChecked={this.state.isDefault} />{' '}
               {introLabel.image.firstOption}
             </label> <br />
-            <label for='otherPicture'>
+            <label htmlFor='otherPicture'>
               <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
-                onClick={this.switchOption} checked={!this.state.isDefault} /> {' '}
+                onClick={this.switchOption} defaultChecked={!this.state.isDefault} /> {' '}
               {introLabel.image.secondOption}
             </label> <br />
           </span>
@@ -209,7 +207,7 @@ class PictureUpload extends Component {
           {this.state.tempFilePath
           ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
-            <label for='termsAgreement'>{introLabel.image.agreeCheck}{' '}
+            <label htmlFor='termsAgreement'>{introLabel.image.agreeCheck}{' '}
               <a href={INTRA_IMAGE_INFO[lang]} alt={introLabel.image.imagesOnTheWeb} target='_blank'>{introLabel.image.imagesOnTheWeb}</a>
             </label>
           </span>

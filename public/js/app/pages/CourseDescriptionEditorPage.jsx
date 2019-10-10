@@ -1,12 +1,12 @@
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import CourseTitle from '../components/CourseTitle.jsx'
-import ProgressBar from '../components/ProgressBar.jsx'
-import PictureUpload from './PictureUpload.jsx'
-import SellingInfo from './SellingInfo.jsx'
-import Preview from '../components/PreviewText.jsx'
+import CourseTitle from '../components/CourseTitle'
+import ProgressBar from '../components/ProgressBar'
+import PictureUpload from './PictureUpload'
+import SellingInfo from './SellingInfo'
+import Preview from '../components/PreviewText'
 
 
 @inject(['adminStore']) @observer

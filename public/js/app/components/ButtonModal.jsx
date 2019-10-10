@@ -1,9 +1,5 @@
-import { Component } from 'inferno'
-import Modal from 'inferno-bootstrap/dist/Modal/Modal'
-import ModalBody from 'inferno-bootstrap/dist/Modal/ModalBody'
-import ModalHeader from 'inferno-bootstrap/dist/Modal/ModalHeader'
-import ModalFooter from 'inferno-bootstrap/dist/Modal/ModalFooter'
-import Button from 'inferno-bootstrap/dist/Button'
+import React, { Component } from 'react'
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
 import classNames from 'classnames'
 
 class ButtonModal extends Component {
