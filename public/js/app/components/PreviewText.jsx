@@ -1,12 +1,8 @@
-import Row from 'inferno-bootstrap/dist/Row'
-import Col from 'inferno-bootstrap/dist/Col'
-import { Component } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { Alert, Button, Col, Row, Progress } from 'reactstrap'
+import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
-import Button from 'inferno-bootstrap/lib/Button'
-import Alert from 'inferno-bootstrap/lib/Alert'
-import ButtonModal from '../components/ButtonModal.jsx'
-import Progress from 'inferno-bootstrap/dist/Progress'
+import ButtonModal from '../components/ButtonModal'
 
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
@@ -177,7 +173,7 @@ class Preview extends Component {
                 ? introLabel.redirectToStart
                 : this.state.fileProgress + '%'}
           </div>
-          <Progress value={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
+          <Progress defaultValue={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
         </span>
       </div>
     )

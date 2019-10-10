@@ -1,6 +1,6 @@
-import { Component } from 'inferno'
+import React, { Component } from 'react'
 import { EMPTY } from '../util/constants'
-import Alert from 'inferno-bootstrap/lib/Alert'
+import { Alert } from 'reactstrap'
 import i18n from '../../../../i18n'
 
 class CourseTitle extends Component {
