@@ -14,7 +14,7 @@
     "//": "Gulp installs css and javascript",
     "test_old": "mocha test/unit/*.js",
     "test": "cross-env NODE_ENV=test mocha \"test/**/**page-spec.js\"",
-    "test-cafe": "cross-env NODE_ENV=test testcafe chrome \"test/**/**testcafe-spec.js\"",
+    "test-cafe": "cross-env NODE_ENV=test testcafe chrome:headless \"test/**/**testcafe-spec.js\"",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build",
@@ -78,8 +78,7 @@
     "passport": "^0.3.2",
     "query-string": "^5.1.1",
     "safe-utils": "^0.1.1",
-    "sharp": "^0.23.0",
-    "testcafe": "^1.5.0"
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "@kth/kth-ckeditor-build": "^1.4.1",
@@ -120,7 +119,8 @@
     "nodemon": "^1.19.1",
     "pre-push": "^0.1.1",
     "standard": "^7.1.1",
-    "zombie": "^6.1.4"
+    "zombie": "^6.1.4",
+    "testcafe": "^1.5.0"
   },
   "engines": {
     "node": "6.9.1"
