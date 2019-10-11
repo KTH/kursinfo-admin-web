@@ -1,26 +1,41 @@
+import React, { Component } from 'react'
+import { Collapse } from 'reactstrap'
 
-function KoppsTextCollapse ({koppsText, lang, instructions}) {
-  return ( // langLabelKopps , langLabel
-    <div className='courseIntroTextCollapse'>
-      <h3>{instructions.langLabel[lang]}</h3>
-      <div className='card collapsible blue'>
-        <div className='card-header' role='tab' id={'headingWhite' + lang}>
-          <h4 className='mb-0'>
-            <a className='collapse-header' data-toggle='collapse' href={'#collapseWhite' + lang} load='false' aria-expanded='false' aria-controls={'collapseWhite' + lang}>
-              {instructions.langLabelKopps[lang]}
-            </a>
-          </h4>
-        </div>
-        <div id={'collapseWhite' + lang} className='collapse hide' role='tabpanel' aria-labelledby={'headingWhite' + lang}>
-          <div className='card-body  col'>
-            <span className='textBlock' dangerouslySetInnerHTML={{__html: koppsText}}></span>
+class KoppsTextCollapse extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {collapse: false}
+    this.toggleHeader = this.toggleHeader.bind(this)
+  }
+
+  toggleHeader () {
+    this.setState(state => ({collapse: !state.collapse}))
+  }
+
+  render () {
+    const { lang, instructions, koppsText } = this.props
+    return ( // langLabelKopps , langLabel
+      <div className='courseIntroTextCollapse'>
+        <h3>{instructions.langLabel[lang]}</h3>
+        <div className='card collapsible blue'>
+          <div className='card-header' role='tab' tabIndex='0' onClick={this.toggleHeader}>
+            <h4 className='mb-0' id={'koppsShortDesc' + lang}>
+              <a className='collapse-header' href={'#koppsText' + lang} load='false' aria-expanded={this.state.collapse} aria-controls={'koppsShortDesc' + lang}>
+                {instructions.langLabelKopps[lang]}
+              </a>
+            </h4>
           </div>
+          <Collapse isOpen={this.state.collapse} toggler={'#koppsShortDesc' + lang} aria-labelledby={'koppsShortDesc' + lang}>
+            <div className='card-body  col'>
+              <span className='textBlock' dangerouslySetInnerHTML={{__html: koppsText}}></span>
+            </div>
+          </Collapse>
         </div>
+        <h4>{instructions.langLabelIntro[lang]}</h4>
+        <p>{instructions.label_max_number_letters}</p>
       </div>
-      <h4>{instructions.langLabelIntro[lang]}</h4>
-      <p>{instructions.label_max_number_letters}</p>
-    </div>
-  )
+    )
+  }
 }
 
 export default KoppsTextCollapse

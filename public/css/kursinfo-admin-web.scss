@@ -308,6 +308,10 @@ span.title_and_info {
         width: 100%;
         margin-bottom: 3em; 
     }
+    textarea.editor {
+        visibility: hidden; 
+        display: none;
+    }
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;

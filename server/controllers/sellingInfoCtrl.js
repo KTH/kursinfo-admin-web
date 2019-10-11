@@ -5,18 +5,14 @@ const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
-const { createElement } = require('inferno-create-element')
-const { renderToString } = require('inferno-server')
-const { StaticRouter } = require('inferno-router')
+const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const { runBlobStorage } = require('../blobStorage.js')
+const { filteredKoppsData } = require('../koppsApi')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
-
-let { appFactory, doAllAsyncBefore } = require('../../dist/js/server/app.js')
-
 const serverPaths = require('../server').getPaths()
 
 module.exports = {
@@ -39,42 +35,34 @@ async function _getSellingTextFromKursinfoApi (courseCode) {
   }
 }
 
-async function _getDescription (req, res, next) {
-  if (process.env['NODE_ENV'] === 'development') {
-    delete require.cache[require.resolve('../../dist/js/server/app.js')]
-    const tmp = require('../../dist/js/server/app.js')
-    appFactory = tmp.appFactory
-    doAllAsyncBefore = tmp.doAllAsyncBefore
+function _staticRender (context, location) {
+  if (process.env.NODE_ENV === 'development') {
+    delete require.cache[require.resolve('../../dist/app.js')]
   }
+  const { staticRender } = require('../../dist/app.js')
+  return staticRender(context, location)
+}
+
+async function _getDescription (req, res, next) {
+
   const courseCode = req.params.courseCode
   let lang = language.getLanguage(res) || 'sv'
   const langIndex = lang === 'en' ? 0 : 1
 
   try {
+    const renderProps = _staticRender()
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
     const userKthId = req.session.authUser.ugKthid
-    // Render inferno app
-    const context = {}
-    const renderProps = createElement(StaticRouter, {
-      location: req.url,
-      context
-    }, appFactory())
     renderProps.props.children.props.adminStore.setUser(userKthId)
     // Load browserConfig and server paths for internal api
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     // Load koppsData and kurinfo-api data
-    await renderProps.props.children.props.adminStore.getCourseRequirementFromKopps(courseCode, lang)
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingTextFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addPictureFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
-    await doAllAsyncBefore({
-      pathname: req.originalUrl,
-      query: (req.originalUrl === undefined || req.originalUrl.indexOf('?') === -1) ? undefined : req.originalUrl.substring(req.originalUrl.indexOf('?'), req.originalUrl.length),
-      adminStore: renderProps.props.children.props.adminStore,
-      routes: renderProps.props.children.props.children.props.children.props.children
-    })
-    const html = renderToString(renderProps)
+    const html = ReactDOMServer.renderToString(renderProps)
     res.render('course/index', {
       // debug: 'debug' in req.query,
       description: i18n.messages[langIndex].messages.description,
@@ -91,12 +79,7 @@ async function _getDescription (req, res, next) {
 
 // This function to see which groups user is in
 async function _myCourses (req, res, next) {
-  if (process.env['NODE_ENV'] === 'development') {
-    delete require.cache[require.resolve('../../dist/js/server/app.js')]
-    const tmp = require('../../dist/js/server/app.js')
-    appFactory = tmp.appFactory
-    doAllAsyncBefore = tmp.doAllAsyncBefore
-  }
+  _staticRender()
   try {
     const user = req.session.authUser.memberOf
     res.render('course/my_course', {

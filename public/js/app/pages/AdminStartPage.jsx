@@ -1,24 +1,19 @@
-import { Component, linkEvent } from 'inferno'
-import { inject, observer } from 'inferno-mobx'
+import React, { Component } from 'react'
+import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import CourseTitle from '../components/CourseTitle.jsx'
-import Card from 'inferno-bootstrap/lib/Card/Card'
-import CardBody from 'inferno-bootstrap/lib/Card/CardBody'
-import CardTitle from 'inferno-bootstrap/lib/Card/CardTitle'
-import CardText from 'inferno-bootstrap/lib/Card/CardText'
-import CardFooter from 'inferno-bootstrap/lib/Card/CardFooter'
-import { Link } from 'inferno-router'
-import KipLinkNav from '../components/KipNav.jsx'
-import AlertMsg from '../components/AlertMsg.jsx'
+import CourseTitle from '../components/CourseTitle'
+import { Card, CardBody, CardTitle, CardText, CardFooter } from 'reactstrap'
+import KipLinkNav from '../components/KipNav'
+import AlertMsg from '../components/AlertMsg'
 
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_OM_COURSE, PM_TEMPLATE } from '../util/constants'
 
 @inject(['adminStore']) @observer
 class AdminStartPage extends Component {
 
-  render ({adminStore}) {
-    const { courseTitleData, lang } = adminStore.koppsData
+  render () {
+    const { courseTitleData, lang } = this.props.adminStore.koppsData
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
@@ -36,7 +31,7 @@ class AdminStartPage extends Component {
           <span className='AdminPage--ShowDescription'>
             <Card className='KursInfo--SellingText'>
               <CardBody>
-                <CardTitle>{startCards.sellingText_hd}</CardTitle>
+                <CardTitle><h4>{startCards.sellingText_hd}</h4></CardTitle>
                 <CardText>
                   <p>{startCards.sellingText_desc_p1}</p>
                   <p>{startCards.sellingText_desc_p2}</p>
@@ -50,7 +45,7 @@ class AdminStartPage extends Component {
             </Card>
             <Card>
               <CardBody>
-                <CardTitle>{startCards.coursePM_hd}</CardTitle>
+                <CardTitle><h4>{startCards.coursePM_hd}</h4></CardTitle>
                 <CardText>
                   {startCards.coursePM_desc}
                 </CardText>
@@ -66,7 +61,7 @@ class AdminStartPage extends Component {
             </Card>
             <Card className='course-development'>
               <CardBody>
-                <CardTitle>{startCards.courseDev_hd}</CardTitle>
+                <CardTitle><h4>{startCards.courseDev_hd}</h4></CardTitle>
                 <CardText>
                   <p>{startCards.courseDev_decs_p1}</p>
                   <p>{startCards.courseDev_decs_p2}</p>
