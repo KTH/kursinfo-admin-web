@@ -1,0 +1,9 @@
+{
+  "integrationFolder": "test/integration",
+  "testFiles": "**cypress-spec.js",
+  "env": {
+    "username": "<your username here>",
+    "password": "<your password here>"
+  },
+  "chromeWebSecurity":false
+}

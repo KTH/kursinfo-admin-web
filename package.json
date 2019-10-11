@@ -15,6 +15,7 @@
     "test_old": "mocha test/unit/*.js",
     "test": "cross-env NODE_ENV=test mocha \"test/**/**page-spec.js\"",
     "test-cafe": "cross-env NODE_ENV=test testcafe chrome:headless \"test/**/**testcafe-spec.js\"",
+    "test-cypress": "cypress run",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build",
@@ -120,7 +121,8 @@
     "pre-push": "^0.1.1",
     "standard": "^7.1.1",
     "zombie": "^6.1.4",
-    "testcafe": "^1.5.0"
+    "testcafe": "^1.5.0",
+    "cypress": "^3.4.1"
   },
   "engines": {
     "node": "6.9.1"
