@@ -1,11 +1,4 @@
 
-describe('My First Test', function() {
-    it('Does not do much!', function() {
-        expect(true).to.equal(true)
-    })
-})
-
-
 describe('Login to kursinfo-admin-web', function () {
     context('form submission', function () {
         beforeEach(function () {
@@ -37,11 +30,15 @@ describe('Can access admin page', function () {
             cy.visit('http://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624')
         })
 
-        it('asks for login', function () {
+        it('asks for login and then redirects to admin page', function () {
+            cy.url().should('include', '/login')
             cy.get('input[name=username]').type(username)
             cy.get('input[name=password]').type(password+'{enter}')
 
+            //after successful login
+            cy.url().should('include', '/kursinfoadmin')
             cy.get('#course-title h1').should('be.visible')
+
         })
     })
 
@@ -72,11 +69,13 @@ describe('Can access admin page', function () {
             cy.loginByForm(username, password)
         })
 
-        it('can visit /dashboard', function () {
+        it('can visit kursinfo-admin-web page', function () {
             // after cy.request, the session cookie has been set
             // and we can visit a protected page
             cy.visit('http://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624')
             cy.get('#course-title h1').should('be.visible')
+
+            //this will fail as the title today is not according to specs
             cy.get("#course-title h1").should('have.text', 'Redigera introduktion till kursen')
         })
 
