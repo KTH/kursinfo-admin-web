@@ -42,3 +42,7 @@ dist
 
 # slask file
 slask_delete.txt
+
+# Cypress env
+cypress
+cypress.env.json
