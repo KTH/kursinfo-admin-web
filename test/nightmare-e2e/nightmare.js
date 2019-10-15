@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Nightmare = require('nightmare')
 const assert = require('assert')
 
@@ -17,7 +19,7 @@ describe('Load pages and verify stuff...', function () {
         it('should load without error', done => {
             nightmare
                 .goto(loginPage + '?service=' + editPage)
-                .type('#username', process.env.USERNAME)
+                .type('#username', process.env.LOGINNAME)
                 .type('#password', process.env.PASSWORD)
                 .click('.btn-submit')
                 .end()

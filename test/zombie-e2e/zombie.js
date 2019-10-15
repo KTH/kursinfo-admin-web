@@ -1,3 +1,10 @@
+const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
+console.log('node env', nodeEnv)
+
+if (nodeEnv === 'test' || !nodeEnv) {
+    require('dotenv').config()
+}
+
 const Browser = require('zombie')
 
 Browser.localhost('localhost', 3001)
@@ -21,7 +28,7 @@ describe('navigate to login page', function () {
 
     describe('login with cas', () => {
         before(function () {
-            browser.fill('#username', process.env.USERNAME)
+            browser.fill('#username', process.env.LOGINNAME)
             browser.fill('#password', process.env.PASSWORD)
             return browser.pressButton('Logga in')
         })
@@ -47,3 +54,7 @@ describe('navigate to login page', function () {
 
     })
 })
+
+
+
+

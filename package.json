@@ -12,11 +12,9 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
-    "test_old": "mocha test/unit/*.js",
-    "test": "cross-env NODE_ENV=test mocha \"test/**/**page-spec.js\"",
-    "test-cafe": "cross-env NODE_ENV=test testcafe chrome:headless \"test/**/**testcafe-spec.js\"",
-    "test-cypress": "cypress run --config integrationFolder=test/cypress-e2e",
-    "test-zombie": "mocha test/zombie-e2e",
+    "test": "mocha test/unit/*.js",
+    "test-cypress": "cypress run",
+    "test-zombie": "cross-env NODE_ENV=test mocha test/zombie-e2e",
     "test-testcafe": "testcafe chrome:headless test/testcafe-e2e",
     "test-nightmare": "mocha test/nightmare-e2e",
     "vendor": "parcel build ./public/js/vendor.js",
@@ -27,7 +25,7 @@
     "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" ",
-    "build-dev-win": "NODE_ENV=development gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
+    "build-dev-win": "NODE_ENV=development rmdir /s /q dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore public/ app.js\"  \"gulp watch\" "
   },
   "pre-push": [
@@ -116,7 +114,8 @@
     "standard": "^7.1.1",
     "zombie": "^6.1.4",
     "testcafe": "^1.5.0",
-    "cypress": "^3.4.1"
+    "cypress": "^3.4.1",
+    "win-node-env": "^0.4.0"
   },
   "engines": {
     "node": "8.12.0"

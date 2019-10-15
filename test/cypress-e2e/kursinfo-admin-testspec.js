@@ -80,10 +80,5 @@ describe('Can access admin page', function () {
         })
 
     })
-
-
-
-
-
-
 })
+

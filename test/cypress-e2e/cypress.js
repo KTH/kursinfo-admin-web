@@ -1,12 +1,12 @@
 const loginPage = 'https://login-r.referens.sys.kth.se/login'
-const editPage = 'https://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624'
+const editPage = 'http://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624'
 
 context('Admin-tester', () => {
 
     Cypress.Commands.add('loginByForm', (username, password) => {
         Cypress.log({
             name: 'loginByForm',
-            message: `${username} | <password>`,
+            message: `${username} | ${password}`,
         })
 
         return cy.request({
@@ -23,7 +23,7 @@ context('Admin-tester', () => {
     })
 
     beforeEach(() => {
-        cy.loginByForm(process.env.USERNAME, process.env.PASSWORD)
+        cy.loginByForm(Cypress.env('username'), Cypress.env('password'))
     })
 
     describe('Redigera Om kursen', () => {

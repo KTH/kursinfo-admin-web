@@ -23,8 +23,8 @@ describe('login to application', function () {
     })
 
     it('login with cas', function (done) {
-        console.log('User name : ', process.env.USER)
-        browser.fill('username', process.env.USER)
+        console.log('User name : ', process.env.LOGINNAME)
+        browser.fill('username', process.env.LOGINNAME)
         browser.fill('password', process.env.PASSWORD)
         browser.pressButton('Logga in').then(function() {
             console.log('log in pressed')
