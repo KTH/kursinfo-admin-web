@@ -2,9 +2,10 @@ require('dotenv').config()
 
 const Nightmare = require('nightmare')
 const assert = require('assert')
-
+const chai = require('chai')
+const expect = chai.expect
 const loginPage = 'https://login-r.referens.sys.kth.se/login'
-const editPage = 'https://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624'
+const editPage = 'http://localhost:3001/kursinfoadmin/kurser/kurs/edit/SF1624'
 
 describe('Load pages and verify stuff...', function () {
 
@@ -30,12 +31,36 @@ describe('Load pages and verify stuff...', function () {
                 // .then(
                 //     console.log
                 // )
-                // .then({
-                //     done()
-                // })
+                .then(result => {
+
+                    done()
+                })
                 .catch(error => {
                     console.log('Failed: ' + error)
                 })
         })
     })
+})
+
+
+describe('KursInfo Admin page title', function() {
+    this.timeout('15s')
+
+    it('should login and navigate to page', (done) => {
+        const nightmare = Nightmare({show: true})
+        nightmare
+            .goto(editPage)
+            .type('#username', process.env.LOGINNAME)
+            .type('#password', process.env.PASSWORD)
+            .click('.btn-submit')
+            .wait('#course-title')
+            .evaluate(() =>
+                document.querySelector('#course-title h1').innerText
+            )
+            .end()
+            .then((text) => {
+                expect(text).to.equal('Administrera kursinformation');
+                done();
+            })
+    });
 })
