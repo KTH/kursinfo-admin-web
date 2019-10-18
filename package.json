@@ -12,10 +12,11 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
-    "test": "mocha test/unit/*.js",
+    "unittest": "mocha test/unit/*.js",
+    "test": "react-scripts test",
     "test-cypress": "cypress run",
     "test-zombie": "cross-env NODE_ENV=test mocha test/zombie-e2e",
-    "test-testcafe": "testcafe chrome:headless test/testcafe-e2e",
+    "test-testcafe": "testcafe chrome test/testcafe-e2e",
     "test-nightmare": "mocha test/nightmare-e2e",
     "vendor": "parcel build ./public/js/vendor.js",
     "codecheck": "standard",
@@ -82,6 +83,7 @@
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
+    "react-scripts": "^3.2.0",
     "reactstrap": "^7.1.0",
     "safe-utils": "^0.1.1",
     "sharp": "^0.23.0",
@@ -115,7 +117,9 @@
     "zombie": "^6.1.4",
     "testcafe": "^1.5.0",
     "cypress": "^3.4.1",
-    "win-node-env": "^0.4.0"
+    "win-node-env": "^0.4.0",
+    "@testing-library/react": "^9.3.0",
+    "@testing-library/jest-dom": "^4.1.2"
   },
   "engines": {
     "node": "8.12.0"
