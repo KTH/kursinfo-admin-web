@@ -44,9 +44,11 @@ function _notFound (req, res, next) {
 
 // this function must keep this signature for it to work properly
 function _final (err, req, res, next) {
+  const debugStatusCodes = [403, 404]
+
   const statusCode = err.status || err.statusCode || 500
 
-  if (statusCode === 404) {
+  if (debugStatusCodes.includes(statusCode)) {
     log.debug({ err: err })
   } else {
     log.error({ err: err }, 'Unhandled error')
