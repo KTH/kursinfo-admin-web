@@ -12,7 +12,7 @@ class CourseTitle extends Component {
     title.course_credits = title.apiError ? '' : title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits + '.0' : title.course_credits
     return (
       <div id='course-title' className='courseTitle col'>
-        <h1>{pageTitle}</h1>
+        <h1 data-testid='h1-title'>{pageTitle}</h1>
         {title.apiError
           ? <h4><span property='aiiso:code'>{title.course_code}</span>
             <span property='teach:courseTitle'>
