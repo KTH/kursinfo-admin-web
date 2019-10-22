@@ -12,13 +12,8 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
-    "unittest": "mocha test/unit/*.js",
     "test": "jest test",
     "test-react": "react-scripts test",
-    "test-cypress": "cypress run",
-    "test-zombie": "cross-env NODE_ENV=test mocha test/zombie-e2e",
-    "test-testcafe": "testcafe chrome test/testcafe-e2e",
-    "test-nightmare": "mocha test/nightmare-e2e",
     "vendor": "parcel build ./public/js/vendor.js",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",

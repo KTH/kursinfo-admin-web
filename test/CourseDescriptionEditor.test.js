@@ -2,29 +2,10 @@ import React from "react";
 import {Provider} from 'mobx-react';
 import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import {mockAdminStore} from "./mocks/adminStore";
+
 
 import CourseDescriptionEditorPage from "../public/js/app/pages/CourseDescriptionEditorPage";
-
-const mockAdminStore = {
-    koppsData: {
-        koppsText: {
-            sv: 'Algebra och geometri',
-            en: 'Ingen information tillagd'
-        },
-        mainSubject: 'Matematik',
-        courseTitleData: {
-            course_code: 'SF1624',
-            course_title: 'Algebra och geometri',
-            course_credits: 7.5,
-            apiError: false
-        },
-        lang: 'sv',
-        langIndex: 1
-    },
-    browserConfig: {
-        storageUri: ''
-    }
-};
 
 const renderEditPage = function () {
     return render(

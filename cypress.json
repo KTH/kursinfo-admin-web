@@ -1,9 +1,0 @@
-{
-  "integrationFolder": "test/cypress-e2e",
-  "testFiles": "**.js",
-  "env": {
-    "username": "<your username here>",
-    "password": "<your password here>"
-  },
-  "chromeWebSecurity":false
-}
