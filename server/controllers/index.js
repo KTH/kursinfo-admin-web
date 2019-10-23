@@ -8,5 +8,6 @@
 module.exports = {
   System: require('./systemCtrl'),
   SellingInfo: require('./sellingInfoCtrl'),
-  AdminPagesCtrl: require('./adminPagesCtrl')
+  AdminPagesCtrl: require('./adminPagesCtrl'),
+  StatisticPageCtrl: require('./statisticPageCtrl')
 }
