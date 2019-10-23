@@ -8,6 +8,7 @@ import { StaticRouter } from 'react-router'
 import AdminStore from './stores/AdminStore'
 import AdminStartPage from './pages/AdminStartPage'
 import CourseDescriptionEditorPage from './pages/CourseDescriptionEditorPage'
+import CourseStatisticsPage from './pages/CourseStatisticsPage'
 
 function appFactory () {
   if (process.env['NODE_ENV'] !== 'production') {
@@ -25,6 +26,7 @@ function appFactory () {
     <Provider adminStore={adminStore} >
       {/* <ProgressLayer> */}
         <Switch>
+          <Route path='/kursinfoadmin/kurser/kurs/statistik' component={CourseStatisticsPage} />
           <Route path='/kursinfoadmin/kurser/kurs/edit' component={CourseDescriptionEditorPage} />
           <Route path='/kursinfoadmin/kurser/kurs/' component={AdminStartPage} />
         </Switch>
