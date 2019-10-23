@@ -19,6 +19,7 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable koppsData
+  @observable statisticData = []
   @observable sellingText = {
     en: undefined,
     sv: undefined
@@ -82,6 +83,10 @@ class AdminStore {
   @action setUser (userKthId) {
     this.user = userKthId
   }
+  // @action addStatistic (data) {
+  //   console.log("data", data)
+  //   this.statisticData = data
+  // }
   @action addChangedByLastTime (data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
