@@ -13,7 +13,6 @@
   "scripts": {
     "//": "Gulp installs css and javascript",
     "test": "jest test",
-    "test-react": "react-scripts test",
     "vendor": "parcel build ./public/js/vendor.js",
     "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
@@ -23,7 +22,7 @@
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" ",
     "build-dev-win": "NODE_ENV=development rmdir /s /q dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
-    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore public/ app.js\"  \"gulp watch\" "
+    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
   },
   "pre-push": [
     "codecheck",
@@ -92,27 +91,18 @@
     "@kth/kth-ckeditor-build": "^1.4.1",
     "@testing-library/jest-dom": "^4.1.2",
     "@testing-library/react": "^9.3.0",
-    "chai": "^4.0.2",
     "concurrently": "^2.1.0",
     "cross-env": "^5.2.1",
-    "cypress": "^3.4.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-jsx": "^6.0.2",
     "gulp": "^3.9.1",
     "husky": "^0.14.0",
     "kth-node-build-commons": "^3.0.3",
     "merge-stream": "^1.0.1",
-    "mocha": "^5.2.0",
-    "mockery": "^2.0.0",
-    "nightmare": "^3.0.2",
-    "nock": "^9.0.13",
-    "node-mocks-http": "^1.7.6",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
     "pre-push": "^0.1.1",
-    "standard": "^7.1.1",
-    "testcafe": "^1.5.0",
-    "zombie": "^6.1.4"
+    "standard": "^7.1.1"
   },
   "engines": {
     "node": "8.12.0"
