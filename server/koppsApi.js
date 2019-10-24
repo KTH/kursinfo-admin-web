@@ -37,11 +37,20 @@ function isValidData (dataObject, lang='sv') {
 const fetchStatistic = async (courseRound) => {
   try {
     const course = await koppsApi.getAsync({ uri: `courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
-    console.log('course 0', course.body.length)
-    // await course.body.forEach(c=> console.log('offered_semesters ', c.offered_semesters.length, ' course code ', c.course_code))
+
+    let departments = {}
+    
+    course.body.forEach(cR => {
+      const code = cR.department_code
+      if (departments[code]) departments[code].number +=1
+      else departments[code] = { number : 1, name: cR.department_name}
+    })
+    console.log('perDepartment ', departments)
 
     return {
-      offerings: course.body,
+      totalOfferings: course.body.length,
+      departmentsNameArr: Object.keys(departments),
+      departments,
       courseRound
     }
   } catch (err) {
