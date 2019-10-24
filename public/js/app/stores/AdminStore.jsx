@@ -19,7 +19,7 @@ function _webUsesSSL (url) {
 class AdminStore {
   // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable koppsData
-  @observable statisticData = []
+  @observable statisticData
   @observable sellingText = {
     en: undefined,
     sv: undefined
