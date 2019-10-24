@@ -153,7 +153,7 @@ class PictureUpload extends Component {
     const { apiImageUrl, defaultImageUrl, lang } = this
     return (
       <span className='Upload--Area col' key='uploadArea'>
-        <p>{introLabel.step_1_desc}</p>
+        <p data-testid='intro-text'>{introLabel.step_1_desc}</p>
         {this.state.isDefault && this.state.infoMsg
           ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert>
           : this.state.isError && this.state.errMsg
@@ -208,13 +208,13 @@ class PictureUpload extends Component {
           ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} id='termsAgreement' name='agreeToTerms' value='agree' />
             <label htmlFor='termsAgreement'>{introLabel.image.agreeCheck}{' '}
-              <a href={INTRA_IMAGE_INFO[lang]} alt={introLabel.image.imagesOnTheWeb} target='_blank'>{introLabel.image.imagesOnTheWeb}</a>
+              <a href={INTRA_IMAGE_INFO[lang]} target='_blank'>{introLabel.image.imagesOnTheWeb}</a>
             </label>
           </span>
           : ''
           }
           <span className={this.state.isError ? 'error-label' : 'no-error'}>
-            <p>{introLabel.obligatory}</p>
+             <p>{this.state.errMsg !== 'approve_term' ? introLabel.required.image : introLabel.required.agreement}</p>
           </span>
         </span>
         }

@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors (incl. snapshot) 1`] = `
+<DocumentFragment>
+  <div
+    class="kursinfo-main-page col"
+  >
+    <div
+      class="courseTitle col"
+      id="course-title"
+    >
+      <h1
+        data-testid="h1-title"
+      >
+        Redigera introduktion till kursen
+      </h1>
+      <h4>
+        <span
+          property="aiiso:code"
+        >
+          SF1624
+        </span>
+        <span
+          property="teach:courseTitle"
+        >
+           Algebra och geometri
+        </span>
+        <span
+          content="7.5"
+          datatype="xsd:decimal"
+          property="teach:ects"
+        >
+           7,5 hp
+        </span>
+      </h4>
+    </div>
+    <div
+      class="progress-bar-container row"
+    >
+      <div
+        class="col-md-4 col-sm-12 progress-bar1 progress-active"
+      >
+        <h4>
+          1. Välj bild
+        </h4>
+      </div>
+      <div
+        class="col-md-4 col-sm-12 progress-bar1 "
+      >
+        <h4>
+          2. Redigera text
+        </h4>
+      </div>
+      <div
+        class="col-md-4 col-sm-12 progress-bar1 "
+      >
+        <h4>
+          3. Granska och publicera
+        </h4>
+      </div>
+    </div>
+    <span
+      class="Upload--Area col"
+    >
+      <p
+        data-testid="intro-text"
+      >
+        Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan "Kursinformation".
+      </p>
+      <span
+        class="title_and_info"
+      >
+        <h2>
+          Välja bild
+        </h2>
+          
+        <span>
+          <button
+            class="btn-info-modal btn btn-btn-info-modal"
+            type="button"
+          />
+        </span>
+      </span>
+      <p>
+        Välj bild som ska visas på kursinformationssidan:
+      </p>
+      <form
+        class="Picture--Options input-label-row"
+      >
+        <span
+          role="radiogroup"
+        >
+          <label
+            for="defaultPicture"
+          >
+            <input
+              id="defaultPicture"
+              name="choosePicture"
+              type="radio"
+              value="defaultPicture"
+            />
+             Bild utvald utifrån kursens huvudområde
+          </label>
+           
+          <br />
+          <label
+            for="otherPicture"
+          >
+            <input
+              checked=""
+              id="otherPicture"
+              name="choosePicture"
+              type="radio"
+              value="otherPicture"
+            />
+              Egen vald bild
+          </label>
+           
+          <br />
+        </span>
+      </form>
+      <span>
+        <span
+          class=""
+          id="own-picture"
+        >
+          <span
+            class="preview-pic"
+          >
+            <span
+              alt="Tomt plats för att visa väld bilden"
+              class="empty-pic"
+            >
+              <p>
+                <i>
+                  Ingen bild vald
+                </i>
+              </p>
+            </span>
+          </span>
+          <span
+            class="file-uploader-section"
+          >
+            <label
+              for="pic-upload"
+            >
+              <button
+                class="btn btn-secondary btn-block"
+              >
+                <h4>
+                  Välj bild
+                </h4>
+              </button>
+            </label>
+            <input
+              accept="image/jpg,image/jpeg,image/png"
+              id="pic-upload"
+              name="pic-upload"
+              tabindex="-1"
+              type="file"
+            />
+          </span>
+        </span>
+        <span
+          class="no-error"
+        >
+          <p>
+            Obligatoriskt (format: .png eller .jpg)
+          </p>
+        </span>
+      </span>
+      <span
+        class="control-buttons"
+      >
+        <div
+          class="col-sm-4"
+        />
+        <div
+          class="btn-cancel col-sm-4"
+        >
+          <span>
+            <button
+              class="secondary btn btn-secondary"
+              type="button"
+            >
+              Avbryt
+            </button>
+          </span>
+        </div>
+        <div
+          class="btn-next col-sm-4"
+        >
+          <button
+            alt="Till nästa steg att redigera text"
+            class="btn btn-success"
+            type="button"
+          >
+            Redigera text
+          </button>
+        </div>
+      </span>
+    </span>
+  </div>
+</DocumentFragment>
+`;
