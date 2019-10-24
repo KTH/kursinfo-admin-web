@@ -1,5 +1,5 @@
 'use strict'
-import React, { render, Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, inject } from 'mobx-react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom' // matchPath
