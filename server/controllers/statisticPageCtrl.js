@@ -40,14 +40,14 @@ function _staticRender (context, location) {
   }
 
 async function _getData (req, res, next) {
+    const courseRound = req.params.courseRound
     try {
         const renderProps = _staticRender()
         // setBrowserConfig should be first because of setting paths for other next functions
         // Load browserConfig and server paths for internal api
-        // renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
-        // renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
-        await fetchStatistic()
-        renderProps.props.children.props.adminStore.statisticData = await fetchStatistic()
+        renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+        renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
+        renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(courseRound)
         const statistic = ReactDOMServer.renderToString(renderProps)
 
         res.render('course/index', {
