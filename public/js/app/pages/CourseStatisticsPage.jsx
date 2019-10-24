@@ -21,8 +21,8 @@ class CourseStatisticsPage extends Component {
       <div key='kursinfo-container' className='kursinfo-main-page col'>
           <h1>Statistic</h1>
           <h2>Totalt för KTH</h2>
-          <h3>Hur många kursomgångar har terminen?</h3>
-          <p>{statisticData.length}</p>
+          <h3>Hur många kursomgångar har terminen {statisticData.courseRound}?</h3>
+          <p>{statisticData.offerings.length}</p>
       </div>
     )
   }
