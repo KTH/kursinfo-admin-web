@@ -14,9 +14,9 @@ class KoppsTextCollapse extends Component {
 
   render () {
     const { lang, instructions, koppsText } = this.props
-    return ( // langLabelKopps , langLabel
+    return (
       <div className='courseIntroTextCollapse'>
-        <h3>{instructions.langLabel[lang]}</h3>
+        <h3>{instructions.langLabelText[lang]}</h3>
         <div className='card collapsible blue'>
           <div className='card-header' role='tab' tabIndex='0' onClick={this.toggleHeader}>
             <h4 className='mb-0' id={'koppsShortDesc' + lang}>

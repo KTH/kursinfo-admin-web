@@ -133,7 +133,7 @@ module.exports = {
       not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till "Redigera text".`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till "Redigera text". Återställd till sparad bild.`,
+        för att kunna gå vidare till "Redigera text".`,
       replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.`,
       replace_api_with_default: `Observera: vid publicering kommer den publicerade bilden att raderas.`,
       replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas.`
@@ -173,7 +173,7 @@ module.exports = {
       name: 'Bildnamn:',
       noChosen: 'Ingen bild vald',
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
-      firstOption: 'Bild utvald utifrån kursens huvudområde',
+      firstOption: 'Bild vald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
       agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
       imagesOnTheWeb: 'Bilder på webben.'
@@ -198,7 +198,11 @@ module.exports = {
       en: 'Introduktion till kursen (EN)',
       sv: 'Introduktion till kursen (SV)'
     },
-    langLabel: {
+    langLabelText: {
+      en: 'Engelsk text',
+      sv: 'Svensk text'
+    },
+    langLabelPreview: {
       en: 'Engelsk introduktion till kursen',
       sv: 'Svensk introduktion till kursen'
     },

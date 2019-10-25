@@ -198,9 +198,13 @@ module.exports = {
       en: 'Course introduction (EN)',
       sv: 'Course introduction (SW)'
     },
-    langLabel: {
+    langLabelText: {
       en: 'English text',
       sv: 'Swedish text'
+    },
+    langLabelPreview: {
+      en: 'English introduction to the course',
+      sv: 'Swedish introduction to the course'
     },
     changed_by: 'Last changed by user with kthId:',
     button: {

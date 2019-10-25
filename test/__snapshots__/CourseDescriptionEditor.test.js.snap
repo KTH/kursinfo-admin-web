@@ -100,7 +100,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
               type="radio"
               value="defaultPicture"
             />
-             Bild utvald utifrån kursens huvudområde
+             Bild vald utifrån kursens huvudområde
           </label>
            
           <br />

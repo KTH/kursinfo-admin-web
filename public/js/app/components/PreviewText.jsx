@@ -136,7 +136,7 @@ class Preview extends Component {
             {['sv', 'en'].map((lang, key) =>
               <Row className='courseIntroText' key={key}>
                 <Col sm='12' xs='12' className='sellingText'>
-                  <h3>{introLabel.langLabel[lang]}</h3>
+                  <h3>{introLabel.langLabelPreview[lang]}</h3>
                   <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
                   <span className='textBlock' dangerouslySetInnerHTML={{ __html: this.state[lang].length > 0 ? this.state[lang] : koppsText[lang] }}>
                   </span>
