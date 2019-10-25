@@ -34,6 +34,34 @@ function isValidData (dataObject, lang='sv') {
   return !dataObject ? EMPTY[lang] : dataObject
 }
 
+const fetchStatistic = async (courseRound) => {
+  try {
+    const course = await koppsApi.getAsync({ uri: `courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
+
+    let departments = {}
+    
+    course.body.forEach(cR => {
+      const code = cR.department_code
+      if (departments[code]) departments[code].number +=1
+      else departments[code] = { number : 1, name: cR.department_name}
+    })
+    console.log('perDepartment ', departments)
+
+    return {
+      totalOfferings: course.body.length,
+      departmentsNameArr: Object.keys(departments),
+      departments,
+      courseRound
+    }
+  } catch (err) {
+    log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
+    throw err
+  }
+}
+
+function isValidData (dataObject, lang='sv') {
+  return !dataObject ? EMPTY[lang] : dataObject
+}
 
 const filteredKoppsData = async (courseCode, lang='sv') => {
   try {
@@ -75,6 +103,6 @@ const filteredKoppsData = async (courseCode, lang='sv') => {
   }
 }
 
-module.exports = { filteredKoppsData }
+module.exports = { filteredKoppsData, fetchStatistic }
 
 

@@ -196,7 +196,7 @@ server.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { System, SellingInfo, AdminPagesCtrl } = require('./controllers')
+const { System, SellingInfo, AdminPagesCtrl, StatisticPageCtrl } = require('./controllers')
 const { requireRole } = require('./authentication')
 
 // System routes
@@ -207,8 +207,14 @@ systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.p
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
 
+// Statistic routes
+const statisticRoute = AppRouter()
+statisticRoute.get('statistic.getData', config.proxyPrefixPath.uri + '/statistik/:courseRound', getServerGatewayLogin(), StatisticPageCtrl.getData) // requireRole('isSuperUser'),
+server.use('/', statisticRoute.getRouter())
+
 // App routes
 const appRoute = AppRouter()
+
 appRoute.get('course.myCourses', config.proxyPrefixPath.uri + '/:courseCode/myCourses', getServerGatewayLogin(), SellingInfo.myCourses)
 appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), AdminPagesCtrl.getAdminStart)
 appRoute.get('course.editDescription', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
@@ -216,7 +222,10 @@ appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:co
 // File upload for a course picture
 appRoute.post('storage.saveFile', config.proxyPrefixPath.uri + '/storage/saveFile/:courseCode/:published', SellingInfo.saveFileToStorage)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
+
 server.use('/', appRoute.getRouter())
+
+
 
 // Not found etc
 server.use(System.notFound)
