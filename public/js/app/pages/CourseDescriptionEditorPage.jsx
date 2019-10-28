@@ -14,7 +14,7 @@ class CourseDescriptionEditorPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      progress: 1
+      progress: props.progress ? Number(props.progress) : 1
     }
     this.koppsData = this.props.adminStore.koppsData
     this.storageUri = this.props.adminStore.browserConfig.storageUri

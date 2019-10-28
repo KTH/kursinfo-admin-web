@@ -10,7 +10,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       id="course-title"
     >
       <h1
-        data-testid="h1-title"
+        data-testid="main-heading"
       >
         Redigera introduktion till kursen
       </h1>
@@ -71,8 +71,10 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       <span
         class="title_and_info"
       >
-        <h2>
-          Välja bild
+        <h2
+          data-testid="intro-heading"
+        >
+          Välj bild
         </h2>
           
         <span>

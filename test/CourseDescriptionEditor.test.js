@@ -6,17 +6,17 @@ import {mockAdminStore} from './mocks/adminStore';
 
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
 
-const renderEditPage = (adminStoreToUse = mockAdminStore) => {
+const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
     return render(
         <Provider adminStore={adminStoreToUse}>
-            <CourseDescriptionEditorPage/>
+            <CourseDescriptionEditorPage progress={pageNumber}/>
         </Provider>
     );
 };
 
-const renderWithState = (stateToSet = {}) => {
+const renderWithState = (stateToSet = {}, pageNumber) => {
     const newAdminStore = Object.assign(Object.assign({}, mockAdminStore), stateToSet);
-    return renderEditPage(newAdminStore);
+    return renderEditPage(newAdminStore, pageNumber);
 };
 
 const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
@@ -24,12 +24,11 @@ const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
 describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
     test('Renders without errors (incl. snapshot)', () => {
-        const {asFragment} = renderEditPage();
         expect(renderEditPage().asFragment()).toMatchSnapshot();
     });
 
     test('Has correct main heading', () => {
-        const heading = renderEditPage().getByTestId('h1-title');
+        const heading = renderEditPage().getByTestId('main-heading');
         expect(heading).toHaveTextContent(/^Redigera introduktion till kursen$/); // require exact match
     });
 
@@ -40,8 +39,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
 
         test('Has correct heading', () => {
-            const heading = renderEditPage().getByText('Välja bild');
-            expect(heading).toHaveTextContent(/^Välja bild$/); // exact match
+            const heading = renderEditPage().getByTestId('intro-heading');
+            expect(heading).toHaveTextContent(/^Välj bild$/); // exact match
         });
 
         test('Has correct introductory text', () => {
@@ -135,11 +134,21 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     });
 
     describe('Page 3', () => {
-        test.skip('📌 Has correct introductory text', () => {
-            return false
+
+        const pageNumber = 3;
+
+        test('Has correct introductory text', () => {
+            const introText = renderEditPage(mockAdminStore, pageNumber).getByTestId('intro-text');
+            expect(introText).toHaveTextContent(
+                'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan "Kursinformation" (på svenska och engelska).');
+            expect(introText).toHaveTextContent(
+                'Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan "Kursinformation".');
         });
-        test.skip('📌 Has correct headings', () => {
-            return false
+
+        test('Has correct headings', () => {
+            const {getByText} = renderEditPage(mockAdminStore, 3);
+            getByText('Svensk introduktion till kursen');
+            getByText('Engelsk introduktion till kursen');
         });
     });
 

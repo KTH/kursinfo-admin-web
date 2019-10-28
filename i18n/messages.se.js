@@ -187,7 +187,7 @@ module.exports = {
     Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan "Kursinformation".`,
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_step_1: 'Välja bild',
+    label_step_1: 'Välj bild',
     label_step_2: 'Redigera text',
     label_step_3: 'Granska',
     langLabelKopps: {

@@ -16,6 +16,10 @@ const mockAdminStore = {
     },
     browserConfig: {
         storageUri: ''
+    },
+    sellingText: {
+        'sv': 'Svensk säljande text',
+        'en': 'English selling text'
     }
 };
 

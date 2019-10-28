@@ -160,7 +160,7 @@ class PictureUpload extends Component {
               ? <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
         }
         <span className='title_and_info'>
-          <h2>{introLabel.label_step_1}</h2> {' '}
+          <h2 data-testid='intro-heading'>{introLabel.label_step_1}</h2> {' '}
           <ButtonModal id='infoPic' type='info-icon'
             modalLabels={introLabel.info_image} course={this.courseCode} />
         </span>
