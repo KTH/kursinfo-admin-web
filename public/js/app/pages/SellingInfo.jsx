@@ -122,7 +122,7 @@ class SellingInfo extends Component {
     return (
       <div className='TextEditor--SellingInfo col'>
         {/* ---TEXT Editors for each language--- */}
-        <p>{introLabel.step_2_desc}</p>
+        <p data-testid='intro-text'>{introLabel.step_2_desc}</p>
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_2}</h2> {' '}

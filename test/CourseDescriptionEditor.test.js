@@ -19,8 +19,6 @@ const renderWithState = (stateToSet = {}, pageNumber) => {
     return renderEditPage(newAdminStore, pageNumber);
 };
 
-const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
-
 describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
     test('Renders without errors (incl. snapshot)', () => {
@@ -95,6 +93,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
     describe('Page 1G', () => {
 
+        const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
+
         test('Has correct alert text (previously published image, switch to default)', () => {
             const {getByRole, getByLabelText} = renderWithState(PUBLISHED_IMAGE_EXISTS);
             getByLabelText(useDefaultImage).click();
@@ -129,7 +129,15 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
     describe('Page 2', () => {
         test.skip('📌 Has correct introductory text', () => {
-            return false
+            const pageNumber = 2;
+            const {getByTestId} = renderEditPage(mockAdminStore, pageNumber);
+            const introText = getByTestId('intro-text');
+            expect(introText).toHaveTextContent(
+                'Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS.');
+            expect(introText).toHaveTextContent(
+                'Vill man återgå till kortbeskrivningen tar man bort texten under “Introduktion till kursen” nedan.');
+            expect(introText).toHaveTextContent(
+                'I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan "Kursinformation"');
         });
     });
 
@@ -146,7 +154,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
 
         test('Has correct headings', () => {
-            const {getByText} = renderEditPage(mockAdminStore, 3);
+            const {getByText} = renderEditPage(mockAdminStore, pageNumber);
             getByText('Svensk introduktion till kursen');
             getByText('Engelsk introduktion till kursen');
         });
@@ -157,5 +165,4 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             return false
         });
     });
-
 });

@@ -20,7 +20,7 @@
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
     "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" ",
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" ",
     "build-dev-win": "NODE_ENV=development rmdir /s /q dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
   },
