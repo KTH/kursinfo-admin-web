@@ -157,6 +157,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
             </label>
             <input
               accept="image/jpg,image/jpeg,image/png"
+              data-testid="fileUpload"
               id="pic-upload"
               name="pic-upload"
               tabindex="-1"

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'mobx-react';
-import {render} from '@testing-library/react';
+import {render, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {mockAdminStore} from './mocks/adminStore';
 
@@ -30,7 +30,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         expect(heading).toHaveTextContent(/^Redigera introduktion till kursen$/); // require exact match
     });
 
-    describe('Page 1A', () => {
+    describe('Page 1A Välj Bild', () => {
 
         test('Has correct name in progress bar', () => {
             renderEditPage().getByText('1. Välj bild');
@@ -52,26 +52,9 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 1B', () => {
+    describe('Page 1B Ingen bild vald', () => {
     });
 
-    describe('Page 1C', () => {
-        test.skip('📌 Has correct alert text', () => {
-            return false
-        });
-        test.skip('📌 Has correct error message', () => {
-            return false
-        });
-    });
-
-    describe('Page 1D', () => {
-    });
-
-    describe('Page 1E', () => {
-    });
-
-    describe('Page 1F', () => {
-    });
 
     const PUBLISHED_IMAGE_EXISTS = {
         isDefaultChosen: false,
@@ -91,7 +74,42 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         tempImagePath: 'ImageThatWasSelectedForUpload.png'
     };
 
-    describe('Page 1G', () => {
+    const INCORRECT_FILE_FORMAT = {
+        isDefaultChosen: false,
+        isApiPicAvailable: false,
+        tempImagePath: 'FileThatWasSelectedForUpload.txt'
+    };
+
+    describe('Page 1C Bildval fel', () => {
+        test('Has correct alert text', () => {
+            const {getByRole, getByTestId} = renderWithState(INCORRECT_FILE_FORMAT);
+            const imageInput = getByTestId('fileUpload')
+            fireEvent.change(imageInput, {
+                target: {
+                    files: [new File(['(⌐□_□)'], 'empty.txt', { type: 'text' })],
+                },
+            })
+
+            const expected = 'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
+            expect(getByRole('alert')).toHaveTextContent(expected);
+        });
+
+        test.skip('📌 Has correct error message', () => {
+            return false
+        });
+    });
+
+    describe('Page 1D Första egen bild valt', () => {
+    });
+
+    describe('Page 1E Tidigare val av egen bild', () => {
+    });
+
+    describe('Page 1F Valt om till, ytterligare ny egen bild', () => {
+    });
+
+
+    describe('Page 1G Valt om, ämnesbild', () => {
 
         const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
 
@@ -117,7 +135,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 1H', () => {
+    describe('Page 1H Godkänna vilkor fel', () => {
         test('Has correct alert text (selected image, not agreed to terms)', () => {
             const {getByRole, getByTestId} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByTestId('termsAgreement').click();
@@ -127,7 +145,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 2', () => {
+    describe('Page 2 Redigera introduktion till kursen', () => {
         test.skip('📌 Has correct introductory text', () => {
             const pageNumber = 2;
             const {getByTestId} = renderEditPage(mockAdminStore, pageNumber);
@@ -141,7 +159,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 3', () => {
+    describe('Page 3 Granska', () => {
 
         const pageNumber = 3;
 
@@ -160,7 +178,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 3C', () => {
+    describe('Page 3C Publicering fel', () => {
         test.skip('📌 Has correct alert text', () => {
             return false
         });
