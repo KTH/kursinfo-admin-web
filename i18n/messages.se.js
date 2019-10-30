@@ -1,3 +1,6 @@
+// Please make sure to use the correct quotes:
+// - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
+// - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
   shortNames: [ 'sv', 'se' ],
   longNameSe: 'Svenska',
@@ -21,7 +24,7 @@ module.exports = {
     service_name: 'Kursinfo-admin-web',
     title: 'Kursinformationsadmin',
     description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
-    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.`,
+    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till kursen” som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -94,7 +97,8 @@ module.exports = {
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
       storage_api_error: `Det gick inte att publicera den bild du valt. 
       Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.`,
-      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS. Det kan antingen bero på att kurskoden är felaktig eller på kommunikationsfel.'
+      kopps_api_down: `Det går för närvarande inte att hämta information från KOPPS. 
+        Det kan antingen bero på att kurskoden är felaktig eller på kommunikationsfel.`
     },
     course_short_semester: {
       1: 'VT ',
@@ -120,7 +124,6 @@ module.exports = {
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
-      start_link_back: 'Till kursinformationssida',
       sellingText_btn: 'Redigera introduktion till kursen',
       coursePM_btn: 'Ladda upp kurs-pm',
       courseDev_btn: 'Redigera kusanalys och kursdata'
@@ -128,12 +131,12 @@ module.exports = {
   },
   introLabel: {
     alertMessages: {
-      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till "Redigera text".',
+      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
       no_file_chosen: 'Du måste välja en bild för att kunna gå vidare till ”Redigera text”.',
       not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till "Redigera text".`,
+        för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till "Redigera text".`,
+        för att kunna gå vidare till ”Redigera text”.`,
       replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.`,
       replace_api_with_default: `Observera: vid publicering kommer den publicerade bilden att raderas.`,
       replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas.`
@@ -179,12 +182,12 @@ module.exports = {
       imagesOnTheWeb: 'Bilder på webben.'
     },
     step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
-    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan "Kursinformation".`,
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.`,
     step_2_desc: `Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
-    Vill man återgå till kortbeskrivningen tar man bort texten under “Introduktion till kursen” nedan. 
-    I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan "Kursinformation".`,
-    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan "Kursinformation" (på svenska och engelska). 
-    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan "Kursinformation".`,
+    Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan. 
+    I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”.`,
+    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). 
+    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.`,
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
     label_step_1: 'Välj bild',

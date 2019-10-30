@@ -48,7 +48,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             expect(introText).toHaveTextContent(
                 'I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten.');
             expect(introText).toHaveTextContent(
-                'I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan "Kursinformation".');
+                'I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.');
         });
     });
 
@@ -122,7 +122,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             const {getByRole, getByTestId} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByTestId('termsAgreement').click();
             getByTestId('termsAgreement').click();
-            const expected = 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till "Redigera text".';
+            const expected = 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
     });
@@ -148,9 +148,9 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         test('Has correct introductory text', () => {
             const introText = renderEditPage(mockAdminStore, pageNumber).getByTestId('intro-text');
             expect(introText).toHaveTextContent(
-                'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan "Kursinformation" (på svenska och engelska).');
+                'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska).');
             expect(introText).toHaveTextContent(
-                'Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan "Kursinformation".');
+                'Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.');
         });
 
         test('Has correct headings', () => {

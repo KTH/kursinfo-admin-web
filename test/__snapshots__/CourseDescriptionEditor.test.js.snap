@@ -66,7 +66,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
         data-testid="intro-text"
       >
         Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
-    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan "Kursinformation".
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.
       </p>
       <span
         class="title_and_info"

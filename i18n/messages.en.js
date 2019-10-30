@@ -1,3 +1,6 @@
+// Please make sure to use the correct quotes:
+// - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
+// - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
   shortNames: [ 'en' ],
   longNameSe: 'Engelska',
@@ -20,7 +23,7 @@ module.exports = {
      */
     service_name: 'course information administration',
     title: 'Administrate About course information',
-    description: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
+    description: 'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -48,7 +51,7 @@ module.exports = {
     administrate: 'Administrate About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
-    instruction_1: 'Here a course responsible or examinator for this course can administrate information for "About course" pages.',
+    instruction_1: 'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
     instruction_kopps_1: 'If you need to change information or roles / access rights for this course it is possible to do it in ',
     instruction_kopps_2: 'for ',
     instruction_kopps_3_link: 'those who has access rights in KOPPS ',
@@ -92,7 +95,7 @@ module.exports = {
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
-      storage_api_error: 'Failed to save the image you chose, due to technical issues mightly. Go back to "1. Choose image" and change the image. Then try to Publish again.',
+      storage_api_error: 'Failed to save the image you chose, due to technical issues mightly. Go back to “1. Choose image” and change the image. Then try to Publish again.',
       kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
     },
     course_short_semester: {
@@ -103,7 +106,7 @@ module.exports = {
   startCards: {
     sellingText_hd: 'Course introduction',
     sellingText_desc_p1: 'Choose your own image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
-    sellingText_desc_p2: '”Introduction to course" is displayed at the top of the ”Course Information” page.',
+    sellingText_desc_p2: '“Introduction to course” is displayed at the top of the “Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
@@ -127,11 +130,11 @@ module.exports = {
   introLabel: {
     alertMessages: {
       approve_term: 'You must approve the terms (see red markings below)',
-      no_file_chosen: 'You must first choose an image to continue to ”Edit text”.',
+      no_file_chosen: 'You must first choose an image to continue to “Edit text”.',
       not_correct_format_choose_another: `You must choose an image with format 300px * 400 px and file format
-      .png. eller .jpg (see red markings below) to continue to ”Edit text”.`,
+      .png. eller .jpg (see red markings below) to continue to “Edit text”.`,
       not_correct_format_return_to_api_pic: `You must choose an image with format 300px * 400 px and file format
-      .png. eller .jpg (see red markings below) to continue to ”Edit text”. Othervise you can continue wutg oreviously published image.`,
+      .png. eller .jpg (see red markings below) to continue to “Edit text”. Othervise you can continue with previously published image.`,
       replace_all_with_default: `Notice: your previously chosen and/or published image will be deleted if you publish the
       default image (save the image on your computer to keep a copy).`,
       replace_api_with_default: `Notice: your previously published image will be deleted if you publish the
@@ -224,36 +227,11 @@ module.exports = {
       image: 'Picture for a course description decoration',
       tempImage: 'Placeholder to show up a chosen picture'
     },
-    obligatory: 'Required',
+    required: {
+      image: 'Required (format: .png or .jpg)',
+      agreement: 'Required'
+    },
     redirectToStart: 'Success, redirecting to start page...'
-  },
-  courseMainSubjects: {
-    Architecture: 'Arkitektur',
-    Biotechnology: 'Bioteknik',
-    'Computer Science and Engineering': 'Datalogi och datateknik',
-    'Electrical Engineering': 'Elektroteknik',
-    Physics: 'Fysik',
-    'Industrial Management': 'Industriell ekonomi',
-    'Information Technology': 'Informationsteknik',
-    'Information and Communication Technology': 'Informations- och kommunikationsteknik',
-    'Chemical Science and Engineering': 'Kemiteknik',
-    'Chemistry and Chemical Engineering': 'Kemi och kemiteknik',
-    Mathematics: 'Matematik',
-    'Environmental Engineering': 'Miljöteknik',
-    'Molecular Life Science': 'Molekylära livsvetenskaper',
-    'Mechanical Engineering': 'Maskinteknik',
-    'Materials Science': 'Materialvetenskap',
-    'Medical Engineering': 'Medicinsk teknik',
-    'Materials Science and Engineering': 'Materialteknik',
-    'Built Environment': 'Samhällsbyggnad',
-    'Engineering Physics': 'Teknisk fysik',
-    'Technology and Economics': 'Teknik och ekonomi',
-    'Technology and Health': 'Teknik och hälsa',
-    'Technology and Management': 'Teknik och management',
-    Technology: 'Teknik',
-    'Engineering and Management': 'Teknik och management',
-    'Technology and Learning': 'Teknik och lärande',
-    default: 'default'
   },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
