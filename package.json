@@ -14,18 +14,14 @@
     "//": "Gulp installs css and javascript",
     "test": "jest test",
     "vendor": "parcel build ./public/js/vendor.js",
-    "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
-    "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
+    "build-dev": "NODE_ENV=development rimraf ./dist && gulp build && parcel build ./public/js/app/app.jsx && parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" ",
-    "build-dev-win": "NODE_ENV=development rmdir /s /q dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
-    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
   },
   "pre-push": [
-    "codecheck",
     "test"
   ],
   "dependencies": {
@@ -101,8 +97,7 @@
     "merge-stream": "^1.0.1",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
-    "pre-push": "^0.1.1",
-    "standard": "^7.1.1"
+    "pre-push": "^0.1.1"
   },
   "engines": {
     "node": "8.12.0"
