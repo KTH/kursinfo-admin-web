@@ -92,6 +92,13 @@ describe('Double quotes', () => {
             const badEggs = strings.filter(s => s.includes('"') || s.includes('“'));
             expect(badEggs).toStrictEqual(keysToIgnore);
         });
+
+        test('Every (”) double quote must have a corresponding closing (”) double quote', () => {
+            const strings = collectStringValues(sv, keysToIgnore);
+            // either no quotes, or one opening and one closing (open/close can appear one or more times)
+            const regex = /^([^”]+|([^”]*”[^”]*”[^”]*)+)$/;
+            expect(strings.filter(s => !s.match(regex))).toStrictEqual([]);
+        });
     });
 
     describe('Quoting characters in English', () => {
