@@ -1,10 +1,13 @@
 import React from 'react';
 import {Provider} from 'mobx-react';
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, waitForElement} from '@testing-library/react';
+import {shallow, configure, mount} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16';
 import '@testing-library/jest-dom/extend-expect';
 import {mockAdminStore} from './mocks/adminStore';
 
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
+import Preview from "../public/js/app/components/PreviewText";
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
     return render(
@@ -145,16 +148,16 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     });
 
     describe('Page 2 Redigera introduktion till kursen', () => {
-        test.skip('📌 Has correct introductory text', () => {
+        test('Has correct introductory text', () => {
             const pageNumber = 2;
             const {getByTestId} = renderEditPage(mockAdminStore, pageNumber);
             const introText = getByTestId('intro-text');
             expect(introText).toHaveTextContent(
                 'Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS.');
             expect(introText).toHaveTextContent(
-                'Vill man återgå till kortbeskrivningen tar man bort texten under “Introduktion till kursen” nedan.');
+                'Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan.');
             expect(introText).toHaveTextContent(
-                'I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan "Kursinformation"');
+                'I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”');
         });
     });
 
@@ -177,9 +180,30 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 3C Publicering fel', () => {
-        test.skip('📌 Has correct alert text', () => {
-            return false
+/*    describe.only('Page 3C Publicering fel', () => {
+        const pageNumber = 3;
+        test('📌 Has correct alert text', () => {
+
+
+/!*
+            const container = renderEditPage(mockAdminStore,pageNumber)
+            fireEvent.click(container.getByText('Publicera'))
+            fireEvent.click(container.getByText('Ja, fortsätt publicera'))
+*!/
+            configure({ adapter: new Adapter() });
+            const rejectedPromise = new Promise((resolve, reject) =>
+                setTimeout(() => reject(new Error('Fel!')), 100)
+            );
+            const mockHandleUploadImage = jest.fn(() => Promise.reject('error'));
+            let wrapper = mount(<CourseDescriptionEditorPage adminStore={mockAdminStore}/>)
+            wrapper.instance().handleUploadImage = jest.fn(() => rejectedPromise);
+            wrapper.update()
+            wrapper.instance().handleUploadImage()
+                .catch(()=> {
+                wrapper.update();
+                expect(wrapper.find('Alert').length).toEqual(0);
+            });
+
         });
-    });
+    });*/
 });
