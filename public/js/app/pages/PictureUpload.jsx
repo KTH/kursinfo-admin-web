@@ -213,7 +213,7 @@ class PictureUpload extends Component {
           </span>
           : ''
           }
-          <span className={this.state.isError ? 'error-label' : 'no-error'}>
+          <span data-testid="error-text" className={this.state.isError ? 'error-label' : 'no-error'}>
              <p>{this.state.errMsg !== 'approve_term' ? introLabel.required.image : introLabel.required.agreement}</p>
           </span>
         </span>

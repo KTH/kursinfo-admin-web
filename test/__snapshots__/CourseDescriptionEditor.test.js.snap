@@ -167,6 +167,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
         </span>
         <span
           class="no-error"
+          data-testid="error-text"
         >
           <p>
             Obligatoriskt (format: .png eller .jpg)

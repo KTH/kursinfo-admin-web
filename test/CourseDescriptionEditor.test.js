@@ -74,15 +74,15 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         tempImagePath: 'ImageThatWasSelectedForUpload.png'
     };
 
-    const INCORRECT_FILE_FORMAT = {
-        isDefaultChosen: false,
-        isApiPicAvailable: false,
-        tempImagePath: 'FileThatWasSelectedForUpload.txt'
-    };
-
     describe('Page 1C Bildval fel', () => {
-        test('Has correct alert text', () => {
-            const {getByRole, getByTestId} = renderWithState(INCORRECT_FILE_FORMAT);
+        test('Has correct alert text and error message', () => {
+            const {getByRole, getByTestId} = renderEditPage();
+
+            //No error message visible initially
+            const errorMessageSpan = getByTestId('error-text')
+            expect(errorMessageSpan).toHaveClass('no-error')
+
+            //simulate file upload with incorrect format
             const imageInput = getByTestId('fileUpload')
             fireEvent.change(imageInput, {
                 target: {
@@ -90,12 +90,11 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
                 },
             })
 
-            const expected = 'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
-            expect(getByRole('alert')).toHaveTextContent(expected);
-        });
-
-        test.skip('📌 Has correct error message', () => {
-            return false
+            //Alert and Error Message assertion
+            const expectedAlert = 'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
+            expect(getByRole('alert')).toHaveTextContent(expectedAlert);
+            const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)';
+            expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
         });
     });
 
