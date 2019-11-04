@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'mobx-react';
-import {render, fireEvent, waitForElement} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import {mockAdminStore} from './mocks/adminStore';
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
@@ -74,20 +74,6 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         tempImagePath: 'ImageThatWasSelectedForUpload.png'
     };
 
-    const DO_PUBLISH_IMAGE_STATE = {
-        isDefaultChosen: false,
-        isApiPicAvailable: false,
-        tempImagePath: 'ImageThatWasSelectedForUpload.png',
-        paths : {
-            storage : {
-                saveFile : {
-                    method : 'post',
-                    uri : '/kursinfoadmin/kurser/kurs/storage/saveFile/:courseCode/:published'
-                }
-            }
-        }
-    };
-
     describe('Page 1C Bildval fel', () => {
         test('Has correct alert text and error message', () => {
             const {getByRole, getByTestId} = renderEditPage();
@@ -100,7 +86,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             const imageInput = getByTestId('fileUpload')
             fireEvent.change(imageInput, {
                 target: {
-                    files: [new File(['(⌐□_□)'], 'empty.txt', { type: 'text' })],
+                    files: [new File(['(⌐□_□)'], 'empty.txt', {type: 'text'})],
                 },
             })
 
@@ -191,42 +177,32 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    const createMockXHR = (status, responseJSON) => {
-        const mockXHR = {
-            open: jest.fn(),
-            send: jest.fn(),
-            readyState: 4,
-            status: status,
-            responseText: JSON.stringify(
-                responseJSON || {}
-            )
-        };
-        return mockXHR;
-    }
-
-
     describe('Page 3C Publicering fel', () => {
+
         const pageNumber = 3;
-        const oldXMLHttpRequest = window.XMLHttpRequest;
-        let rejectionResponse = {
-            error : 'Failed request it is'
-        }
 
         test('Has correct alert text', async () => {
-            const mockXHR = createMockXHR(500, rejectionResponse)
-            window.XMLHttpRequest = jest.fn(() => mockXHR);
+            const oldXMLHttpRequest = window.XMLHttpRequest;
+            window.XMLHttpRequest = jest.fn(() => {
+                return {
+                    upload: {
+                        addEventListener: jest.fn(() => {
+                            throw 'trigger error state, for test purposes'
+                        })
+                    }
+                }
+            });
 
-            const container = renderWithState(DO_PUBLISH_IMAGE_STATE, pageNumber)
-            fireEvent.click(container.getByText('Publicera'))
-            fireEvent.click(container.getByText('Ja, fortsätt publicera'))
-            //it would bypass the XMLHttpRequest and call mock request instead. which in our case rejects the promise
+            const {getByText, findByRole, getByRole} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD, pageNumber);
+            getByText('Publicera').click();
+            getByText('Ja, fortsätt publicera').click();
 
-            expect(await container.findByRole('alert')).toBeTruthy();
-            const failureMessage = 'Det gick inte att publicera den bild du valt. Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.'
-            expect(container.getByRole('alert')).toHaveTextContent(failureMessage);
+            expect(await findByRole('alert')).toBeTruthy();
+            const alert = getByRole('alert');
+            expect(alert).toHaveTextContent('Det gick inte att publicera den bild du valt. Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.');
+            expect(getByRole('status')).toHaveTextContent('');
 
             window.XMLHttpRequest = oldXMLHttpRequest;
-
         });
     });
 });

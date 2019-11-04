@@ -20,6 +20,14 @@ const mockAdminStore = {
     sellingText: {
         'sv': 'Svensk säljande text',
         'en': 'English selling text'
+    },
+    paths: {
+        storage: {
+            saveFile: {
+                method: 'post',
+                uri: '/kursinfoadmin/kurser/kurs/storage/saveFile/:courseCode/:published'
+            }
+        }
     }
 };
 

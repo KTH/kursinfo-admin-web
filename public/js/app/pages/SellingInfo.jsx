@@ -116,8 +116,8 @@ class SellingInfo extends Component {
     if(!nodeEnvTest) {
         CKEDITOR.instances.sv.destroy(true)
         CKEDITOR.instances.en.destroy(true)
-        this.props.updateParent({progress})
     }
+    this.props.updateParent({progress})
   }
 
   render () {

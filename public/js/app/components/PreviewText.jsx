@@ -168,7 +168,7 @@ class Preview extends Component {
           role='status'>
           <div className='text-center'>
             {this.state.isError
-              ? this.state.errMsg
+              ? ''
               : this.state.redirectAfterSubmit
                 ? introLabel.redirectToStart
                 : this.state.fileProgress + '%'}
