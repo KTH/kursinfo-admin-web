@@ -1,13 +1,10 @@
 import React from 'react';
 import {Provider} from 'mobx-react';
 import {render, fireEvent, waitForElement} from '@testing-library/react';
-import {shallow, configure, mount} from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16';
 import '@testing-library/jest-dom/extend-expect';
 import {mockAdminStore} from './mocks/adminStore';
-
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
-import Preview from "../public/js/app/components/PreviewText";
+import "regenerator-runtime/runtime";
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
     return render(
@@ -75,6 +72,20 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         isDefaultChosen: false,
         isApiPicAvailable: true,
         tempImagePath: 'ImageThatWasSelectedForUpload.png'
+    };
+
+    const DO_PUBLISH_IMAGE_STATE = {
+        isDefaultChosen: false,
+        isApiPicAvailable: false,
+        tempImagePath: 'ImageThatWasSelectedForUpload.png',
+        paths : {
+            storage : {
+                saveFile : {
+                    method : 'post',
+                    uri : '/kursinfoadmin/kurser/kurs/storage/saveFile/:courseCode/:published'
+                }
+            }
+        }
     };
 
     describe('Page 1C Bildval fel', () => {
@@ -180,30 +191,42 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-/*    describe.only('Page 3C Publicering fel', () => {
+    const createMockXHR = (status, responseJSON) => {
+        const mockXHR = {
+            open: jest.fn(),
+            send: jest.fn(),
+            readyState: 4,
+            status: status,
+            responseText: JSON.stringify(
+                responseJSON || {}
+            )
+        };
+        return mockXHR;
+    }
+
+
+    describe('Page 3C Publicering fel', () => {
         const pageNumber = 3;
-        test('📌 Has correct alert text', () => {
+        const oldXMLHttpRequest = window.XMLHttpRequest;
+        let rejectionResponse = {
+            error : 'Failed request it is'
+        }
 
+        test('Has correct alert text', async () => {
+            const mockXHR = createMockXHR(500, rejectionResponse)
+            window.XMLHttpRequest = jest.fn(() => mockXHR);
 
-/!*
-            const container = renderEditPage(mockAdminStore,pageNumber)
+            const container = renderWithState(DO_PUBLISH_IMAGE_STATE, pageNumber)
             fireEvent.click(container.getByText('Publicera'))
             fireEvent.click(container.getByText('Ja, fortsätt publicera'))
-*!/
-            configure({ adapter: new Adapter() });
-            const rejectedPromise = new Promise((resolve, reject) =>
-                setTimeout(() => reject(new Error('Fel!')), 100)
-            );
-            const mockHandleUploadImage = jest.fn(() => Promise.reject('error'));
-            let wrapper = mount(<CourseDescriptionEditorPage adminStore={mockAdminStore}/>)
-            wrapper.instance().handleUploadImage = jest.fn(() => rejectedPromise);
-            wrapper.update()
-            wrapper.instance().handleUploadImage()
-                .catch(()=> {
-                wrapper.update();
-                expect(wrapper.find('Alert').length).toEqual(0);
-            });
+            //it would bypass the XMLHttpRequest and call mock request instead. which in our case rejects the promise
+
+            expect(await container.findByRole('alert')).toBeTruthy();
+            const failureMessage = 'Det gick inte att publicera den bild du valt. Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.'
+            expect(container.getByRole('alert')).toHaveTextContent(failureMessage);
+
+            window.XMLHttpRequest = oldXMLHttpRequest;
 
         });
-    });*/
+    });
 });
