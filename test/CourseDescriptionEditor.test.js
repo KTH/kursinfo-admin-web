@@ -2,9 +2,9 @@ import React from 'react';
 import {Provider} from 'mobx-react';
 import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import '@babel/runtime/regenerator';
 import {mockAdminStore} from './mocks/adminStore';
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
-import "regenerator-runtime/runtime";
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
     return render(
