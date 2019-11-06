@@ -134,17 +134,18 @@ class PictureUpload extends Component {
   doNextStep (event) {
     event.preventDefault()
     const isNew = this.state.tempFilePath
+    let errorMayNotProceed = this.state.isError;
     if (isNew) {
-      this.checkTerms()
+      errorMayNotProceed |= !this.checkTerms()
     } else if (!this.isApiPicAvailable && !this.state.isDefault) {
+      errorMayNotProceed = true
       this.setState({isError: true, errMsg: 'no_file_chosen'})
     }
-    if (!this.state.isError) {
+    if (!errorMayNotProceed) {
       this.props.adminStore.tempSaveNewImage(this.state.newImage, isNew, this.state.isDefault)
-      const states = {
+      this.props.updateParent({
         progress: 2
-      }
-      this.props.updateParent(states)
+      })
     }
   }
 

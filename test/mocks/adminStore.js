@@ -1,3 +1,11 @@
+
+const tempSaveNewImage = (imageFile, tempImagePath, isDefaultChosen) => {
+    console.debug(`>>> tempSaveNewImage(${imageFile}, ${tempImagePath}, ${isDefaultChosen})`);
+    mockAdminStore.newImageFile = imageFile
+    mockAdminStore.tempImagePath = tempImagePath
+    mockAdminStore.isDefaultChosen = isDefaultChosen
+}
+
 const mockAdminStore = {
     koppsData: {
         koppsText: {
@@ -28,9 +36,11 @@ const mockAdminStore = {
                 uri: '/kursinfoadmin/kurser/kurs/storage/saveFile/:courseCode/:published'
             }
         }
-    }
+    },
+    isDefaultChosen: true,
+    tempSaveNewImage: tempSaveNewImage,
 };
 
 
-export {mockAdminStore};
+export default mockAdminStore;
 
