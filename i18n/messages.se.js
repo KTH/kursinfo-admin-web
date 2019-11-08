@@ -1,3 +1,6 @@
+// Please make sure to use the correct quotes:
+// - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
+// - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
   shortNames: [ 'sv', 'se' ],
   longNameSe: 'Svenska',
@@ -21,7 +24,7 @@ module.exports = {
     service_name: 'Kursinfo-admin-web',
     title: 'Kursinformationsadmin',
     description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
-    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till Kursen som administreras här.`,
+    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till kursen” som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -41,7 +44,7 @@ module.exports = {
   },
   pageTitles: {
     course_admin_title: 'Administrera',
-    header_progress_select_pic: '1. Välja bild',
+    header_progress_select_pic: '1. Välj bild',
     header_progress_edit: '2. Redigera text',
     header_progress_review: '3. Granska och publicera',
     about_course: 'Om kursen',
@@ -92,9 +95,10 @@ module.exports = {
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
-      storage_api_error: `Det gick inte att publicera den bild du valt kanske på grund av teknisk fel. 
-      Gå tillbaka till "1. Valj bild" för att byta bild. Prova sedan att Publicera.`,
-      kopps_api_down: 'Det går för närvarande inte att hämta information från KOPPS så viss information kommer att saknas. Eller kurskoden är felstavade.'
+      storage_api_error: `Det gick inte att publicera den bild du valt. 
+      Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.`,
+      kopps_api_down: `Det går för närvarande inte att hämta information från KOPPS. 
+        Det kan antingen bero på att kurskoden är felaktig eller på kommunikationsfel.`
     },
     course_short_semester: {
       1: 'VT ',
@@ -120,7 +124,6 @@ module.exports = {
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
-      start_link_back: 'Till kursinformationssida',
       sellingText_btn: 'Redigera introduktion till kursen',
       coursePM_btn: 'Ladda upp kurs-pm',
       courseDev_btn: 'Redigera kusanalys och kursdata'
@@ -128,18 +131,15 @@ module.exports = {
   },
   introLabel: {
     alertMessages: {
-      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan)',
+      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
       no_file_chosen: 'Du måste välja en bild för att kunna gå vidare till ”Redigera text”.',
-      not_correct_format_choose_another: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
-        markering i rött nedan) för att kunna gå vidare till ”Redigera text".`,
-      not_correct_format_return_to_api_pic: `Du behöver välja en bild med format 300px * 400 px och filformatet .png. eller .jpg (se
-        markering i rött nedan) för att kunna gå vidare till ”Redigera text". Återställd till före publicerad bilden`,
-      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerad bilden att raderas (spara ner
-      bilden på datorn för att inte förlora den).`,
-      replace_api_with_default: `Observera: vid publicering kommer den publicerad bilden att raderas (spara ner
-        bilden på datorn för att inte förlora den).`,
-      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas (spara ner
-        bilden på datorn för att inte förlora den).`
+      not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
+        för att kunna gå vidare till ”Redigera text”.`,
+      not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
+        för att kunna gå vidare till ”Redigera text”.`,
+      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.`,
+      replace_api_with_default: `Observera: vid publicering kommer den publicerade bilden att raderas.`,
+      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas.`
     },
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
@@ -169,27 +169,28 @@ module.exports = {
       Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.`,
       btnCancel: 'Stäng'
     },
-    editCourseIntro: 'Administrera kursinformation',
+    editCourseIntro: 'Redigera introduktion till kursen',
     image: {
       reset: 'Återställ till sparad bild',
       choose: 'Välj bild',
       name: 'Bildnamn:',
       noChosen: 'Ingen bild vald',
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
-      firstOption: 'Bild utvald utifrån kursens huvudområde',
+      firstOption: 'Bild vald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
       agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
       imagesOnTheWeb: 'Bilder på webben.'
     },
     step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
-    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan Kursinformation.`,
-    step_2_desc: `Du kan här skapa / redigera introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
-    Vill man återgå till kortbeskrivningen tar man bort introduktion till kursen nedan`,
-    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan Kursinformation (svensk och engelsk sida). 
-    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på Kursinformationssidan.`,
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.`,
+    step_2_desc: `Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
+    Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan. 
+    I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”.`,
+    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). 
+    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.`,
     label_max_number_letters: 'Maximalt antal tecken är 1500.',
     label_left_number_letters: 'Antal tecken kvar att använda:',
-    label_step_1: 'Välja bild',
+    label_step_1: 'Välj bild',
     label_step_2: 'Redigera text',
     label_step_3: 'Granska',
     langLabelKopps: {
@@ -200,9 +201,13 @@ module.exports = {
       en: 'Introduktion till kursen (EN)',
       sv: 'Introduktion till kursen (SV)'
     },
-    langLabel: {
+    langLabelText: {
       en: 'Engelsk text',
       sv: 'Svensk text'
+    },
+    langLabelPreview: {
+      en: 'Engelsk introduktion till kursen',
+      sv: 'Svensk introduktion till kursen'
     },
     changed_by: 'Senast ändrad av:',
     button: {
@@ -222,7 +227,10 @@ module.exports = {
       image: 'Bild för kurssidasdekoration',
       tempImage: 'Tomt plats för att visa väld bilden'
     },
-    obligatory: 'Obligatoriskt',
+    required: {
+      image: 'Obligatoriskt (format: .png eller .jpg)',
+      agreement: 'Obligatoriskt'
+    },
     redirectToStart: 'Framgång, omdirigerar till startsidan...'
   },
   courseImage: {

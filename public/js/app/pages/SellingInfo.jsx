@@ -7,6 +7,7 @@ import { Alert, Button, Col, Row } from 'reactstrap'
 import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
+const nodeEnvTest = process.env.NODE_ENV.toLowerCase() === 'test'
 const editorConf = {
   toolbarGroups: [
     {name: 'mode'},
@@ -97,11 +98,13 @@ class SellingInfo extends Component {
   }
 
   startEditor () {
-    ['sv', 'en'].map((editorId) => {
-      CKEDITOR.replace(editorId, editorConf)
-      CKEDITOR.instances[editorId].on('instanceReady', event => this._countTextLen(event, editorId))
-      CKEDITOR.instances[editorId].on('change', event => this._validateLen(event, editorId))
-    })
+    if(!nodeEnvTest) {
+        ['sv', 'en'].map((editorId) => {
+            CKEDITOR.replace(editorId, editorConf)
+            CKEDITOR.instances[editorId].on('instanceReady', event => this._countTextLen(event, editorId))
+            CKEDITOR.instances[editorId].on('change', event => this._validateLen(event, editorId))
+        })
+    }
   }
 
   quitEditor (event) {
@@ -110,8 +113,10 @@ class SellingInfo extends Component {
     const progress = event.target.id === 'back-to-image' ? 1 : 3
     this.props.adminStore.tempSaveText(sellingTexts)
     this.setState({ isError: false })
-    CKEDITOR.instances.sv.destroy(true)
-    CKEDITOR.instances.en.destroy(true)
+    if(!nodeEnvTest) {
+        CKEDITOR.instances.sv.destroy(true)
+        CKEDITOR.instances.en.destroy(true)
+    }
     this.props.updateParent({progress})
   }
 
@@ -122,7 +127,7 @@ class SellingInfo extends Component {
     return (
       <div className='TextEditor--SellingInfo col'>
         {/* ---TEXT Editors for each language--- */}
-        <p>{introLabel.step_2_desc}</p>
+        <p data-testid='intro-text'>{introLabel.step_2_desc}</p>
         {this.state.errMsg ? <Alert color='info'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_2}</h2> {' '}
@@ -133,13 +138,13 @@ class SellingInfo extends Component {
             <KoppsTextCollapse instructions={introLabel}
               koppsText={koppsData.koppsText['sv']} lang='sv' />
             <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_sv}</span></p>
-            <textarea name='sv' id='sv' className='editor' value={this.state.sv}></textarea>
+            <textarea name='sv' id='sv' className='editor' defaultValue={this.state.sv}></textarea>
           </span>
           <span className='right' key='rightEditorForEnglish'>
             <KoppsTextCollapse instructions={introLabel}
               koppsText={koppsData.koppsText['en']} lang='en' />
             <p>{introLabel.label_left_number_letters}<span className='badge badge-warning badge-pill'>{this.state.leftTextSign_en}</span></p>
-            <textarea name='en' id='en' className='editor' value={this.state.en}></textarea>
+            <textarea name='en' id='en' className='editor' defaultValue={this.state.en}></textarea>
           </span>
         </span>
         <p className='changed-by'>{introLabel.changed_by} {this.sellingTextAuthor}</p>

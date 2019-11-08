@@ -125,7 +125,7 @@ class Preview extends Component {
 
     return (
       <div className='Preview--Changes col'>
-        <p>{introLabel.step_3_desc}</p>
+        <p data-testid='intro-text'>{introLabel.step_3_desc}</p>
         {this.state.isError && this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_3}</h2> {' '}
@@ -136,7 +136,7 @@ class Preview extends Component {
             {['sv', 'en'].map((lang, key) =>
               <Row className='courseIntroText' key={key}>
                 <Col sm='12' xs='12' className='sellingText'>
-                  <h3>{introLabel.langLabel[lang]}</h3>
+                  <h3>{introLabel.langLabelPreview[lang]}</h3>
                   <img src={pictureUrl} alt={introLabel.alt.image} height='auto' width='300px' />
                   <span className='textBlock' dangerouslySetInnerHTML={{ __html: this.state[lang].length > 0 ? this.state[lang] : koppsText[lang] }}>
                   </span>
@@ -168,7 +168,7 @@ class Preview extends Component {
           role='status'>
           <div className='text-center'>
             {this.state.isError
-              ? this.state.errMsg
+              ? ''
               : this.state.redirectAfterSubmit
                 ? introLabel.redirectToStart
                 : this.state.fileProgress + '%'}

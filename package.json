@@ -12,20 +12,17 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
-    "test": "mocha test/unit/*.js",
+    "test": "NODE_ENV=test jest test",
+    "test-watch": "NODE_ENV=test jest --watch",
     "vendor": "parcel build ./public/js/vendor.js",
-    "codecheck": "standard",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
-    "build-dev": "NODE_ENV=development rm -rf ./dist && gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
+    "build-dev": "NODE_ENV=development rimraf ./dist && gulp build && parcel build ./public/js/app/app.jsx && parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore public/ app.js\"  \"gulp watch\" ",
-    "build-dev-win": "NODE_ENV=development gulp build && parcel build ./public/js/app/app.jsx &&  parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
-    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore public/ app.js\"  \"gulp watch\" "
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
   },
   "pre-push": [
-    "codecheck",
     "test"
   ],
   "dependencies": {
@@ -47,6 +44,7 @@
     "express-fileupload": "^1.1.4",
     "express-handlebars": "^3.1.0",
     "gulp-install": "^1.1.0",
+    "jest": "^24.9.0",
     "jquery": "^3.4.1",
     "knockout": ">=3.5.0",
     "knockout.viewmodel": "git+https://github.com/KTH/knockout.viewmodel.git#v2.0.3",
@@ -66,7 +64,6 @@
     "kth-node-session": "^1.0.0",
     "kth-node-web-common": "^3.0.6",
     "kth-style": "^3.2.15",
-    "kth-style-inferno-bootstrap": "^0.1.23",
     "locale": "^0.1.0",
     "mobx": "^5.13.0",
     "mobx-react": "^5.4.3",
@@ -81,14 +78,15 @@
     "sharp": "^0.23.0"
   },
   "devDependencies": {
-    "@kth/kth-ckeditor-build": "^1.4.1",
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-decorators": "^7.4.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "chai": "^4.0.2",
+    "@kth/kth-ckeditor-build": "^1.4.1",
+    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/react": "^9.3.0",
     "concurrently": "^2.1.0",
     "cross-env": "^5.2.1",
     "eslint-config-standard": "^12.0.0",
@@ -97,15 +95,9 @@
     "husky": "^0.14.0",
     "kth-node-build-commons": "^3.0.3",
     "merge-stream": "^1.0.1",
-    "mocha": "^5.2.0",
-    "mockery": "^2.0.0",
-    "nock": "^9.0.13",
-    "node-mocks-http": "^1.7.6",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
-    "pre-push": "^0.1.1",
-    "standard": "^7.1.1",
-    "zombie": "^6.1.4"
+    "pre-push": "^0.1.1"
   },
   "engines": {
     "node": "8.12.0"

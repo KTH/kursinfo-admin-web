@@ -60,7 +60,7 @@ class FileInput extends Component {
         <Button color='secondary' block><h4>{btnLabel}</h4></Button>
       </label>
 
-      <input type='file' id={id} name={id} tabIndex='-1'
+      <input data-testid='fileUpload' type='file' id={id} name={id} tabIndex='-1'
         accept={accept}
         onChange={this.handleChange}
         />
