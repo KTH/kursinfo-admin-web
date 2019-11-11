@@ -38,8 +38,14 @@ const mockAdminStore = {
     },
     isDefaultChosen: true,
     tempSaveNewImage: tempSaveNewImage,
-};
 
+    doUpsertItem (text, courseCode, imageName) {
+            return new Promise((resolve, reject) => {
+            resolve({status: 200})
+        })
+    }
+   
+};
 
 export default mockAdminStore;
 

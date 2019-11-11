@@ -163,18 +163,17 @@ class Preview extends Component {
             </Row>
           </Col>
         </Row>
-        <span className={this.state.isError
-          ? 'text-danger' : this.state.redirectAfterSubmit ? 'text-success' : 'text-primary'}
-          role='status'>
-          <div className='text-center'>
-            {this.state.isError
-              ? ''
-              : this.state.redirectAfterSubmit
-                ? introLabel.redirectToStart
-                : this.state.fileProgress + '%'}
-          </div>
-          <Progress defaultValue={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
-        </span>
+
+        {this.state.hasDoneSubmit ?
+          <span className={this.state.isError ? 'text-danger' : this.state.redirectAfterSubmit ? 'text-success' : 'text-primary'}
+            role='status'>
+            <div className='text-center'>
+                {this.state.fileProgress + '%'}
+            </div>
+            <Progress defaultValue={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
+          </span>
+            : ''
+        }
       </div>
     )
   }
