@@ -132,7 +132,8 @@ module.exports = {
   introLabel: {
     alertMessages: {
       approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
-      no_file_chosen: 'Du måste välja en bild för att kunna gå vidare till ”Redigera text”.',
+      no_file_chosen: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
+        för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
+import { Badge } from 'reactstrap';
 
 
 @inject(['adminStore']) @observer
@@ -31,7 +32,7 @@ class CourseStatisticsPage extends Component {
           <h2>Fördelat på skola och institution (course.department i Kopps)</h2>
           <h3>Hur många kursomgångar har terminen?</h3>
           {departmentsNameArr.map((key, index) =>
-             <p key={key}>{key} - { departments[key].name } : { departments[key].number }</p>
+             <p key={key}><Badge color='secondary'> {key} </Badge> - { departments[key].name } : { departments[key].number }</p>
             )}
           {/* <p>{statisticData.departments.AIB.numberOfCourseRound}</p> */}
 

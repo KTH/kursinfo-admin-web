@@ -13,10 +13,12 @@ const koppsApi = new BasicAPI({
   https: server.kopps.https,
   json: true,
   defaultTimeout: server.kopps.defaultTimeout,
-  redis: {
-    client: redis,
-    prefix: 'course-info-admin-kopps',
-    expire: 20000
+  options: {
+    redis: {
+      client: redis,
+      prefix: 'course-info-admin-kopps',
+      expire: 20000
+    }
   }
 })
 
@@ -66,6 +68,7 @@ function isValidData (dataObject, lang='sv') {
 const filteredKoppsData = async (courseCode, lang='sv') => {
   try {
     const courseObj = await koppsCourseData(courseCode)
+    log.info(' kopps data ', courseObj)
     const courseTitleData = {
       course_code: isValidData(courseObj.code, lang),
       course_title: isValidData(courseObj.title[lang], lang),
@@ -73,8 +76,8 @@ const filteredKoppsData = async (courseCode, lang='sv') => {
       apiError: false
     }
     const koppsText = { // kopps recruitmentText
-      sv: isValidData(courseObj.info.sv, lang),
-      en: isValidData(courseObj.info.en, lang)
+      sv: courseObj.info ? isValidData(courseObj.info.sv, lang): EMPTY[lang],
+      en: courseObj.info ? isValidData(courseObj.info.en, lang): EMPTY[lang]
     }
     const mainSubject = courseObj.mainSubjects ? courseObj.mainSubjects.map(s => s.name.sv).sort()[0] : ' '
     return {

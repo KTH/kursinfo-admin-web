@@ -3,7 +3,7 @@ import {Provider} from 'mobx-react';
 import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import '@babel/runtime/regenerator';
-import {mockAdminStore} from './mocks/adminStore';
+import mockAdminStore from './mocks/adminStore';
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage';
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
@@ -74,9 +74,35 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         tempImagePath: 'ImageThatWasSelectedForUpload.png'
     };
 
-    describe('Page 1C Bildval fel', () => {
-        test('Has correct alert text and error message', () => {
-            const {getByRole, getByTestId} = renderEditPage();
+    describe('Page 1C Bildval felaktigt', () => {
+
+        const expectedAlert = 'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
+        const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)';
+
+        test('Has correct alert text and error message (no image selected)', async () => {
+            const {getByText, getByLabelText, getByRole, getByTestId} = renderEditPage();
+
+            expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy();
+            expect(getByLabelText('Egen vald bild').checked).toBeFalsy();
+            getByLabelText('Egen vald bild').click()
+
+            //No error message visible initially
+            const errorMessageSpan = getByTestId('error-text')
+            expect(errorMessageSpan).toHaveClass('no-error')
+
+            getByText('Redigera text').click();
+
+            //Alert and Error Message assertion
+            expect(getByRole('alert')).toHaveTextContent(expectedAlert);
+            expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
+        });
+
+        test('Has correct alert text and error message (wrong format chosen)', () => {
+            const {getByText, getByLabelText, getByRole, getByTestId} = renderEditPage();
+
+            expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy();
+            expect(getByLabelText('Egen vald bild').checked).toBeFalsy();
+            getByLabelText('Egen vald bild').click()
 
             //No error message visible initially
             const errorMessageSpan = getByTestId('error-text')
@@ -91,9 +117,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             })
 
             //Alert and Error Message assertion
-            const expectedAlert = 'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
             expect(getByRole('alert')).toHaveTextContent(expectedAlert);
-            const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)';
             expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
         });
     });
@@ -126,6 +150,13 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
 
+        test('Can go to next page (uploaded initial image, switch to default)', () => {
+            const {getByText, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
+            getByLabelText(useDefaultImage).click();
+            getByText('Redigera text').click()
+            expect(getByText('Granska')).toBeInTheDocument()
+        });
+
         test('Has correct alert text (uploaded new image, switch to default)', () => {
             const {getByRole, getByLabelText, getByTestId} = renderWithState(OVERWRITE_PUBLISHED_IMAGE);
             getByLabelText(useDefaultImage).click();
@@ -134,14 +165,40 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
-    describe('Page 1H Godkänna vilkor fel', () => {
+    describe('Page 1H Godkänna villkor', () => {
+
+        const expected = 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
+
         test('Has correct alert text (selected image, not agreed to terms)', () => {
             const {getByRole, getByTestId} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByTestId('termsAgreement').click();
             getByTestId('termsAgreement').click();
-            const expected = 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.';
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
+
+        test('Must tick box to continue if image was uploaded', () => {
+            const {getByLabelText, getByTestId, getByText, getByRole, queryByRole} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
+            expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeFalsy();
+            expect(getByLabelText('Egen vald bild').checked).toBeTruthy();
+
+            const errorText = getByTestId('error-text')
+            expect(errorText).toHaveClass('no-error')
+
+            getByText('Redigera text').click();
+
+            // Expect alert, error message and a disabled button
+            expect(getByRole('alert')).toHaveTextContent(expected);
+            expect(errorText).toHaveClass('error-label')
+            expect(getByText('Redigera text').disabled).toBeTruthy()
+
+            getByTestId('termsAgreement').click();
+
+            // Expect no alert, no error message and an enabled button
+            expect(queryByRole('alert')).toBeFalsy();
+            expect(errorText).toHaveClass('no-error')
+            expect(getByText('Redigera text').disabled).toBeFalsy()
+        });
+
     });
 
     describe('Page 2 Redigera introduktion till kursen', () => {
