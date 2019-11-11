@@ -97,6 +97,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
             for="defaultPicture"
           >
             <input
+              checked=""
               id="defaultPicture"
               name="choosePicture"
               type="radio"
@@ -110,7 +111,6 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
             for="otherPicture"
           >
             <input
-              checked=""
               id="otherPicture"
               name="choosePicture"
               type="radio"
@@ -122,57 +122,16 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
           <br />
         </span>
       </form>
-      <span>
-        <span
-          class=""
-          id="own-picture"
-        >
-          <span
-            class="preview-pic"
-          >
-            <span
-              alt="Tomt plats för att visa väld bilden"
-              class="empty-pic"
-            >
-              <p>
-                <i>
-                  Ingen bild vald
-                </i>
-              </p>
-            </span>
-          </span>
-          <span
-            class="file-uploader-section"
-          >
-            <label
-              for="pic-upload"
-            >
-              <button
-                class="btn btn-secondary btn-block"
-              >
-                <h4>
-                  Välj bild
-                </h4>
-              </button>
-            </label>
-            <input
-              accept="image/jpg,image/jpeg,image/png"
-              data-testid="fileUpload"
-              id="pic-upload"
-              name="pic-upload"
-              tabindex="-1"
-              type="file"
-            />
-          </span>
-        </span>
-        <span
-          class="no-error"
-          data-testid="error-text"
-        >
-          <p>
-            Obligatoriskt (format: .png eller .jpg)
-          </p>
-        </span>
+      <span
+        class=""
+      >
+        <h3 />
+        <img
+          alt="Bild för kurssidasdekoration"
+          height="auto"
+          src="Picture_by_MainFieldOfStudy_11_Mathematics.jpg"
+          width="300px"
+        />
       </span>
       <span
         class="control-buttons"
