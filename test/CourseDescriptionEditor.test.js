@@ -198,9 +198,19 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             getByText('Ja, fortsätt publicera').click();
 
             expect(await findByRole('alert')).toHaveTextContent('Det gick inte att publicera den bild du valt. Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.');
-            expect(getByRole('status')).toHaveTextContent('');
-
             window.XMLHttpRequest = oldXMLHttpRequest;
         });
+    });
+
+    describe('Page 3 Publish Progress Bar', () => {
+        test('Progress bar should not be visible before publish action', ()=>{
+            const pageNumber = 3;
+            const {queryByRole, getByText, findByRole} = renderEditPage(mockAdminStore, pageNumber);
+            expect(queryByRole('status')).toBeNull();
+
+            getByText('Publicera').click();
+            getByText('Ja, fortsätt publicera').click();
+            expect( findByRole('status')).toBeTruthy();
+       });
     });
 });

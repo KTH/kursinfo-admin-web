@@ -28,8 +28,13 @@ const mockAdminStore = {
                 uri: '/kursinfoadmin/kurser/kurs/storage/saveFile/:courseCode/:published'
             }
         }
-    }
-};
+    },
+
+    doUpsertItem (text, courseCode, imageName) {
+            return new Promise((resolve, reject) => {
+            resolve({status: 200})
+        })
+    }};
 
 
 export {mockAdminStore};
