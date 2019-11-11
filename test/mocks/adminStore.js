@@ -1,6 +1,5 @@
 
 const tempSaveNewImage = (imageFile, tempImagePath, isDefaultChosen) => {
-    console.debug(`>>> tempSaveNewImage(${imageFile}, ${tempImagePath}, ${isDefaultChosen})`);
     mockAdminStore.newImageFile = imageFile
     mockAdminStore.tempImagePath = tempImagePath
     mockAdminStore.isDefaultChosen = isDefaultChosen
