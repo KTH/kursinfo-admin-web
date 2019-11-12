@@ -208,7 +208,6 @@ span.title_and_info {
         font-weight: normal;
     }
     input[type=radio], input[type=checkbox] {
-        transform: scale(1.5);
         margin-right: .5em;
         margin-left: .5em;
     }
@@ -392,4 +391,12 @@ span.title_and_info {
 
 .btn-next, .btn-last, .btn-cancel { 
     text-align: end;
+}
+
+.external-link::after {
+    @extend %icon-general-style;
+    background: kthStyleIcon('external-link') no-repeat;
+    height: 0.85em;
+    width: 0.85em;
+    margin: 0 0.3em -0.1em 0.2em;
 }
