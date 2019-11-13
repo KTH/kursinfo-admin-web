@@ -33,7 +33,7 @@ class PictureUpload extends Component {
       isDefault: this.props.adminStore.isDefaultChosen,
       isError: false,
       infoMsg: undefined,
-      tempFilePath: this.props.adminStore.tempImagePath
+      tempFilePath: this.props.adminStore.tempImagePath // not a boolean but file cache to proceed between steps
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.lang = this.props.koppsData.lang
@@ -133,7 +133,10 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    const isNew = this.state.tempFilePath // not to be touched, it is cached picture not a boolean removed: && !this.state.isDefault
+    /* clarification: isNew is not to be touched, because it is a cached picture, (not a boolean but file cache to proceed between steps)
+    which will not be uploaded to storage until user click published,
+    removed: && !this.state.isDefault, because it will checked later and caused bug here */
+    const isNew = this.state.tempFilePath 
     let errorMayNotProceed = this.state.isError;
     if (isNew) {
       errorMayNotProceed |= !this.checkTerms()
