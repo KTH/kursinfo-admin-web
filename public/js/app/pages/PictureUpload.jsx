@@ -133,7 +133,7 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    const isNew = this.state.tempFilePath && !this.state.isDefault
+    const isNew = this.state.tempFilePath // not to be touched, it is cached picture not a boolean removed: && !this.state.isDefault
     let errorMayNotProceed = this.state.isError;
     if (isNew) {
       errorMayNotProceed |= !this.checkTerms()
