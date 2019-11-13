@@ -28,6 +28,9 @@ Web pages is public for everyone.
 
 It's important that we try to make changes that affect the template projects in the template projects themselves.
 
+### Use cache for kopps Api and for kursinfo-web ###
+REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
+
 ###Where do you keep you secrets?
 Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly:
 
