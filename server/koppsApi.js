@@ -1,30 +1,37 @@
 'use strict'
-const { BasicAPI } = require('kth-node-api-call')
-const { server } = require('./configuration')
 const log = require('kth-node-log')
+const config = require('./configuration').server
 const redis = require('kth-node-redis')
+const connections = require('kth-node-api-call').Connections
 const EMPTY = {
   en: 'No information inserted',
   sv: 'Ingen information tillagd'
 }
-const koppsApi = new BasicAPI({
-  hostname: server.kopps.host,
-  basePath: server.kopps.basePath,
-  https: server.kopps.https,
-  json: true,
-  defaultTimeout: server.kopps.defaultTimeout,
-  options: {
-    redis: {
-      client: redis,
-      prefix: 'course-info-admin-kopps',
-      expire: 20000
-    }
-  }
-})
+const koppsOpts = {
+  log,
+  https: true,
+  redis,
+  cache: config.cache,
+  timeout: 5000,
+  defaultTimeout: config.koppsApi.defaultTimeout,
+  retryOnESOCKETTIMEDOUT: true,
+  useApiKey: false // skip key
+}
+
+config.koppsApi.doNotCallPathsEndpoint = true // skip checking _paths, because kopps doesnt have it
+config.koppsApi.connected = true
+// config.koppsApi.json = true
+const koppsConfig = {
+  koppsApi: config.koppsApi
+}
+const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
+
 
 const koppsCourseData = async (courseCode) => {
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}`
   try {
-    const course = await koppsApi.getAsync({ uri: `course/${encodeURIComponent(courseCode)}`, useCache: true })
+    const course = await client.getAsync({ uri, useCache: true })
     return course.body
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
@@ -38,7 +45,9 @@ function isValidData (dataObject, lang='sv') {
 
 const fetchStatistic = async (courseRound) => {
   try {
-    const course = await koppsApi.getAsync({ uri: `courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
+    const { client } = api.koppsApi
+
+    const course = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
 
     let departments = {}
     
