@@ -73,7 +73,7 @@ module.exports = {
     cookieTimeout: 5
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
-  kopps: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
+  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // Service API's
   nodeApi: {
@@ -101,12 +101,16 @@ module.exports = {
     level: 'debug'
   },
   cache: {
+    koppsApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KOPPS_API_CACHE_EXPIRE_TIME', 60 * 60) // 60 minuteS
+    },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
     },
     kursinfoApi: {// TODO, CHECK IF IT IS NEEDED
       redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 60 * 60 * 1000)
+      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 30) // 30 seconds be careful to use because it is admin-tool, need always a new version
     }
   },
 
@@ -130,12 +134,6 @@ module.exports = {
     kursinfoStorage: {
       account: getEnv('STORAGE_ACCOUNT_NAME', devStorageAccountName),
       accountKey: getEnv('STORAGE_ACCOUNT_ACCESS_KEY', devStorageKey)//, getEnv('STORAGE_ACCOUNT_ACCESS_KEY', devStorageKey)]
-    },
-    // list of image types that are allowed to upload when an image is required
-    allowedImageMimeTypes: [
-      { ext: '.jpg', mime: 'image/jpeg' },
-      { ext: '.gif', mime: 'image/gif' },
-      { ext: '.png', mime: 'image/png' }
-    ]
+    }
   }
 }
