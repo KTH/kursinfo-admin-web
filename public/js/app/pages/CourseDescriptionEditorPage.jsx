@@ -29,10 +29,12 @@ class CourseDescriptionEditorPage extends Component {
   render () {
     const { koppsData, langIndex } = this
     const { introLabel } = i18n.messages[langIndex]
-    const { courseImage } = i18n.messages[1]
+
+    const { courseImage } = i18n.messages[1]    
     let courseImageID = courseImage[koppsData.mainSubject]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const defaultImageUrl = `${this.storageUri}${courseImageID}`
+    
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <CourseTitle key='title'
