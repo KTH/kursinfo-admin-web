@@ -56,7 +56,7 @@ const fetchStatistic = async (courseRound) => {
       if (departments[code]) departments[code].number +=1
       else departments[code] = { number : 1, name: cR.department_name}
     })
-    console.log('perDepartment ', departments)
+    log.debug('perDepartment ', departments)
 
     return {
       totalOfferings: course.body.length,
@@ -77,7 +77,7 @@ function isValidData (dataObject, lang='sv') {
 const filteredKoppsData = async (courseCode, lang='sv') => {
   try {
     const courseObj = await koppsCourseData(courseCode)
-    log.info(' kopps data ', courseObj)
+    log.debug('Got kopps data for course', courseObj.code)
     const courseTitleData = {
       course_code: isValidData(courseObj.code, lang),
       course_title: isValidData(courseObj.title[lang], lang),
