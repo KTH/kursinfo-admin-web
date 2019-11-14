@@ -94,13 +94,18 @@ $red: #e01f28;
     }
 }
 
+.progress-bar-container {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
 .progress-bar1{
-    text-align: center;
     border-bottom: 2px solid $light-grey;
-    font-weight: 900;
     padding-top: 30px;
+    padding-left: 0;
+    margin-bottom: 15px;
     &.progress-active{
-      border-bottom: 3px solid $kth-blue;
+      font-weight: 900;
     }
   }
 //====START ADMIN PAGE WITH CARDS====
@@ -199,6 +204,9 @@ span.title_and_info {
         border: transparent;
     }
 }
+.title_and_info + p {
+    font-weight: 900;
+}
 
 .input-label-row {
     @extend %row;
@@ -263,10 +271,10 @@ span.title_and_info {
                 margin:0;
                 &::after {
                     @extend %icon-general-style;
-                    margin-left: 1em;
                     vertical-align: bottom;
                     background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
                     background-size: 1em;   
+                    float: right;
                 }
             }
         }
@@ -343,7 +351,10 @@ span.title_and_info {
     word-wrap: break-word;
     padding-bottom: 10px;
     .sellingText {
-        padding-right: 12px
+        padding-right: 12px;
+        .textBlock {
+            list-style-position: inside;
+        }
     }
     img {
         float: left;
@@ -380,7 +391,17 @@ span.title_and_info {
         vertical-align: middle;
         margin-top: .2em;
     }
+    &.col-sm-4 {
+        padding-left: 0;
+    }
 }
+
+.btn-next, .btn-last {
+    &.col-sm-4 {
+        padding-right: 0;
+    }
+}
+
 .btn-next {
     .btn-success::after {
         @extend %arrow-icon;

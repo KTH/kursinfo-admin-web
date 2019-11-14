@@ -7,13 +7,13 @@ const ProgressBar = ({language, active}) => {
   return (
     <Row className='progress-bar-container'>
       <div className={`col-md-4 col-sm-12 progress-bar1 ${active === 1 ? 'progress-active' : ''}`}>
-        <h4>{i18n.messages[language].pageTitles.header_progress_select_pic}</h4>
+        <span>{i18n.messages[language].pageTitles.header_progress_select_pic}</span>
       </div>
       <div className={`col-md-4 col-sm-12 progress-bar1 ${active === 2 ? 'progress-active' : ''}`}>
-        <h4>{i18n.messages[language].pageTitles.header_progress_edit}</h4>
+        <span>{i18n.messages[language].pageTitles.header_progress_edit}</span>
       </div>
       <div className={`col-md-4 col-sm-12 progress-bar1 ${active === 3 ? 'progress-active' : ''}`}>
-        <h4>{i18n.messages[language].pageTitles.header_progress_review}</h4>
+        <span>{i18n.messages[language].pageTitles.header_progress_review}</span>
       </div>
     </Row>
   )

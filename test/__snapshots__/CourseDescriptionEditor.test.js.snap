@@ -40,23 +40,23 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       <div
         class="col-md-4 col-sm-12 progress-bar1 progress-active"
       >
-        <h4>
+        <span>
           1. Välj bild
-        </h4>
+        </span>
       </div>
       <div
         class="col-md-4 col-sm-12 progress-bar1 "
       >
-        <h4>
+        <span>
           2. Redigera text
-        </h4>
+        </span>
       </div>
       <div
         class="col-md-4 col-sm-12 progress-bar1 "
       >
-        <h4>
+        <span>
           3. Granska och publicera
-        </h4>
+        </span>
       </div>
     </div>
     <span

@@ -150,7 +150,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
 
-        test('Can go to next page (uploaded initial image, switch to default)', () => {
+        test.skip('Can go to next page (uploaded initial image, switch to default)', () => {
             const {getByText, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByLabelText(useDefaultImage).click();
             getByText('Redigera text').click()
