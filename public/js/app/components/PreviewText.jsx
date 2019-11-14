@@ -50,7 +50,7 @@ class Preview extends Component {
   handleUploadImage () {
     const formData = this.newImage
     const hostUrl = this.props.adminStore.browserConfig.hostUrl
-    const saveFileUrl = this.props.adminStore.paths.storage.saveFile.uri.split(':')[0]
+    const saveImageUrl = this.props.adminStore.paths.storage.saveImage.uri.split(':')[0]
     let fileProgress = this.state.fileProgress
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
@@ -70,7 +70,7 @@ class Preview extends Component {
           reject({error: this})
         }
       }
-      req.open('POST', `${hostUrl}${saveFileUrl}${this.courseCode}/published`)
+      req.open('POST', `${hostUrl}${saveImageUrl}${this.courseCode}/published`)
       req.send(formData)
     })
   }
