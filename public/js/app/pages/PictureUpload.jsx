@@ -80,8 +80,8 @@ class PictureUpload extends Component {
 
   resetToPrevApiPicture (event) {
     this._choosenNewPicture(!errTrue, noFile)
-    let el = document.querySelector('.pic-upload')
-    el.value = ''
+    let fileInput = document.querySelector('.pic-upload')
+    fileInput.value = ''
   }
 
   switchOption (event) {
@@ -133,7 +133,7 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    /* clarification: isNew is not to be touched, because it is a cached picture, (not a boolean but file cache to proceed between steps)
+    /* clarification: isNew is not to be touched for now, because it is a cached picture, (not a boolean but file cache to proceed between steps)
     which will not be uploaded to storage until user click published,
     removed: && !this.state.isDefault, because it will checked later and caused bug here */
     const isNew = this.state.tempFilePath 
