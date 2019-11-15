@@ -234,6 +234,20 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
+    describe('Page 3B Att tänka på innan du publicerar', () => {
+
+        const pageNumber = 3;
+
+        test('Has correct modal text', async () => {
+            const {getByText} = renderWithState({}, pageNumber);
+            getByText('Publicera').click();
+            expect(getByText(/Kurs: SF1624/)).toBeTruthy()
+            const regExpected = /Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion \(bild och text\) till kursen\./;
+            expect(getByText(regExpected)).toBeTruthy()
+            expect(getByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
+        });
+    });
+
     describe('Page 3C Publicering fel', () => {
 
         const pageNumber = 3;
@@ -260,14 +274,14 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     });
 
     describe('Page 3 Publish Progress Bar', () => {
-        test('Progress bar should not be visible before publish action', ()=>{
+        test('Progress bar should not be visible before publish action', () => {
             const pageNumber = 3;
             const {queryByRole, getByText, findByRole} = renderEditPage(mockAdminStore, pageNumber);
             expect(queryByRole('status')).toBeNull();
 
             getByText('Publicera').click();
             getByText('Ja, fortsätt publicera').click();
-            expect( findByRole('status')).toBeTruthy();
-       });
+            expect(findByRole('status')).toBeTruthy();
+        });
     });
 });

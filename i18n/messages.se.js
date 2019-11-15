@@ -145,8 +145,7 @@ module.exports = {
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
       body: `<br/>
-        <br/> 
-        Publicering kommer att ske på sidan: Kursinformation och ersätta befintlig introduktion (bild och text) till kursen.
+        Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion (bild och text) till kursen.
         <br/>
         <br/>
         Vill du fortsätta att publicera?`,
