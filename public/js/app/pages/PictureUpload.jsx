@@ -133,19 +133,17 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    /* clarification: isNew is not to be touched for now, because it is a cached picture, (not a boolean but file cache to proceed between steps)
-    which will not be uploaded to storage until user click published,
-    removed: && !this.state.isDefault, because it will checked later and caused bug here */
-    const isNew = this.state.tempFilePath 
+    const tempFilePath = this.state.tempFilePath
     let errorMayNotProceed = this.state.isError;
-    if (isNew) {
+    const isDefault = this.state.isDefault
+    if (tempFilePath && !isDefault) {
       errorMayNotProceed |= !this.checkTerms()
-    } else if (!this.isApiPicAvailable && !this.state.isDefault) {
+    } else if (!this.isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
       this.setState({isError: true, errMsg: 'no_file_chosen'})
     }
     if (!errorMayNotProceed) {
-      this.props.adminStore.tempSaveNewImage(this.state.newImage, isNew, this.state.isDefault)
+      this.props.adminStore.tempSaveNewImage(this.state.newImage, tempFilePath, isDefault)
       this.props.updateParent({
         progress: 2
       })
