@@ -94,10 +94,8 @@ class PictureUpload extends Component {
       infoMsg: undefined
     })
     if (isDefaultPic) {
-        // if user choose to override api picture
-      if (this.isApiPicAvailable) infoMsg = this.state.tempFilePath ? 'replace_all_with_default' : 'replace_api_with_default'
-        // if user choose to override new picture
-      else if (this.state.tempFilePath) infoMsg = 'replace_new_with_default'
+      // if user choose to override api picture with default
+      if (this.isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
     this.setState({infoMsg})
   }
