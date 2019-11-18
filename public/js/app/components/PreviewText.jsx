@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Alert, Button, Col, Row, Progress } from 'reactstrap'
+import { Alert, Button, Col, Row} from 'reactstrap'
 import { inject, observer } from 'mobx-react'
 import i18n from '../../../../i18n'
 import ButtonModal from '../components/ButtonModal'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
@@ -164,13 +165,12 @@ class Preview extends Component {
           </Col>
         </Row>
 
-        {this.state.hasDoneSubmit ?
-          <span className={this.state.isError ? 'text-danger' : this.state.redirectAfterSubmit ? 'text-success' : 'text-primary'}
-            role='status'>
+        {this.state.hasDoneSubmit || this.state.isError ?
+          <span className={this.state.isError ? 'text-danger' : 'text-success'} role='status'>
             <div className='text-center'>
                 {this.state.fileProgress + '%'}
             </div>
-            <Progress defaultValue={this.state.fileProgress} color={this.state.isError ? 'danger' : this.state.redirectAfterSubmit ? 'success' : 'info'} />
+            <ProgressBar now={this.state.isError ? '100' : this.state.fileProgress} variant={this.state.isError ? 'danger' : 'success'}/>
           </span>
             : ''
         }

@@ -20,7 +20,7 @@
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
     "build-dev": "NODE_ENV=development rimraf ./dist && gulp build && parcel build ./public/js/app/app.jsx && parcel build ./public/js/vendor.js && parcel watch ./public/js/app/app.jsx",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* --ignore public/ app.js\"  \"gulp watch\" "
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --quiet --ignore dist/ --ignore test/**/* app.js \"  \"gulp watch\" "
   },
   "pre-push": [
     "test"
@@ -70,6 +70,7 @@
     "passport": "^0.3.2",
     "query-string": "^5.1.1",
     "react": "^16.8.4",
+    "react-bootstrap": "^1.0.0-beta.15",
     "react-dom": "^16.8.4",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",

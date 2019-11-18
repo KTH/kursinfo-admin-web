@@ -149,7 +149,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             expect(queryByRole('alert')).toBeFalsy();
         });
 
-        test.skip('Can go to next page (upload image, switch to default) - used to be a bug', () => {
+        test('Can go to next page (upload image, switch to default) - used to be a bug', () => {
             const {getByText, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByLabelText(useDefaultImage).click();
             getByText('Redigera text').click()
