@@ -107,10 +107,6 @@ module.exports = {
     },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
-    },
-    kursinfoApi: {// TODO, CHECK IF IT IS NEEDED
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KURSINFO_API_CACHE_EXPIRE_TIME', 30) // 30 seconds be careful to use because it is admin-tool, need always a new version
     }
   },
 

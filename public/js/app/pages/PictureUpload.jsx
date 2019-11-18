@@ -80,8 +80,8 @@ class PictureUpload extends Component {
 
   resetToPrevApiPicture (event) {
     this._choosenNewPicture(!errTrue, noFile)
-    let el = document.querySelector('.pic-upload')
-    el.value = ''
+    let fileInput = document.querySelector('.pic-upload')
+    fileInput.value = ''
   }
 
   switchOption (event) {
@@ -94,10 +94,8 @@ class PictureUpload extends Component {
       infoMsg: undefined
     })
     if (isDefaultPic) {
-        // if user choose to override api picture
-      if (this.isApiPicAvailable) infoMsg = this.state.tempFilePath ? 'replace_all_with_default' : 'replace_api_with_default'
-        // if user choose to override new picture
-      else if (this.state.tempFilePath) infoMsg = 'replace_new_with_default'
+      // if user choose to override api picture with default
+      if (this.isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
     this.setState({infoMsg})
   }
@@ -133,19 +131,17 @@ class PictureUpload extends Component {
 
   doNextStep (event) {
     event.preventDefault()
-    /* clarification: isNew is not to be touched, because it is a cached picture, (not a boolean but file cache to proceed between steps)
-    which will not be uploaded to storage until user click published,
-    removed: && !this.state.isDefault, because it will checked later and caused bug here */
-    const isNew = this.state.tempFilePath 
+    const tempFilePath = this.state.tempFilePath
     let errorMayNotProceed = this.state.isError;
-    if (isNew) {
+    const isDefault = this.state.isDefault
+    if (tempFilePath && !isDefault) {
       errorMayNotProceed |= !this.checkTerms()
-    } else if (!this.isApiPicAvailable && !this.state.isDefault) {
+    } else if (!this.isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
       this.setState({isError: true, errMsg: 'no_file_chosen'})
     }
     if (!errorMayNotProceed) {
-      this.props.adminStore.tempSaveNewImage(this.state.newImage, isNew, this.state.isDefault)
+      this.props.adminStore.tempSaveNewImage(this.state.newImage, tempFilePath, isDefault)
       this.props.updateParent({
         progress: 2
       })

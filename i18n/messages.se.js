@@ -138,15 +138,12 @@ module.exports = {
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
-      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.`,
-      replace_api_with_default: `Observera: vid publicering kommer den publicerade bilden att raderas.`,
-      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas.`
+      replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
     },
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
       body: `<br/>
-        <br/> 
-        Publicering kommer att ske på sidan: Kursinformation och ersätta befintlig introduktion (bild och text) till kursen.
+        Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion (bild och text) till kursen.
         <br/>
         <br/>
         Vill du fortsätta att publicera?`,
@@ -180,7 +177,7 @@ module.exports = {
       firstOption: 'Bild vald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
       agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
-      imagesOnTheWeb: 'Bilder på webben.'
+      imagesOnTheWeb: 'Bilder på webben'
     },
     step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
     I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.`,

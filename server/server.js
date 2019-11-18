@@ -220,12 +220,10 @@ appRoute.get('course.getAdminStart', config.proxyPrefixPath.uri + '/:courseCode'
 appRoute.get('course.editDescription', config.proxyPrefixPath.uri + '/edit/:courseCode', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 appRoute.post('course.updateDescription', config.proxyPrefixPath.uri + '/api/:courseCode/', serverLogin, requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.updateDescription)
 // File upload for a course picture
-appRoute.post('storage.saveFile', config.proxyPrefixPath.uri + '/storage/saveFile/:courseCode/:published', SellingInfo.saveFileToStorage)
+appRoute.post('storage.saveImage', config.proxyPrefixPath.uri + '/storage/saveImage/:courseCode/:published', SellingInfo.saveImageToStorage)
 appRoute.get('system.gateway', config.proxyPrefixPath.uri + '/gateway', getServerGatewayLogin('/'), requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'), SellingInfo.getDescription)
 
 server.use('/', appRoute.getRouter())
-
-
 
 // Not found etc
 server.use(System.notFound)

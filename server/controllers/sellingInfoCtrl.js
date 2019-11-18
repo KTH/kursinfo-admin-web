@@ -19,14 +19,14 @@ module.exports = {
   getDescription: co.wrap(_getDescription),
   updateDescription: co.wrap(_updateDescription),
   myCourses: co.wrap(_myCourses),
-  saveFileToStorage: co.wrap(_saveFileToStorage)
+  saveImageToStorage: co.wrap(_saveImageToStorage)
 }
 
 async function _getSellingTextFromKursinfoApi (courseCode) {
   try {
-    const client = api.kursinfoApi.client
-    const paths = api.kursinfoApi.paths
-    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
+    const { client, paths } = api.kursinfoApi
+
+    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: false })
   } catch (error) {
     const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
     // apiError.status = 500
@@ -119,15 +119,15 @@ async function _updateDescription (req, res, next) {
 }
 
 // ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
-function * _saveFileToStorage (req, res, next) {
+async function _saveImageToStorage (req, res, next) {
   log.info('Saving uploaded file to storage ', req.body) // + req.files.file
   const file = req.files.file
   log.info('file', file, req.params.courseCode, req.body)
   try {
-    const savedImageName = yield runBlobStorage(file, req.params.courseCode, req.body)
+    const savedImageName = await runBlobStorage(file, req.params.courseCode, req.body)
     return httpResponse.json(res, savedImageName)
   } catch (error) {
-    log.error('Exception from saveFileToStorage ', { error: error })
+    log.error('Exception from saveImageToStorage ', { error: error })
     next(error)
   }
 }

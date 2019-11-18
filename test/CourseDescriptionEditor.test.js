@@ -135,32 +135,30 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     describe('Page 1G Valt om, ämnesbild', () => {
 
         const useDefaultImage = 'Bild vald utifrån kursens huvudområde';
+        const expected = 'Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.';
 
-        test('Has correct alert text (previously published image, switch to default)', () => {
+        test('Has correct alert text (published image, switch to default)', () => {
             const {getByRole, getByLabelText} = renderWithState(PUBLISHED_IMAGE_EXISTS);
             getByLabelText(useDefaultImage).click();
-            const expected = 'Observera: vid publicering kommer den publicerade bilden att raderas.';
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
 
-        test('Has correct alert text (uploaded initial image, switch to default)', () => {
-            const {getByRole, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
+        test('No alert (no published image, upload image, switch to default)', () => {
+            const {queryByRole, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByLabelText(useDefaultImage).click();
-            const expected = 'Observera: vid publicering kommer den egna valda bilden att raderas.';
-            expect(getByRole('alert')).toHaveTextContent(expected);
+            expect(queryByRole('alert')).toBeFalsy();
         });
 
-        test.skip('Can go to next page (uploaded initial image, switch to default)', () => {
+        test('Can go to next page (upload image, switch to default) - used to be a bug', () => {
             const {getByText, getByLabelText} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             getByLabelText(useDefaultImage).click();
             getByText('Redigera text').click()
             expect(getByText('Granska')).toBeInTheDocument()
         });
 
-        test('Has correct alert text (uploaded new image, switch to default)', () => {
+        test('Has correct alert text (published image, upload image, switch to default)', () => {
             const {getByRole, getByLabelText, getByTestId} = renderWithState(OVERWRITE_PUBLISHED_IMAGE);
             getByLabelText(useDefaultImage).click();
-            const expected = 'Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.';
             expect(getByRole('alert')).toHaveTextContent(expected);
         });
     });
@@ -234,6 +232,20 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
     });
 
+    describe('Page 3B Att tänka på innan du publicerar', () => {
+
+        const pageNumber = 3;
+
+        test('Has correct modal text', async () => {
+            const {getByText} = renderWithState({}, pageNumber);
+            getByText('Publicera').click();
+            expect(getByText(/Kurs: SF1624/)).toBeTruthy()
+            const regExpected = /Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion \(bild och text\) till kursen\./;
+            expect(getByText(regExpected)).toBeTruthy()
+            expect(getByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
+        });
+    });
+
     describe('Page 3C Publicering fel', () => {
 
         const pageNumber = 3;
@@ -260,14 +272,14 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     });
 
     describe('Page 3 Publish Progress Bar', () => {
-        test('Progress bar should not be visible before publish action', ()=>{
+        test('Progress bar should not be visible before publish action', () => {
             const pageNumber = 3;
             const {queryByRole, getByText, findByRole} = renderEditPage(mockAdminStore, pageNumber);
             expect(queryByRole('status')).toBeNull();
 
             getByText('Publicera').click();
             getByText('Ja, fortsätt publicera').click();
-            expect( findByRole('status')).toBeTruthy();
-       });
+            expect(findByRole('status')).toBeTruthy();
+        });
     });
 });
