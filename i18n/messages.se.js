@@ -138,9 +138,7 @@ module.exports = {
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
-      replace_all_with_default: `Observera: vid publicering kommer den egna valda och/eller publicerade bilden att raderas.`,
-      replace_api_with_default: `Observera: vid publicering kommer den publicerade bilden att raderas.`,
-      replace_new_with_default: `Observera: vid publicering kommer den egna valda bilden att raderas.`
+      replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
     },
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
