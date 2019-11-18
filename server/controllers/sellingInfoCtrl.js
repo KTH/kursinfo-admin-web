@@ -26,7 +26,7 @@ async function _getSellingTextFromKursinfoApi (courseCode) {
   try {
     const { client, paths } = api.kursinfoApi
 
-    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: true })
+    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: false })
   } catch (error) {
     const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
     // apiError.status = 500
