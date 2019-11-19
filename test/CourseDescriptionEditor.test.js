@@ -266,7 +266,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
             getByText('Publicera').click();
             getByText('Ja, fortsätt publicera').click();
 
-            expect(await findByRole('alert')).toHaveTextContent('Det gick inte att publicera den bild du valt. Gå tillbaka till Välj bild för att byta bild. Prova sedan att Publicera.');
+            expect(await findByRole('alert')).toHaveTextContent('Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.');
             window.XMLHttpRequest = oldXMLHttpRequest;
         });
     });
