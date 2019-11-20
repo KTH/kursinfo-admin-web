@@ -94,6 +94,9 @@ class PictureUpload extends Component {
       infoMsg: undefined
     })
     if (isDefaultPic) {
+      this.setState({
+        tempFilePath: undefined
+      })
       // if user choose to override api picture with default
       if (this.isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
@@ -134,7 +137,7 @@ class PictureUpload extends Component {
     const tempFilePath = this.state.tempFilePath
     let errorMayNotProceed = this.state.isError;
     const isDefault = this.state.isDefault
-    if (tempFilePath && !isDefault) {
+    if (tempFilePath) {
       errorMayNotProceed |= !this.checkTerms()
     } else if (!this.isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
