@@ -12,8 +12,8 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
-    "test": "NODE_ENV=test jest test",
-    "test-watch": "NODE_ENV=test jest --watch",
+    "test": "jest test",
+    "test-watch": "jest --watch",
     "vendor": "parcel build ./public/js/vendor.js",
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production gulp build && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",

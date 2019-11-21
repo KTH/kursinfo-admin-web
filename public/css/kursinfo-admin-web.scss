@@ -34,17 +34,17 @@ $red: #e01f28;
 %responsive-table {
     @media (max-width: 767px) {
     /* Force table to not be like tables anymore */
-        .table table, thead, tbody, th, td, tr { 
-            display: block; 
+        .table table, thead, tbody, th, td, tr {
+            display: block;
             max-width: 95%;
-            }    
-        .table td { 
+            }
+        .table td {
             /* Behave  like a "row" */
             border: none;
-            border-bottom: 1px solid #fff; 
+            border-bottom: 1px solid #fff;
             position: relative;
             display: flex;
-            flex-direction: column;  
+            flex-direction: column;
         }
     }
 }
@@ -67,7 +67,7 @@ $red: #e01f28;
         margin: 1em 15px;
     }
 }
-.kursinfo-main-page {    
+.kursinfo-main-page {
     padding-bottom: 3em;
     padding-top: 2em;
     width: 100%;
@@ -113,7 +113,7 @@ $red: #e01f28;
 
 //1.Navigation with KIP Links and right-located description text
 span.navigation {
-    @extend %column;  
+    @extend %column;
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
@@ -154,7 +154,7 @@ span.navigation {
     @extend %column;
     .card {
         width: 100%;
-        margin: 1em .5em 1em 0; 
+        margin: 1em .5em 1em 0;
         .btn:last-of-type {
             margin-top: 1em;
             margin-left: 1em;
@@ -162,11 +162,11 @@ span.navigation {
         &:last-of-type {
             margin-right: 0;
         }
-    } 
+    }
     .card-footer.text-right {
         min-height: 6.2em;
     }
-    @media (min-width: 768px) { 
+    @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -174,7 +174,7 @@ span.navigation {
             max-width: 30em;
             min-width: 18em;
             align-content: flex-start;
-            margin-right: 2em; 
+            margin-right: 2em;
         }
         .card.course-development {
             max-width: 28em;
@@ -186,7 +186,7 @@ span.navigation {
             padding: .75rem 1.25rem .75rem .75rem
         }
     }
-    @media (min-width: 1024px) { 
+    @media (min-width: 1024px) {
         flex-wrap: nowrap;
         .card {
             max-width: 28em;
@@ -225,7 +225,7 @@ span.title_and_info {
 
 //====UPLOAD PICTURE====
 
-.Upload--Area { 
+.Upload--Area {
     @extend %column;
     justify-content: space-between;
     align-items: baseline;
@@ -260,7 +260,7 @@ span.title_and_info {
             width: 300px;
             justify-content: center;
             p {align-self: center;}
-        } 
+        }
         .file-uploader-section {
             @extend %column;
             input[type=file] {
@@ -273,7 +273,7 @@ span.title_and_info {
                 &::after {
                     @extend %icon-general-style;
                     vertical-align: bottom;
-                    background: kthStyleIcon('file-upload-fa-solid') no-repeat; 
+                    background: kthStyleIcon('file-upload-fa-solid') no-repeat;
                     background-size: 1em;   
                     float: right;
                 }
@@ -288,9 +288,9 @@ span.title_and_info {
     @media (min-width: 768px) {
         .badge,  span.right {
             margin-left: .5em;
-        } 
+        }
         span.left {
-            margin-right: .5em; 
+            margin-right: .5em;
         }
     }
     span.control-buttons {
@@ -303,7 +303,7 @@ span.title_and_info {
     margin: 2em 0;
     p.changed-by {
         margin-bottom: 0;
-    } 
+    }
     h3 {
         margin-top: 0;
     }
@@ -314,10 +314,10 @@ span.title_and_info {
     margin-bottom: -.7em;
     span.left, span.right {
         width: 100%;
-        margin-bottom: 3em; 
+        margin-bottom: 3em;
     }
     textarea.editor {
-        visibility: hidden; 
+        visibility: hidden;
         display: none;
     }
     @media (min-width: 768px) {
@@ -325,12 +325,12 @@ span.title_and_info {
         justify-content: space-between;
         .badge,  span.right {
             margin-left: .5em;
-        } 
+        }
         span.left {
-            margin-right: .5em; 
+            margin-right: .5em;
         }
     }
-    .courseIntroTextCollapse {   
+    .courseIntroTextCollapse {
         a.collapse-header  {
             text-decoration: none;
             // cursor: pointer;
@@ -342,7 +342,7 @@ span.title_and_info {
         h4.mb-0 {
             margin-top: 0;
         }
-    }  
+    }
 }
 
 //Preview mode style
@@ -369,15 +369,15 @@ span.title_and_info {
 .control-buttons {
     @extend %column;
     border-top: 1px solid #dee2e6;
-    padding-top: 1.5em; 
+    padding-top: 1.5em;
 
-    @media (min-width: 768px) { 
+    @media (min-width: 768px) {
         flex-direction: row;
         margin: 0;
         width: 100%;
         .btn-cancel {
             text-align: center;
-        } 
+        }
     }
 }
 
@@ -406,12 +406,12 @@ span.title_and_info {
 .btn-next {
     .btn-success::after {
         @extend %arrow-icon;
-        filter: brightness(15);
+        filter: grayscale(1) brightness(0) invert(1);
         transform: rotate(180deg);
     }
 }
 
-.btn-next, .btn-last, .btn-cancel { 
+.btn-next, .btn-last, .btn-cancel {
     text-align: end;
 }
 
