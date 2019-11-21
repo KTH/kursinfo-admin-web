@@ -268,7 +268,7 @@ span.title_and_info {
                 opacity: 0;
                 border: 0;
             }
-            h4 {
+            span {
                 margin:0;
                 &::after {
                     @extend %icon-general-style;
