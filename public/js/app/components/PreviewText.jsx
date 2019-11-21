@@ -21,7 +21,6 @@ class Preview extends Component {
       fileProgress: 0
     }
     this.isDefaultChosen = this.props.adminStore.isDefaultChosen
-    this.isPrevApiChosen = !this.props.adminStore.isDefaultChosen && !this.props.adminStore.tempImagePath
 
     this.newImage = this.props.adminStore.newImageFile
     this.tempFilePath = this.props.adminStore.tempImagePath
@@ -64,7 +63,6 @@ class Preview extends Component {
       req.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
           resolve({imageName: this.response})
-          // reject({error: this})
         }
         if (this.readyState === 4 && this.status !== 200) {
           this.setState({ fileProgress: 0 })
@@ -104,7 +102,9 @@ class Preview extends Component {
       hasDoneSubmit: true,
       isError: false
     })
-    if (this.tempFilePath) {
+    if (this.isDefaultChosen) {
+      this.handleSellingText({imageName: ''})
+    } else if (this.tempFilePath) {
       this.handleUploadImage()
       .then(imageName => this.handleSellingText(imageName))
       .catch(err => {
@@ -114,15 +114,16 @@ class Preview extends Component {
           errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error
         })
       })
-    } else if (this.isDefaultChosen) this.handleSellingText({imageName: ''})
-      else this.handleSellingText({imageName: this.props.adminStore.imageNameFromApi})
+    } else {
+      this.handleSellingText({imageName: this.props.adminStore.imageNameFromApi})
+    }
   }
 
   render () {
     const { koppsText } = this.koppsData
     const { introLabel, defaultImageUrl } = this.props
-    const { tempFilePath, isPrevApiChosen, apiImageUrl } = this
-    const pictureUrl = tempFilePath || (isPrevApiChosen ? apiImageUrl : defaultImageUrl)
+    const { tempFilePath, apiImageUrl } = this
+    const pictureUrl = this.isDefaultChosen ? defaultImageUrl : tempFilePath || apiImageUrl
 
     return (
       <div className='Preview--Changes col'>
