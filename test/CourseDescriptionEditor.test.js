@@ -26,8 +26,9 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     });
 
     test('Has correct main heading', () => {
-        const heading = renderEditPage().getByTestId('main-heading');
-        expect(heading).toHaveTextContent(/^Redigera introduktion till kursen$/); // require exact match
+        const {getByTestId} = renderEditPage();
+        expect(getByTestId('main-heading')).toHaveTextContent(/^Redigera introduktion till kursen$/); // require exact match
+        expect(getByTestId('main-course')).toHaveTextContent(/^SF1624 Algebra och geometri 7,5 hp/); // require exact match
     });
 
     describe('Page 1A Välj Bild', () => {

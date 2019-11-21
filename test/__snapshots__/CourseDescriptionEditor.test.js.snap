@@ -14,7 +14,9 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       >
         Redigera introduktion till kursen
       </h1>
-      <h4>
+      <div
+        data-testid="main-course"
+      >
         <span
           property="aiiso:code"
         >
@@ -32,7 +34,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
         >
            7,5 hp
         </span>
-      </h4>
+      </div>
     </div>
     <div
       class="progress-bar-container row"
