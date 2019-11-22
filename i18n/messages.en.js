@@ -182,8 +182,7 @@ module.exports = {
     If you want to use KOPPS short description then remove a course introduction text`,
     step_3_desc: `In this step (3 of 3) a preview of the image and the text is presented as it will 
     be published on the page Course information. It is possible to go back to change the image and edit text or move forward to 
-    publish the information on the page Course information.
-    Alternativ`,
+    publish the information on the page Course information.`,
     label_max_number_letters: 'The maximum amount of signs is 1500.',
     label_left_number_letters: 'Left to use:',
     label_step_1: 'Choose image',
