@@ -127,7 +127,6 @@ class Preview extends Component {
 
     return (
       <div className='Preview--Changes col'>
-        <p data-testid='intro-text'>{introLabel.step_3_desc}</p>
         {this.state.isError && this.state.errMsg ? <Alert color='danger'><p>{this.state.errMsg}</p></Alert> : ''}
         <span className='title_and_info'>
           <h2>{introLabel.label_step_3}</h2> {' '}

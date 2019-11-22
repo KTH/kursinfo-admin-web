@@ -153,7 +153,6 @@ class PictureUpload extends Component {
     const { apiImageUrl, defaultImageUrl, lang } = this
     return (
       <span className='Upload--Area col' key='uploadArea'>
-        <p data-testid='intro-text'>{introLabel.step_1_desc}</p>
         {this.state.isDefault && this.state.infoMsg
           ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert>
           : this.state.isError && this.state.errMsg
