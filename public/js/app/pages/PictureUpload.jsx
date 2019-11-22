@@ -159,9 +159,9 @@ class PictureUpload extends Component {
               ? <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
         }
         <span className='title_and_info'>
-          <h2 data-testid='intro-heading'>{introLabel.label_step_1}</h2> {' '}
+          <h2 data-testid='intro-heading'>{introLabel.label_step_1}
           <ButtonModal id='infoPic' type='info-icon'
-            modalLabels={introLabel.info_image} course={this.courseCode} />
+            modalLabels={introLabel.info_image} course={this.courseCode} /></h2>
         </span>
         <p>{introLabel.image.choiceInfo}</p>
         <form className='Picture--Options input-label-row'>
@@ -180,7 +180,6 @@ class PictureUpload extends Component {
         </form>
         {this.state.isDefault
         ? <span className='' key='picture'>
-          <h3>{introLabel.label_edit_picture}</h3>
           <img src={defaultImageUrl} alt={introLabel.alt.image} height='auto' width='300px' />
         </span>
         : <span>
@@ -212,9 +211,11 @@ class PictureUpload extends Component {
           </span>
           : ''
           }
-          <span data-testid="error-text" className={this.state.isError ? 'error-label' : 'no-error'}>
+          {this.state.isError && (
+          <span data-testid="error-text" className="error-label">
              <p>{this.state.errMsg !== 'approve_term' ? introLabel.required.image : introLabel.required.agreement}</p>
           </span>
+          )}
         </span>
         }
         <span className='control-buttons'>

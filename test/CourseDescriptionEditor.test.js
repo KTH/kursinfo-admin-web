@@ -81,33 +81,32 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)';
 
         test('Has correct alert text and error message (no image selected)', async () => {
-            const {getByText, getByLabelText, getByRole, getByTestId} = renderEditPage();
+            const {getByText, getByLabelText, getByRole, getByTestId, queryByTestId} = renderEditPage();
 
             expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy();
             expect(getByLabelText('Egen vald bild').checked).toBeFalsy();
             getByLabelText('Egen vald bild').click()
 
             //No error message visible initially
-            const errorMessageSpan = getByTestId('error-text')
-            expect(errorMessageSpan).toHaveClass('no-error')
+            expect(queryByTestId('error-text')).toBeFalsy()
 
             getByText('Redigera text').click();
 
             //Alert and Error Message assertion
             expect(getByRole('alert')).toHaveTextContent(expectedAlert);
+            const errorMessageSpan = getByTestId('error-text')
             expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
         });
 
         test('Has correct alert text and error message (wrong format chosen)', () => {
-            const {getByText, getByLabelText, getByRole, getByTestId} = renderEditPage();
+            const {getByLabelText, getByRole, getByTestId, queryByTestId} = renderEditPage();
 
             expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy();
             expect(getByLabelText('Egen vald bild').checked).toBeFalsy();
             getByLabelText('Egen vald bild').click()
 
             //No error message visible initially
-            const errorMessageSpan = getByTestId('error-text')
-            expect(errorMessageSpan).toHaveClass('no-error')
+            expect(queryByTestId('error-text')).toBeFalsy()
 
             //simulate file upload with incorrect format
             const imageInput = getByTestId('fileUpload')
@@ -119,6 +118,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
             //Alert and Error Message assertion
             expect(getByRole('alert')).toHaveTextContent(expectedAlert);
+            const errorMessageSpan = getByTestId('error-text')
             expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
         });
     });
@@ -176,17 +176,18 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         });
 
         test('Must tick box to continue if image was uploaded', () => {
-            const {getByLabelText, getByTestId, getByText, getByRole, queryByRole} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
+            const {getByLabelText, getByTestId, getByText, getByRole, queryByRole, queryByTestId} = renderWithState(IMAGE_SELECTED_FOR_UPLOAD);
             expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeFalsy();
             expect(getByLabelText('Egen vald bild').checked).toBeTruthy();
 
-            const errorText = getByTestId('error-text')
-            expect(errorText).toHaveClass('no-error')
+            //No error message visible initially
+            expect(queryByTestId('error-text')).toBeFalsy()
 
             getByText('Redigera text').click();
 
             // Expect alert, error message and a disabled button
             expect(getByRole('alert')).toHaveTextContent(expected);
+            const errorText = getByTestId('error-text')
             expect(errorText).toHaveClass('error-label')
             expect(getByText('Redigera text').disabled).toBeTruthy()
 
@@ -194,7 +195,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
             // Expect no alert, no error message and an enabled button
             expect(queryByRole('alert')).toBeFalsy();
-            expect(errorText).toHaveClass('no-error')
+            expect(queryByTestId('error-text')).toBeFalsy()
             expect(getByText('Redigera text').disabled).toBeFalsy()
         });
 

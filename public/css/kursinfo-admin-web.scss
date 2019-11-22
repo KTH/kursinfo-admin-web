@@ -54,7 +54,7 @@ $red: #e01f28;
     .alert {
         max-width: 100em;
         width: 100%;
-        margin: 1em 0;
+        margin: 0 0 50px 0;
         p {
             font-size: 1rem;
             font-weight: 400;
@@ -99,14 +99,13 @@ $red: #e01f28;
 .progress-bar-container {
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 50px;
-
     p {
         margin-top: 20px;
+        margin-bottom: 0;
     }
 }
 
-.progress-bar1{
+.progress-bar1 {
     border-bottom: 2px solid $light-grey;
     padding-left: 0;
     margin-bottom: 10px;
@@ -203,11 +202,12 @@ span.title_and_info {
     @extend %row;
     align-items: flex-start;
     h2 {
-        margin-right: .5em;
         margin-top: 0;
     }
     .btn-info-modal {
         border: transparent;
+        margin-left: 1em;
+        vertical-align: baseline;
     }
 }
 .title_and_info + p {
@@ -234,20 +234,14 @@ span.title_and_info {
     @extend %column;
     justify-content: space-between;
     align-items: baseline;
-    margin: 0 0 2em 0;
-    //radio and checkbox
+    margin: 50px 0 2em 0;
 
     .error-area {
-        visibility: visible;
-        border: solid 1px $red;
+        border: solid 1px $red !important;
         border-radius: .25rem;
-        padding: 1em .5em;
     }
     .error-label {
         color:$red;
-    }
-    .no-error {
-        visibility: hidden;
     }
 
     #own-picture {
@@ -287,7 +281,10 @@ span.title_and_info {
         .preview-pic {
             @extend %column;
             margin-right: 5em;
-            margin-bottom: 1.5em;
+        }
+        & + span.input-label-row {
+            margin-top: 20px;
+            border: 1px solid transparent;
         }
     }
     @media (min-width: 768px) {
@@ -298,14 +295,18 @@ span.title_and_info {
             margin-right: .5em;
         }
     }
+    form + span {
+        margin-top: 30px;
+    }
     span.control-buttons {
-        margin: 1em 0;
+        margin-top: 50px;
+        padding: 15px 0;
     }
 }
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo, .Preview--Changes {
-    margin: 2em 0;
+    margin: 50px 0 2em 0;
     p.changed-by {
         margin-bottom: 0;
     }
