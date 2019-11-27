@@ -68,7 +68,7 @@ $red: #e01f28;
     }
 }
 .kursinfo-main-page {
-    padding-bottom: 3em;
+    padding-bottom: 20px;
     padding-top: 2em;
     width: 100%;
 
@@ -97,8 +97,7 @@ $red: #e01f28;
 }
 
 .progress-bar-container {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 0 15px 50px 15px;
     p {
         margin-top: 20px;
         margin-bottom: 0;
@@ -234,7 +233,7 @@ span.title_and_info {
     @extend %column;
     justify-content: space-between;
     align-items: baseline;
-    margin: 50px 0 2em 0;
+    margin: 0;
 
     .error-area {
         border: solid 1px $red !important;
@@ -298,7 +297,7 @@ span.title_and_info {
     form + span {
         margin-top: 30px;
     }
-    span.control-buttons {
+    .control-buttons {
         margin-top: 50px;
         padding: 15px 0;
     }
@@ -306,21 +305,37 @@ span.title_and_info {
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo, .Preview--Changes {
-    margin: 50px 0 2em 0;
+    margin: 50px 0 0 0;
     p.changed-by {
         margin-bottom: 0;
     }
     h3 {
         margin-top: 0;
     }
+    h4 {
+        margin-top: 30px;
+    }
+    .control-buttons {
+        margin-top: 50px;
+        padding: 15px 0;
+    }
 }
+
+.TextEditor--SellingInfo { // if the changed-by is removed, this whole section is no longer needed
+    .control-buttons {
+        margin-top: 0;
+    }
+    .changed-by {
+        margin-top: 50px;
+    }
+}
+
 .Editors--Area {
     @extend %column;
     justify-content: space-between;
-    margin-bottom: -.7em;
+    margin-bottom: 0;
     span.left, span.right {
         width: 100%;
-        margin-bottom: 3em;
     }
     textarea.editor {
         visibility: hidden;
@@ -339,7 +354,6 @@ span.title_and_info {
     .courseIntroTextCollapse {
         a.collapse-header  {
             text-decoration: none;
-            // cursor: pointer;
         }
 
         & > h4 {
@@ -348,27 +362,37 @@ span.title_and_info {
         h4.mb-0 {
             margin-top: 0;
         }
+        p {
+            margin-bottom: 0;
+        }
     }
 }
 
 //Preview mode style
 
 .courseIntroText {
-    // padding-top: 10px;
+    background-color: pink;
     word-wrap: break-word;
-    padding-bottom: 10px;
     .sellingText {
         padding-right: 12px;
+        margin-bottom: 20px;
         .textBlock {
             list-style-position: inside;
         }
     }
+    h3 {
+        margin-bottom: 15px;
+    }
     img {
         float: left;
-        margin: 8px 20px 10px 0;
+        margin: 0 30px 0 0;
         width:100%;
         max-width: 400px;
     }
+}
+
+#middle > div:first-of-type {
+    margin-bottom: 20px;
 }
 
 //BUTTONS STYLES
@@ -427,4 +451,18 @@ span.title_and_info {
     height: 0.85em;
     width: 0.85em;
     margin: 0 0.3em -0.1em 0.2em;
+}
+
+#publish {
+    .modal-header {
+        padding: 20px;
+    }
+    .modal-footer  {
+        button {
+            margin: 0;
+        }
+        button:last-of-type {
+            margin-left: 20px;
+        }
+    }
 }

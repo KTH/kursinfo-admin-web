@@ -26,8 +26,8 @@ class KoppsTextCollapse extends Component {
             </h4>
           </div>
           <Collapse isOpen={this.state.collapse} toggler={'#koppsShortDesc' + lang} aria-labelledby={'koppsShortDesc' + lang}>
-            <div className='card-body  col'>
-              <span className='textBlock' dangerouslySetInnerHTML={{__html: koppsText}}></span>
+            <div className='card-body col'>
+              <span className='textBlock' dangerouslySetInnerHTML={{__html: koppsText}} />
             </div>
           </Collapse>
         </div>
