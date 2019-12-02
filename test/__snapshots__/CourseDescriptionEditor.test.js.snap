@@ -14,7 +14,9 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       >
         Redigera introduktion till kursen
       </h1>
-      <h4>
+      <div
+        data-testid="main-course"
+      >
         <span
           property="aiiso:code"
         >
@@ -32,7 +34,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
         >
            7,5 hp
         </span>
-      </h4>
+      </div>
     </div>
     <div
       class="progress-bar-container row"
@@ -40,34 +42,36 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       <div
         class="col-md-4 col-sm-12 progress-bar1 progress-active"
       >
-        <h4>
+        <span>
           1. Välj bild
-        </h4>
+        </span>
       </div>
       <div
         class="col-md-4 col-sm-12 progress-bar1 "
       >
-        <h4>
+        <span>
           2. Redigera text
-        </h4>
+        </span>
       </div>
       <div
         class="col-md-4 col-sm-12 progress-bar1 "
       >
-        <h4>
+        <span>
           3. Granska och publicera
-        </h4>
+        </span>
+      </div>
+      <div>
+        <p
+          data-testid="intro-text"
+        >
+          Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
+    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.
+        </p>
       </div>
     </div>
     <span
       class="Upload--Area col"
     >
-      <p
-        data-testid="intro-text"
-      >
-        Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
-    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.
-      </p>
       <span
         class="title_and_info"
       >
@@ -75,14 +79,13 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
           data-testid="intro-heading"
         >
           Välj bild
+          <span>
+            <button
+              class="btn-info-modal btn btn-btn-info-modal"
+              type="button"
+            />
+          </span>
         </h2>
-          
-        <span>
-          <button
-            class="btn-info-modal btn btn-btn-info-modal"
-            type="button"
-          />
-        </span>
       </span>
       <p>
         Välj bild som ska visas på kursinformationssidan:
@@ -125,7 +128,6 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
       <span
         class=""
       >
-        <h3 />
         <img
           alt="Bild för kurssidasdekoration"
           height="auto"

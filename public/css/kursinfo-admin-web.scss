@@ -54,7 +54,7 @@ $red: #e01f28;
     .alert {
         max-width: 100em;
         width: 100%;
-        margin: 1em 0;
+        margin: 0 0 50px 0;
         p {
             font-size: 1rem;
             font-weight: 400;
@@ -68,7 +68,7 @@ $red: #e01f28;
     }
 }
 .kursinfo-main-page {
-    padding-bottom: 3em;
+    padding-bottom: 20px;
     padding-top: 2em;
     width: 100%;
 
@@ -84,23 +84,32 @@ $red: #e01f28;
     }
 }
 .courseTitle {
-    margin: 0;
-    margin-top: 20px;
+    margin: 20px 0 0 0;
     h1 {
         margin-bottom: 0;
     }
-    h4 {
-        margin-top: 0;
+    h1 + div {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 50px;
+        margin-top: 10px;
     }
 }
 
-.progress-bar1{
-    text-align: center;
+.progress-bar-container {
+    margin: 0 15px 50px 15px;
+    p {
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+}
+
+.progress-bar1 {
     border-bottom: 2px solid $light-grey;
-    font-weight: 900;
-    padding-top: 30px;
+    padding-left: 0;
+    margin-bottom: 10px;
     &.progress-active{
-      border-bottom: 3px solid $kth-blue;
+      font-weight: 900;
     }
   }
 //====START ADMIN PAGE WITH CARDS====
@@ -192,12 +201,16 @@ span.title_and_info {
     @extend %row;
     align-items: flex-start;
     h2 {
-        margin-right: .5em;
+        margin-top: 0;
     }
     .btn-info-modal {
-        margin-top: 2.4em;
         border: transparent;
+        margin-left: 1em;
+        vertical-align: baseline;
     }
+}
+.title_and_info + p {
+    font-weight: 900;
 }
 
 .input-label-row {
@@ -220,20 +233,14 @@ span.title_and_info {
     @extend %column;
     justify-content: space-between;
     align-items: baseline;
-    margin: 2em 0;
-    //radio and checkbox
+    margin: 0;
 
     .error-area {
-        visibility: visible;
-        border: solid 1px $red;
+        border: solid 1px $red !important;
         border-radius: .25rem;
-        padding: 1em .5em;
     }
     .error-label {
         color:$red;
-    }
-    .no-error {
-        visibility: hidden;
     }
 
     #own-picture {
@@ -259,21 +266,24 @@ span.title_and_info {
                 opacity: 0;
                 border: 0;
             }
-            h4 {
+            span {
                 margin:0;
                 &::after {
                     @extend %icon-general-style;
-                    margin-left: 1em;
                     vertical-align: bottom;
                     background: kthStyleIcon('file-upload-fa-solid') no-repeat;
-                    background-size: 1em;
+                    background-size: 1em;   
+                    float: right;
                 }
             }
         }
         .preview-pic {
             @extend %column;
             margin-right: 5em;
-            margin-bottom: 1.5em;
+        }
+        & + span.input-label-row {
+            margin-top: 20px;
+            border: 1px solid transparent;
         }
     }
     @media (min-width: 768px) {
@@ -284,28 +294,50 @@ span.title_and_info {
             margin-right: .5em;
         }
     }
-    span.control-buttons {
-        margin: 1em 0;
+    form + span {
+        margin-top: 30px;
+    }
+    .control-buttons {
+        margin-top: 50px;
+        padding: 15px 0;
     }
 }
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo, .Preview--Changes {
-    margin: 2em 0;
+    margin: 50px 0 0 0;
     p.changed-by {
         margin-bottom: 0;
     }
     h3 {
         margin-top: 0;
+        margin-bottom: 15px;
+    }
+    h4 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+    .control-buttons {
+        margin-top: 50px;
+        padding: 15px 0;
     }
 }
+
+.TextEditor--SellingInfo { // if the changed-by is removed, this whole section is no longer needed
+    .control-buttons {
+        margin-top: 0;
+    }
+    .changed-by {
+        margin-top: 50px;
+    }
+}
+
 .Editors--Area {
     @extend %column;
     justify-content: space-between;
-    margin-bottom: -.7em;
+    margin-bottom: 0;
     span.left, span.right {
         width: 100%;
-        margin-bottom: 3em;
     }
     textarea.editor {
         visibility: hidden;
@@ -324,14 +356,15 @@ span.title_and_info {
     .courseIntroTextCollapse {
         a.collapse-header  {
             text-decoration: none;
-            // cursor: pointer;
-        }
-
-        & > h4 {
-            margin-top: 1em;
         }
         h4.mb-0 {
             margin-top: 0;
+        }
+        p {
+            margin-bottom: 0;
+        }
+        & + p {
+            margin-bottom: 15px;
         }
     }
 }
@@ -339,18 +372,27 @@ span.title_and_info {
 //Preview mode style
 
 .courseIntroText {
-    // padding-top: 10px;
     word-wrap: break-word;
-    padding-bottom: 10px;
     .sellingText {
-        padding-right: 12px
+        padding-right: 12px;
+        margin-bottom: 20px;
+        .textBlock {
+            list-style-position: inside;
+        }
+    }
+    h3 {
+        margin-bottom: 15px;
     }
     img {
         float: left;
-        margin: 8px 20px 10px 0;
+        margin: 0 30px 0 0;
         width:100%;
         max-width: 400px;
     }
+}
+
+#middle > div:first-of-type {
+    margin-bottom: 20px;
 }
 
 //BUTTONS STYLES
@@ -380,7 +422,17 @@ span.title_and_info {
         vertical-align: middle;
         margin-top: .2em;
     }
+    &.col-sm-4 {
+        padding-left: 0;
+    }
 }
+
+.btn-next, .btn-last {
+    &.col-sm-4 {
+        padding-right: 0;
+    }
+}
+
 .btn-next {
     .btn-success::after {
         @extend %arrow-icon;
@@ -399,4 +451,18 @@ span.title_and_info {
     height: 0.85em;
     width: 0.85em;
     margin: 0 0.3em -0.1em 0.2em;
+}
+
+#publish {
+    .modal-header {
+        padding: 20px;
+    }
+    .modal-footer  {
+        button {
+            margin: 0;
+        }
+        button:last-of-type {
+            margin-left: 20px;
+        }
+    }
 }

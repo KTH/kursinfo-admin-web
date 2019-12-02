@@ -34,7 +34,9 @@ class CourseDescriptionEditorPage extends Component {
     let courseImageID = courseImage[koppsData.mainSubject]
     if (courseImageID === undefined) courseImageID = courseImage.default
     const defaultImageUrl = `${this.storageUri}${courseImageID}`
-    
+    const introText = this.state.progress === 1 ? introLabel.step_1_desc :
+                      this.state.progress === 2 ? introLabel.step_2_desc : introLabel.step_3_desc
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <CourseTitle key='title'
@@ -42,7 +44,7 @@ class CourseDescriptionEditorPage extends Component {
           pageTitle={introLabel.editCourseIntro}
           language={koppsData.lang}
           />
-        <ProgressBar active={this.state.progress} language={langIndex} />
+        <ProgressBar active={this.state.progress} language={langIndex} introText={introText}/>
         {this.state.progress === 1
         ? <PictureUpload defaultImageUrl={defaultImageUrl} introLabel={introLabel}
           koppsData={koppsData}

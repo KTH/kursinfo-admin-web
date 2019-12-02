@@ -35,39 +35,6 @@ class ButtonModal extends Component {
   }
 
   render () {
-                //* *** Properties *** *//
-    // type: {info-icon, publish, cancel, remove}
-    // btnLabel: t.e., 'Publish and quit', if it is info modal then no btnLabel need
-    // returnToUrl: where to return after canceling process
-    // header: 'Modal header'
-    /* modalLabels = {
-      header: 'To be aware of before cancelling!',
-      body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
-      btnCancel: 'No, go back',
-      btnConfirm: 'Yes, cancel',
-    }
-    */
-        //* *** example 1 SUBMIT*** *//
-    /*
-    <ButtonModal id='publish' type='submit' btnLabel={introLabel.button.publish} handleParentConfirm={this.handlePublish}
-        modalLabels={introLabel.info_publish} course={this.courseCode} alt={introLabel.alt.publish}
-        disabled={this.state.hasDoneSubmit}
-        />
-    */
-        //* *** example 2 INFO ICON*** *//
-    /*
-    <ButtonModal id='infoPic' type='info-icon'
-        modalLabels={introLabel.info_image} course={this.courseCode} />
-
-    */
-   /*
-    <ButtonModal id='cancelStep1' type='cancel' course={this.courseCode}
-        returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
-        btnLabel={introLabel.button.cancel}
-        modalLabels={introLabel.info_cancel} />
-    />
-   */
-
     const { type, id, modalLabels } = this.props
     const { header, body, btnCancel, btnConfirm } = modalLabels
     const btnStyle = classNames(

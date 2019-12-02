@@ -57,7 +57,7 @@ class FileInput extends Component {
 
     return <span className='file-uploader-section'>
       <label htmlFor={id} onClick={this.clickFileInput}>
-        <Button color='secondary' block><h4>{btnLabel}</h4></Button>
+        <Button color='secondary' block><span>{btnLabel}</span></Button>
       </label>
       {/* className='pic-upload' is important because it will be used in function resetToPrevApiPicture in upload picture class */}
       <input data-testid='fileUpload' className='pic-upload' type='file' id={id} name={id} tabIndex='-1'
