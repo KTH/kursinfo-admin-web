@@ -311,9 +311,11 @@ span.title_and_info {
     }
     h3 {
         margin-top: 0;
+        margin-bottom: 15px;
     }
     h4 {
         margin-top: 30px;
+        margin-bottom: 15px;
     }
     .control-buttons {
         margin-top: 50px;
@@ -355,15 +357,14 @@ span.title_and_info {
         a.collapse-header  {
             text-decoration: none;
         }
-
-        & > h4 {
-            margin-top: 1em;
-        }
         h4.mb-0 {
             margin-top: 0;
         }
         p {
             margin-bottom: 0;
+        }
+        & + p {
+            margin-bottom: 15px;
         }
     }
 }
