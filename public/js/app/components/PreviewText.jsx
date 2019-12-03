@@ -147,7 +147,7 @@ class Preview extends Component {
             }
             <Row className='control-buttons'>
               <Col sm='4' className='step-back'>
-                <Button onClick={this.returnToEditor} className='btn-back-kth' alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
+                <Button onClick={this.returnToEditor} className='btn-back' alt={introLabel.alt.step2Back}>{introLabel.button.step2}</Button>
               </Col>
               <Col sm='4' className='btn-cancel'>
                 <ButtonModal id='cancelStep3' type='cancel' btnLabel={introLabel.button.cancel}

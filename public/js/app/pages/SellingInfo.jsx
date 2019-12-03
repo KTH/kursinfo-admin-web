@@ -149,7 +149,7 @@ class SellingInfo extends Component {
         <p className='changed-by'>{introLabel.changed_by} {this.sellingTextAuthor}</p>
         <Row className='control-buttons'>
           <Col sm='4' className='step-back'>
-            <Button onClick={this.quitEditor} className='btn-back-kth' id='back-to-image' alt={introLabel.alt.step1}>
+            <Button onClick={this.quitEditor} className='btn-back' id='back-to-image' alt={introLabel.alt.step1}>
               {introLabel.button.step1}
             </Button>
           </Col>
@@ -159,7 +159,7 @@ class SellingInfo extends Component {
               btnLabel={introLabel.button.cancel} modalLabels={introLabel.info_cancel} />
           </Col>
           <Col sm='4' className='step-forward'>
-            <Button onClick={this.quitEditor} id='to-peview' className='btn-next-kth' color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
+            <Button onClick={this.quitEditor} id='to-peview' className='btn-next' color='success' alt={introLabel.alt.step3} disabled={this.state.isError}>
               {introLabel.button.step3}
             </Button>
           </Col>

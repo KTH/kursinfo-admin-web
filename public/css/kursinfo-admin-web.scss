@@ -420,7 +420,7 @@ span.title_and_info {
     }
 }
 
-.btn-back-kth { //kthstyle will replace it
+.btn-back { //kthstyle will replace it
     &::before {
         @extend %arrow-icon;
         filter: grayscale(.9) brightness(.5);
@@ -429,7 +429,7 @@ span.title_and_info {
     }
   }
   
-.btn-next-kth { // kthstyle will replace it
+.btn-next { // kthstyle will replace it
     &::after {
         @extend %icon-general-style;
         background: kthStyleIcon('pill-back.svg') no-repeat;
