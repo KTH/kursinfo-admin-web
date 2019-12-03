@@ -154,11 +154,11 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
           </span>
         </div>
         <div
-          class="btn-next col-sm-4"
+          class="step-forward col-sm-4"
         >
           <button
             alt="Till nästa steg att redigera text"
-            class="btn btn-success"
+            class="btn-next btn btn-success"
             type="button"
           >
             Redigera text
