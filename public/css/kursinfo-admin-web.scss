@@ -143,13 +143,6 @@ span.navigation {
         margin-top: 0;
         margin-bottom: .3em;
     }
-    .link-to::after{
-      @extend %arrow-icon;
-      height: 1.5em;
-      margin: -.6em 0 .3em .3em;
-      vertical-align: middle;
-      transform: rotate(180deg);
-    }
 }
 
 // 4. Start page and cards style
@@ -415,45 +408,49 @@ span.title_and_info {
     background-color: #f6f6f6;
 }
 
-.btn-back {
-    .btn-secondary::before {
-        @extend %arrow-icon;
-        filter: grayscale(.9) brightness(.5);
-        vertical-align: middle;
-        margin-top: .2em;
-    }
+.step-back { //Rebuild
     &.col-sm-4 {
         padding-left: 0;
     }
 }
 
-.btn-next, .btn-last {
+.step-forward, .btn-last {
     &.col-sm-4 {
         padding-right: 0;
     }
 }
 
-.btn-next {
-    .btn-success::after {
+.btn-back-kth { //kthstyle will replace it
+    &::before {
         @extend %arrow-icon;
-        filter: grayscale(1) brightness(0) invert(1);
+        filter: grayscale(.9) brightness(.5);
+        vertical-align: middle;
+        margin-top: .2em;
+    }
+  }
+  
+.btn-next-kth { // kthstyle will replace it
+    &::after {
+        @extend %icon-general-style;
+        background: kthStyleIcon('pill-back.svg') no-repeat;
         transform: rotate(180deg);
     }
 }
 
-.btn-next, .btn-last, .btn-cancel {
+.step-forward, .btn-last, .btn-cancel {
     text-align: end;
 }
 
-.external-link::after {
-    @extend %icon-general-style;
-    background: kthStyleIcon('external-link') no-repeat;
-    height: 0.85em;
-    width: 0.85em;
-    margin: 0 0.3em -0.1em 0.2em;
-}
+// .external-link::after { //style
+//     @extend %icon-general-style;
+//     background: kthStyleIcon('external-link') no-repeat;
+//     height: 0.85em;
+//     width: 0.85em;
+//     margin: 0 0.3em -0.1em 0.2em;
+// }
 
-#publish {
+#publish { // Moved to kth-style
+    //-----Todo: after updating kth-style to v
     .modal-header {
         padding: 20px;
     }
