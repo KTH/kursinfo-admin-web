@@ -227,8 +227,8 @@ class PictureUpload extends Component {
               btnLabel={introLabel.button.cancel}
               modalLabels={introLabel.info_cancel} />
           </Col>
-          <Col sm='4' className='btn-next'>
-            <Button onClick={this.doNextStep} color='success' alt={introLabel.alt.step2Next}
+          <Col sm='4' className='step-forward'>
+            <Button onClick={this.doNextStep} className='btn-next-kth' color='success' alt={introLabel.alt.step2Next}
               disabled={this.state.isError}>
               {introLabel.button.step2}
             </Button>
