@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
+import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap'
 import classNames from 'classnames'
 
 class ButtonModal extends Component {
@@ -50,7 +50,12 @@ class ButtonModal extends Component {
           {this.props.btnLabel}
       </Button>
       <Modal isOpen={this.state.isOpen} toggle={this.toggle} id={id}>
-        <ModalHeader toggle={this.toggle}>{header}</ModalHeader>
+        <div className='modal-header h-4'>
+          <h4 className='modal-title'>{header}</h4>
+          <button type='button' className='close' aria-label='Close' onClick={this.toggle}>
+            <span aria-hidden='true'>×</span>
+          </button>
+        </div>
         <ModalBody>
             {this.props.children}
             {
