@@ -252,7 +252,7 @@ span.title_and_info {
             justify-content: center;
             p {align-self: center;}
         }
-        .file-uploader-section {
+        .file-uploader-section { //moved to style
             @extend %column;
             input[type=file] {
                 filter: alpha(opacity=0);
