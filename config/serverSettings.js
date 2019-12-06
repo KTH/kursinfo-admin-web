@@ -16,6 +16,8 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
+// const devKursutvecklingApi = devDefaults('https://app-r.referens.sys.kth.se/api/kursutveckling?defaultTimeout=10000') // required=true&
+const devKursutvecklingApi = devDefaults('http://localhost:3002/api/kursutveckling?defaultTimeout=10000') // required=true&
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000') // required=true&
 const devSessionKey = devDefaults('kursinfo-admin-web.sid')
 const devSessionUseRedis = devDefaults(true)
@@ -37,7 +39,7 @@ const ldapOptions = {
   testSearch: true, // TODO: Should this be an ENV setting?
   timeout: typeConversion(getEnv('LDAP_TIMEOUT', null)),
   reconnectTime: typeConversion(getEnv('LDAP_IDLE_RECONNECT_INTERVAL', null)),
-  reconnectOnIdle: (getEnv('LDAP_IDLE_RECONNECT_INTERVAL', null) ? true : false),
+  reconnectOnIdle: (!!getEnv('LDAP_IDLE_RECONNECT_INTERVAL', null)),
   connecttimeout: typeConversion(getEnv('LDAP_CONNECT_TIMEOUT', null)),
   searchtimeout: typeConversion(getEnv('LDAP_SEARCH_TIMEOUT', null))
 }
@@ -60,8 +62,8 @@ module.exports = {
 
   // API keys
   apiKey: {
-    kursinfoApi: getEnv('API_KEY', devDefaults('1234'))
-    // kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_KEY', devDefaults('1234'))
+    kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
+    kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234'))
   },
 
   // Authentication
@@ -74,11 +76,11 @@ module.exports = {
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
+  kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_URI', devKursutvecklingApi),
 
   // Service API's
   nodeApi: {
     kursinfoApi: unpackNodeApiConfig('API_URI', devKursinfoApi)
-    // kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_URI', devKursinfoApi)
   },
 
   redisOptions: unpackRedisConfig('REDIS_URI', devRedis), // TODO, CHECK IF IT IS NEEDED
@@ -107,6 +109,10 @@ module.exports = {
     },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis)
+    },
+    kursutvecklingApi: {
+      redis: unpackRedisConfig('REDIS_URI', devRedis),
+      expireTime: getEnv('KURSUTVECKLING_API_CACHE_EXPIRE_TIME', 3 * 60) // 3 * 60 s = 3 MINUTES
     }
   },
 

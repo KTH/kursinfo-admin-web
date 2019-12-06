@@ -26,6 +26,10 @@ const koppsConfig = {
 }
 const api = connections.setup(koppsConfig, koppsConfig, koppsOpts)
 
+const kursutvecklingConfig = {
+  kursutvecklingApi: config.kursutvecklingApi
+}
+const kursutvecklingApi = connections.setup(kursutvecklingConfig, config.apiKey)
 
 const koppsCourseData = async (courseCode) => {
   const { client } = api.koppsApi
@@ -39,6 +43,57 @@ const koppsCourseData = async (courseCode) => {
   }
 }
 
+const kursutvecklingData = async (courseCode, semester) => {
+  const { client } = kursutvecklingApi.kursutvecklingApi
+  const uri = `/api/kursutveckling/v1/courseAnalysisList/${courseCode}/${semester}`  
+  try {
+    const response = await client.getAsync({uri})
+    let courseAnalyses = {}
+    if (response.body) {
+      response.body.forEach(courseAnalysis => {
+        courseAnalyses[courseAnalysis.roundIdList] = {
+          analysisFileName: courseAnalysis.analysisFileName
+        }
+        log.debug(courseAnalyses)
+      });
+    }
+    return courseAnalyses
+  } catch (err) {
+    log.error(err)
+    throw err
+  }
+}
+
+// const addCourseAnalyses = async (courseOfferingsWithoutAnalysis) => {
+//   const courseOfferings = await Promise.all(courseOfferingsWithoutAnalysis.map(async courseOfferingWithoutAnalysis => {
+//     const courseAnalyses = await kursutvecklingData(courseOfferingWithoutAnalysis.courseCode, courseOfferingWithoutAnalysis.semester)
+//     return {
+//       ...courseOfferingWithoutAnalysis,
+//       courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.offeringId] ? courseAnalyses[courseOfferingWithoutAnalysis.offeringId] : ''
+//     }
+//   }))
+//   return courseOfferings
+// }
+
+const addCourseAnalyses = async (courseOfferingsWithoutAnalysis) => {
+  const courseOfferings = []
+  await asyncForEach(courseOfferingsWithoutAnalysis, async (courseOfferingWithoutAnalysis) => {
+    const courseAnalyses = await kursutvecklingData(courseOfferingWithoutAnalysis.courseCode, courseOfferingWithoutAnalysis.semester)
+    courseOfferings.push({
+      ...courseOfferingWithoutAnalysis,
+      courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.offeringId] ? courseAnalyses[courseOfferingWithoutAnalysis.offeringId] : ''
+    })
+  });
+  log.debug("Course Offerings: ", courseOfferings)
+  return courseOfferings
+}
+
+const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 function isValidData (dataObject, lang='sv') {
   return !dataObject ? EMPTY[lang] : dataObject
 }
@@ -47,22 +102,66 @@ const fetchStatistic = async (courseRound) => {
   try {
     const { client } = api.koppsApi
 
-    const course = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
+    const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
+
+    if (courses.statusCode !== 200) {
+      return {
+        totalOfferings: 0,
+        departmentsNameArr: [],
+        departments: [],
+        courseRound: '',
+        courseOfferingsWithoutAnalysis: [{
+          semester: 'HT2019',
+          departmentName: 'EECS/Matematik',
+          courseCode: 'SF1624',
+          offeringId: '1'
+        },
+        {
+          semester: 'HT2019',
+          departmentName: 'EECS/Matematik',
+          courseCode: 'SF1624',
+          offeringId: '2'
+        },
+        {
+          semester: 'HT2019',
+          departmentName: 'EECS/Matematik',
+          courseCode: 'SF1624',
+          offeringId: '3'
+        },
+        {
+          semester: 'HT2019',
+          departmentName: 'EECS/Matematik',
+          courseCode: 'SF1624',
+          offeringId: '4'
+        }]
+      }
+    }
+
+    const courseOfferingsWithoutAnalysis = []  
+    courses.body.forEach(course => {
+      courseOfferingsWithoutAnalysis.push({
+        semester: course.first_yearsemester,
+        departmentName: course.department_name,
+        courseCode: course.course_code,
+        offeringId: course.offering_id
+      })      
+    })
+
+    const courseOfferings = await addCourseAnalyses(courseOfferingsWithoutAnalysis)
 
     let departments = {}
-    
-    course.body.forEach(cR => {
+    courses.body.forEach(cR => {
       const code = cR.department_code
       if (departments[code]) departments[code].number +=1
       else departments[code] = { number : 1, name: cR.department_name}
     })
-    log.debug('perDepartment ', departments)
 
     return {
-      totalOfferings: course.body.length,
+      totalOfferings: courses.body.length,
       departmentsNameArr: Object.keys(departments),
       departments,
-      courseRound
+      courseRound,
+      courseOfferings
     }
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
