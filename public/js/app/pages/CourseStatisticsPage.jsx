@@ -24,7 +24,7 @@ class CourseStatisticsPage extends Component {
         <td>{courseOfferingData.departmentName}</td>
         <td>{courseOfferingData.courseCode}</td>
         <td>{courseOfferingData.offeringId}</td>
-        <td>{Object.values(courseOfferingData.courseAnalysis).join(', ')}</td>
+        <td>{courseOfferingData.courseAnalysis}</td>
       </tr>)
     })
 

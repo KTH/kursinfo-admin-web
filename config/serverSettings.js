@@ -16,7 +16,6 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
-// const devKursutvecklingApi = devDefaults('https://app-r.referens.sys.kth.se/api/kursutveckling?defaultTimeout=10000') // required=true&
 const devKursutvecklingApi = devDefaults('http://localhost:3002/api/kursutveckling?defaultTimeout=10000') // required=true&
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000') // required=true&
 const devSessionKey = devDefaults('kursinfo-admin-web.sid')
@@ -76,7 +75,7 @@ module.exports = {
   },
   ldap: unpackLDAPConfig('LDAP_URI', getEnv('LDAP_PASSWORD'), devLdap, ldapOptions),
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
-  kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_URI', devKursutvecklingApi),
+  kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
 
   // Service API's
   nodeApi: {

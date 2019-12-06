@@ -43,18 +43,18 @@ const koppsCourseData = async (courseCode) => {
   }
 }
 
-const kursutvecklingData = async (courseCode, semester) => {
+const kursutvecklingData = async (semester) => {
   const { client } = kursutvecklingApi.kursutvecklingApi
-  const uri = `/api/kursutveckling/v1/courseAnalysisList/${courseCode}/${semester}`  
+  const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`  
   try {
     const response = await client.getAsync({uri})
     let courseAnalyses = {}
     if (response.body) {
       response.body.forEach(courseAnalysis => {
-        courseAnalyses[courseAnalysis.roundIdList] = {
-          analysisFileName: courseAnalysis.analysisFileName
-        }
-        log.debug(courseAnalyses)
+        courseAnalyses[courseAnalysis.courseCode] = {}
+        courseAnalysis.roundIdList.split(',').forEach(roundId => {
+          courseAnalyses[courseAnalysis.courseCode][roundId] = courseAnalysis.analysisFileName
+        })
       });
     }
     return courseAnalyses
@@ -75,15 +75,23 @@ const kursutvecklingData = async (courseCode, semester) => {
 //   return courseOfferings
 // }
 
-const addCourseAnalyses = async (courseOfferingsWithoutAnalysis) => {
+const addCourseAnalyses = async (courseRound, courseOfferingsWithoutAnalysis) => {
   const courseOfferings = []
-  await asyncForEach(courseOfferingsWithoutAnalysis, async (courseOfferingWithoutAnalysis) => {
-    const courseAnalyses = await kursutvecklingData(courseOfferingWithoutAnalysis.courseCode, courseOfferingWithoutAnalysis.semester)
-    courseOfferings.push({
-      ...courseOfferingWithoutAnalysis,
-      courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.offeringId] ? courseAnalyses[courseOfferingWithoutAnalysis.offeringId] : ''
-    })
-  });
+  const courseAnalyses = await kursutvecklingData(courseRound)
+  courseOfferingsWithoutAnalysis.forEach(courseOfferingWithoutAnalysis => {
+    if (courseAnalyses[courseOfferingWithoutAnalysis.courseCode] &&
+      courseAnalyses[courseOfferingWithoutAnalysis.courseCode][Number(courseOfferingWithoutAnalysis.offeringId)]) {
+        courseOfferings.push({
+          ...courseOfferingWithoutAnalysis,
+          courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.courseCode][Number(courseOfferingWithoutAnalysis.offeringId)]
+        })
+    } else {
+      courseOfferings.push({
+        ...courseOfferingWithoutAnalysis,
+        courseAnalysis: ''
+       })
+    }
+  })
   log.debug("Course Offerings: ", courseOfferings)
   return courseOfferings
 }
@@ -147,7 +155,7 @@ const fetchStatistic = async (courseRound) => {
       })      
     })
 
-    const courseOfferings = await addCourseAnalyses(courseOfferingsWithoutAnalysis)
+    const courseOfferings = await addCourseAnalyses(courseRound, courseOfferingsWithoutAnalysis)
 
     let departments = {}
     courses.body.forEach(cR => {
