@@ -6,10 +6,10 @@ $light-grey: #d4d4d4;
 $dark-grey: #65656c;
 $red: #e01f28;
 
-@function kthStyleIcon($base) {
-    $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
-    @return $url;
-}
+// @function kthStyleIcon($base) {
+//     $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
+//     @return $url;
+// }
 %row {
     display: flex;
     flex-direction: row;
@@ -19,17 +19,6 @@ $red: #e01f28;
     display: flex;
     flex-direction: column;
 }
-%icon-general-style {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-}
-%arrow-icon {
-    @extend %icon-general-style;
-    background: kthStyleIcon('pill-back') no-repeat;
-}
-
 
 %responsive-table {
     @media (max-width: 767px) {
@@ -72,15 +61,8 @@ $red: #e01f28;
     padding-top: 2em;
     width: 100%;
 
-    .btn {
-        border: 1px solid;
+    .btn-primary, .btn-success, .btn-secondary{
         margin: 1em 0;
-        &.btn-primary {
-            border-color: $kth-blue;
-        }
-        &.btn-success {
-            border-color: #62922e;
-        }
     }
 }
 .courseTitle {
@@ -196,11 +178,6 @@ span.title_and_info {
     h2 {
         margin-top: 0;
     }
-    .btn-info-modal {
-        border: transparent;
-        margin-left: 1em;
-        vertical-align: baseline;
-    }
 }
 .title_and_info + p {
     font-weight: 900;
@@ -251,24 +228,6 @@ span.title_and_info {
             width: 300px;
             justify-content: center;
             p {align-self: center;}
-        }
-        .file-uploader-section { //moved to style
-            @extend %column;
-            input[type=file] {
-                filter: alpha(opacity=0);
-                opacity: 0;
-                border: 0;
-            }
-            span {
-                margin:0;
-                &::after {
-                    @extend %icon-general-style;
-                    vertical-align: bottom;
-                    background: kthStyleIcon('file-upload-fa-solid') no-repeat;
-                    background-size: 1em;   
-                    float: right;
-                }
-            }
         }
         .preview-pic {
             @extend %column;
@@ -420,46 +379,6 @@ span.title_and_info {
     }
 }
 
-.btn-back { //kthstyle will replace it
-    &::before {
-        @extend %arrow-icon;
-        filter: grayscale(.9) brightness(.5);
-        vertical-align: middle;
-        margin-top: .2em;
-    }
-  }
-  
-.btn-next { // kthstyle will replace it
-    &::after {
-        @extend %icon-general-style;
-        background: kthStyleIcon('pill-back.svg') no-repeat;
-        transform: rotate(180deg);
-    }
-}
-
 .step-forward, .btn-last, .btn-cancel {
     text-align: end;
-}
-
-// .external-link::after { //style
-//     @extend %icon-general-style;
-//     background: kthStyleIcon('external-link') no-repeat;
-//     height: 0.85em;
-//     width: 0.85em;
-//     margin: 0 0.3em -0.1em 0.2em;
-// }
-
-#publish { // Moved to kth-style
-    //-----Todo: after updating kth-style to v
-    .modal-header {
-        padding: 20px;
-    }
-    .modal-footer  {
-        button {
-            margin: 0;
-        }
-        button:last-of-type {
-            margin-left: 20px;
-        }
-    }
 }
