@@ -21,41 +21,10 @@ class FileInput extends Component {
 
   render () {
     /* accept = 'image/jpg,image/jpeg,image/png'
-    =====style=====
-    @function kthStyleIcon($base) {
-        $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
-        @return $url;
-    }
-    %icon-general-style {
-        content: '';
-        height: 1.2em;
-        width: 1.5em;
-        display: inline-block;
-    }
-    .file-uploader-section {
-        display: flex;
-        flex-direction: column;
-        input[type=file] {
-            filter: alpha(opacity=0);
-            opacity: 0;
-            border: 0;
-        }
-        h4 {
-            margin:0;
-            &::after {
-                @extend %icon-general-style;
-                margin-left: 1em;
-                vertical-align: bottom;
-                background: kthStyleIcon('file-upload-fa-solid') no-repeat;
-                background-size: 1em;
-            }
-        }
-    }
-
     */
     const { accept, id, btnLabel } = this.props
 
-    return <span className='file-uploader-section'>
+    return <span className='btn-upload-file'>
       <label htmlFor={id} onClick={this.clickFileInput}>
         <Button color='secondary' block><span>{btnLabel}</span></Button>
       </label>

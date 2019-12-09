@@ -6,10 +6,10 @@ $light-grey: #d4d4d4;
 $dark-grey: #65656c;
 $red: #e01f28;
 
-@function kthStyleIcon($base) {
-    $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
-    @return $url;
-}
+// @function kthStyleIcon($base) {
+//     $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
+//     @return $url;
+// }
 %row {
     display: flex;
     flex-direction: row;
@@ -19,17 +19,6 @@ $red: #e01f28;
     display: flex;
     flex-direction: column;
 }
-%icon-general-style {
-    content: '';
-    height: 1.2em;
-    width: 1.5em;
-    display: inline-block;
-}
-%arrow-icon {
-    @extend %icon-general-style;
-    background: kthStyleIcon('pill-back') no-repeat;
-}
-
 
 %responsive-table {
     @media (max-width: 767px) {
@@ -72,15 +61,8 @@ $red: #e01f28;
     padding-top: 2em;
     width: 100%;
 
-    .btn {
-        border: 1px solid;
+    .btn-primary, .btn-success, .btn-secondary{
         margin: 1em 0;
-        &.btn-primary {
-            border-color: $kth-blue;
-        }
-        &.btn-success {
-            border-color: #62922e;
-        }
     }
 }
 .courseTitle {
@@ -143,13 +125,6 @@ span.navigation {
         margin-top: 0;
         margin-bottom: .3em;
     }
-    .link-to::after{
-      @extend %arrow-icon;
-      height: 1.5em;
-      margin: -.6em 0 .3em .3em;
-      vertical-align: middle;
-      transform: rotate(180deg);
-    }
 }
 
 // 4. Start page and cards style
@@ -203,11 +178,6 @@ span.title_and_info {
     h2 {
         margin-top: 0;
     }
-    .btn-info-modal {
-        border: transparent;
-        margin-left: 1em;
-        vertical-align: baseline;
-    }
 }
 .title_and_info + p {
     font-weight: 900;
@@ -258,24 +228,6 @@ span.title_and_info {
             width: 300px;
             justify-content: center;
             p {align-self: center;}
-        }
-        .file-uploader-section {
-            @extend %column;
-            input[type=file] {
-                filter: alpha(opacity=0);
-                opacity: 0;
-                border: 0;
-            }
-            span {
-                margin:0;
-                &::after {
-                    @extend %icon-general-style;
-                    vertical-align: bottom;
-                    background: kthStyleIcon('file-upload-fa-solid') no-repeat;
-                    background-size: 1em;   
-                    float: right;
-                }
-            }
         }
         .preview-pic {
             @extend %column;
@@ -415,54 +367,18 @@ span.title_and_info {
     background-color: #f6f6f6;
 }
 
-.btn-back {
-    .btn-secondary::before {
-        @extend %arrow-icon;
-        filter: grayscale(.9) brightness(.5);
-        vertical-align: middle;
-        margin-top: .2em;
-    }
+.step-back { //Rebuild
     &.col-sm-4 {
         padding-left: 0;
     }
 }
 
-.btn-next, .btn-last {
+.step-forward, .btn-last {
     &.col-sm-4 {
         padding-right: 0;
     }
 }
 
-.btn-next {
-    .btn-success::after {
-        @extend %arrow-icon;
-        filter: grayscale(1) brightness(0) invert(1);
-        transform: rotate(180deg);
-    }
-}
-
-.btn-next, .btn-last, .btn-cancel {
+.step-forward, .btn-last, .btn-cancel {
     text-align: end;
-}
-
-.external-link::after {
-    @extend %icon-general-style;
-    background: kthStyleIcon('external-link') no-repeat;
-    height: 0.85em;
-    width: 0.85em;
-    margin: 0 0.3em -0.1em 0.2em;
-}
-
-#publish {
-    .modal-header {
-        padding: 20px;
-    }
-    .modal-footer  {
-        button {
-            margin: 0;
-        }
-        button:last-of-type {
-            margin-left: 20px;
-        }
-    }
 }
