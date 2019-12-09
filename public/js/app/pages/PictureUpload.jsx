@@ -155,8 +155,8 @@ class PictureUpload extends Component {
       <span className='Upload--Area col' key='uploadArea'>
         {this.state.isDefault && this.state.infoMsg
           ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert>
-          : this.state.isError && this.state.errMsg
-              ? <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert> : ''
+          : this.state.isError && this.state.errMsg &&
+              <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert>
         }
         <span className='title_and_info'>
           <h2 data-testid='intro-heading'>{introLabel.label_step_1}
@@ -196,20 +196,18 @@ class PictureUpload extends Component {
             <FileInput id='pic-upload' onChange={this.displayValidatedPic}
               accept='image/jpg,image/jpeg,image/png'
               btnLabel={introLabel.image.choose}>
-              {this.state.tempFilePath && this.isApiPicAvailable
-                    ? <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
-                    : ''
-                }
+              {this.state.tempFilePath && this.isApiPicAvailable &&
+                  <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
+              }
             </FileInput>
           </span>
-          {this.state.tempFilePath
-          ? <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
+          {this.state.tempFilePath &&
+           <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
             <input type='checkbox' onChange={this.checkTerms} data-testid='termsAgreement' id='termsAgreement' name='agreeToTerms' value='agree' />
             <label htmlFor='termsAgreement'>{introLabel.image.agreeCheck}{' '}
               <a href={INTRA_IMAGE_INFO[lang]} target='_blank' className='external-link'>{introLabel.image.imagesOnTheWeb}</a>
             </label>
           </span>
-          : ''
           }
           {this.state.isError && (
           <span data-testid="error-text" className="error-label">
