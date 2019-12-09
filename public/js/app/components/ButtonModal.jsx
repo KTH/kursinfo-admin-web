@@ -57,13 +57,12 @@ class ButtonModal extends Component {
           </button>
         </div>
         <ModalBody>
-            {this.props.children}
-            {
-              type === 'info-icon'
-              ? ''
-              : <p>{modalLabels.infoCourse + ' ' + this.props.course}</p>
-            }
-            <p dangerouslySetInnerHTML={{__html: body}}></p>
+          {this.props.children}
+          {
+            type !== 'info-icon' &&
+              <p>{modalLabels.infoCourse + ' ' + this.props.course}</p>
+          }
+          <p dangerouslySetInnerHTML={{__html: body}}></p>
         </ModalBody>
         <ModalFooter>
           <Button color='secondary' onClick={this.toggle}>{btnCancel}</Button>
