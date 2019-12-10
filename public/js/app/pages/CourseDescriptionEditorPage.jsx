@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer} from 'mobx-react'
 import i18n from '../../../../i18n'
 
-import CourseTitle from '../components/CourseTitle'
+import PageTitle from '../components/PageTitle'
 import ProgressBar from '../components/ProgressBar'
 import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
@@ -39,7 +39,7 @@ class CourseDescriptionEditorPage extends Component {
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
-        <CourseTitle key='title'
+        <PageTitle key='title'
           courseTitleData={koppsData.courseTitleData}
           pageTitle={introLabel.editCourseIntro}
           language={koppsData.lang}

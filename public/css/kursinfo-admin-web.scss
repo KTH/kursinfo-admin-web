@@ -1,15 +1,7 @@
 //====Common style for both pages====
-$kth-blue: #007fae;
-$black: #000000;
-$white: #ffffff;
 $light-grey: #d4d4d4;
-$dark-grey: #65656c;
 $red: #e01f28;
 
-// @function kthStyleIcon($base) {
-//     $url: url('https://app.kth.se/style/kth-style/img/kth-style/icons/'+ $base +'.svg');
-//     @return $url;
-// }
 %row {
     display: flex;
     flex-direction: row;
@@ -40,21 +32,6 @@ $red: #e01f28;
 
 #kth-kursinfo {
     width: 100%;
-    .alert {
-        max-width: 100em;
-        width: 100%;
-        margin: 0 0 50px 0;
-        p {
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            margin-top: 0;
-        }
-    }
-    .alert.alert-success {
-        width: 97%;
-        margin: 1em 15px;
-    }
 }
 .kursinfo-main-page {
     padding-bottom: 20px;
@@ -63,18 +40,6 @@ $red: #e01f28;
 
     .btn-primary, .btn-success, .btn-secondary{
         margin: 1em 0;
-    }
-}
-.courseTitle {
-    margin: 20px 0 0 0;
-    h1 {
-        margin-bottom: 0;
-    }
-    h1 + div {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 50px;
-        margin-top: 10px;
     }
 }
 
@@ -90,7 +55,7 @@ $red: #e01f28;
     border-bottom: 2px solid $light-grey;
     padding-left: 0;
     margin-bottom: 10px;
-    &.progress-active{
+    &.progress-active {
       font-weight: 900;
     }
   }
