@@ -51,7 +51,7 @@ const kursutvecklingData = async (semester) => {
     let courseAnalyses = {}
     if (response.body) {
       response.body.forEach(courseAnalysis => {
-        courseAnalyses[courseAnalysis.courseCode] = {}
+        courseAnalyses[courseAnalysis.courseCode] = courseAnalyses[courseAnalysis.courseCode] ? courseAnalyses[courseAnalysis.courseCode] : {}
         courseAnalysis.roundIdList.split(',').forEach(roundId => {
           courseAnalyses[courseAnalysis.courseCode][roundId] = courseAnalysis.analysisFileName
         })
@@ -79,12 +79,15 @@ const addCourseAnalyses = async (courseRound, courseOfferingsWithoutAnalysis) =>
   const courseOfferings = []
   const courseAnalyses = await kursutvecklingData(courseRound)
   courseOfferingsWithoutAnalysis.forEach(courseOfferingWithoutAnalysis => {
-    if (courseAnalyses[courseOfferingWithoutAnalysis.courseCode] &&
-      courseAnalyses[courseOfferingWithoutAnalysis.courseCode][Number(courseOfferingWithoutAnalysis.offeringId)]) {
-        courseOfferings.push({
+    const courseCode = courseOfferingWithoutAnalysis.courseCode
+    const offeringId = Number(courseOfferingWithoutAnalysis.offeringId)
+    if (courseAnalyses[courseCode] &&
+      courseAnalyses[courseCode][offeringId]) {
+        const courseOffering = {
           ...courseOfferingWithoutAnalysis,
-          courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.courseCode][Number(courseOfferingWithoutAnalysis.offeringId)]
-        })
+          courseAnalysis: courseAnalyses[courseCode][offeringId]
+        }
+        courseOfferings.push(courseOffering)
     } else {
       courseOfferings.push({
         ...courseOfferingWithoutAnalysis,
@@ -92,7 +95,6 @@ const addCourseAnalyses = async (courseRound, courseOfferingsWithoutAnalysis) =>
        })
     }
   })
-  log.debug("Course Offerings: ", courseOfferings)
   return courseOfferings
 }
 
