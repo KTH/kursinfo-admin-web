@@ -6,7 +6,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
     class="kursinfo-main-page col"
   >
     <div
-      class="courseTitle col"
+      class="pageTitle col"
       id="course-title"
     >
       <h1
@@ -23,7 +23,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
           SF1624
         </span>
         <span
-          property="teach:courseTitle"
+          property="teach:pageTitle"
         >
            Algebra och geometri
         </span>
