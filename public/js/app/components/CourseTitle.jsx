@@ -11,18 +11,18 @@ class CourseTitle extends Component {
     const langIndex = this.props.language === 'en' ? 0 : 1
     title.course_credits = title.apiError ? '' : title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits + '.0' : title.course_credits
     return (
-      <div id='course-title' className='courseTitle col'>
+      <div id='course-title' className='pageTitle col'>
         <h1 data-testid='main-heading'>{pageTitle}</h1>
         {title.apiError
           ? <div><span property='aiiso:code'>{title.course_code}</span>
-            <span property='teach:courseTitle'>
+            <span property='teach:pageTitle'>
               <Alert color='info' aria-live='polite'>
                 {i18n.messages[langIndex].pageTitles.alertMessages.kopps_api_down}
               </Alert>
             </span>
           </div>
           : <div data-testid='main-course'><span property='aiiso:code'>{title.course_code}</span>
-            <span property='teach:courseTitle'> {title.course_title}</span>
+            <span property='teach:pageTitle'> {title.course_title}</span>
             <span content={title.course_credits} datatype='xsd:decimal' property='teach:ects'>
               &nbsp;{this.props.language === 'en' ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 'en' ? 'credits' : 'hp'}
             </span>
