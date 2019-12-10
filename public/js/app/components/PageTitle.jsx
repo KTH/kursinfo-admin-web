@@ -3,7 +3,7 @@ import { EMPTY } from '../util/constants'
 import { Alert } from 'reactstrap'
 import i18n from '../../../../i18n'
 
-class CourseTitle extends Component {
+class PageTitle extends Component {
 
   render () {
     const title = this.props.courseTitleData
@@ -33,4 +33,4 @@ class CourseTitle extends Component {
   }
 }
 
-export default CourseTitle
+export default PageTitle
