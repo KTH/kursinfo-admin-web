@@ -10,7 +10,7 @@ const opts = {
   redis,
   cache: config.cache,
   retryOnESOCKETTIMEDOUT: true,
-  timeout: 30000,
+  timeout: 5000,
   checkAPIs: true // performs api-key checks against the apis, if a "required" check fails, the app will exit. Required apis are specified in the config
 }
 
