@@ -12,7 +12,9 @@ class FileInput extends Component {
   }
 
   clickFileInput (event) {
-    if (event.target !== event.currentTarget) event.currentTarget.click()
+    // This function is for chrome browser, because in safari it works fine without it
+    event.preventDefault()
+    document.querySelector('.pic-upload').click()
   }
 
   handleChange (event) {
@@ -28,7 +30,7 @@ class FileInput extends Component {
       <label htmlFor={id} onClick={this.clickFileInput}>
         <Button color='secondary' block><span>{btnLabel}</span></Button>
       </label>
-      {/* className='pic-upload' is important because it will be used in function resetToPrevApiPicture in upload picture class */}
+      {/* className='pic-upload' is important because it will be used in function clickFileInput, resetToPrevApiPicture in upload picture class */}
       <input data-testid='fileUpload' className='pic-upload' type='file' id={id} name={id} tabIndex='-1'
         accept={accept}
         onChange={this.handleChange}
