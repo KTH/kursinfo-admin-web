@@ -14,7 +14,7 @@ class CourseStatisticsPage extends Component {
   }
 
   render () {
-    const { courseRound, schools, totalOfferings, courseOfferings } = this.statisticData
+    const { courseRound, totalOfferings, combinedDataPerSchool, courseOfferings } = this.statisticData
 
     const courseOfferingRows = []
     courseOfferings.forEach(courseOffering => {
@@ -28,9 +28,41 @@ class CourseStatisticsPage extends Component {
       </tr>)
     })
 
+    const perSchoolRows = []
+    const { schools, totalNumberOfCourses, totalNumberOfAnalyses } = combinedDataPerSchool
+    Object.keys(schools).forEach(sC => {
+      perSchoolRows.push(<tr>
+        <td>{sC}</td>
+        <td>{schools[sC].numberOfCourses}</td>
+        <td>{schools[sC].numberOfUniqAnalyses}</td>
+      </tr>)
+    })
+    perSchoolRows.push(<tr>
+        <td><b><i>Total</i></b></td>
+        <td><b>{totalNumberOfCourses}</b></td>
+        <td><b>{totalNumberOfAnalyses}</b></td>
+    </tr>)
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <h1>Statistics {courseRound}</h1>
+        <h2>Per School</h2>
+        <p>Kolumnen ”Number of courses” ska visa summan av antalet kurser med kurstillfällen som har starttermin enligt parameter från url (eller motsvarande) för skolan.</p>
+        <p>Kolumnen ”Number of course analysis´” ska visa summan av antalet unika publicerade kursanalyser för skolan aktuell termin.</p>
+        <table >
+          <thead>
+            <tr>
+              <th>School</th>
+              <th>Number of courses</th>
+              <th>Number of course analyses</th>
+            </tr>
+          </thead>
+          <tbody>
+            { perSchoolRows }
+          </tbody>
+        </table>
+
+        <h2>Per Department</h2>
         <table>
           <thead>
             <tr>
