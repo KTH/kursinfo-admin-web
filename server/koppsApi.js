@@ -7,20 +7,6 @@ const EMPTY = {
   en: 'No information inserted',
   sv: 'Ingen information tillagd'
 }
-const SCHOOL_MAP = {
-  ABE : "ABE",
-  CBH : "CBH",
-  STH : "CBH",
-  CHE : "CBH",
-  BIO : "CBH",
-  CSC : "EECS",
-  ECE : "EECS",
-  EECS : "EECS",
-  EES : "EECS",
-  ICT : "EECS",
-  ITM : "ITM",
-  SCI : "SCI"
-}
 
 const koppsOpts = {
   log,
@@ -52,126 +38,6 @@ const koppsCourseData = async (courseCode) => {
   try {
     const course = await client.getAsync({ uri, useCache: true })
     return course.body
-  } catch (err) {
-    log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
-    throw err
-  }
-}
-
-const kursutvecklingData = async (semester) => {
-  const { client } = kursutvecklingApi.kursutvecklingApi
-  const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`  
-  try {
-    const response = await client.getAsync({uri})
-    let courseAnalyses = {}
-    let numberOfAnalyses = {}
-    if (response.body) {
-      response.body.forEach(ca => {
-        console.log("ca before", ca)
-        courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] ? courseAnalyses[ca.courseCode] : {}
-        ca.roundIdList.split(',').forEach(roundId => {
-          courseAnalyses[ca.courseCode][roundId] = ca.analysisFileName
-        })
-        console.log("ca end", ca)
-      });
-    }
-    return courseAnalyses
-  } catch (err) {
-    log.error(err)
-    throw err
-  }
-}
-
-// const addCourseAnalyses = async (courseOfferingsWithoutAnalysis) => {
-//   const courseOfferings = await Promise.all(courseOfferingsWithoutAnalysis.map(async courseOfferingWithoutAnalysis => {
-//     const courseAnalyses = await kursutvecklingData(courseOfferingWithoutAnalysis.courseCode, courseOfferingWithoutAnalysis.semester)
-//     return {
-//       ...courseOfferingWithoutAnalysis,
-//       courseAnalysis: courseAnalyses[courseOfferingWithoutAnalysis.offeringId] ? courseAnalyses[courseOfferingWithoutAnalysis.offeringId] : ''
-//     }
-//   }))
-//   return courseOfferings
-// }
-
-const addCourseAnalyses = async (courseRound, courseOfferingsWithoutAnalysis) => {
-  const courseOfferings = []
-  const courseAnalyses = await kursutvecklingData(courseRound)
-  // console.log("courseAnalyses", courseAnalyses)
-  console.log("courseOfferingsWithoutAnalysis", courseOfferingsWithoutAnalysis)
-  courseOfferingsWithoutAnalysis.forEach(courseOfferingWithoutAnalysis => {
-    const courseCode = courseOfferingWithoutAnalysis.courseCode
-    // console.log("courseCode", courseCode)
-    const offeringId = Number(courseOfferingWithoutAnalysis.offeringId)
-    if (courseAnalyses[courseCode] &&
-      courseAnalyses[courseCode][offeringId]) {
-        const courseOffering = {
-          ...courseOfferingWithoutAnalysis,
-          courseAnalysis: courseAnalyses[courseCode][offeringId]
-        }
-        courseOfferings.push(courseOffering)
-    } else {
-      courseOfferings.push({
-        ...courseOfferingWithoutAnalysis,
-        courseAnalysis: ''
-       })
-    }
-  })
-  return courseOfferings
-}
-
-const asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
-
-function isValidData (dataObject, lang='sv') {
-  return !dataObject ? EMPTY[lang] : dataObject
-}
-
-const fetchStatistic = async (courseRound) => {
-  try {
-    const { client } = api.koppsApi
-
-    const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
-
-    const courseOfferingsWithoutAnalysis = []  
-    courses.body.forEach(course => {
-      courseOfferingsWithoutAnalysis.push({
-        semester: course.first_yearsemester,
-        departmentName: course.department_name,
-        courseCode: course.course_code,
-        offeringId: course.offering_id
-      })      
-    })
-
-    let schools = {}
-    let totalNumberOfCourses = 0
-    courses.body.forEach(cR => {
-      const { school_code, course_code } = cR
-      if (SCHOOL_MAP[school_code]) {
-        const code = SCHOOL_MAP[school_code]
-        totalNumberOfCourses++
-        if (schools[code]) {
-          schools[code].numberOfCourses +=1
-          if (!schools[code].courseCodes.includes(course_code)) {
-            schools[code].courseCodes.push(course_code)
-          }
-        }
-        else schools[code] = { numberOfCourses : 1, courseCodes: [course_code]}
-      }
-    })
-    console.log("schools", schools, "totalNumberOfCourses", totalNumberOfCourses)
-
-    const courseOfferings = await addCourseAnalyses(courseRound, courseOfferingsWithoutAnalysis)
-
-
-    return {
-      totalOfferings: courses.body.length,
-      schools,
-      courseRound,
-      courseOfferings
-    }
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
     throw err
@@ -223,6 +89,6 @@ const filteredKoppsData = async (courseCode, lang='sv') => {
   }
 }
 
-module.exports = { filteredKoppsData, fetchStatistic, koppsApi: api, kursutvecklingApi }
+module.exports = { filteredKoppsData, koppsApi: api, kursutvecklingApi }
 
 
