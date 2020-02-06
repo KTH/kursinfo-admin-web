@@ -64,12 +64,15 @@ const kursutvecklingData = async (semester) => {
   try {
     const response = await client.getAsync({uri})
     let courseAnalyses = {}
+    let numberOfAnalyses = {}
     if (response.body) {
-      response.body.forEach(courseAnalysis => {
-        courseAnalyses[courseAnalysis.courseCode] = courseAnalyses[courseAnalysis.courseCode] ? courseAnalyses[courseAnalysis.courseCode] : {}
-        courseAnalysis.roundIdList.split(',').forEach(roundId => {
-          courseAnalyses[courseAnalysis.courseCode][roundId] = courseAnalysis.analysisFileName
+      response.body.forEach(ca => {
+        console.log("ca before", ca)
+        courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] ? courseAnalyses[ca.courseCode] : {}
+        ca.roundIdList.split(',').forEach(roundId => {
+          courseAnalyses[ca.courseCode][roundId] = ca.analysisFileName
         })
+        console.log("ca end", ca)
       });
     }
     return courseAnalyses
@@ -93,8 +96,11 @@ const kursutvecklingData = async (semester) => {
 const addCourseAnalyses = async (courseRound, courseOfferingsWithoutAnalysis) => {
   const courseOfferings = []
   const courseAnalyses = await kursutvecklingData(courseRound)
+  // console.log("courseAnalyses", courseAnalyses)
+  console.log("courseOfferingsWithoutAnalysis", courseOfferingsWithoutAnalysis)
   courseOfferingsWithoutAnalysis.forEach(courseOfferingWithoutAnalysis => {
     const courseCode = courseOfferingWithoutAnalysis.courseCode
+    // console.log("courseCode", courseCode)
     const offeringId = Number(courseOfferingWithoutAnalysis.offeringId)
     if (courseAnalyses[courseCode] &&
       courseAnalyses[courseCode][offeringId]) {
@@ -139,19 +145,26 @@ const fetchStatistic = async (courseRound) => {
       })      
     })
 
-    const courseOfferings = await addCourseAnalyses(courseRound, courseOfferingsWithoutAnalysis)
-
     let schools = {}
     let totalNumberOfCourses = 0
     courses.body.forEach(cR => {
-      if (SCHOOL_MAP[cR.school_code]) {
-        const code = SCHOOL_MAP[cR.school_code]
+      const { school_code, course_code } = cR
+      if (SCHOOL_MAP[school_code]) {
+        const code = SCHOOL_MAP[school_code]
         totalNumberOfCourses++
-        if (schools[code]) schools[code].numberOfCourses +=1
-        else schools[code] = { numberOfCourses : 1}
+        if (schools[code]) {
+          schools[code].numberOfCourses +=1
+          if (!schools[code].courseCodes.includes(course_code)) {
+            schools[code].courseCodes.push(course_code)
+          }
+        }
+        else schools[code] = { numberOfCourses : 1, courseCodes: [course_code]}
       }
     })
     console.log("schools", schools, "totalNumberOfCourses", totalNumberOfCourses)
+
+    const courseOfferings = await addCourseAnalyses(courseRound, courseOfferingsWithoutAnalysis)
+
 
     return {
       totalOfferings: courses.body.length,
@@ -210,6 +223,6 @@ const filteredKoppsData = async (courseCode, lang='sv') => {
   }
 }
 
-module.exports = { filteredKoppsData, fetchStatistic }
+module.exports = { filteredKoppsData, fetchStatistic, koppsApi: api, kursutvecklingApi }
 
 
