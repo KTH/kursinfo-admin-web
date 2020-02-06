@@ -14,7 +14,7 @@ class CourseStatisticsPage extends Component {
   }
 
   render () {
-    const { courseRound, departments, departmentsNameArr, totalOfferings, courseOfferings } = this.statisticData
+    const { courseRound, schools, totalOfferings, courseOfferings } = this.statisticData
 
     const courseOfferingRows = []
     courseOfferings.forEach(courseOffering => {

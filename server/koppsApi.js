@@ -7,6 +7,21 @@ const EMPTY = {
   en: 'No information inserted',
   sv: 'Ingen information tillagd'
 }
+const SCHOOL_MAP = {
+  ABE : "ABE",
+  CBH : "CBH",
+  STH : "CBH",
+  CHE : "CBH",
+  BIO : "CBH",
+  CSC : "EECS",
+  ECE : "EECS",
+  EECS : "EECS",
+  EES : "EECS",
+  ICT : "EECS",
+  ITM : "ITM",
+  SCI : "SCI"
+}
+
 const koppsOpts = {
   log,
   https: true,
@@ -114,39 +129,6 @@ const fetchStatistic = async (courseRound) => {
 
     const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
 
-    if (courses.statusCode !== 200) {
-      return {
-        totalOfferings: 0,
-        departmentsNameArr: [],
-        departments: [],
-        courseRound: '',
-        courseOfferingsWithoutAnalysis: [{
-          semester: 'HT2019',
-          departmentName: 'EECS/Matematik',
-          courseCode: 'SF1624',
-          offeringId: '1'
-        },
-        {
-          semester: 'HT2019',
-          departmentName: 'EECS/Matematik',
-          courseCode: 'SF1624',
-          offeringId: '2'
-        },
-        {
-          semester: 'HT2019',
-          departmentName: 'EECS/Matematik',
-          courseCode: 'SF1624',
-          offeringId: '3'
-        },
-        {
-          semester: 'HT2019',
-          departmentName: 'EECS/Matematik',
-          courseCode: 'SF1624',
-          offeringId: '4'
-        }]
-      }
-    }
-
     const courseOfferingsWithoutAnalysis = []  
     courses.body.forEach(course => {
       courseOfferingsWithoutAnalysis.push({
@@ -159,17 +141,21 @@ const fetchStatistic = async (courseRound) => {
 
     const courseOfferings = await addCourseAnalyses(courseRound, courseOfferingsWithoutAnalysis)
 
-    let departments = {}
+    let schools = {}
+    let totalNumberOfCourses = 0
     courses.body.forEach(cR => {
-      const code = cR.department_code
-      if (departments[code]) departments[code].number +=1
-      else departments[code] = { number : 1, name: cR.department_name}
+      if (SCHOOL_MAP[cR.school_code]) {
+        const code = SCHOOL_MAP[cR.school_code]
+        totalNumberOfCourses++
+        if (schools[code]) schools[code].numberOfCourses +=1
+        else schools[code] = { numberOfCourses : 1}
+      }
     })
+    console.log("schools", schools, "totalNumberOfCourses", totalNumberOfCourses)
 
     return {
       totalOfferings: courses.body.length,
-      departmentsNameArr: Object.keys(departments),
-      departments,
+      schools,
       courseRound,
       courseOfferings
     }
