@@ -26,20 +26,18 @@ const SCHOOL_MAP = {
 
 
 const kursutvecklingData = async (semester) => {
-  const { client } = statisticApis.kursutvecklingApi
+  const { client } = statisticApis.kursutvecklingApi.kursutvecklingApi
   const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`
   try {
     const response = await client.getAsync({ uri })
     const courseAnalyses = {}
     if (response.body) {
       response.body.forEach(ca => {
-        console.log("ca before", ca)
         courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] || { numberOfUniqAnalyses: 0 }
         courseAnalyses[ca.courseCode].numberOfUniqAnalyses++
         ca.roundIdList.split(',').forEach(roundId => {
           courseAnalyses[ca.courseCode][roundId] = ca.analysisFileName
         })
-        console.log("ca end", ca)
       })
     }
     return courseAnalyses
@@ -81,7 +79,7 @@ function isValidData (dataObject, lang = 'sv') {
   return !dataObject ? EMPTY[lang] : dataObject
 }
 
-function fetchStatisticPerDepartment (courseAnalyses, courses) {
+function fetchStatisticPerDepartment (courses) {
   const courseOfferingsWithoutAnalysis = []
   courses.body.forEach(course => {
     courseOfferingsWithoutAnalysis.push({
@@ -94,50 +92,57 @@ function fetchStatisticPerDepartment (courseAnalyses, courses) {
   return courseOfferingsWithoutAnalysis
 }
 
+function fetchNumOfAnalyses(courseAnalyses, courseCode) {
+  return courseAnalyses[courseCode] && courseAnalyses[courseCode].numberOfUniqAnalyses || 0          
+
+}
 function fetchStatisticsPerSchool (courseAnalyses, courses) {
   const schools = {}
   let totalNumberOfCourses = 0
+  let totalNumberOfAnalyses = 0
   courses.body.forEach(cR => {
     const { school_code, course_code } = cR
     if (SCHOOL_MAP[school_code]) {
       const code = SCHOOL_MAP[school_code]
-      totalNumberOfCourses++
       if (schools[code]) {
-        schools[code].numberOfCourses += 1
         if (!schools[code].courseCodes.includes(course_code)) {
           schools[code].courseCodes.push(course_code)
+          totalNumberOfCourses++
+          schools[code].numberOfCourses += 1
+          schools[code].numberOfUniqAnalyses += fetchNumOfAnalyses(courseAnalyses, course_code)
         }
-      } else schools[code] = { numberOfCourses: 1, courseCodes: [course_code] }
+      } else {
+        totalNumberOfCourses++
+        schools[code] = { 
+          numberOfCourses: 1,
+          courseCodes: [course_code], // we need to control numbers of uniqueAnalyses, totalNumbers per course code
+          numberOfUniqAnalyses: fetchNumOfAnalyses(courseAnalyses, course_code)
+        }
+      }
     }
   })
-  console.log('schools', schools, 'totalNumberOfCourses', totalNumberOfCourses)
-  return schools
-}
-
-function addUniqueCourseAnalysesPerCourseRound (dataPerSchool, courseAnalyses) {
-  // console.log('dataPerSchool', dataPerSchool)
-  // console.log('courseAnalyses', courseAnalyses)
+  Object.values(schools).forEach(sc => totalNumberOfAnalyses += sc.numberOfUniqAnalyses)
+  return { schools, totalNumberOfCourses, totalNumberOfAnalyses }
 }
 
 const fetchStatistic = async (courseRound) => {
   try {
-    const { client } = statisticApis.koppsApi
+    const { client } = statisticApis.koppsApi.koppsApi
 
     const courseAnalyses = await kursutvecklingData(courseRound)
     const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
-    const courseOfferingsWithoutAnalysis = fetchStatisticPerDepartment(courseAnalyses, courses)
-    const combinedDataPerDepartment = addCourseAnalysesPerCourseRound(courseOfferingsWithoutAnalysis, courseAnalyses)
-    const dataPerSchool = fetchStatisticsPerSchool(courseAnalyses, courses)
-    const combinedDataPerSchool = addUniqueCourseAnalysesPerCourseRound(dataPerSchool, courseAnalyses)
+    const courseOfferingsWithoutAnalysis = await fetchStatisticPerDepartment(courses)
+    const combinedDataPerDepartment = await addCourseAnalysesPerCourseRound(courseOfferingsWithoutAnalysis, courseAnalyses)
+    const combinedDataPerSchool = await fetchStatisticsPerSchool(courseAnalyses, courses)
 
     return {
       totalOfferings: courses.body.length,
-      dataPerSchool,
       courseRound,
+      combinedDataPerSchool,
       courseOfferings: combinedDataPerDepartment
     }
   } catch (err) {
-    log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
+    log.error('Exception calling from koppsAPI in koppsApi.fetchStatistic', { error: err })
     throw err
   }
 }
