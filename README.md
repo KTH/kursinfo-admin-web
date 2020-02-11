@@ -52,26 +52,26 @@ We must try to make changes that affect the template projects in the template pr
 
 - node 8.12.0
 
-### Secrets
+### Secrets for Development
 
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly:
+Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly.
 
 ```
-API_URI=[https://api-r.referens.sys.kth.se/api/kursutveckling]
-API_KEY=[password the same as in api itself]
-KOPPS_URI=[https://api-r.referens.sys.kth.se/api/kopps/v2/]
-KURSPLAN_
-SESSION_SECRET=[session secret]
-SESSION_KEY=kutv.sid
-REDIS_URI=[redis azure connection string]
-```
-
-If you want to add authorization:
-```
-LDAP_BASE=[OU=UG,DC=ref,DC=ug,DC=kth,DC=se]
-LDAP_URI=ldaps://[usertname]@ldap.ref.ug.kth.se
+API_KEY=[key you specified in kursinfo-api for this service]
+KURSUTVECKLING_API_KEY=[secret key to connect to kursutveckling-api]
+KOPPS_URI=https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000
+SESSION_SECRET=[something random]
+SESSION_KEY=kursinfo-admin-web.sid
+LDAP_BASE=OU=UG,DC=ref,DC=ug,DC=kth,DC=se
+LDAP_URI=ldaps://[find in gsv-key vault]@[ref].ug.kth.se@ldap.[ref].ug.kth.se
 LDAP_PASSWORD=[password]
+REDIS_URI=[connection string to redis]
+/*If you want to start your server on another port, add the following two variables, else use default ones from serversettings.js*/
+SERVER_PORT=[your port for the server]
+SERVER_HOST_URL=http://localhost:[SERVER_PORT]
 ```
+
+These settings are also available in an `env.in` file.
 
 ## Install
 
@@ -82,7 +82,7 @@ npm install
 ## Usage
 
 ```sh
-npm run start
+npm run start-dev
 ```
 
 ## Run tests
