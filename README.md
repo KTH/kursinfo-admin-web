@@ -1,37 +1,59 @@
-kursinfo-admin-web
-========
+# Welcome to kursinfo-admin-web 👋
 
-Infenojs app using mobx and gulp.
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
+![Prerequisite](https://img.shields.io/badge/node-8.12.0-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-This page displays course analysis and course data published by course responsibles sorted by years. Prospective, current and previous students can use the information for selecting courses or follow up on previous course evaluations. Teachers, course responsibles, examiners etc. can use the page as a tool for course development.
-Consist of two part:
-1) Start page with menu and cards to show what can be changed by course responsibles and examiners.
-2) Course introduction text for course information page which can be edited by course responsibles and examiners
+## Introduction
 
-Displays:
-### Administrate start page ###
-- Meny with navigation links for course information related pages (kursinfo-web, kursinfo-admin-web)
-- Cards with navigation buttons leading to editing introduction text, editing course development and history admin web.
+The course information project (KIP) is an initiative at KTH that was launched in 2018 to improve the quality and availability of information about KTH:s courses. The background to the project is, among other things, that it was difficult for the student to find information about the courses and even more difficult to compare information about several courses. The reason for the problems is scattered course information in several places and that there is no uniformity or assigned places for the course information. The project takes measures to consolidate course information into two locations and to present the information in a manner that is uniform for KTH. The student should find the right information about the course, depending on their needs. The result of the project is a public course site where the correct course information is collected and presented uniformly. Also, a tool is developed for teachers to enter and publish course information. Eventually, this will lead to the student making better decisions based on their needs, and it will also reduce the burden on teachers and administration regarding questions and support for the student.
 
-Application is fetching data from KOPPS-API for:
+Kursinfo-admin-web is a microservice with an administration tool for teachers to enter and publish course information. Teachers can edit the introduction text and choose an image for a course. The tool also provides an entrance to other microservices like course memo och course history.
+
+### 🏠 [Homepage](https://github.com/KTH/kursinfo-admin-web)
+
+## Overview
+
+The app displays course analysis and course data published by course coordinators sorted by years. Prospective, current, and previous students can use the information for selecting courses or follow up on previous course evaluations. Teachers, course coordinators, examiners, etc. can use the app as a tool for course development.
+
+The app consists of two parts:
+
+1. Administrate start page with menu and cards to show what can be changed by course responsibles and examiners.
+2. Course introduction text for course information page, which can be edited by course responsibles and examiners.
+
+### Administrate start page
+
+- Menu with navigation links for course information related pages (kursinfo-web, kursinfo-admin-web)
+- Cards with navigation buttons leading to editing introduction text, editing course development, and history admin web.
+
+### API:s
+
+Application is fetching data from _KOPPS-API_ for:
+
 1. Course title
-2. Introduction text from kopps
+2. Introduction text from Kopps
 
-Application is fetching data from kursinfo-api to show:
-1. Introduction text if it was edited before and exists in kursinfo-api
+Application is fetching data from _kursinfo-api_ to show:
 
-Web pages is public for everyone. 
+1. Introduction text if it has been edited before and exists in kursinfo-api
 
-**Related projects can be found here:**
-[https://github.com/KTH/kursinfo-web](https://github.com/KTH/kursinfo-web)
-[https://github.com/KTH/kursinfo-api](https://github.com/KTH/kursinfo-api)
+#### Use cache for kopps Api and for kursinfo-web
 
-It's important that we try to make changes that affect the template projects in the template projects themselves.
+_REDIS_URI_ used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
 
-### Use cache for kopps Api and for kursinfo-web ###
-REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
+### Related projects
 
-###Where do you keep you secrets?
+- [https://github.com/KTH/kursinfo-web](https://github.com/KTH/kursinfo-web)
+- [https://github.com/KTH/kursinfo-api](https://github.com/KTH/kursinfo-api)
+
+We must try to make changes that affect the template projects in the template projects themselves.
+
+## Prerequisites
+
+- node 8.12.0
+
+### Secrets
+
 Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly:
 
 ```
@@ -50,3 +72,28 @@ LDAP_BASE=[OU=UG,DC=ref,DC=ug,DC=kth,DC=se]
 LDAP_URI=ldaps://[usertname]@ldap.ref.ug.kth.se
 LDAP_PASSWORD=[password]
 ```
+
+## Install
+
+```sh
+npm install
+```
+
+## Usage
+
+```sh
+npm run start
+```
+
+## Run tests
+
+```sh
+npm run test
+```
+
+## Author
+
+👤 **KTH**
+
+* Website: https://kth.github.io/
+* Github: [@KTH](https://github.com/KTH)
