@@ -32,7 +32,6 @@ class KoppsTextCollapse extends Component {
           </Collapse>
         </div>
         <h4>{instructions.langLabelIntro[lang]}</h4>
-        <p>{instructions.label_max_number_letters}</p>
       </div>
     )
   }
