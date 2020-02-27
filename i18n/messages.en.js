@@ -203,7 +203,6 @@ module.exports = {
       en: 'English introduction to the course',
       sv: 'Swedish introduction to the course'
     },
-    changed_by: 'Last changed by user with kthId:',
     button: {
       cancel: 'Cancel',
       publish: 'Publish',

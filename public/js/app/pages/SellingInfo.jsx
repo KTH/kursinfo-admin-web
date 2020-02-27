@@ -146,7 +146,6 @@ class SellingInfo extends Component {
             <textarea name='en' id='en' className='editor' defaultValue={this.state.en}></textarea>
           </span>
         </span>
-        <p className='changed-by'>{introLabel.changed_by} {this.sellingTextAuthor}</p>
         <Row className='control-buttons'>
           <Col sm='4' className='step-back'>
             <Button onClick={this.quitEditor} className='btn-back' id='back-to-image' alt={introLabel.alt.step1}>

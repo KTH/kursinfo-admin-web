@@ -256,15 +256,6 @@ span.title_and_info {
     }
 }
 
-.TextEditor--SellingInfo { // if the changed-by is removed, this whole section is no longer needed
-    .control-buttons {
-        margin-top: 0;
-    }
-    .changed-by {
-        margin-top: 50px;
-    }
-}
-
 .Editors--Area {
     @extend %column;
     justify-content: space-between;

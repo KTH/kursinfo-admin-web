@@ -207,7 +207,6 @@ module.exports = {
       en: 'Engelsk introduktion till kursen',
       sv: 'Svensk introduktion till kursen'
     },
-    changed_by: 'Senast ändrad av:',
     button: {
       cancel: 'Avbryt',
       publish: 'Publicera',
