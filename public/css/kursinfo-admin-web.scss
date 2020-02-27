@@ -41,6 +41,9 @@ $red: #e01f28;
     .btn-primary, .btn-success, .btn-secondary{
         margin: 1em 0;
     }
+    .alert {
+        width: auto;
+    }
 }
 
 .progress-bar-container {
@@ -48,6 +51,11 @@ $red: #e01f28;
     p {
         margin-top: 20px;
         margin-bottom: 0;
+    }
+    @media (min-width: 768px) {
+        .progress-bar1:nth-child(3) {
+            text-align: right;
+        }
     }
 }
 
@@ -59,6 +67,7 @@ $red: #e01f28;
       font-weight: 900;
     }
   }
+
 //====START ADMIN PAGE WITH CARDS====
 
 //1.Navigation with KIP Links and right-located description text
@@ -70,11 +79,11 @@ span.navigation {
     }
     //3.right-located description text next to kip links
     span.right_intro {
-        margin-left: 1em;
+        margin-left: 15px;
         max-width: 95%;
         flex-wrap: wrap;
         @media (min-width: 768px) {
-            margin-right: .5em;
+            margin-right: 15px;
             max-width: 50em;
         }
     }
@@ -155,6 +164,9 @@ span.title_and_info {
         margin-bottom: .7em;
         font-weight: normal;
     }
+    label:last-of-type {
+        margin-bottom: 0;
+    }
     input[type=radio], input[type=checkbox] {
         margin-right: .5em;
         margin-left: .5em;
@@ -201,6 +213,10 @@ span.title_and_info {
         & + span.input-label-row {
             margin-top: 20px;
             border: 1px solid transparent;
+        }
+        .btn {
+            margin: 0;
+            width: 75%;
         }
     }
     @media (min-width: 768px) {
@@ -263,11 +279,11 @@ span.title_and_info {
     @media (min-width: 768px) {
         flex-direction: row;
         justify-content: space-between;
-        .badge,  span.right {
+        .badge {
             margin-left: .5em;
         }
-        span.left {
-            margin-right: .5em;
+        span.right {
+            margin-left: 30px;
         }
     }
     .courseIntroTextCollapse {
