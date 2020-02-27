@@ -95,5 +95,5 @@ npm run test
 
 👤 **KTH**
 
-* Website: https://kth.github.io/
-* Github: [@KTH](https://github.com/KTH)
+- Website: https://kth.github.io/
+- Github: [@KTH](https://github.com/KTH)
