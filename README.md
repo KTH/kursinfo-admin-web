@@ -91,6 +91,14 @@ npm run start-dev
 npm run test
 ```
 
+## Use 🐳
+
+`API_URI` in `docker-compose.yml` is configured for a local _kursinfo-api_, and might as well be changed to _kursinfo-api_ in _ref_.
+
+```sh
+docker-compose up
+```
+
 ## Author
 
 👤 **KTH**
