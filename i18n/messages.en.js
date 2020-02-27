@@ -161,7 +161,7 @@ module.exports = {
       header: 'Choose image',
       body: `Choose the image that will be displayed on the page Course information. 
       You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. 
-      The image will be displayed with the format 300px * 400px. The file format must be .png or .jpg.`,
+      The image will be displayed with the format 400px * 300px. The file format must be .png or .jpg.`,
       btnCancel: 'Close'
     },
     editCourseIntro: 'Edit course introduction',

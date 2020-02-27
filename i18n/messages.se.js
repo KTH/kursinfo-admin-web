@@ -164,7 +164,7 @@ module.exports = {
     info_image: {
       header: 'Välj bild',
       body: `Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
-      Bilden kommer att visas med formatet 300px * 400px. Filformatet måste vara .png eller .jpg.`,
+      Bilden kommer att visas med formatet 400px * 300px. Filformatet måste vara .png eller .jpg.`,
       btnCancel: 'Stäng'
     },
     editCourseIntro: 'Redigera introduktion till kursen',
