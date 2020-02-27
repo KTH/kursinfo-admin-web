@@ -99,6 +99,10 @@ npm run test
 docker-compose up
 ```
 
+### Issue with lowell/sharp
+
+Docker image is set to `kthse/kth-nodejs:10.14.0_2d4b27f` to prevent [Segmentation fault during build phase, and during execution #2048](https://github.com/lovell/sharp/issues/2048).
+
 ## Author
 
 👤 **KTH**
