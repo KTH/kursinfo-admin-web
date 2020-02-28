@@ -28,18 +28,18 @@ The app consists of two parts:
 
 ### API:s
 
-Application is fetching data from _KOPPS-API_ for:
+Application is fetching data from KOPPS-API for:
 
 - Course title
 - Introduction text from Kopps
 
-Application is fetching data from _kursinfo-api_ to show:
+Application is fetching data from kursinfo-api to show:
 
 - Introduction text if it has been edited before and exists in kursinfo-api
 
-#### Use cache for kopps API and for kursinfo-web
+#### Use Cache for Kopps API and for kursinfo-web
 
-_REDIS_URI_ used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
+REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
 
 ### Related projects
 
@@ -93,7 +93,7 @@ npm run test
 
 ## Use 🐳
 
-`API_URI` in `docker-compose.yml` is configured for a local _kursinfo-api_, and might as well be changed to _kursinfo-api_ in _ref_.
+`API_URI` in `docker-compose.yml` is configured for a local kursinfo-api, and might as well be changed to kursinfo-api in ref.
 
 ```sh
 docker-compose up
