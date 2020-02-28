@@ -41,13 +41,10 @@ $red: #e01f28;
     .btn-primary, .btn-success, .btn-secondary{
         margin: 1em 0;
     }
-    .alert {
-        width: auto;
-    }
 }
 
 .progress-bar-container {
-    margin: 0 15px 50px 15px;
+    margin: 0 15px 44px 15px;
     p {
         margin-top: 20px;
         margin-bottom: 0;
@@ -98,6 +95,12 @@ span.navigation {
     h4 {
         margin-top: 0;
         margin-bottom: .3em;
+    }
+}
+
+.AdminPage--Alert {
+    .alert {
+        width: auto;
     }
 }
 
@@ -248,7 +251,7 @@ span.title_and_info {
     }
     h4 {
         margin-top: 30px;
-        margin-bottom: 15px;
+        margin-bottom: 3px;
     }
     .control-buttons {
         margin-top: 50px;
@@ -299,10 +302,12 @@ span.title_and_info {
     word-wrap: break-word;
     .sellingText {
         padding-right: 12px;
-        margin-bottom: 20px;
         .textBlock {
             list-style-position: inside;
         }
+    }
+    .textBlock > p:last-of-type {
+        margin-bottom: 0;
     }
     h3 {
         margin-bottom: 15px;
@@ -316,7 +321,7 @@ span.title_and_info {
 }
 
 #middle > div:first-of-type {
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 }
 
 //BUTTONS STYLES
@@ -353,4 +358,9 @@ span.title_and_info {
 
 .step-forward, .btn-last, .btn-cancel {
     text-align: end;
+}
+
+.pageTitle h1 + div { // belongs in typography.scss i KTH Style
+    margin-top: 0;
+    margin-bottom: 38px;
 }
