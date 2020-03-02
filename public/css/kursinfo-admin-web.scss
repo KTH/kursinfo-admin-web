@@ -50,8 +50,12 @@ $red: #e01f28;
         margin-bottom: 0;
     }
     @media (min-width: 768px) {
+        .progress-bar1:nth-child(2) {
+            text-align: center;
+        }
         .progress-bar1:nth-child(3) {
             text-align: right;
+            padding-right: 0;
         }
     }
 }
@@ -242,9 +246,6 @@ span.title_and_info {
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
 .TextEditor--SellingInfo, .Preview--Changes {
     margin: 50px 0 0 0;
-    p.changed-by {
-        margin-bottom: 0;
-    }
     h3 {
         margin-top: 0;
         margin-bottom: 15px;
@@ -361,6 +362,6 @@ span.title_and_info {
 }
 
 .pageTitle h1 + div { // belongs in typography.scss i KTH Style
-    margin-top: 0;
-    margin-bottom: 38px;
+    margin-top: 4px;
+    margin-bottom: 44px;
 }
