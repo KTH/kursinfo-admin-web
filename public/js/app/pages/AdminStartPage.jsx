@@ -34,7 +34,7 @@ class AdminStartPage extends Component {
             <Card className='KursInfo--SellingText'>
               <CardBody>
                 <CardTitle><h4>{startCards.sellingText_hd}</h4></CardTitle>
-                <CardText>
+                <CardText tag={'span'}>
                   <p>{startCards.sellingText_desc_p1}</p>
                   <p>{startCards.sellingText_desc_p2}</p>
                 </CardText>
@@ -64,7 +64,7 @@ class AdminStartPage extends Component {
             <Card className='course-development'>
               <CardBody>
                 <CardTitle><h4>{startCards.courseDev_hd}</h4></CardTitle>
-                <CardText>
+                <CardText tag={'span'}>
                   <p>{startCards.courseDev_decs_p1}</p>
                   <p>{startCards.courseDev_decs_p2}</p>
                 </CardText>
