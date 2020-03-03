@@ -360,8 +360,3 @@ span.title_and_info {
 .step-forward, .btn-last, .btn-cancel {
     text-align: end;
 }
-
-.pageTitle h1 + div { // belongs in typography.scss i KTH Style
-    margin-top: 4px;
-    margin-bottom: 44px;
-}
