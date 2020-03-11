@@ -78,6 +78,11 @@ class CourseStatisticsPage extends Component {
         <h2>Per School</h2>
         <p>Kolumnen ”Number of courses” ska visa summan av antalet kurser med kurstillfällen som har starttermin enligt parameter från url (eller motsvarande) för skolan.</p>
         <p>Kolumnen ”Number of course analysis´” ska visa summan av antalet unika publicerade kursanalyser för skolan aktuell termin.</p>
+        <CSVLink
+          filename={`per-school-statistics-${courseRound}.csv`}
+          className="btn btn-primary btn-sm float-right"
+          data={perSchoolData}>Download Per School Statistics (CSV file)
+        </CSVLink>
         <table >
           <thead>
             <tr>
@@ -90,13 +95,13 @@ class CourseStatisticsPage extends Component {
             { perSchoolRows }
           </tbody>
         </table>
-        <CSVLink
-          filename={`per-school-statistics-${courseRound}.csv`}
-          className="btn btn-primary btn-sm"
-          data={perSchoolData}>Download Per School Statistics (CSV file)
-        </CSVLink>
 
         <h2>Per Department</h2>
+        <CSVLink
+          filename={`per-department-statistics-${courseRound}.csv`}
+          className="btn btn-primary btn-sm float-right"
+          data={perDepartmentData}>Download Per Department Statistics (CSV file)
+        </CSVLink>
         <table>
           <thead>
             <tr>
@@ -111,11 +116,6 @@ class CourseStatisticsPage extends Component {
             { courseOfferingRows }
           </tbody>
         </table>
-        <CSVLink
-          filename={`per-department-statistics-${courseRound}.csv`}
-          className="btn btn-primary btn-sm"
-          data={perDepartmentData}>Download Per Department Statistics (CSV file)
-        </CSVLink>
 
       </div>
     )
