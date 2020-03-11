@@ -80,7 +80,7 @@ function isValidData (dataObject, lang = 'sv') {
 }
 function _getProgramList(programs) {
   const programsList = programs && programs.map(
-    ({code, study_year, spec_code}) => `${code}${spec_code ? '-' + spec_code: ' '}-${study_year}`
+    ({code, study_year, spec_code}) => `${code}${spec_code ? '-' + spec_code : ''}-${study_year}`
   ) || []
   return programsList.join(', ')
 }
