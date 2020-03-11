@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { toJS } from 'mobx'
 import { inject, observer} from 'mobx-react'
+import { CSVLink } from "react-csv";
 import i18n from '../../../../i18n'
 
 @inject(['adminStore']) @observer
@@ -43,6 +44,34 @@ class CourseStatisticsPage extends Component {
         <td><b>{totalNumberOfAnalyses}</b></td>
     </tr>)
 
+    const perDepartmentData = []
+    perDepartmentData.push(["Semester", "Department Name", "Course Code", "Offering ID", "Course Analysis"])
+    courseOfferings.forEach(courseOffering => {
+      const courseOfferingData = toJS(courseOffering)
+      perDepartmentData.push([
+        courseOfferingData.semester,
+        courseOfferingData.departmentName,
+        courseOfferingData.courseCode,
+        courseOfferingData.offeringId,
+        courseOfferingData.courseAnalysis
+      ])
+    })
+
+    const perSchoolData = []
+    perSchoolData.push(["School", "Number of courses", "Number of course analyses"])
+    Object.keys(schools).forEach(sC => {
+      perSchoolData.push([
+        sC,
+        schools[sC].numberOfCourses,
+        schools[sC].numberOfUniqAnalyses
+      ])
+    })
+    perSchoolData.push([
+      "Total",
+      totalNumberOfCourses,
+      totalNumberOfAnalyses
+    ])
+
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
         <h1>Statistics {courseRound}</h1>
@@ -61,6 +90,11 @@ class CourseStatisticsPage extends Component {
             { perSchoolRows }
           </tbody>
         </table>
+        <CSVLink
+          filename={`per-school-statistics-${courseRound}.csv`}
+          className="btn btn-primary btn-sm"
+          data={perSchoolData}>Download Per School Statistics (CSV file)
+        </CSVLink>
 
         <h2>Per Department</h2>
         <table>
@@ -77,6 +111,12 @@ class CourseStatisticsPage extends Component {
             { courseOfferingRows }
           </tbody>
         </table>
+        <CSVLink
+          filename={`per-department-statistics-${courseRound}.csv`}
+          className="btn btn-primary btn-sm"
+          data={perDepartmentData}>Download Per Department Statistics (CSV file)
+        </CSVLink>
+
       </div>
     )
   }
