@@ -80,7 +80,7 @@ class CourseStatisticsPage extends Component {
         <h2>Per School</h2>
         <p>Column <q>Number of courses</q> holds the number of active courses for the particular school the given semester according to Kopps.</p>
         <p>Column <q>Number of course analysis</q> holds the number of unique published course analysis for the particular school the given semester.</p>
-        <p>You can export the data to a CSV file by clicking on the button <q>Download raw data (CSV file)</q>.</p>
+        <p>You can export the data to a CSV file by clicking on the button <q>Download per school statistics (CSV file)</q>.</p>
         <CSVLink
           filename={`course-information-statistics-per-school-${courseRound}.csv`}
           className="btn btn-primary btn-sm float-right"
