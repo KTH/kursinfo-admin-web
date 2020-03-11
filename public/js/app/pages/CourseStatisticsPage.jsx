@@ -25,6 +25,7 @@ class CourseStatisticsPage extends Component {
         <td>{courseOfferingData.schoolMainCode}</td>
         <td>{courseOfferingData.departmentName}</td>
         <td>{courseOfferingData.courseCode}</td>
+        <td width='300'>{courseOfferingData.connectedPrograms}</td>
         <td>{courseOfferingData.offeringId}</td>
         <td>{courseOfferingData.courseAnalysis}</td>
       </tr>)
@@ -46,7 +47,7 @@ class CourseStatisticsPage extends Component {
     </tr>)
 
     const perDepartmentData = []
-    perDepartmentData.push(["Semester", "School", "Department Name", "Course Code", "Offering ID", "Course Analysis"])
+    perDepartmentData.push(["Semester", "School", "Department Name", "Course Code", "Connected program(s)", "Offering ID", "Course Analysis"])
     courseOfferings.forEach(courseOffering => {
       const courseOfferingData = toJS(courseOffering)
       perDepartmentData.push([
@@ -54,6 +55,7 @@ class CourseStatisticsPage extends Component {
         courseOfferingData.schoolMainCode,
         courseOfferingData.departmentName,
         courseOfferingData.courseCode,
+        courseOfferingData.connectedPrograms,
         courseOfferingData.offeringId,
         courseOfferingData.courseAnalysis
       ])
@@ -113,6 +115,7 @@ class CourseStatisticsPage extends Component {
               <th>School</th>
               <th>Department Name</th>
               <th>Course Code</th>
+              <th>Connected program(s)</th>
               <th>Offering ID</th>
               <th>Course Analysis</th>
             </tr>

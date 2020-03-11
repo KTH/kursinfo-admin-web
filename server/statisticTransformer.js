@@ -78,6 +78,12 @@ const asyncForEach = async (array, callback) => {
 function isValidData (dataObject, lang = 'sv') {
   return !dataObject ? EMPTY[lang] : dataObject
 }
+function _getProgramList(programs) {
+  const programsList = programs && programs.map(
+    ({code, study_year, spec_code}) => `${code}${spec_code ? '-' + spec_code: ' '}-${study_year}`
+  ) || []
+  return programsList.join(', ')
+}
 
 function fetchStatisticPerDepartment (courses) {
   const courseOfferingsWithoutAnalysis = []
@@ -86,6 +92,7 @@ function fetchStatisticPerDepartment (courses) {
       semester: course.first_yearsemester,
       schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
       departmentName: course.department_name,
+      connectedPrograms: _getProgramList(course.connected_programs),
       courseCode: course.course_code,
       offeringId: course.offering_id
     })
