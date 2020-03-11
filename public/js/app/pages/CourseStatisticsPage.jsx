@@ -76,14 +76,15 @@ class CourseStatisticsPage extends Component {
 
     return (
       <div key='kursinfo-container' className='kursinfo-main-page col'>
-        <h1>Statistics {courseRound}</h1>
+        <h1>Course Information Statistics {courseRound}</h1>
         <h2>Per School</h2>
-        <p>Kolumnen ”Number of courses” ska visa summan av antalet kurser med kurstillfällen som har starttermin enligt parameter från url (eller motsvarande) för skolan.</p>
-        <p>Kolumnen ”Number of course analysis´” ska visa summan av antalet unika publicerade kursanalyser för skolan aktuell termin.</p>
+        <p>Column <q>Number of courses</q> holds the number of active courses for the particular school the given semester according to Kopps.</p>
+        <p>Column <q>Number of course analysis</q> holds the number of unique published course analysis for the particular school the given semester.</p>
+        <p>You can export the data to a CSV file by clicking on the button <q>Download raw data (CSV file)</q>.</p>
         <CSVLink
-          filename={`per-school-statistics-${courseRound}.csv`}
+          filename={`course-information-statistics-per-school-${courseRound}.csv`}
           className="btn btn-primary btn-sm float-right"
-          data={perSchoolData}>Download Per School Statistics (CSV file)
+          data={perSchoolData}>Download per school statistics (CSV file)
         </CSVLink>
         <table >
           <thead>
@@ -98,11 +99,12 @@ class CourseStatisticsPage extends Component {
           </tbody>
         </table>
 
-        <h2>Per Department</h2>
+        <h2>Raw Data</h2>
+        <p>Use the course information raw data to make own aggregations for example departments or programmes. You can export the data to a CSV file by clicking on the button <q>Download raw data (CSV file)</q>.</p>
         <CSVLink
-          filename={`per-department-statistics-${courseRound}.csv`}
+          filename={`course-information-statistics-raw-data-${courseRound}.csv`}
           className="btn btn-primary btn-sm float-right"
-          data={perDepartmentData}>Download Per Department Statistics (CSV file)
+          data={perDepartmentData}>Download raw data (CSV file)
         </CSVLink>
         <table>
           <thead>
