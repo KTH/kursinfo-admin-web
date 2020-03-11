@@ -84,6 +84,7 @@ function fetchStatisticPerDepartment (courses) {
   courses.body.forEach(course => {
     courseOfferingsWithoutAnalysis.push({
       semester: course.first_yearsemester,
+      schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
       departmentName: course.department_name,
       courseCode: course.course_code,
       offeringId: course.offering_id
@@ -130,7 +131,7 @@ const fetchStatistic = async (courseRound) => {
     const { client } = statisticApis.koppsApi.koppsApi
 
     const courseAnalyses = await kursutvecklingData(courseRound)
-    const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}`, useCache: true })
+    const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}&skip_coordinator_info=true`, useCache: true })
     const courseOfferingsWithoutAnalysis = await fetchStatisticPerDepartment(courses)
     const combinedDataPerDepartment = await addCourseAnalysesPerCourseRound(courseOfferingsWithoutAnalysis, courseAnalyses)
     const combinedDataPerSchool = await fetchStatisticsPerSchool(courseAnalyses, courses)

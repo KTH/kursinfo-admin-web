@@ -17,11 +17,12 @@ class CourseStatisticsPage extends Component {
   render () {
     const { courseRound, totalOfferings, combinedDataPerSchool, courseOfferings } = this.statisticData
 
-    const courseOfferingRows = []
+    const perDepartmentCourseOfferingRows = []
     courseOfferings.forEach(courseOffering => {
       const courseOfferingData = toJS(courseOffering)
-      courseOfferingRows.push(<tr>
+      perDepartmentCourseOfferingRows.push(<tr>
         <td>{courseOfferingData.semester}</td>
+        <td>{courseOfferingData.schoolMainCode}</td>
         <td>{courseOfferingData.departmentName}</td>
         <td>{courseOfferingData.courseCode}</td>
         <td>{courseOfferingData.offeringId}</td>
@@ -45,11 +46,12 @@ class CourseStatisticsPage extends Component {
     </tr>)
 
     const perDepartmentData = []
-    perDepartmentData.push(["Semester", "Department Name", "Course Code", "Offering ID", "Course Analysis"])
+    perDepartmentData.push(["Semester", "School", "Department Name", "Course Code", "Offering ID", "Course Analysis"])
     courseOfferings.forEach(courseOffering => {
       const courseOfferingData = toJS(courseOffering)
       perDepartmentData.push([
         courseOfferingData.semester,
+        courseOfferingData.schoolMainCode,
         courseOfferingData.departmentName,
         courseOfferingData.courseCode,
         courseOfferingData.offeringId,
@@ -106,6 +108,7 @@ class CourseStatisticsPage extends Component {
           <thead>
             <tr>
               <th>Semester</th>
+              <th>School</th>
               <th>Department Name</th>
               <th>Course Code</th>
               <th>Offering ID</th>
@@ -113,7 +116,7 @@ class CourseStatisticsPage extends Component {
             </tr>
           </thead>
           <tbody>
-            { courseOfferingRows }
+            { perDepartmentCourseOfferingRows }
           </tbody>
         </table>
 
