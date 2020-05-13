@@ -68,6 +68,10 @@ module.exports = {
         aTitle: 'Kursinformation',
         aAlt: 'Till Kursinformation vy'
       },
+      pmdata: {
+        aTitle: 'Kurs-PM, Förbereda coh gå kurs',
+        aAlt: 'Till Kurs-PM vy'
+      },
       kinfo: {
         aTitle: 'Kursinformation',
         aAlt: 'Till Kursinformation vy'
@@ -83,6 +87,16 @@ module.exports = {
       pm: {
         save: 'Utkast för kurs-pm har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kurs-pm/ Publicera ny',
+        pub: 'Kurs-pm har publicerats',
+        delete: 'Utkast för kurs-pm har raderats'
+      },
+      pmdata: {
+        save: 'Utkast för kurs-pm har sparats',
+        s_msg: 'Du hittar det sparade utkastet under ',
+        fast_admin_link_label: {
+          save: 'Skapa och publicera kurs-pm',
+          savedPublished: 'Ändra publicerad'
+        },
         pub: 'Kurs-pm har publicerats',
         delete: 'Utkast för kurs-pm har raderats'
       },
@@ -115,6 +129,8 @@ module.exports = {
     coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Använd gärna mall för kurs-pm. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
     coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',
+    coursePM_btn_edit: 'Ändra publicerad',
+    coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
     courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
     courseDev_decs_p2: 'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
