@@ -24,7 +24,7 @@ const mapAdminUrl = {
   // kinfo: ADMIN_OM_COURSE,
   pmdata: {
     save: ADMIN_COURSE_PM_DATA,
-    savedPublished: ADMIN_COURSE_PM_DATA + 'published/'
+    removedPublished: ADMIN_COURSE_PM_DATA + 'published/'
   }
 }
 

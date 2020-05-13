@@ -92,6 +92,7 @@ module.exports = {
       },
       pmdata: {
         save: 'Draft for course memo has been saved',
+        removedPublished: 'Draft for published version has been removed',
         s_msg: 'You can find saved drafts under ',
         r_msg: 'Draft for course memo has been removed after cancelation you can go back to ',
         fast_admin_link_label: {
