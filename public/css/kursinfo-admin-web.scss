@@ -130,17 +130,18 @@ span.navigation {
         justify-content: space-between;
         flex-wrap: wrap;
         .card {
-            max-width: 30em;
-            min-width: 18em;
+            width: 40em;
+            // max-width: 40em;
+            // min-width: 18em;
             align-content: flex-start;
             margin-right: 2em;
         }
-        .card.course-development {
-            max-width: 28em;
-        }
-        .KursInfo--SellingText.card {
-            max-width: 19.5em;
-        }
+        // .card.course-development {
+        //     max-width: 28em;
+        // }
+        // .KursInfo--SellingText.card {
+        //     max-width: 19.5em;
+        // }
         .card-footer {
             padding: .75rem 1.25rem .75rem .75rem
         }
@@ -148,7 +149,7 @@ span.navigation {
     @media (min-width: 1024px) {
         flex-wrap: nowrap;
         .card {
-            max-width: 28em;
+            max-width: 50em;
         }
     }
 }
