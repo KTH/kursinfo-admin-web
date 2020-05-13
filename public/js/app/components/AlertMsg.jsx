@@ -34,7 +34,7 @@ const AlertMsg = ({props, courseCode, translate, lang}) => {
   const publicService = (params && serv) ? publicUrls[serv] : COURSE_INFO_URL
   return (
     (serv === 'kutv' || serv === 'pm' || serv === 'pmdata' || serv === 'kinfo') &&
-    (event === 'save' || event === 'pub' || event === 'delete' || event === 'savedPublished') &&
+    (event === 'save' || event === 'pub' || event === 'delete' || event === 'removedPublished') &&
       <Alert color='success' aria-live='polite'>
         <h4>{translate.alertMessages[serv][event]}</h4>
         {term &&
@@ -47,11 +47,14 @@ const AlertMsg = ({props, courseCode, translate, lang}) => {
         }
         {event === 'pub'
           ? <p>{translate.alertMessages.see_more} <a href={`${KTH_SE_URL}${publicService}${courseCode}?l=${lang}`} alt={translate.links_to[serv].aAlt}>{translate.links_to[serv].aTitle}</a></p>
-          : (event === 'save' || event === 'savedPublished') &&
+          : (event === 'save' || event === 'removedPublished') &&
             <p>
-              {translate.alertMessages[serv].s_msg}
+              {event === 'save' ? translate.alertMessages[serv].s_msg : translate.alertMessages[serv].r_msg}
               {mapAdminUrl[serv] &&
-                <a href={`${KTH_SE_URL}${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`} alt={translate.alertMessages[serv].fast_admin_link_label[event]}>{translate.alertMessages[serv].fast_admin_link_label[event]}</a>}
+                <a href={`${KTH_SE_URL}${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
+                  alt={translate.alertMessages[serv].fast_admin_link_label[event]}>
+                  {translate.alertMessages[serv].fast_admin_link_label[event]}
+                </a>}
             </p>
         }
       </Alert>

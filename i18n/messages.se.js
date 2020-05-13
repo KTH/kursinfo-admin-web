@@ -93,9 +93,10 @@ module.exports = {
       pmdata: {
         save: 'Utkast för kurs-PM har sparats',
         s_msg: 'Du hittar det sparade utkastet under ',
+        r_msg: 'Utkast för kurs-PM har togs bort från ',
         fast_admin_link_label: {
           save: 'Skapa och publicera kurs-PM',
-          savedPublished: 'Ändra publicerad'
+          removedPublished: 'Ändra publicerad'
         },
         pub: 'Kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats'
