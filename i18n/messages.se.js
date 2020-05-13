@@ -85,20 +85,20 @@ module.exports = {
         delete: 'Utkast för kursanalys och kursdata har raderats'
       },
       pm: {
-        save: 'Utkast för kurs-pm har sparats',
-        s_msg: 'Du hittar det sparade utkastet under Kurs-pm/ Publicera ny',
-        pub: 'Kurs-pm har publicerats',
-        delete: 'Utkast för kurs-pm har raderats'
+        save: 'Utkast för kurs-PM har sparats',
+        s_msg: 'Du hittar det sparade utkastet under Kurs-PM/ Publicera ny',
+        pub: 'Kurs-PM har publicerats',
+        delete: 'Utkast för kurs-PM har raderats'
       },
       pmdata: {
-        save: 'Utkast för kurs-pm har sparats',
+        save: 'Utkast för kurs-PM har sparats',
         s_msg: 'Du hittar det sparade utkastet under ',
         fast_admin_link_label: {
-          save: 'Skapa och publicera kurs-pm',
+          save: 'Skapa och publicera kurs-PM',
           savedPublished: 'Ändra publicerad'
         },
-        pub: 'Kurs-pm har publicerats',
-        delete: 'Utkast för kurs-pm har raderats'
+        pub: 'Kurs-PM har publicerats',
+        delete: 'Utkast för kurs-PM har raderats'
       },
       kinfo: {
         pub: 'Introduktion till kursen har publicerats '
@@ -125,8 +125,8 @@ module.exports = {
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
-    coursePM_hd: 'Kurs-pm',
-    coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Använd gärna mall för kurs-pm. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_hd: 'Kurs-PM',
+    coursePM_desc: 'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
     coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',
     coursePM_btn_edit: 'Ändra publicerad',
@@ -141,7 +141,7 @@ module.exports = {
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
       sellingText_btn: 'Redigera introduktion till kursen',
-      coursePM_btn: 'Ladda upp kurs-pm',
+      coursePM_btn: 'Ladda upp kurs-PM',
       courseDev_btn: 'Redigera kusanalys och kursdata'
     }
   },
