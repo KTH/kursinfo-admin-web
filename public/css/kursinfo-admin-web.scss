@@ -130,18 +130,18 @@ span.navigation {
         justify-content: space-between;
         flex-wrap: wrap;
         .card {
-            width: 40em;
-            // max-width: 40em;
-            // min-width: 18em;
+            //width: 40em;
+            max-width: 40em;
+            min-width: 18em;
             align-content: flex-start;
             margin-right: 2em;
         }
-        // .card.course-development {
-        //     max-width: 28em;
-        // }
-        // .KursInfo--SellingText.card {
-        //     max-width: 19.5em;
-        // }
+        .card.course-development {
+            max-width: 28em;
+        }
+        .KursInfo--SellingText.card {
+            max-width: 19.5em;
+        }
         .card-footer {
             padding: .75rem 1.25rem .75rem .75rem
         }
@@ -149,8 +149,52 @@ span.navigation {
     @media (min-width: 1024px) {
         flex-wrap: nowrap;
         .card {
-            max-width: 50em;
+            max-width: 28em;
         }
+    }
+}
+.AdminPage--ShowDescription--PilotCourse {
+    @extend %column;
+    .card {
+        width: 100%;
+        margin: 1em .5em 1em 0;
+        .btn:last-of-type {
+            margin-top: 1em;
+            margin-left: 1em;
+        }
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+    .card-footer.text-right {
+        min-height: 8.2em;
+        span {display: block;}
+    }
+    @media (min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .card {
+            width: 65em;
+            min-width: 18em;
+            align-content: flex-start;
+            margin-right: 1.2em;
+        }
+        .KursInfo--SellingText.card {
+            width: 65em;
+        }
+        .card-footer {
+            padding: .75rem 1rem .75rem .75rem;
+            .btn.btn-primary {
+                padding: .5rem 1rem;
+            }
+        }
+    }
+    @media (min-width: 1024px) {
+        flex-wrap: nowrap;
+        // .card {
+        //     max-width: 28em;
+        // }
     }
 }
 //common elements
