@@ -130,7 +130,7 @@ module.exports = {
     coursePM_hd: 'Kurs-PM',
     coursePM_desc: 'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
     coursePM_create_desc_p1: 'Skapa och publicera kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
-    coursePM_create_desc_p2: 'Publicerat kurs-PM visas på sidan “Kursinformation” för vald termin och kursomgång.',
+    coursePM_create_desc_p2: 'Publicerat kurs-PM visas på sidan ”Kursinformation” för vald termin och kursomgång.',
     coursePM_create_desc_p3: 'Vill du i stället hantera kurs-PM manuellt laddar du ner mall kurs-PM.',
     coursePM_link_template: 'Mall för kurs-PM (Word)',
     coursePM_btn_template: 'Ladda ner mall',

@@ -128,7 +128,7 @@ module.exports = {
     coursePM_hd: 'Course memo',
     coursePM_desc: 'Publish course memo before start of course offerings. Please use provided course memo template. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
     coursePM_create_desc_p1: 'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
-    coursePM_create_desc_p2: 'A published course memo will be available on the page "Course memo" for the semester and course offering.',
+    coursePM_create_desc_p2: 'A published course memo will be available on the page “Course memo” for the semester and course offering.',
     coursePM_create_desc_p3: 'If you want to create a course memo manually, download the course memo template.',
     coursePM_link_template: 'Course memo template (Word)',
     coursePM_btn_template: 'Download template',
