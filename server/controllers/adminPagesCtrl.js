@@ -17,6 +17,19 @@ module.exports = {
 
 const serverPaths = require('../server').getPaths()
 
+const LISTS_OF_PILOT_COURSES = [
+  'SF1624',
+  'SF1610',
+  'MJ1112',
+  'AH2029',
+  'DD1390',
+  'AF1721',
+  'MH1026',
+  'SH1015',
+  'BB2290',
+  'FAI3002'
+]
+
 function hydrateStores (renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
@@ -39,7 +52,7 @@ function _staticRender (context, location) {
 }
 
 async function _getAdminStart (req, res, next) {
-  const { courseCode } = req.params
+  const courseCode = req.params.courseCode.toUpperCase()
   let lang = language.getLanguage(res) || 'sv'
 
   try {
@@ -49,6 +62,8 @@ async function _getAdminStart (req, res, next) {
     // Load browserConfig and server paths for internal api
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
+    renderProps.props.children.props.adminStore.isPilotCourse = checkIfPilotCourse(courseCode)
+    
     // Load koppsData
     renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
 
@@ -67,3 +82,5 @@ async function _getAdminStart (req, res, next) {
     next(error)
   }
 }
+
+const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)

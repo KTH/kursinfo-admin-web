@@ -68,6 +68,10 @@ module.exports = {
         aTitle: 'Kursinformation',
         aAlt: 'Till Kursinformation vy'
       },
+      pmdata: {
+        aTitle: 'Kurs-PM, Förbereda coh gå kurs',
+        aAlt: 'Till Kurs-PM vy'
+      },
       kinfo: {
         aTitle: 'Kursinformation',
         aAlt: 'Till Kursinformation vy'
@@ -81,10 +85,22 @@ module.exports = {
         delete: 'Utkast för kursanalys och kursdata har raderats'
       },
       pm: {
-        save: 'Utkast för kurs-pm har sparats',
-        s_msg: 'Du hittar det sparade utkastet under Kurs-pm/ Publicera ny',
-        pub: 'Kurs-pm har publicerats',
-        delete: 'Utkast för kurs-pm har raderats'
+        save: 'Utkast för kurs-PM har sparats',
+        s_msg: 'Du hittar det sparade utkastet under Kurs-PM/ Publicera ny',
+        pub: 'Kurs-PM har publicerats',
+        delete: 'Utkast för kurs-PM har raderats'
+      },
+      pmdata: {
+        save: 'Utkast för kurs-PM har sparats',
+        removedPublished: 'Utkast för publicerad kurs-PM har togs bort',
+        s_msg: 'Du hittar det sparade utkastet under ',
+        r_msg: 'Utkast för kurs-PM har togs bort från ',
+        fast_admin_link_label: {
+          save: 'Skapa och publicera kurs-PM',
+          removedPublished: 'Ändra publicerad'
+        },
+        pub: 'Kurs-PM har publicerats',
+        delete: 'Utkast för kurs-PM har raderats'
       },
       kinfo: {
         pub: 'Introduktion till kursen har publicerats '
@@ -111,10 +127,16 @@ module.exports = {
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
-    coursePM_hd: 'Kurs-pm',
-    coursePM_desc: 'Publicera kurs-pm för kommande kursomgångar. Använd gärna mall för kurs-pm. Publicerat kurs-pm kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_hd: 'Kurs-PM',
+    coursePM_desc: 'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_create_desc_p1: 'Skapa och publicera kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
+    coursePM_create_desc_p2: 'Publicerat kurs-PM visas på sidan ”Kursinformation” för vald termin och kursomgång.',
+    coursePM_create_desc_p3: 'Vill du i stället hantera kurs-PM manuellt laddar du ner mall kurs-PM.',
+    coursePM_link_template: 'Mall för kurs-PM (Word)',
     coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',
+    coursePM_btn_edit: 'Ändra publicerad',
+    coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
     courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
     courseDev_decs_p2: 'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
@@ -125,7 +147,7 @@ module.exports = {
     beta_more_link: 'Vill du veta mer eller delta?',
     altLabel: {
       sellingText_btn: 'Redigera introduktion till kursen',
-      coursePM_btn: 'Ladda upp kurs-pm',
+      coursePM_btn: 'Ladda upp kurs-PM',
       courseDev_btn: 'Redigera kusanalys och kursdata'
     }
   },

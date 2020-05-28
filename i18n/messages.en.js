@@ -68,6 +68,10 @@ module.exports = {
         aTitle: 'Course information',
         aAlt: 'To Course information page'
       },
+      pmdata: {
+        aTitle: 'Course Memo',
+        aAlt: 'To Course Memos page'
+      },
       kinfo: {
         aTitle: 'Course information',
         aAlt: 'To Course information page'
@@ -83,6 +87,18 @@ module.exports = {
       pm: {
         save: 'Draft for course memo has been saved',
         s_msg: 'You can find saved drafts under Course memo / Publish new',
+        pub: 'Course memo has been published',
+        delete: 'Draft for course memo has been removed'
+      },
+      pmdata: {
+        save: 'Draft for course memo has been saved',
+        removedPublished: 'Draft for published version has been removed',
+        s_msg: 'You can find saved drafts under ',
+        r_msg: 'Draft for course memo has been removed after cancelation you can go back to ',
+        fast_admin_link_label: {
+          save: 'Create and publish course memo',
+          removedPublished: 'Edit published'
+        },
         pub: 'Course memo has been published',
         delete: 'Draft for course memo has been removed'
       },
@@ -111,8 +127,14 @@ module.exports = {
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
     coursePM_desc: 'Publish course memo before start of course offerings. Please use provided course memo template. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
+    coursePM_create_desc_p1: 'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
+    coursePM_create_desc_p2: 'A published course memo will be available on the page “Course memo” for the semester and course offering.',
+    coursePM_create_desc_p3: 'If you want to create a course memo manually, download the course memo template.',
+    coursePM_link_template: 'Course memo template (Word)',
     coursePM_btn_template: 'Download template',
     coursePM_btn: 'Publish',
+    coursePM_btn_edit: 'Change published',
+    coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1: 'Publish or edit published course analysis and course data regarding the development and history of the course.',
     courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development and history”.',

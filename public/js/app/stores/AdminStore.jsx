@@ -2,6 +2,9 @@
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
+// import { LISTS_OF_PILOT_COURSES } from '../util/pilotCourses'x
+
+
 const paramRegex = /\/(:[^\/\s]*)/g
 
 function _paramReplace (path, params) {
@@ -43,6 +46,9 @@ class AdminStore {
   // @observable hasDoneSubmit = false
   @observable apiError = ''
 
+  //saving if course is in pilot
+  @observable isPilotCourse = false
+
   buildApiUrl (path, params) {
     let host
     if (typeof window !== 'undefined') {
@@ -83,6 +89,7 @@ class AdminStore {
   @action setUser (userKthId) {
     this.user = userKthId
   }
+
   // @action addStatistic (data) {
   //   console.log("data", data)
   //   this.statisticData = data
