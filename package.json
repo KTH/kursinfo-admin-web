@@ -61,7 +61,7 @@
     "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.1.2",
     "kth-node-session": "^1.0.4",
-    "kth-node-web-common": "^4.0.1",
+    "kth-node-web-common": "4.0.2",
     "kth-style": "^4.2.27",
     "locale": "^0.1.0",
     "mobx": "^5.13.0",
