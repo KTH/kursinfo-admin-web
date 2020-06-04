@@ -69,7 +69,7 @@ module.exports = {
         aAlt: 'Till Kursinformation vy'
       },
       pmdata: {
-        aTitle: 'Kurs-PM, Förbereda coh gå kurs',
+        aTitle: 'Kurs-PM, Förbereda och gå kurs',
         aAlt: 'Till Kurs-PM vy'
       },
       kinfo: {
