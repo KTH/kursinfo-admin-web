@@ -18,16 +18,11 @@ module.exports = {
 const serverPaths = require('../server').getPaths()
 
 const LISTS_OF_PILOT_COURSES = [
-  'SF1624',
-  'SF1610',
-  'MJ1112',
-  'AH2029',
-  'DD1390',
-  'AF1721',
-  'MH1026',
-  'SH1015',
-  'BB2290',
-  'FAI3002'
+  'AF1301',
+  'HS1001',
+  'ME2016',
+  'MG1400',
+  'MJ2462'
 ]
 
 function hydrateStores (renderProps) {
