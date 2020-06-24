@@ -118,22 +118,7 @@
         "@babel/plugin-proposal-decorators",
         {
           "legacy": true
-        },
-        "plugin-proposal-decorators"
-      ],
-      [
-        "@babel/plugin-proposal-class-properties",
-        {
-          "loose": true
-        },
-        "plugin-proposal-class-properties"
-      ],
-      [
-        "@babel/plugin-proposal-private-methods",
-        {
-          "loose": true
-        },
-        "plugin-proposal-private-methods"
+        }
       ]
     ]
   }
