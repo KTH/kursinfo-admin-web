@@ -62,7 +62,7 @@
     "kth-node-server": "^3.1.2",
     "kth-node-session": "^1.0.4",
     "kth-node-web-common": "^3.0.6",
-    "kth-style": "^4.3.2",
+    "kth-style": "^4.2.27",
     "locale": "^0.1.0",
     "mobx": "^5.13.0",
     "mobx-react": "^5.4.4",
