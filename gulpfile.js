@@ -8,7 +8,7 @@ const globals = {
 }
 
 const { moveResources, sass, vendor, clean } = require('kth-node-build-commons').tasks(globals)
-const { moveHandlebarPages } = require('kth-node-web-common/gulp')
+// const { moveHandlebarPages } = require('kth-node-web-common/gulp')
 
 /**
  * Usage:
@@ -39,9 +39,9 @@ gulp.task('vendor', function () {
   vendor()
 })
 
-gulp.task('moveHandlebarPages', moveHandlebarPages)
+// gulp.task('moveHandlebarPages', moveHandlebarPages)
 
-gulp.task('moveResources', ['moveHandlebarPages'], function () {
+gulp.task('moveResources', /*['moveHandlebarPages'],*/ function () {
   return mergeStream(
     moveResources.moveKthStyle(),
     moveResources.moveBootstrap(),
