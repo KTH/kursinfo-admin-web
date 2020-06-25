@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs:10.14.0_2d4b27f
+FROM kthse/kth-nodejs:10.14.0
 
 LABEL maintainer="KTH-Webb web-developers@kth.se"
 
