@@ -18,8 +18,8 @@ typings.json
 .settings/
 
 #Error pages will be replaced by kth-node-web-common
-server/views/system/error.handlebars
-server/views/layouts/errorLayout.handlebars
+#server/views/system/error.handlebars
+#server/views/layouts/errorLayout.handlebars
 
 # Settings
 config/localSettings.js

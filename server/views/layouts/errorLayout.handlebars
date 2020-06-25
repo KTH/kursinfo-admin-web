@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{friendly}}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{description}}">
+    <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico">
+
+    {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
+    
+    {{#extend 'styles'}}
+      <style>
+        body.error .errorMain {
+          box-shadow: 0 0 5px 5px #aeb4ae;
+          background-color: #fff;
+          transform: rotate(-5deg);
+          padding: 30px 40px 40px;
+          max-width: 750px;
+          margin: 30px auto;    
+          margin-top: 5rem;
+        }
+        
+        body.error .kthLovesGeeks {
+          color: #b9bbbd;
+        }
+
+        .logo {
+          margin-bottom: 1rem;
+        }
+
+      </style>
+    {{/extend}}
+
+    {{{render 'styles'}}}
+
+    {{prefixScript '/static/js/vendor.js' 'head-scripts'}}
+    {{#extend 'head-scripts'}}
+        <script src="//www.kth.se/social/toolbar/widget.js"></script>
+        <!-- analytics start -->
+        {{{blocks.analytics}}}
+        <!-- analytics end -->
+    {{/extend}}
+
+    {{{render 'head-scripts'}}}
+  </head>
+  <body class="error code{{status}} use-personal-menu">
+    {{{body}}}
+    {{{render 'scripts'}}}
+  </body>
+</html>

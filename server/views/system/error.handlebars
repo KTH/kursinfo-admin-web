@@ -1,0 +1,19 @@
+<!-- javascript for this view. -->
+{{#extend 'scripts'}}
+<script>
+  window.StatusCode = ({{status}} || 500)
+</script>
+{{/extend}}
+
+<div class="errorMain">
+  {{{blocks.image}}}
+  <h1>{{status}}</h1>
+  <h3>{{friendly}}</h3>
+
+  <div class="card card-body bg-light">
+    <p class="kthLovesGeeks">HTTP {{status}}: {{message}}</p>
+    {{#if error.stack}}
+      <pre>{{error.stack}}</pre>
+    {{/if}}
+  </div>
+</div>
