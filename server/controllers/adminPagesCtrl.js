@@ -29,8 +29,8 @@ const LISTS_OF_PILOT_COURSES = [
   'ME2016',
   'MG1028',
   'MJ2462',
-  'SG2900',
-  'SG2925'
+  'SD2900',
+  'SD2925'
 ]
 
 function hydrateStores (renderProps) {
