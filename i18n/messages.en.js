@@ -121,7 +121,7 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Course introduction',
-    sellingText_desc_p1: 'Choose your own image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
+    sellingText_desc_p1: 'Choose your own decorative image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
     sellingText_desc_p2: '“Introduction to course” is displayed at the top of the “Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
