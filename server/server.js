@@ -7,15 +7,15 @@ const AppRouter = require('kth-node-express-routing').PageRouter
 const getPaths = require('kth-node-express-routing').getPaths
 
 if (config.appInsights && config.appInsights.instrumentationKey) {
-  let appInsights = require('applicationinsights')
+  const appInsights = require('applicationinsights')
   appInsights.setup(config.appInsights.instrumentationKey)
-      .setAutoDependencyCorrelation(true)
-      .setAutoCollectRequests(true)
-      .setAutoCollectPerformance(true)
-      .setAutoCollectExceptions(true)
-      .setAutoCollectDependencies(true)
-      .setAutoCollectConsole(true)
-      .start()
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .start()
 }
 
 // Expose the server and paths
@@ -30,7 +30,7 @@ module.exports.getPaths = () => getPaths()
 const log = require('kth-node-log')
 const packageFile = require('../package.json')
 
-let logConfiguration = {
+const logConfiguration = {
   name: packageFile.name,
   app: packageFile.name,
   env: process.env.NODE_ENV,
@@ -89,8 +89,6 @@ function setCustomCacheControl (res, path) {
 server.use(config.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
 // Expose browser configurations
 server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
-// Map Bootstrap.
-// server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
 // Map kth-style.
 server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist'))
 // Map static content like images, css and js.
