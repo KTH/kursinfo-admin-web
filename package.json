@@ -96,7 +96,7 @@
     "gulp": "^3.9.1",
     "husky": "^4.3.0",
     "jest": "^24.9.0",
-    "kth-node-build-commons": "^3.0.3",
+    "kth-node-build-commons": "^4.1.4",
     "merge-stream": "^2.0.0",
     "nodemon": "^2.0.3",
     "parcel-bundler": "^1.12.4",
