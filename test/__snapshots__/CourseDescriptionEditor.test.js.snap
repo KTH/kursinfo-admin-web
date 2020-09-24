@@ -119,7 +119,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
               type="radio"
               value="otherPicture"
             />
-              Egen vald bild
+             Egen vald bild
           </label>
            
           <br />
