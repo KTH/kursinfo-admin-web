@@ -1,7 +1,6 @@
 'use strict'
 
 // const sanitize = require('sanitize-html')
-const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
@@ -10,10 +9,6 @@ const { toJS } = require('mobx')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')
-
-module.exports = {
-  getAdminStart: co.wrap(_getAdminStart),
-}
 
 const serverPaths = require('../server').getPaths()
 
@@ -33,7 +28,9 @@ const LISTS_OF_PILOT_COURSES = [
   'SD2925'
 ]
 
-function hydrateStores (renderProps) {
+const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
+
+function hydrateStores(renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
   const props = renderProps.props.children.props
@@ -46,29 +43,38 @@ function hydrateStores (renderProps) {
   return outp
 }
 
-function _staticRender (context, location) {
+function _staticRender(context, location) {
   if (process.env.NODE_ENV === 'development') {
     delete require.cache[require.resolve('../../dist/app.js')]
   }
+
   const { staticRender } = require('../../dist/app.js')
+
   return staticRender(context, location)
 }
 
-async function _getAdminStart (req, res, next) {
+async function getAdminStart(req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
-  let lang = language.getLanguage(res) || 'sv'
+  const lang = language.getLanguage(res) || 'sv'
 
   try {
     // Render inferno app
     const renderProps = _staticRender()
     // setBrowserConfig should be first because of setting paths for other next functions
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.setBrowserConfig(
+      browserConfig,
+      serverPaths,
+      serverConfig.hostUrl
+    )
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     renderProps.props.children.props.adminStore.isPilotCourse = checkIfPilotCourse(courseCode)
-    
+
     // Load koppsData
-    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(
+      courseCode,
+      lang
+    )
 
     const html = ReactDOMServer.renderToString(renderProps)
     res.render('course/index', {
@@ -86,4 +92,6 @@ async function _getAdminStart (req, res, next) {
   }
 }
 
-const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
+module.exports = {
+  getAdminStart
+}
