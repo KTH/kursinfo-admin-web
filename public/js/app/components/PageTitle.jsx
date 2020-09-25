@@ -1,36 +1,37 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { EMPTY } from '../util/constants'
 import { Alert } from 'reactstrap'
 import i18n from '../../../../i18n'
 
-class PageTitle extends Component {
+const PageTitle = ({ courseTitleData: title, language, pageTitle }) => {
+  const langIndex = language === 'en' ? 0 : 1
+  const {
+    course_code: courseCode,
+    course_credits: courseCredits,
+    course_title: courseTitle
+  } = title
+  const credits =
+    courseCredits !== EMPTY && courseCredits.toString().indexOf('.') < 0
+      ? courseCredits + '.0'
+      : courseCredits || ''
+  const creditUnit =
+    language === 'en' ? `${credits} credits` : `${credits.toString().replace('.', ',')} hp`
 
-  render () {
-    const title = this.props.courseTitleData
-    const pageTitle = this.props.pageTitle
-    const langIndex = this.props.language === 'en' ? 0 : 1
-    title.course_credits = title.apiError ? '' : title.course_credits !== EMPTY && title.course_credits.toString().indexOf('.') < 0 ? title.course_credits + '.0' : title.course_credits
-    return (
-      <div id='course-title' className='pageTitle col'>
-        <h1 data-testid='main-heading'>{pageTitle}</h1>
-        {title.apiError
-          ? <div><span property='aiiso:code'>{title.course_code}</span>
-            <span property='teach:pageTitle'>
-              <Alert color='info' aria-live='polite'>
-                {i18n.messages[langIndex].pageTitles.alertMessages.kopps_api_down}
-              </Alert>
-            </span>
-          </div>
-          : <div data-testid='main-course'><span property='aiiso:code'>{title.course_code}</span>
-            <span property='teach:pageTitle'> {title.course_title}</span>
-            <span content={title.course_credits} datatype='xsd:decimal' property='teach:ects'>
-              &nbsp;{this.props.language === 'en' ? title.course_credits : title.course_credits.toString().replace('.', ',')}&nbsp;{this.props.language === 'en' ? 'credits' : 'hp'}
-            </span>
-          </div>
-        }
-      </div>
-    )
-  }
+  const courseName = `${courseCode} ${courseTitle} ${creditUnit}`
+
+  return (
+    <header id="course-title" className="pageTitle col">
+      <span id="page-course-title" role="heading" aria-level="1">
+        <span className="t1">{pageTitle}</span>
+        <span className="t4">{courseCode && courseName}</span>
+      </span>
+      {title.apiError && (
+        <Alert color="info" aria-live="polite">
+          {i18n.messages[langIndex].pageTitles.alertMessages.kopps_api_down}
+        </Alert>
+      )}
+    </header>
+  )
 }
 
 export default PageTitle

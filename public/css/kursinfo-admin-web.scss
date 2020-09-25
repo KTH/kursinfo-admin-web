@@ -66,6 +66,41 @@ $red: #e01f28;
     }
   }
 }
+.pageTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin-top: 20px;
+  margin-bottom: 30px; //change later to 14px, after syllabus details moved
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .t4 {
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+  }
+
+  [role='heading'] {
+    display: flex;
+    flex-direction: column;
+    .t1 {
+      margin-bottom: 0;
+      margin-left: -0.095em;
+    }
+    .t4 {
+      margin-top: 4px;
+      margin-bottom: 20px;
+    }
+  }
+  .alert {
+    margin-left: 0;
+  }
+}
 
 .progress-bar1 {
   border-bottom: 2px solid $light-grey;
