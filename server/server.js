@@ -273,7 +273,7 @@ appRoute.get(
 
 appRoute.get(
   'course.editDescription',
-  config.proxyPrefixPath.uri + '/test/edit/:courseCode',
+  config.proxyPrefixPath.uri + '/test-edit/:courseCode',
   SellingInfo.getDescription
 )
 
