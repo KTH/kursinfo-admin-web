@@ -139,7 +139,7 @@ module.exports = {
     coursePM_create_desc_p2:
       'Publicerat kurs-PM visas på sidan ”Kursinformation” för vald termin och kursomgång.',
     coursePM_create_desc_p3:
-      'Vill du i stället hantera kurs-PM manuellt laddar du ner mall kurs-PM.',
+      'Det finns fortfarande möjlighet, men är inte att föredra, att ladda upp ett alternativt kurs-PM.',
     coursePM_link_upload_memo: 'Ladda upp alternativt kurs-PM',
     coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',

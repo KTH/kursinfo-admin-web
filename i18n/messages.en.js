@@ -140,7 +140,7 @@ module.exports = {
     coursePM_create_desc_p2:
       'A published course memo will be available on the page “Course memo” for the semester and course offering.',
     coursePM_create_desc_p3:
-      'If you want to create a course memo manually, download the course memo template.',
+      'It is still possible, but not advisable, to upload an alternative course memo as PDF',
     coursePM_link_upload_memo: 'Upload alternative course memo',
     coursePM_btn_template: 'Download template',
     coursePM_btn: 'Publish',
