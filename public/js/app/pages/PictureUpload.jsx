@@ -5,16 +5,12 @@ import ButtonModal from '../components/ButtonModal'
 import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 
-const fileTypes = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png'
-]
+const fileTypes = ['image/jpeg', 'image/jpg', 'image/png']
 
 const errTrue = true
 let noFile // must be undefined
 
-function _validFileType (file) {
+function _validFileType(file) {
   for (let i = 0; i < fileTypes.length; i++) {
     if (file.type === fileTypes[i]) {
       return true
@@ -23,9 +19,10 @@ function _validFileType (file) {
   return false
 }
 
-@inject(['adminStore']) @observer
+@inject(['adminStore'])
+@observer
 class PictureUpload extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       errMsg: undefined,
@@ -49,7 +46,7 @@ class PictureUpload extends Component {
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
 
-  _getFileData (file) {
+  _getFileData(file) {
     let formData = new FormData()
     formData.append('file', file)
     formData.append('courseCode', this.courseCode)
@@ -58,14 +55,14 @@ class PictureUpload extends Component {
     return formData
   }
 
-  _choosenNewPicture (isError, fileUrl) {
+  _choosenNewPicture(isError, fileUrl) {
     this.setState({
       isError: isError,
       tempFilePath: fileUrl
     })
   }
 
-  checkTerms () {
+  checkTerms() {
     const termsAgreement = document.getElementById('termsAgreement')
     this.setState({
       isError: !termsAgreement.checked,
@@ -74,17 +71,17 @@ class PictureUpload extends Component {
     return termsAgreement.checked
   }
 
-  clickFileInput (event) {
+  clickFileInput(event) {
     if (event.target !== event.currentTarget) event.currentTarget.click()
   }
 
-  resetToPrevApiPicture (event) {
+  resetToPrevApiPicture(event) {
     this._choosenNewPicture(!errTrue, noFile)
     let fileInput = document.querySelector('.pic-upload')
     fileInput.value = ''
   }
 
-  switchOption (event) {
+  switchOption(event) {
     let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     this.setState({
@@ -97,10 +94,10 @@ class PictureUpload extends Component {
       // if user choose to override api picture with default
       if (this.isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
-    this.setState({infoMsg})
+    this.setState({ infoMsg })
   }
 
-  displayValidatedPic (event) {
+  displayValidatedPic(event) {
     const picFile = event.target.files[0]
     const isTempFile = this.state.tempFilePath
     let errorIndex, infoMsg
@@ -126,19 +123,19 @@ class PictureUpload extends Component {
       this._choosenNewPicture(!errTrue, this.state.tempFilePath)
     }
 
-    this.setState({errMsg: errorIndex, infoMsg})
+    this.setState({ errMsg: errorIndex, infoMsg })
   }
 
-  doNextStep (event) {
+  doNextStep(event) {
     event.preventDefault()
     const tempFilePath = this.state.tempFilePath
-    let errorMayNotProceed = this.state.isError;
+    let errorMayNotProceed = this.state.isError
     const isDefault = this.state.isDefault
     if (tempFilePath && !isDefault) {
       errorMayNotProceed |= !this.checkTerms()
     } else if (!this.isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
-      this.setState({isError: true, errMsg: 'no_file_chosen'})
+      this.setState({ isError: true, errMsg: 'no_file_chosen' })
     }
     if (!errorMayNotProceed) {
       this.props.adminStore.tempSaveNewImage(this.state.newImage, tempFilePath, isDefault)
@@ -148,86 +145,154 @@ class PictureUpload extends Component {
     }
   }
 
-  render () {
+  render() {
     const { introLabel } = this.props
     const { apiImageUrl, defaultImageUrl, lang } = this
     return (
-      <span className='Upload--Area col' key='uploadArea'>
-        {this.state.isDefault && this.state.infoMsg
-          ? <Alert color='info'>{introLabel.alertMessages[this.state.infoMsg]}</Alert>
-          : this.state.isError && this.state.errMsg &&
-              <Alert color='danger'>{introLabel.alertMessages[this.state.errMsg]}</Alert>
-        }
-        <span className='title_and_info'>
-          <h2 data-testid='intro-heading'>{introLabel.label_step_1}
-          <ButtonModal id='infoPic' type='info-icon'
-            modalLabels={introLabel.info_image} course={this.courseCode} /></h2>
+      <span className="Upload--Area col" key="uploadArea">
+        {this.state.isDefault && this.state.infoMsg ? (
+          <Alert color="info">{introLabel.alertMessages[this.state.infoMsg]}</Alert>
+        ) : (
+          this.state.isError &&
+          this.state.errMsg && (
+            <Alert color="danger">{introLabel.alertMessages[this.state.errMsg]}</Alert>
+          )
+        )}
+        <span className="title_and_info">
+          <h2 data-testid="intro-heading">
+            {introLabel.label_step_1}
+            <ButtonModal
+              id="infoPic"
+              type="info-icon"
+              modalLabels={introLabel.info_image}
+              course={this.courseCode}
+            />
+          </h2>
         </span>
         <p>{introLabel.image.choiceInfo}</p>
-        <form className='Picture--Options input-label-row'>
-          <span role='radiogroup'>
-            <label htmlFor='defaultPicture'>
-              <input type='radio' id='defaultPicture' name='choosePicture' value='defaultPicture'
-                onClick={this.switchOption} defaultChecked={this.state.isDefault} />{' '}
+        <form className="Picture--Options input-label-row">
+          <span role="radiogroup">
+            <label htmlFor="defaultPicture">
+              <input
+                type="radio"
+                id="defaultPicture"
+                name="choosePicture"
+                value="defaultPicture"
+                onClick={this.switchOption}
+                defaultChecked={this.state.isDefault}
+              />{' '}
               {introLabel.image.firstOption}
-            </label> <br />
-            <label htmlFor='otherPicture'>
-              <input type='radio' id='otherPicture' name='choosePicture' value='otherPicture'
-                onClick={this.switchOption} defaultChecked={!this.state.isDefault} /> {' '}
+            </label>{' '}
+            <br />
+            <label htmlFor="otherPicture">
+              <input
+                type="radio"
+                id="otherPicture"
+                name="choosePicture"
+                value="otherPicture"
+                onClick={this.switchOption}
+                defaultChecked={!this.state.isDefault}
+              />{' '}
               {introLabel.image.secondOption}
-            </label> <br />
+            </label>{' '}
+            <br />
           </span>
         </form>
-        {this.state.isDefault
-        ? <span className='' key='picture'>
-          <img src={defaultImageUrl} alt={introLabel.alt.image} height='auto' width='300px' />
-        </span>
-        : <span>
-          <span id='own-picture' className={this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''} key='uploader'>
-            <span className='preview-pic'>
-              {this.isApiPicAvailable || this.state.tempFilePath
-                ? <img src={this.state.tempFilePath || apiImageUrl} height='auto' width='300px'
-                  alt={introLabel.alt.image} />
-                : <span className='empty-pic' alt={introLabel.alt.tempImage}>
-                  <p><i>{introLabel.image.noChosen}</i></p>
-                </span>
+        {this.state.isDefault ? (
+          <span className="" key="picture">
+            <img src={defaultImageUrl} alt={introLabel.alt.image} height="auto" width="300px" />
+          </span>
+        ) : (
+          <span>
+            <span
+              id="own-picture"
+              className={
+                this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''
               }
+              key="uploader"
+            >
+              <span className="preview-pic">
+                {this.isApiPicAvailable || this.state.tempFilePath ? (
+                  <img
+                    src={this.state.tempFilePath || apiImageUrl}
+                    height="auto"
+                    width="300px"
+                    alt={introLabel.alt.image}
+                  />
+                ) : (
+                  <span className="empty-pic" alt={introLabel.alt.tempImage}>
+                    <p>
+                      <i>{introLabel.image.noChosen}</i>
+                    </p>
+                  </span>
+                )}
+              </span>
+              <FileInput
+                id="pic-upload"
+                onChange={this.displayValidatedPic}
+                accept="image/jpg,image/jpeg,image/png"
+                btnLabel={introLabel.image.choose}
+              >
+                {this.state.tempFilePath && this.isApiPicAvailable && (
+                  <Button color="secondary" onClick={this.resetToPrevApiPicture}>
+                    {introLabel.image.reset}
+                  </Button>
+                )}
+              </FileInput>
             </span>
-            <FileInput id='pic-upload' onChange={this.displayValidatedPic}
-              accept='image/jpg,image/jpeg,image/png'
-              btnLabel={introLabel.image.choose}>
-              {this.state.tempFilePath && this.isApiPicAvailable &&
-                  <Button color='secondary' onClick={this.resetToPrevApiPicture}>{introLabel.image.reset}</Button>
-              }
-            </FileInput>
+            {this.state.tempFilePath && (
+              <span
+                className={`input-label-row ${
+                  this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  onChange={this.checkTerms}
+                  data-testid="termsAgreement"
+                  id="termsAgreement"
+                  name="agreeToTerms"
+                  value="agree"
+                />
+                <label htmlFor="termsAgreement">
+                  {introLabel.image.agreeCheck}{' '}
+                  <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link">
+                    {introLabel.image.imagesOnTheWeb}
+                  </a>
+                </label>
+              </span>
+            )}
+            {this.state.isError && (
+              <span data-testid="error-text" className="error-label">
+                <p>
+                  {this.state.errMsg !== 'approve_term'
+                    ? introLabel.required.image
+                    : introLabel.required.agreement}
+                </p>
+              </span>
+            )}
           </span>
-          {this.state.tempFilePath &&
-           <span className={`input-label-row ${this.state.isError && this.state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
-            <input type='checkbox' onChange={this.checkTerms} data-testid='termsAgreement' id='termsAgreement' name='agreeToTerms' value='agree' />
-            <label htmlFor='termsAgreement'>{introLabel.image.agreeCheck}{' '}
-              <a href={INTRA_IMAGE_INFO[lang]} target='_blank' className='external-link'>{introLabel.image.imagesOnTheWeb}</a>
-            </label>
-          </span>
-          }
-          {this.state.isError && (
-          <span data-testid="error-text" className="error-label">
-             <p>{this.state.errMsg !== 'approve_term' ? introLabel.required.image : introLabel.required.agreement}</p>
-          </span>
-          )}
-        </span>
-        }
-        <span className='control-buttons'>
-          <Col sm='4'>
-          </Col>
-          <Col sm='4' className='btn-cancel'>
-            <ButtonModal id='cancelStep1' type='cancel' course={this.courseCode}
+        )}
+        <span className="control-buttons">
+          <Col sm="4" />
+          <Col sm="4" className="btn-cancel">
+            <ButtonModal
+              id="cancelStep1"
+              type="cancel"
+              course={this.courseCode}
               returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
               btnLabel={introLabel.button.cancel}
-              modalLabels={introLabel.info_cancel} />
+              modalLabels={introLabel.info_cancel}
+            />
           </Col>
-          <Col sm='4' className='step-forward'>
-            <Button onClick={this.doNextStep} className='btn-next' color='success' alt={introLabel.alt.step2Next}
-              disabled={this.state.isError}>
+          <Col sm="4" className="step-forward">
+            <Button
+              onClick={this.doNextStep}
+              className="btn-next"
+              color="success"
+              alt={introLabel.alt.step2Next}
+              disabled={this.state.isError}
+            >
               {introLabel.button.step2}
             </Button>
           </Col>
@@ -235,7 +300,6 @@ class PictureUpload extends Component {
       </span>
     )
   }
-
 }
 
 export default PictureUpload

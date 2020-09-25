@@ -1,11 +1,10 @@
-
 import React, { Component } from 'react'
 import { Row } from 'reactstrap'
 import i18n from '../../../../i18n'
 
-const ProgressBar = ({language, active, introText}) => {
+const ProgressBar = ({ language, active, introText }) => {
   return (
-    <Row className='progress-bar-container'>
+    <Row className="progress-bar-container">
       <div className={`col-md-4 col-sm-12 progress-bar1 ${active === 1 ? 'progress-active' : ''}`}>
         <span>{i18n.messages[language].pageTitles.header_progress_select_pic}</span>
       </div>
@@ -16,7 +15,7 @@ const ProgressBar = ({language, active, introText}) => {
         <span>{i18n.messages[language].pageTitles.header_progress_review}</span>
       </div>
       <div>
-        <p data-testid='intro-text'>{introText}</p>
+        <p data-testid="intro-text">{introText}</p>
       </div>
     </Row>
   )
