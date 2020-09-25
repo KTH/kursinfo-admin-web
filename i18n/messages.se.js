@@ -35,7 +35,7 @@ module.exports = {
     field_label_post_example: 'Min datamodell(Svar från api anrop POST): ',
 
     lang_block_id: '1.272446',
-    locale_text: 'Kursinformationsadmin på svenska',
+    locale_text: 'Denna sida på svenska',
 
     site_name: 'Kursinformationsadmin',
     host_name: 'KTH',
@@ -185,8 +185,8 @@ module.exports = {
     },
     info_image: {
       header: 'Välj bild',
-      body: `Välj bild att visa på sidan Kursinformation. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
-      Bilden kommer att visas med formatet 400px * 300px. Filformatet måste vara .png eller .jpg.`,
+      body: `Välj dekorativ bild att visa på sidan Kursinformation och Kurs-PM. För att bilden ska uppfylla kraven för Tillgänglighet ska bilden inte vara informationsbärande. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
+      Bilden kommer att visas med formatet 400px i bredd och 300px i höjd. Filformatet måste vara .png eller .jpg.`,
       btnCancel: 'Stäng'
     },
     editCourseIntro: 'Redigera introduktion till kursen',
@@ -195,18 +195,18 @@ module.exports = {
       choose: 'Välj bild',
       name: 'Bildnamn:',
       noChosen: 'Ingen bild vald',
-      choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
+      choiceInfo: 'Välj dekorativ bild som ska visas på kursinformationssidan:',
       firstOption: 'Bild vald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
       agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
       imagesOnTheWeb: 'Bilder på webben'
     },
-    step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
+    step_1_desc: `Börja med att välja en dekorativ bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
     I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.`,
     step_2_desc: `Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
     Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan. 
     I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”.`,
-    step_3_desc: `I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). 
+    step_3_desc: `I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). 
     Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.`,
     label_left_number_letters: 'Antal tecken kvar att använda (av totalt 1500):',
     label_step_1: 'Välj bild',

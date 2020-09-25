@@ -14,14 +14,10 @@ const serverPaths = require('../server').getPaths()
 
 const LISTS_OF_PILOT_COURSES = [
   'AF1301',
-  'DD2380',
   'ED1110',
   'EH2720',
   'EH2070',
-  'EK2370',
-  'EL2820',
   'HS1001',
-  'ME2016',
   'MG1028',
   'MJ2462',
   'SD2900',
