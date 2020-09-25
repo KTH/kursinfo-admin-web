@@ -162,7 +162,7 @@ class Preview extends Component {
               <Col sm="4" className="step-back">
                 <Button
                   onClick={this.returnToEditor}
-                  className="btn-back"
+                  className="back"
                   alt={introLabel.alt.step2Back}
                 >
                   {introLabel.button.step2}

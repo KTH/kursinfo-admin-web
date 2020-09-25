@@ -288,7 +288,7 @@ class PictureUpload extends Component {
           <Col sm="4" className="step-forward">
             <Button
               onClick={this.doNextStep}
-              className="btn-next"
+              className="next"
               color="success"
               alt={introLabel.alt.step2Next}
               disabled={this.state.isError}

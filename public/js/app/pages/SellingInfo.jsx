@@ -185,7 +185,7 @@ class SellingInfo extends Component {
           <Col sm="4" className="step-back">
             <Button
               onClick={this.quitEditor}
-              className="btn-back"
+              className="back"
               id="back-to-image"
               alt={introLabel.alt.step1}
             >
@@ -206,7 +206,7 @@ class SellingInfo extends Component {
             <Button
               onClick={this.quitEditor}
               id="to-peview"
-              className="btn-next"
+              className="next"
               color="success"
               alt={introLabel.alt.step3}
               disabled={this.state.isError}
