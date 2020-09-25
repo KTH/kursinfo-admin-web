@@ -1,12 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Alert } from 'reactstrap'
-import { KTH_SE_URL, COURSE_INFO_URL, COURSE_PMDATA_URL, COURSE_UTVECKLING, ADMIN_COURSE_PM_DATA } from '../util/constants'
+import {
+  KTH_SE_URL,
+  COURSE_INFO_URL,
+  COURSE_PMDATA_URL,
+  COURSE_UTVECKLING,
+  ADMIN_COURSE_PM_DATA
+} from '../util/constants'
 
 const _fetchParameters = (props) => {
-  var params
+  let params
   if (props.location.sellingDesciprion !== 'success') {
-    params = props.location.search.substring(1).split('&')
-      .map(param => param.split('='))
+    params = props.location.search
+      .substring(1)
+      .split('&')
+      .map((param) => param.split('='))
       .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
   }
   return params
@@ -28,36 +36,56 @@ const mapAdminUrl = {
   }
 }
 
-const AlertMsg = ({props, courseCode, translate, lang}) => {
+const AlertMsg = ({ props, courseCode, translate, lang }) => {
   const params = _fetchParameters(props)
   const { event, serv, term, name } = params
-  const publicService = (params && serv) ? publicUrls[serv] : COURSE_INFO_URL
+  const publicService = params && serv ? publicUrls[serv] : COURSE_INFO_URL
   return (
     (serv === 'kutv' || serv === 'pm' || serv === 'pmdata' || serv === 'kinfo') &&
-    (event === 'save' || event === 'pub' || event === 'delete' || event === 'removedPublished') &&
-      <Alert color='success' aria-live='polite'>
+    (event === 'save' || event === 'pub' || event === 'delete' || event === 'removedPublished') && (
+      <Alert color="success" aria-live="polite">
         <h4>{translate.alertMessages[serv][event]}</h4>
-        {term &&
-          <p>{translate.alertMessages.term}: {translate.course_short_semester[term.toString().substring(4, 5)]}
+        {term && (
+          <p>
+            {translate.alertMessages.term}:{' '}
+            {translate.course_short_semester[term.toString().substring(4, 5)]}
             {term.toString().substring(0, 4)}
           </p>
-        }
-        {name &&
-          <p>{translate.alertMessages.course_round}: {decodeURIComponent(name)}</p>
-        }
-        {event === 'pub'
-          ? <p>{translate.alertMessages.see_more} <a href={`${KTH_SE_URL}${publicService}${courseCode}?l=${lang}`} alt={translate.links_to[serv].aAlt}>{translate.links_to[serv].aTitle}</a></p>
-          : (event === 'save' || event === 'removedPublished') &&
+        )}
+        {name && (
+          <p>
+            {translate.alertMessages.course_round}:{decodeURIComponent(name)}
+          </p>
+        )}
+        {event === 'pub' ? (
+          <p>
+            {translate.alertMessages.see_more}{' '}
+            <a
+              href={`${KTH_SE_URL}${publicService}${courseCode}?l=${lang}`}
+              alt={translate.links_to[serv].aAlt}
+            >
+              {translate.links_to[serv].aTitle}
+            </a>
+          </p>
+        ) : (
+          (event === 'save' || event === 'removedPublished') && (
             <p>
-              {event === 'save' ? translate.alertMessages[serv].s_msg : translate.alertMessages[serv].r_msg}
-              {mapAdminUrl[serv] &&
-                <a href={`${KTH_SE_URL}${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
-                  alt={translate.alertMessages[serv].fast_admin_link_label[event]}>
+              {event === 'save'
+                ? translate.alertMessages[serv].s_msg
+                : translate.alertMessages[serv].r_msg}
+              {mapAdminUrl[serv] && (
+                <a
+                  href={`${KTH_SE_URL}${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
+                  alt={translate.alertMessages[serv].fast_admin_link_label[event]}
+                >
                   {translate.alertMessages[serv].fast_admin_link_label[event]}
-                </a>}
+                </a>
+              )}
             </p>
-        }
+          )
+        )}
       </Alert>
+    )
   )
 }
 
