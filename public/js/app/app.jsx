@@ -28,6 +28,10 @@ function appFactory() {
           path="/kursinfoadmin/kurser/kurs/edit/:courseCode"
           component={CourseDescriptionEditorPage}
         />
+        <Route
+          path="/kursinfoadmin/kurser/kurs/test-edit/:courseCode"
+          component={CourseDescriptionEditorPage}
+        />
         <Route path="/kursinfoadmin/kurser/kurs/:courseCode" component={AdminStartPage} />
       </Switch>
     </Provider>
