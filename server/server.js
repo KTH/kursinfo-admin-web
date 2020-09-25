@@ -270,6 +270,13 @@ appRoute.get(
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
+
+appRoute.get(
+  'course.editDescription',
+  config.proxyPrefixPath.uri + '/test/edit/:courseCode',
+  SellingInfo.getDescription
+)
+
 appRoute.post(
   'course.updateDescription',
   config.proxyPrefixPath.uri + '/api/:courseCode/',
