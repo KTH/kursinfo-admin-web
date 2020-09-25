@@ -1,0 +1,7 @@
+{
+  "env:": {
+    "jest/globals": true
+  },
+  "plugins": ["jest", "jest-extended"],
+  "extends": ["plugin:jest/recommended"]
+}

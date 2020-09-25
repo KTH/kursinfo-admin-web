@@ -1,7 +1,6 @@
 'use strict'
 
 const api = require('../api')
-const co = require('co')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
@@ -15,38 +14,50 @@ const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 const serverPaths = require('../server').getPaths()
 
-module.exports = {
-  getDescription: co.wrap(_getDescription),
-  updateDescription: co.wrap(_updateDescription),
-  myCourses: co.wrap(_myCourses),
-  saveImageToStorage: co.wrap(_saveImageToStorage)
+function hydrateStores(renderProps) {
+  // This assumes that all stores are specified in a root element called Provider
+
+  const { props } = renderProps.props.children
+  const outp = {}
+  for (let key in props) {
+    if (typeof props[key].initializeStore === 'function') {
+      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
+    }
+  }
+  return outp
 }
 
-async function _getSellingTextFromKursinfoApi (courseCode) {
+async function _getSellingTextFromKursinfoApi(courseCode) {
   try {
     const { client, paths } = api.kursinfoApi
 
-    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), { useCache: false })
+    return await client.getAsync(
+      client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }),
+      { useCache: false }
+    )
   } catch (error) {
-    const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
+    const apiError = new Error(
+      'Redigering av säljande texten är inte tillgänlig för nu, försöker senare'
+    )
     // apiError.status = 500
-    log.error('Error in _getSellingTextFromKursinfoApi', {error})
+    log.error('Error in _getSellingTextFromKursinfoApi', { error })
     throw apiError
   }
 }
 
-function _staticRender (context, location) {
+function _staticRender(context, location) {
   if (process.env.NODE_ENV === 'development') {
     delete require.cache[require.resolve('../../dist/app.js')]
   }
+
   const { staticRender } = require('../../dist/app.js')
+
   return staticRender(context, location)
 }
 
-async function _getDescription (req, res, next) {
-
-  const courseCode = req.params.courseCode
-  let lang = language.getLanguage(res) || 'sv'
+async function getDescription(req, res, next) {
+  const { courseCode } = req.params
+  const lang = language.getLanguage(res) || 'sv'
   const langIndex = lang === 'en' ? 0 : 1
 
   try {
@@ -55,10 +66,17 @@ async function _getDescription (req, res, next) {
     const userKthId = req.session.authUser.ugKthid
     renderProps.props.children.props.adminStore.setUser(userKthId)
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.setBrowserConfig(
+      browserConfig,
+      serverPaths,
+      serverConfig.hostUrl
+    )
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     // Load koppsData and kurinfo-api data
-    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(
+      courseCode,
+      lang
+    )
     renderProps.props.children.props.adminStore.addSellingTextFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addPictureFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
@@ -67,7 +85,7 @@ async function _getDescription (req, res, next) {
       // debug: 'debug' in req.query,
       description: i18n.messages[langIndex].messages.description,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      html: html,
+      html,
       initialState: JSON.stringify(hydrateStores(renderProps)),
       title: i18n.messages[langIndex].messages.title + ' | ' + courseCode
     })
@@ -78,7 +96,7 @@ async function _getDescription (req, res, next) {
 }
 
 // This function to see which groups user is in
-async function _myCourses (req, res, next) {
+async function myCourses(req, res, next) {
   _staticRender()
   try {
     const user = req.session.authUser.memberOf
@@ -94,17 +112,21 @@ async function _myCourses (req, res, next) {
 }
 
 // ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
-async function _updateDescription (req, res, next) {
+async function updateDescription(req, res, next) {
   try {
-    const client = api.kursinfoApi.client
+    const { client } = api.kursinfoApi
     const apipaths = api.kursinfoApi.paths
-    let lang = language.getLanguage(res) || 'sv'
+    const lang = language.getLanguage(res) || 'sv'
     const result = await client.postAsync({
-      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {courseCode: req.params.courseCode}),
-      body: {sellingText: req.body.sellingText,
+      uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {
+        courseCode: req.params.courseCode
+      }),
+      body: {
+        sellingText: req.body.sellingText,
         sellingTextAuthor: req.body.user,
         imageInfo: req.body.imageName,
-        lang},
+        lang
+      },
       useCache: false
     })
     if (safeGet(() => result.body.message)) {
@@ -119,28 +141,22 @@ async function _updateDescription (req, res, next) {
 }
 
 // ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
-async function _saveImageToStorage (req, res, next) {
+async function saveImageToStorage(req, res, next) {
   log.info('Saving uploaded file to storage ', req.body) // + req.files.file
-  const file = req.files.file
+  const { file } = req.files
   log.info('file', file, req.params.courseCode, req.body)
   try {
     const savedImageName = await runBlobStorage(file, req.params.courseCode, req.body)
     return httpResponse.json(res, savedImageName)
   } catch (error) {
-    log.error('Exception from saveImageToStorage ', { error: error })
+    log.error('Exception from saveImageToStorage ', { error })
     next(error)
   }
 }
 
-function hydrateStores (renderProps) {
-  // This assumes that all stores are specified in a root element called Provider
-
-  const props = renderProps.props.children.props
-  const outp = {}
-  for (let key in props) {
-    if (typeof props[key].initializeStore === 'function') {
-      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
-    }
-  }
-  return outp
+module.exports = {
+  getDescription,
+  updateDescription,
+  myCourses,
+  saveImageToStorage
 }

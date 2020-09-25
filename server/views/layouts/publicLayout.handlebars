@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html lang='sv'>
-  <head>
-    <title>KTH | {{title}}</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{description}}">
-    <link rel="shortcut icon" href="https://www.kth.se/polopoly_fs/1.871948.1550155901!/favicon.ico">
 
-    {{#if canonicalUrl}}
-      <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
-    {{/if}}
-    {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
-    {{prefixStyle '/static/css/kursinfo-admin-web.css' 'styles' 'screen'}}
+<head>
+  <title>KTH | {{title}}</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <link rel="shortcut icon" href="https://www.kth.se/polopoly_fs/1.871948.1550155901!/favicon.ico">
 
-    {{{render 'styles'}}}
+  {{#if canonicalUrl}}
+  <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
+  {{/if}}
+  {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
+  {{prefixStyle '/static/app.css' 'styles' 'screen'}}
 
-    {{prefixScript '/static/vendor.js' 'head-scripts'}}
-    {{prefixScript '/static/browserConfig' 'head-scripts'}}
-          <script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>
-      <!-- analytics start -->
-    {{#extend 'head-scripts'}}
+  {{{render 'styles'}}}
 
-      {{{blocks.analytics}}}
-      <!-- analytics end -->
-    {{/extend}}
+  {{prefixScript '/static/vendor.js' 'head-scripts'}}
+  {{prefixScript '/static/browserConfig' 'head-scripts'}}
+  <script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>
+  <!-- analytics start -->
+  {{#extend 'head-scripts'}}
 
-    {{#if debug}}
-      {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
-    {{/if}}
+  {{{blocks.analytics}}}
+  <!-- analytics end -->
+  {{/extend}}
 
-    {{{render 'head-scripts'}}}
-    {{#if instrumentationKey}}
-      <script type="text/javascript">
-        var appInsights = window.appInsights || function (a) { 
-          function b(a) { c[a] = function () { var b = arguments; 
-          c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { 
-          var b = d.createElement("script"); b.src = a.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js", d.getElementsByTagName("script")[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) { f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i } } return c }({ instrumentationKey: "{{{instrumentationKey}}}" }); window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView(); 
-      </script>
-    {{/if}}
-  </head>
-  <body>
-      {{> kthHeader }}
-      <div class="container main">
-        <div class="row">
-          {{{body}}}
-        </div>
-      </div>
-      {{> kthFooter }}
-    {{{render 'scripts'}}}
-  </body>
+  {{#if debug}}
+  {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
+  {{/if}}
+
+  {{{render 'head-scripts'}}}
+  {{#if instrumentationKey}}
+  <script type="text/javascript">
+    var appInsights = window.appInsights || function (a) {
+      function b(a) {
+        c[a] = function () {
+          var b = arguments;
+          c.queue.push(function () {c[a].apply(c, b)})
+        }
+      } var c = {config: a}, d = document, e = window; setTimeout(function () {
+        var b = d.createElement("script"); b.src = a.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js", d.getElementsByTagName("script")[0].parentNode.appendChild(b)
+      }); try {c.cookie = d.cookie} catch (a) {} c.queue = []; for (var f = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; f.length;)b("track" + f.pop()); if (b("setAuthenticatedUserContext"), b("clearAuthenticatedUserContext"), b("startTrackEvent"), b("stopTrackEvent"), b("startTrackPage"), b("stopTrackPage"), b("flush"), !a.disableExceptionTracking) {f = "onerror", b("_" + f); var g = e[f]; e[f] = function (a, b, d, e, h) {var i = g && g(a, b, d, e, h); return !0 !== i && c["_" + f](a, b, d, e, h), i}} return c
+    }({instrumentationKey: "{{{instrumentationKey}}}"}); window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length && appInsights.trackPageView(); 
+  </script>
+  {{/if}}
+</head>
+
+<body>
+  {{> kthHeader }}
+  <div class="container main">
+    <div class="row">
+      {{{body}}}
+    </div>
+  </div>
+  {{> kthFooter }}
+  {{{render 'scripts'}}}
+</body>
+
 </html>

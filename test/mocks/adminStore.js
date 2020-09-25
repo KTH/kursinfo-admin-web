@@ -1,10 +1,3 @@
-
-const tempSaveNewImage = (imageFile, tempImagePath, isDefaultChosen) => {
-  mockAdminStore.newImageFile = imageFile
-  mockAdminStore.tempImagePath = tempImagePath
-  mockAdminStore.isDefaultChosen = isDefaultChosen
-}
-
 const mockAdminStore = {
   koppsData: {
     koppsText: {
@@ -25,8 +18,8 @@ const mockAdminStore = {
     storageUri: ''
   },
   sellingText: {
-    'sv': 'Svensk säljande text',
-    'en': 'English selling text'
+    sv: 'Svensk säljande text',
+    en: 'English selling text'
   },
   paths: {
     storage: {
@@ -37,15 +30,17 @@ const mockAdminStore = {
     }
   },
   isDefaultChosen: true,
-  tempSaveNewImage: tempSaveNewImage,
+  tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
+    this.newImageFile = imageFile
+    this.tempImagePath = tempImagePath
+    this.isDefaultChosen = isDefaultChosen
+  },
 
-  doUpsertItem (text, courseCode, imageName) {
+  doUpsertItem(text, courseCode, imageName) {
     return new Promise((resolve, reject) => {
-      resolve({status: 200})
+      resolve({ status: 200 })
     })
   }
-
 }
 
 export default mockAdminStore
-
