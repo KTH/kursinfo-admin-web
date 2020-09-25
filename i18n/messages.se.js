@@ -2,7 +2,7 @@
 // - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
 // - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
-  shortNames: [ 'sv', 'se' ],
+  shortNames: ['sv', 'se'],
   longNameSe: 'Svenska',
   longNameEn: 'Swedish',
   messages: {
@@ -51,8 +51,10 @@ module.exports = {
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
-    instruction_1: 'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
-    instruction_kopps_1: 'Vill du ändra den grundinformation som hämtas eller ändra roller/ behörigheter för kursen så görs det i ',
+    instruction_1:
+      'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
+    instruction_kopps_1:
+      'Vill du ändra den grundinformation som hämtas eller ändra roller/ behörigheter för kursen så görs det i ',
     instruction_kopps_2: 'av ',
     instruction_kopps_3_link: 'personal som har behörighet i KOPPS ',
     instruction_kopps_4: 'läs mer om Kopps ',
@@ -110,7 +112,8 @@ module.exports = {
       course_round: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
-      api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
+      api_error:
+        'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
       storage_api_error: `Det gick inte att publicera den bild du valt. 
       Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.`,
       kopps_api_down: `Det går för närvarande inte att hämta information från KOPPS. 
@@ -123,23 +126,30 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Introduktion till kursen',
-    sellingText_desc_p1: 'Välj en egen dekorativ bild till kurssidan och/eller ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
+    sellingText_desc_p1:
+      'Välj en egen dekorativ bild till kurssidan och/eller ersätt kortbeskrivningen i Kopps med en mer informativ introduktion till kursen för att hjälpa studenten att göra rätt kursval.',
     sellingText_desc_p2: '”Introduktion till kursen” visas överst på sidan ”Kursinformation”.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
-    coursePM_desc: 'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
-    coursePM_create_desc_p1: 'Skapa och publicera kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
-    coursePM_create_desc_p2: 'Publicerat kurs-PM visas på sidan ”Kursinformation” för vald termin och kursomgång.',
-    coursePM_create_desc_p3: 'Vill du i stället hantera kurs-PM manuellt laddar du ner mall kurs-PM.',
-    coursePM_link_template: 'Mall för kurs-PM (Word)',
+    coursePM_desc:
+      'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
+    coursePM_create_desc_p1:
+      'Skapa och publicera kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
+    coursePM_create_desc_p2:
+      'Publicerat kurs-PM visas på sidan ”Kursinformation” för vald termin och kursomgång.',
+    coursePM_create_desc_p3:
+      'Vill du i stället hantera kurs-PM manuellt laddar du ner mall kurs-PM.',
+    coursePM_link_upload_memo: 'Ladda upp alternativt kurs-PM',
     coursePM_btn_template: 'Ladda ner mall',
     coursePM_btn: 'Publicera',
     coursePM_btn_edit: 'Ändra publicerad',
     coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
-    courseDev_decs_p1: 'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
-    courseDev_decs_p2: 'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
+    courseDev_decs_p1:
+      'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
+    courseDev_decs_p2:
+      'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
     courseDev_link: 'Kursens utveckling - mer information och hjälp',
@@ -153,14 +163,15 @@ module.exports = {
   },
   introLabel: {
     alertMessages: {
-      approve_term: 'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
+      approve_term:
+        'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
       no_file_chosen: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
-      replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
+      replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`
     },
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
@@ -198,7 +209,8 @@ module.exports = {
       choiceInfo: 'Välj bild som ska visas på kursinformationssidan:',
       firstOption: 'Bild vald utifrån kursens huvudområde',
       secondOption: 'Egen vald bild',
-      agreeCheck: 'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
+      agreeCheck:
+        'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
       imagesOnTheWeb: 'Bilder på webben'
     },
     step_1_desc: `Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
@@ -259,7 +271,8 @@ module.exports = {
     Fysik: 'Picture_by_MainFieldOfStudy_05_Physics.jpg',
     'Industriell ekonomi': 'Picture_by_MainFieldOfStudy_06_Industrial_Management.jpg',
     Informationsteknik: 'Picture_by_MainFieldOfStudy_07_Information_Technology.jpg',
-    'Informations- och kommunikationsteknik': 'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
+    'Informations- och kommunikationsteknik':
+      'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
     Kemiteknik: 'Picture_by_MainFieldOfStudy_09_Chemical_Science.jpg',
     'Kemi och kemiteknik': 'Picture_by_MainFieldOfStudy_10_Chemistry_Chemical.jpg',
     Matematik: 'Picture_by_MainFieldOfStudy_11_Mathematics.jpg',

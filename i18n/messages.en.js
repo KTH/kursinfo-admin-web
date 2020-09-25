@@ -2,7 +2,7 @@
 // - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
 // - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
-  shortNames: [ 'en' ],
+  shortNames: ['en'],
   longNameSe: 'Engelska',
   longNameEn: 'English',
   messages: {
@@ -15,7 +15,7 @@ module.exports = {
      * Error messages
      */
 
-    error_not_found: 'Sorry, we can\'t find your requested page',
+    error_not_found: "Sorry, we can't find your requested page",
     error_generic: 'Something went wrong on the server, please try again later.',
 
     /**
@@ -23,7 +23,8 @@ module.exports = {
      */
     service_name: 'course information administration',
     title: 'Administrate About course information',
-    description: 'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
+    description:
+      'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
 
     example_message_key: 'This is an english translation of a label',
 
@@ -51,8 +52,10 @@ module.exports = {
     administrate: 'Administrate About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
-    instruction_1: 'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
-    instruction_kopps_1: 'If you need to change information or roles / access rights for this course it is possible to do it in ',
+    instruction_1:
+      'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
+    instruction_kopps_1:
+      'If you need to change information or roles / access rights for this course it is possible to do it in ',
     instruction_kopps_2: 'for ',
     instruction_kopps_3_link: 'those who has access rights in KOPPS ',
     instruction_kopps_4: 'read more about KOPPS ',
@@ -111,8 +114,10 @@ module.exports = {
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
-      storage_api_error: 'Failed to save the image you chose, due to technical issues mightly. Go back to “1. Choose image” and change the image. Then try to Publish again.',
-      kopps_api_down: 'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
+      storage_api_error:
+        'Failed to save the image you chose, due to technical issues mightly. Go back to “1. Choose image” and change the image. Then try to Publish again.',
+      kopps_api_down:
+        'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
     },
     course_short_semester: {
       1: 'Spring ',
@@ -121,23 +126,31 @@ module.exports = {
   },
   startCards: {
     sellingText_hd: 'Course introduction',
-    sellingText_desc_p1: 'Choose your own decorative image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
-    sellingText_desc_p2: '“Introduction to course” is displayed at the top of the “Course Information” page.',
+    sellingText_desc_p1:
+      'Choose your own decorative image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
+    sellingText_desc_p2:
+      '“Introduction to course” is displayed at the top of the “Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
-    coursePM_desc: 'Publish course memo before start of course offerings. Please use provided course memo template. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
-    coursePM_create_desc_p1: 'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
-    coursePM_create_desc_p2: 'A published course memo will be available on the page “Course memo” for the semester and course offering.',
-    coursePM_create_desc_p3: 'If you want to create a course memo manually, download the course memo template.',
-    coursePM_link_template: 'Course memo template (Word)',
+    coursePM_desc:
+      'Publish course memo before start of course offerings. Please use provided course memo template. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
+    coursePM_create_desc_p1:
+      'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
+    coursePM_create_desc_p2:
+      'A published course memo will be available on the page “Course memo” for the semester and course offering.',
+    coursePM_create_desc_p3:
+      'If you want to create a course memo manually, download the course memo template.',
+    coursePM_link_upload_memo: 'Upload alternative course memo',
     coursePM_btn_template: 'Download template',
     coursePM_btn: 'Publish',
     coursePM_btn_edit: 'Change published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
-    courseDev_decs_p1: 'Publish or edit published course analysis and course data regarding the development and history of the course.',
-    courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development and history”.',
+    courseDev_decs_p1:
+      'Publish or edit published course analysis and course data regarding the development and history of the course.',
+    courseDev_decs_p2:
+      'Published course analysis with course data is displayed on the page “Course development and history”.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
@@ -157,7 +170,7 @@ module.exports = {
         to be able to continue to “Edit text”.`,
       not_correct_format_return_to_api_pic: `You need to choose an image in the correct format (see red markings below) 
         to be able to continue to “Edit text”.`,
-      replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`,
+      replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`
     },
     info_publish: {
       header: 'To be aware of before publishing!',
@@ -173,7 +186,8 @@ module.exports = {
     },
     info_cancel: {
       header: 'To be aware of before cancelling!',
-      body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
+      body:
+        'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
       btnCancel: 'No, go back',
       btnConfirm: 'Yes, cancel',
       infoCourse: 'Course: '
@@ -194,7 +208,8 @@ module.exports = {
       choiceInfo: 'Choose image that will be displayed on the course',
       firstOption: 'Image based on the course main subject',
       secondOption: 'Choose your own picture',
-      agreeCheck: 'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
+      agreeCheck:
+        'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
       imagesOnTheWeb: 'Images on the web.'
     },
     step_1_desc: `Choose what image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
@@ -255,7 +270,8 @@ module.exports = {
     Physics: 'Picture_by_MainFieldOfStudy_05_Physics.jpg',
     'Industrial Management': 'Picture_by_MainFieldOfStudy_06_Industrial_Management.jpg',
     'Information Technology': 'Picture_by_MainFieldOfStudy_07_Information_Technology.jpg',
-    'Information and Communication Technology': 'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
+    'Information and Communication Technology':
+      'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
     'Chemical Science and Engineering': 'Picture_by_MainFieldOfStudy_09_Chemical_Science.jpg',
     'Chemistry and Chemical Engineering': 'Picture_by_MainFieldOfStudy_10_Chemistry_Chemical.jpg',
     Mathematics: 'Picture_by_MainFieldOfStudy_11_Mathematics.jpg',
