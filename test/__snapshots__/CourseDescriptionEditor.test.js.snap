@@ -158,7 +158,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
         >
           <button
             alt="Till nästa steg att redigera text"
-            class="btn-next btn btn-success"
+            class="next btn btn-success"
             type="button"
           >
             Redigera text

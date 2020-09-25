@@ -46,13 +46,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Has correct introductory text', () => {
       const introText = renderEditPage().getByTestId('intro-text')
       expect(introText).toHaveTextContent(
-        'Börja med att välja vilken bild som ska visas på kursinformationssidan (steg 1 av 3).'
-      )
-      expect(introText).toHaveTextContent(
-        'I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten.'
-      )
-      expect(introText).toHaveTextContent(
-        'I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.'
+        'Börja med att välja en dekorativ bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”'
       )
     })
   })
@@ -228,7 +222,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Has correct introductory text', () => {
       const introText = renderEditPage(mockAdminStore, pageNumber).getByTestId('intro-text')
       expect(introText).toHaveTextContent(
-        'I detta steg (3 av 3) visas hur bild med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska).'
+        'I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”'
       )
       expect(introText).toHaveTextContent(
         'Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.'
