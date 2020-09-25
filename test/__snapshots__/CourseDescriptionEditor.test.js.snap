@@ -5,7 +5,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
   <div
     class="kursinfo-main-page col"
   >
-    <div
+    <header
       class="pageTitle col"
       id="course-title"
     >
@@ -35,7 +35,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
            7,5 hp
         </span>
       </div>
-    </div>
+    </header>
     <div
       class="progress-bar-container row"
     >
