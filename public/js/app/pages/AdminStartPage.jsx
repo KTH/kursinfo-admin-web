@@ -97,7 +97,7 @@ class AdminStartPage extends Component {
                     </CardLink>
                   </span>
                   <span>
-                    <CardLink href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`} target="_blank">
+                    <CardLink href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}>
                       {startCards.coursePM_link_upload_memo}
                     </CardLink>
                   </span>
