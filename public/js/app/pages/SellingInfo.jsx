@@ -29,8 +29,8 @@ class SellingInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      sv: '',
-      en: '',
+      sv: this.props.adminStore.sellingText.sv || '',
+      en: this.props.adminStore.sellingText.en || '',
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
       isError: false,
@@ -42,12 +42,6 @@ class SellingInfo extends Component {
     this.langIndex = this.koppsData.lang === 'en' ? 0 : 1
     this.startEditor = this.startEditor.bind(this)
     this.quitEditor = this.quitEditor.bind(this)
-  }
-
-  static getDerivedStateFromProps(props) {
-    const { sellingText } = props.adminStore
-    const { en, sv } = sellingText
-    return { en, sv }
   }
 
   componentDidMount() {
