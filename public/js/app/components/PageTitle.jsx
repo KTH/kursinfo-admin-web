@@ -11,7 +11,7 @@ const PageTitle = ({ courseTitleData: title, language, pageTitle }) => {
     course_title: courseTitle
   } = title
   const credits =
-    courseCredits !== EMPTY && courseCredits.toString().indexOf('.') < 0
+    courseCredits !== EMPTY[langIndex] && courseCredits.toString().indexOf('.') < 0
       ? courseCredits + '.0'
       : courseCredits || ''
   const creditUnit =

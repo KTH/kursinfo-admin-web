@@ -165,7 +165,7 @@ class SellingInfo extends Component {
           <span className="right" key="rightEditorForEnglish">
             <KoppsTextCollapse
               instructions={introLabel}
-              koppsText={koppsData.koppsText.sv}
+              koppsText={koppsData.koppsText.en}
               lang="en"
             />
             <p>
