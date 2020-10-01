@@ -45,7 +45,7 @@
     "kth-node-configuration": "^2.0.1",
     "kth-node-express-routing": "^2.0.3",
     "kth-node-i18n": "^1.0.2",
-    "kth-node-ldap": "^3.1.1",
+    "kth-node-ldap": "3.1.0",
     "kth-node-log": "^3.1.0",
     "kth-node-monitor": "^1.1.6",
     "kth-node-passport-cas": "^3.1.11",
