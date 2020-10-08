@@ -19,6 +19,7 @@ const LISTS_OF_PILOT_COURSES = [
   'EH2070',
   'HS1001',
   'LH238V',
+  'LS1532',
   'MG1028',
   'MJ2462',
   'SD2900',
