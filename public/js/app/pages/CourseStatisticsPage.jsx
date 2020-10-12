@@ -17,31 +17,49 @@ class CourseStatisticsPage extends Component {
 
   render() {
     const { courseRound, combinedDataPerSchool, courseOfferings } = this.statisticData
+    const { browserConfig } = this.props.adminStore
+
+    // HTML Rows for all course offerings for a table Per Department data
 
     const perDepartmentCourseOfferingRows = []
     courseOfferings.forEach((courseOffering) => {
-      const courseOfferingData = toJS(courseOffering)
+      const cO = toJS(courseOffering)
+
       perDepartmentCourseOfferingRows.push(
         <tr>
-          <td>{courseOfferingData.semester}</td>
-          <td>{courseOfferingData.schoolMainCode}</td>
-          <td>{courseOfferingData.departmentName}</td>
-          <td>{courseOfferingData.courseCode}</td>
-          <td width="300">{courseOfferingData.connectedPrograms}</td>
-          <td>{courseOfferingData.offeringId}</td>
-          <td>{courseOfferingData.courseAnalysis}</td>
+          <td>{cO.semester}</td>
+          <td>{cO.schoolMainCode}</td>
+          <td>{cO.departmentName}</td>
+          <td>{cO.courseCode}</td>
+          <td width="300">{cO.connectedPrograms}</td>
+          <td>{cO.offeringId}</td>
+          <td>{cO.courseAnalysis}</td>
+          <td>
+            <a href={`${browserConfig.hostUrl}/kurs-pm/${cO.courseMemoEndPoint}`}>
+              {cO.courseMemoEndPoint}
+            </a>
+          </td>
         </tr>
       )
     })
 
+    // HTML Rows of a table Per school data
+
     const perSchoolRows = []
-    const { schools, totalNumberOfCourses, totalNumberOfAnalyses } = combinedDataPerSchool
+    const {
+      schools,
+      totalNumberOfCourses,
+      totalNumberOfAnalyses,
+      totalNumberOfMemos
+    } = combinedDataPerSchool
     Object.keys(schools).forEach((sC) => {
+      const { numberOfCourses, numberOfUniqAnalyses, numberOfUniqMemos } = schools[sC]
       perSchoolRows.push(
         <tr>
           <td>{sC}</td>
-          <td>{schools[sC].numberOfCourses}</td>
-          <td>{schools[sC].numberOfUniqAnalyses}</td>
+          <td>{numberOfCourses}</td>
+          <td>{numberOfUniqAnalyses}</td>
+          <td>{numberOfUniqMemos}</td>
         </tr>
       )
     })
@@ -58,38 +76,62 @@ class CourseStatisticsPage extends Component {
         <td>
           <b>{totalNumberOfAnalyses}</b>
         </td>
+        <td>
+          <b>{totalNumberOfMemos}</b>
+        </td>
       </tr>
     )
 
-    const perDepartmentData = []
-    perDepartmentData.push([
+    // CSV Per department data
+
+    const csvPerDepartmentData = []
+    csvPerDepartmentData.push([
       'Semester',
       'School',
       'Department Name',
       'Course Code',
       'Connected program(s)',
       'Offering ID',
-      'Course Analysis'
+      'Course Analysis',
+      'Course Memos'
     ])
     courseOfferings.forEach((courseOffering) => {
-      const courseOfferingData = toJS(courseOffering)
-      perDepartmentData.push([
-        courseOfferingData.semester,
-        courseOfferingData.schoolMainCode,
-        courseOfferingData.departmentName,
-        courseOfferingData.courseCode,
-        courseOfferingData.connectedPrograms,
-        courseOfferingData.offeringId,
-        courseOfferingData.courseAnalysis
+      const cO = toJS(courseOffering)
+      csvPerDepartmentData.push([
+        cO.semester,
+        cO.schoolMainCode,
+        cO.departmentName,
+        cO.courseCode,
+        cO.connectedPrograms,
+        cO.offeringId,
+        cO.courseAnalysis,
+        cO.courseMemoEndPoint
       ])
     })
 
-    const perSchoolData = []
-    perSchoolData.push(['School', 'Number of courses', 'Number of course analyses'])
+    // CSV for table per school data
+
+    const csvPerSchoolData = []
+    csvPerSchoolData.push([
+      'School',
+      'Number of courses',
+      'Number of course analyses',
+      'Number of course memos'
+    ])
     Object.keys(schools).forEach((sC) => {
-      perSchoolData.push([sC, schools[sC].numberOfCourses, schools[sC].numberOfUniqAnalyses])
+      csvPerSchoolData.push([
+        sC,
+        schools[sC].numberOfCourses,
+        schools[sC].numberOfUniqAnalyses,
+        schools[sC].numberOfUniqMemos
+      ])
     })
-    perSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfAnalyses])
+    csvPerSchoolData.push([
+      'Total',
+      totalNumberOfCourses,
+      totalNumberOfAnalyses,
+      totalNumberOfMemos
+    ])
 
     return (
       <div key="kursinfo-container" className="kursinfo-main-page col">
@@ -104,13 +146,17 @@ class CourseStatisticsPage extends Component {
           analysis for the particular school the given semester.
         </p>
         <p>
+          Column <q>Number of course memos</q> holds the number of unique published course memos for
+          the particular school the given semester.
+        </p>
+        <p>
           You can export the data to a CSV file by clicking on the button{' '}
           <q>Download per school statistics (CSV file)</q>.
         </p>
         <CSVLink
           filename={`course-information-statistics-per-school-${courseRound}.csv`}
           className="btn btn-primary btn-sm float-right"
-          data={perSchoolData}
+          data={csvPerSchoolData}
         >
           Download per school statistics (CSV file)
         </CSVLink>
@@ -120,6 +166,7 @@ class CourseStatisticsPage extends Component {
               <th>School</th>
               <th>Number of courses</th>
               <th>Number of course analyses</th>
+              <th>Number of course memos</th>
             </tr>
           </thead>
           <tbody>{perSchoolRows}</tbody>
@@ -134,7 +181,7 @@ class CourseStatisticsPage extends Component {
         <CSVLink
           filename={`course-information-statistics-raw-data-${courseRound}.csv`}
           className="btn btn-primary btn-sm float-right"
-          data={perDepartmentData}
+          data={csvPerDepartmentData}
         >
           Download raw data (CSV file)
         </CSVLink>
@@ -148,6 +195,7 @@ class CourseStatisticsPage extends Component {
               <th>Connected program(s)</th>
               <th>Offering ID</th>
               <th>Course Analysis</th>
+              <th>Course Memos</th>
             </tr>
           </thead>
           <tbody>{perDepartmentCourseOfferingRows}</tbody>

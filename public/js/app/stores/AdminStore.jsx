@@ -4,19 +4,18 @@ import axios from 'axios'
 import { safeGet } from 'safe-utils'
 // import { LISTS_OF_PILOT_COURSES } from '../util/pilotCourses'x
 
-
 const paramRegex = /\/(:[^\/\s]*)/g
 
-function _paramReplace (path, params) {
+function _paramReplace(path, params) {
   let tmpPath = path
   const tmpArray = tmpPath.match(paramRegex)
-  tmpArray.forEach(element => {
+  tmpArray.forEach((element) => {
     tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
   })
   return tmpPath
 }
 
-function _webUsesSSL (url) {
+function _webUsesSSL(url) {
   return url.startsWith('https:')
 }
 class AdminStore {
@@ -32,13 +31,13 @@ class AdminStore {
   @observable tempImagePath
 
   // Default image according to school
-  @observable isDefaultChosen  // true-false
+  @observable isDefaultChosen // true-false
   // @observable defaultImageUrl
 
   // Kursinfo-api, published image info
-  @observable imageNameFromApi  // name.jpg
+  @observable imageNameFromApi // name.jpg
   @observable isApiPicAvailable // true-false
-  @observable apiImageUrl  // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
+  @observable apiImageUrl // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
 
   // info for saving who change text
   @observable sellingTextAuthor = ''
@@ -49,7 +48,7 @@ class AdminStore {
   //saving if course is in pilot
   @observable isPilotCourse = false
 
-  buildApiUrl (path, params) {
+  buildApiUrl(path, params) {
     let host
     if (typeof window !== 'undefined') {
       // host = 'http://localhost:' + '3001'
@@ -66,7 +65,7 @@ class AdminStore {
     return [host, newPath].join('')
   }
 
-  _getOptions (params) {
+  _getOptions(params) {
     // Pass Cookie header on SSR-calls
     let options
     if (typeof window === 'undefined') {
@@ -74,7 +73,7 @@ class AdminStore {
         headers: {
           Cookie: this.cookieHeader,
           Accept: 'application/json',
-          'X-Forwarded-Proto': (_webUsesSSL(this.apiHost) ? 'https' : 'http')
+          'X-Forwarded-Proto': _webUsesSSL(this.apiHost) ? 'https' : 'http'
         },
         timeout: 10000,
         params: params
@@ -86,7 +85,7 @@ class AdminStore {
     }
     return options
   }
-  @action setUser (userKthId) {
+  @action setUser(userKthId) {
     this.user = userKthId
   }
 
@@ -94,77 +93,85 @@ class AdminStore {
   //   console.log("data", data)
   //   this.statisticData = data
   // }
-  @action addChangedByLastTime (data) {
+  @action addChangedByLastTime(data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
-  @action addPictureFromApi (data) {
+  @action addPictureFromApi(data) {
     this.imageNameFromApi = safeGet(() => data.imageInfo, '')
     this.isApiPicAvailable = this.imageNameFromApi !== ''
     this.apiImageUrl = `${this.browserConfig.storageUri}${this.imageNameFromApi}`
     this.isDefaultChosen = !this.isApiPicAvailable
   }
-  @action addSellingTextFromApi (data) {
+  @action addSellingTextFromApi(data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
       sv: safeGet(() => data.sellingText.sv, '')
     }
   }
-  @action tempSaveText (data) {
+  @action tempSaveText(data) {
     this.sellingText = {
       en: data.en,
       sv: data.sv
     }
   }
-  @action tempSaveNewImage (imageFile, tempImagePath, isDefaultChosen) {
+  @action tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
     this.newImageFile = imageFile
     this.tempImagePath = tempImagePath
     this.isDefaultChosen = isDefaultChosen
   }
 
-  @action doUpsertItem (text, courseCode, imageName) {
-    return axios.post(this.buildApiUrl(this.paths.course.updateDescription.uri, {courseCode}),
-      {
-        sellingText: text,
-        imageName,
-        user: this.user
-      }, this._getOptions())
-    .then(res => {
-      let msg = null
-      if (safeGet(() => res.data.body.message)) {
-        console.log('We got error from api', res.data.body.message)
-        msg = res.data.body.message
-        throw new Error(res.data.body.message)
-      } else {
-        this.sellingText = text
-        this.sellingTextAuthor = this.user
-      }
-      return msg
-    })
-    .catch(err => {
-      if (err.response) {
-        throw new Error(err.message, err.response.data)
-      }
-      throw err
-    })
+  @action doUpsertItem(text, courseCode, imageName) {
+    return axios
+      .post(
+        this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }),
+        {
+          sellingText: text,
+          imageName,
+          user: this.user
+        },
+        this._getOptions()
+      )
+      .then((res) => {
+        let msg = null
+        if (safeGet(() => res.data.body.message)) {
+          console.log('We got error from api', res.data.body.message)
+          msg = res.data.body.message
+          throw new Error(res.data.body.message)
+        } else {
+          this.sellingText = text
+          this.sellingTextAuthor = this.user
+        }
+        return msg
+      })
+      .catch((err) => {
+        if (err.response) {
+          throw new Error(err.message, err.response.data)
+        }
+        throw err
+      })
   }
 
-  @action setBrowserConfig (config, paths, apiHost, profileBaseUrl) {
+  @action setBrowserConfig(config, paths, apiHost, hostUrl) {
     this.browserConfig = config
     this.paths = paths
     this.apiHost = apiHost
-    this.profileBaseUrl = profileBaseUrl
+    this.hostUrl = hostUrl
   }
 
-  @action __SSR__setCookieHeader (cookieHeader) {
+  @action __SSR__setCookieHeader(cookieHeader) {
     if (typeof window === 'undefined') {
       this.cookieHeader = cookieHeader
     }
   }
 
-  initializeStore (storeName) {
+  initializeStore(storeName) {
     const store = this
 
-    if (typeof window !== 'undefined' && window.__initialState__ && window.__initialState__[storeName]) {
+    if (
+      typeof window !== 'undefined' &&
+      window.__initialState__ &&
+      window.__initialState__[storeName]
+    ) {
       /* TODO:
       const util = globalRegistry.getUtility(IDeserialize, 'kursinfo-admin-web')
       const importData = JSON.parse(decodeURIComponent(window.__initialState__[storeName]))
@@ -191,4 +198,3 @@ class AdminStore {
 }
 
 export default AdminStore
-

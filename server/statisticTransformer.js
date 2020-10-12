@@ -3,12 +3,7 @@
 const statisticApis = require('./koppsApi')
 const log = require('kth-node-log')
 const config = require('./configuration').server
-const redis = require('kth-node-redis')
-const connections = require('kth-node-api-call').Connections
-const EMPTY = {
-  en: 'No information inserted',
-  sv: 'Ingen information tillagd'
-}
+
 const SCHOOL_MAP = {
   ABE: 'ABE',
   CBH: 'CBH',
@@ -24,7 +19,6 @@ const SCHOOL_MAP = {
   SCI: 'SCI'
 }
 
-
 const kursutvecklingData = async (semester) => {
   const { client } = statisticApis.kursutvecklingApi.kursutvecklingApi
   const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`
@@ -32,10 +26,10 @@ const kursutvecklingData = async (semester) => {
     const response = await client.getAsync({ uri })
     const courseAnalyses = {}
     if (response.body) {
-      response.body.forEach(ca => {
+      response.body.forEach((ca) => {
         courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] || { numberOfUniqAnalyses: 0 }
         courseAnalyses[ca.courseCode].numberOfUniqAnalyses++
-        ca.roundIdList.split(',').forEach(roundId => {
+        ca.roundIdList.split(',').forEach((roundId) => {
           courseAnalyses[ca.courseCode][roundId] = ca.analysisFileName
         })
       })
@@ -47,47 +41,71 @@ const kursutvecklingData = async (semester) => {
   }
 }
 
-const addCourseAnalysesPerCourseRound = async (courseOfferingsWithoutAnalysis, courseAnalyses) => {
-  const courseOfferings = []
-  courseOfferingsWithoutAnalysis.forEach(courseOfferingWithoutAnalysis => {
-    const courseCode = courseOfferingWithoutAnalysis.courseCode
-    const offeringId = Number(courseOfferingWithoutAnalysis.offeringId)
-    if (courseAnalyses[courseCode] &&
-      courseAnalyses[courseCode][offeringId]) {
-      const courseOffering = {
-        ...courseOfferingWithoutAnalysis,
-        courseAnalysis: courseAnalyses[courseCode][offeringId]
-      }
-      courseOfferings.push(courseOffering)
-    } else {
-      courseOfferings.push({
-        ...courseOfferingWithoutAnalysis,
-        courseAnalysis: ''
+const kursPmDataApiData = async (semester) => {
+  const { client } = statisticApis.kursPmDataApi.kursPmDataApi
+  const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
+  try {
+    const response = await client.getAsync({ uri })
+    const courseMemos = {}
+    if (response.body) {
+      response.body.forEach(({ courseCode, ladokRoundIds, memoEndPoint, isPdf }) => {
+        if (!isPdf && ladokRoundIds) {
+          courseMemos[courseCode] = courseMemos[courseCode] || {
+            numberOfUniqMemos: 0
+          }
+          courseMemos[courseCode].numberOfUniqMemos++
+
+          ladokRoundIds.forEach((roundId) => {
+            courseMemos[courseCode][roundId] = memoEndPoint
+          })
+        }
       })
     }
-  })
-  return courseOfferings
-}
-
-const asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array)
+    return courseMemos
+  } catch (err) {
+    log.error(err)
+    throw err
   }
 }
 
-function isValidData (dataObject, lang = 'sv') {
-  return !dataObject ? EMPTY[lang] : dataObject
+const documentsPerCourseOffering = async (rawCourseOfferings, analysis, memos) => {
+  const courseOfferings = []
+
+  rawCourseOfferings.forEach((cO) => {
+    const { courseCode } = cO
+    const offeringId = Number(cO.offeringId)
+    let courseAnalysis = ''
+    let courseMemoEndPoint = ''
+    if (analysis[courseCode] && analysis[courseCode][offeringId])
+      courseAnalysis = analysis[courseCode][offeringId]
+    if (memos[courseCode] && memos[courseCode][offeringId])
+      courseMemoEndPoint = memos[courseCode][offeringId]
+
+    const courseOffering = {
+      ...cO,
+      courseAnalysis,
+      courseMemoEndPoint
+    }
+    courseOfferings.push(courseOffering)
+  })
+
+  return courseOfferings
 }
+
 function _getProgramList(programs) {
-  const programsList = programs && programs.map(
-    ({code, study_year, spec_code}) => `${code}${spec_code ? '-' + spec_code : ''}-${study_year}`
-  ) || []
+  const programsList =
+    (programs &&
+      programs.map(
+        ({ code, study_year, spec_code }) =>
+          `${code}${spec_code ? '-' + spec_code : ''}-${study_year}`
+      )) ||
+    []
   return programsList.join(', ')
 }
 
-function fetchStatisticPerDepartment (courses) {
+function fetchStatisticPerDepartment(courses) {
   const courseOfferingsWithoutAnalysis = []
-  courses.body.forEach(course => {
+  courses.body.forEach((course) => {
     courseOfferingsWithoutAnalysis.push({
       semester: course.first_yearsemester,
       schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
@@ -100,15 +118,19 @@ function fetchStatisticPerDepartment (courses) {
   return courseOfferingsWithoutAnalysis
 }
 
-function fetchNumOfAnalyses(courseAnalyses, courseCode) {
-  return courseAnalyses[courseCode] && courseAnalyses[courseCode].numberOfUniqAnalyses || 0          
-
+function getNumOfAnalyses(courseAnalyses, courseCode) {
+  return (courseAnalyses[courseCode] && courseAnalyses[courseCode].numberOfUniqAnalyses) || 0
 }
-function fetchStatisticsPerSchool (courseAnalyses, courses) {
+
+function getNumOfMemos(memos, courseCode) {
+  return (memos[courseCode] && memos[courseCode].numberOfUniqMemos) || 0
+}
+function fetchStatisticsPerSchool(courseAnalyses, courseMemoData, courses) {
   const schools = {}
   let totalNumberOfCourses = 0
   let totalNumberOfAnalyses = 0
-  courses.body.forEach(cR => {
+  let totalNumberOfMemos = 0
+  courses.body.forEach((cR) => {
     const { school_code, course_code } = cR
     if (SCHOOL_MAP[school_code]) {
       const code = SCHOOL_MAP[school_code]
@@ -117,20 +139,25 @@ function fetchStatisticsPerSchool (courseAnalyses, courses) {
           schools[code].courseCodes.push(course_code)
           totalNumberOfCourses++
           schools[code].numberOfCourses += 1
-          schools[code].numberOfUniqAnalyses += fetchNumOfAnalyses(courseAnalyses, course_code)
+          schools[code].numberOfUniqAnalyses += getNumOfAnalyses(courseAnalyses, course_code)
+          schools[code].numberOfUniqMemos += getNumOfMemos(courseMemoData, course_code)
         }
       } else {
         totalNumberOfCourses++
-        schools[code] = { 
+        schools[code] = {
           numberOfCourses: 1,
           courseCodes: [course_code], // we need to control numbers of uniqueAnalyses, totalNumbers per course code
-          numberOfUniqAnalyses: fetchNumOfAnalyses(courseAnalyses, course_code)
+          numberOfUniqAnalyses: getNumOfAnalyses(courseAnalyses, course_code),
+          numberOfUniqMemos: getNumOfMemos(courseMemoData, course_code)
         }
       }
     }
   })
-  Object.values(schools).forEach(sc => totalNumberOfAnalyses += sc.numberOfUniqAnalyses)
-  return { schools, totalNumberOfCourses, totalNumberOfAnalyses }
+  Object.values(schools).forEach((sc) => {
+    totalNumberOfAnalyses += sc.numberOfUniqAnalyses
+    totalNumberOfMemos += sc.numberOfUniqMemos
+  })
+  return { schools, totalNumberOfCourses, totalNumberOfAnalyses, totalNumberOfMemos }
 }
 
 const fetchStatistic = async (courseRound) => {
@@ -138,10 +165,27 @@ const fetchStatistic = async (courseRound) => {
     const { client } = statisticApis.koppsApi.koppsApi
 
     const courseAnalyses = await kursutvecklingData(courseRound)
-    const courses = await client.getAsync({ uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(courseRound)}&skip_coordinator_info=true`, useCache: true })
-    const courseOfferingsWithoutAnalysis = await fetchStatisticPerDepartment(courses)
-    const combinedDataPerDepartment = await addCourseAnalysesPerCourseRound(courseOfferingsWithoutAnalysis, courseAnalyses)
-    const combinedDataPerSchool = await fetchStatisticsPerSchool(courseAnalyses, courses)
+    const courses = await client.getAsync({
+      uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(
+        courseRound
+      )}&skip_coordinator_info=true`,
+      useCache: true
+    })
+    const courseMemoData = await kursPmDataApiData(courseRound)
+
+    const rawCourseOfferings = await fetchStatisticPerDepartment(courses)
+
+    const combinedDataPerDepartment = await documentsPerCourseOffering(
+      rawCourseOfferings,
+      courseAnalyses,
+      courseMemoData
+    )
+
+    const combinedDataPerSchool = await fetchStatisticsPerSchool(
+      courseAnalyses,
+      courseMemoData,
+      courses
+    )
 
     return {
       totalOfferings: courses.body.length,

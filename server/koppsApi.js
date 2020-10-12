@@ -29,6 +29,11 @@ const kursutvecklingConfig = {
 }
 const kursutvecklingApi = connections.setup(kursutvecklingConfig, config.apiKey)
 
+const kursPmDataApiConfig = {
+  kursPmDataApi: config.kursPmDataApi
+}
+const kursPmDataApi = connections.setup(kursPmDataApiConfig, config.apiKey)
+
 const koppsCourseData = async (courseCode) => {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}`
@@ -95,4 +100,4 @@ const filteredKoppsData = async (courseCode, lang = 'sv') => {
   }
 }
 
-module.exports = { filteredKoppsData, koppsApi: api, kursutvecklingApi }
+module.exports = { filteredKoppsData, koppsApi: api, kursutvecklingApi, kursPmDataApi }
