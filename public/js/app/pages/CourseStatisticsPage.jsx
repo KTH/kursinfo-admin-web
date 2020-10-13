@@ -35,8 +35,14 @@ class CourseStatisticsPage extends Component {
           <td>{cO.offeringId}</td>
           <td>{cO.courseAnalysis}</td>
           <td>
-            <a href={`${browserConfig.hostUrl}/kurs-pm/${cO.courseMemoEndPoint}`}>
-              {cO.courseMemoEndPoint}
+            <a
+              href={
+                cO.courseMemoInfo.isPdf
+                  ? `${browserConfig.memoStorageUri}${cO.courseMemoInfo.memoId}`
+                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseMemoInfo.memoId}`
+              }
+            >
+              {cO.courseMemoInfo.memoId}
             </a>
           </td>
         </tr>
@@ -50,16 +56,23 @@ class CourseStatisticsPage extends Component {
       schools,
       totalNumberOfCourses,
       totalNumberOfAnalyses,
-      totalNumberOfMemos
+      totalNumberOfWebMemos,
+      totalNumberOfPdfMemos
     } = combinedDataPerSchool
     Object.keys(schools).forEach((sC) => {
-      const { numberOfCourses, numberOfUniqAnalyses, numberOfUniqMemos } = schools[sC]
+      const {
+        numberOfCourses,
+        numberOfUniqAnalyses,
+        numberOfUniqMemos,
+        numberOfUniqPdfMemos
+      } = schools[sC]
       perSchoolRows.push(
         <tr>
           <td>{sC}</td>
           <td>{numberOfCourses}</td>
           <td>{numberOfUniqAnalyses}</td>
           <td>{numberOfUniqMemos}</td>
+          <td>{numberOfUniqPdfMemos}</td>
         </tr>
       )
     })
@@ -77,7 +90,10 @@ class CourseStatisticsPage extends Component {
           <b>{totalNumberOfAnalyses}</b>
         </td>
         <td>
-          <b>{totalNumberOfMemos}</b>
+          <b>{totalNumberOfWebMemos}</b>
+        </td>
+        <td>
+          <b>{totalNumberOfPdfMemos}</b>
         </td>
       </tr>
     )
@@ -116,21 +132,24 @@ class CourseStatisticsPage extends Component {
       'School',
       'Number of courses',
       'Number of course analyses',
-      'Number of course memos'
+      'Number of web course memos',
+      'Number of PDF course memos'
     ])
     Object.keys(schools).forEach((sC) => {
       csvPerSchoolData.push([
         sC,
         schools[sC].numberOfCourses,
         schools[sC].numberOfUniqAnalyses,
-        schools[sC].numberOfUniqMemos
+        schools[sC].numberOfUniqMemos,
+        schools[sC].numberOfUniqPdfMemos
       ])
     })
     csvPerSchoolData.push([
       'Total',
       totalNumberOfCourses,
       totalNumberOfAnalyses,
-      totalNumberOfMemos
+      totalNumberOfWebMemos,
+      totalNumberOfPdfMemos
     ])
 
     return (
@@ -166,7 +185,8 @@ class CourseStatisticsPage extends Component {
               <th>School</th>
               <th>Number of courses</th>
               <th>Number of course analyses</th>
-              <th>Number of course memos</th>
+              <th>Number of web course memos</th>
+              <th>Number of PDF course memos</th>
             </tr>
           </thead>
           <tbody>{perSchoolRows}</tbody>

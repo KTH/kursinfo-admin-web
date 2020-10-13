@@ -46,22 +46,25 @@ const kursPmDataApiData = async (semester) => {
   const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
   try {
     const response = await client.getAsync({ uri })
-    const courseMemos = {}
+    const memos = {}
     if (response.body) {
-      response.body.forEach(({ courseCode, ladokRoundIds, memoEndPoint, isPdf }) => {
-        if (!isPdf && ladokRoundIds) {
-          courseMemos[courseCode] = courseMemos[courseCode] || {
-            numberOfUniqMemos: 0
-          }
-          courseMemos[courseCode].numberOfUniqMemos++
+      response.body.forEach(
+        ({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf }) => {
+          if (ladokRoundIds) {
+            memos[courseCode] = memos[courseCode] || {
+              [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0
+            }
+            if (isPdf) memos[courseCode].numberOfUniqPdfMemos++
+            else memos[courseCode].numberOfUniqMemos++
 
-          ladokRoundIds.forEach((roundId) => {
-            courseMemos[courseCode][roundId] = memoEndPoint
-          })
+            ladokRoundIds.forEach((roundId) => {
+              memos[courseCode][roundId] = { memoId: courseMemoFileName || memoEndPoint, isPdf }
+            })
+          }
         }
-      })
+      )
     }
-    return courseMemos
+    return memos
   } catch (err) {
     log.error(err)
     throw err
@@ -75,16 +78,16 @@ const documentsPerCourseOffering = async (rawCourseOfferings, analysis, memos) =
     const { courseCode } = cO
     const offeringId = Number(cO.offeringId)
     let courseAnalysis = ''
-    let courseMemoEndPoint = ''
+    let courseMemoInfo = {}
     if (analysis[courseCode] && analysis[courseCode][offeringId])
       courseAnalysis = analysis[courseCode][offeringId]
     if (memos[courseCode] && memos[courseCode][offeringId])
-      courseMemoEndPoint = memos[courseCode][offeringId]
+      courseMemoInfo = memos[courseCode][offeringId]
 
     const courseOffering = {
       ...cO,
       courseAnalysis,
-      courseMemoEndPoint
+      courseMemoInfo
     }
     courseOfferings.push(courseOffering)
   })
@@ -122,14 +125,20 @@ function getNumOfAnalyses(courseAnalyses, courseCode) {
   return (courseAnalyses[courseCode] && courseAnalyses[courseCode].numberOfUniqAnalyses) || 0
 }
 
-function getNumOfMemos(memos, courseCode) {
+function getNumOfWebMemos(memos, courseCode) {
   return (memos[courseCode] && memos[courseCode].numberOfUniqMemos) || 0
+}
+
+function getNumOfPdfMemos(memos, courseCode) {
+  return (memos[courseCode] && memos[courseCode].numberOfUniqPdfMemos) || 0
 }
 function fetchStatisticsPerSchool(courseAnalyses, courseMemoData, courses) {
   const schools = {}
   let totalNumberOfCourses = 0
   let totalNumberOfAnalyses = 0
-  let totalNumberOfMemos = 0
+  let totalNumberOfWebMemos = 0
+  let totalNumberOfPdfMemos = 0
+
   courses.body.forEach((cR) => {
     const { school_code, course_code } = cR
     if (SCHOOL_MAP[school_code]) {
@@ -140,7 +149,8 @@ function fetchStatisticsPerSchool(courseAnalyses, courseMemoData, courses) {
           totalNumberOfCourses++
           schools[code].numberOfCourses += 1
           schools[code].numberOfUniqAnalyses += getNumOfAnalyses(courseAnalyses, course_code)
-          schools[code].numberOfUniqMemos += getNumOfMemos(courseMemoData, course_code)
+          schools[code].numberOfUniqMemos += getNumOfWebMemos(courseMemoData, course_code)
+          schools[code].numberOfUniqPdfMemos += getNumOfPdfMemos(courseMemoData, course_code)
         }
       } else {
         totalNumberOfCourses++
@@ -148,16 +158,24 @@ function fetchStatisticsPerSchool(courseAnalyses, courseMemoData, courses) {
           numberOfCourses: 1,
           courseCodes: [course_code], // we need to control numbers of uniqueAnalyses, totalNumbers per course code
           numberOfUniqAnalyses: getNumOfAnalyses(courseAnalyses, course_code),
-          numberOfUniqMemos: getNumOfMemos(courseMemoData, course_code)
+          numberOfUniqMemos: getNumOfWebMemos(courseMemoData, course_code),
+          numberOfUniqPdfMemos: getNumOfPdfMemos(courseMemoData, course_code)
         }
       }
     }
   })
   Object.values(schools).forEach((sc) => {
     totalNumberOfAnalyses += sc.numberOfUniqAnalyses
-    totalNumberOfMemos += sc.numberOfUniqMemos
+    totalNumberOfWebMemos += sc.numberOfUniqMemos
+    totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
   })
-  return { schools, totalNumberOfCourses, totalNumberOfAnalyses, totalNumberOfMemos }
+  return {
+    schools,
+    totalNumberOfCourses,
+    totalNumberOfAnalyses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos
+  }
 }
 
 const fetchStatistic = async (courseRound) => {
