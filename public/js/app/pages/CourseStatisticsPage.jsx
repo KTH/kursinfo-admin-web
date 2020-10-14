@@ -19,37 +19,7 @@ class CourseStatisticsPage extends Component {
     const { courseRound, combinedDataPerSchool, courseOfferings } = this.statisticData
     const { browserConfig } = this.props.adminStore
 
-    // HTML Rows for all course offerings for a table Per Department data
-
-    const perDepartmentCourseOfferingRows = []
-    courseOfferings.forEach((courseOffering) => {
-      const cO = toJS(courseOffering)
-
-      perDepartmentCourseOfferingRows.push(
-        <tr>
-          <td>{cO.semester}</td>
-          <td>{cO.schoolMainCode}</td>
-          <td>{cO.departmentName}</td>
-          <td>{cO.courseCode}</td>
-          <td width="300">{cO.connectedPrograms}</td>
-          <td>{cO.offeringId}</td>
-          <td>{cO.courseAnalysis}</td>
-          <td>
-            <a
-              href={
-                cO.courseMemoInfo.isPdf
-                  ? `${browserConfig.memoStorageUri}${cO.courseMemoInfo.memoId}`
-                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseMemoInfo.memoId}`
-              }
-            >
-              {cO.courseMemoInfo.memoId}
-            </a>
-          </td>
-        </tr>
-      )
-    })
-
-    // HTML Rows of a table Per school data
+    // SCHOOL: HTML Rows of a table Per SCHOOL data
 
     const perSchoolRows = []
     const {
@@ -98,33 +68,6 @@ class CourseStatisticsPage extends Component {
       </tr>
     )
 
-    // CSV Per department data
-
-    const csvPerDepartmentData = []
-    csvPerDepartmentData.push([
-      'Semester',
-      'School',
-      'Department Name',
-      'Course Code',
-      'Connected program(s)',
-      'Offering ID',
-      'Course Analysis',
-      'Course Memos'
-    ])
-    courseOfferings.forEach((courseOffering) => {
-      const cO = toJS(courseOffering)
-      csvPerDepartmentData.push([
-        cO.semester,
-        cO.schoolMainCode,
-        cO.departmentName,
-        cO.courseCode,
-        cO.connectedPrograms,
-        cO.offeringId,
-        cO.courseAnalysis,
-        cO.courseMemoEndPoint
-      ])
-    })
-
     // CSV for table per school data
 
     const csvPerSchoolData = []
@@ -151,6 +94,63 @@ class CourseStatisticsPage extends Component {
       totalNumberOfWebMemos,
       totalNumberOfPdfMemos
     ])
+
+    // DEPARTMENT: HTML Rows for all course offerings for a table Per DEPARTMENT data
+
+    const perDepartmentCourseOfferingRows = []
+    courseOfferings.forEach((courseOffering) => {
+      const cO = toJS(courseOffering)
+
+      perDepartmentCourseOfferingRows.push(
+        <tr>
+          <td>{cO.semester}</td>
+          <td>{cO.schoolMainCode}</td>
+          <td>{cO.departmentName}</td>
+          <td>{cO.courseCode}</td>
+          <td width="300">{cO.connectedPrograms}</td>
+          <td>{cO.offeringId}</td>
+          <td>{cO.courseAnalysis}</td>
+          <td>
+            <a
+              href={
+                cO.courseMemoInfo.isPdf
+                  ? `${browserConfig.memoStorageUri}${cO.courseMemoInfo.memoId}`
+                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseCode}/${cO.courseMemoInfo.memoId}`
+              }
+            >
+              {cO.courseMemoInfo.memoId}
+            </a>
+          </td>
+        </tr>
+      )
+    })
+
+    // CSV Per department data
+
+    const csvPerDepartmentData = []
+    csvPerDepartmentData.push([
+      'Semester',
+      'School',
+      'Department Name',
+      'Course Code',
+      'Connected program(s)',
+      'Offering ID',
+      'Course Analysis',
+      'Course Memos'
+    ])
+    courseOfferings.forEach((courseOffering) => {
+      const cO = toJS(courseOffering)
+      csvPerDepartmentData.push([
+        cO.semester,
+        cO.schoolMainCode,
+        cO.departmentName,
+        cO.courseCode,
+        cO.connectedPrograms,
+        cO.offeringId,
+        cO.courseAnalysis,
+        cO.courseMemoEndPoint
+      ])
+    })
 
     return (
       <div key="kursinfo-container" className="kursinfo-main-page col">
