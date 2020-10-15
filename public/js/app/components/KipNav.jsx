@@ -10,9 +10,10 @@ import {
 } from '../util/constants'
 
 const KipLinkNav = ({ courseCode, translate, lang }) => {
-  // courseCode, lang, startCards
-  const kursOmLink = `${COURSE_INFO_URL}${courseCode}?l=${lang}` // TODO https://www.kth.se hardkoded because of kursinfoadmin is on app.kth.se but student is www.kth.se
-  const kutvLink = `${COURSE_UTVECKLING}${courseCode}?l=${lang}`
+  //kursinfoadmin is on app.kth.se but student is www.kth.se
+  const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
+  const kursOmLink = `${hostUrl}${COURSE_INFO_URL}${courseCode}?l=${lang}`
+  const kutvLink = `${hostUrl}${COURSE_UTVECKLING}${courseCode}?l=${lang}`
   const { links_to: linksToLabel } = translate
   return (
     <span className="navigation row">
