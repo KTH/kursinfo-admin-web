@@ -37,9 +37,13 @@ const mapAdminUrl = {
 }
 
 const AlertMsg = ({ props, courseCode, translate, lang }) => {
+  const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = _fetchParameters(props)
   const { event, serv, term, name } = params
-  const publicService = params && serv ? publicUrls[serv] : COURSE_INFO_URL
+
+  const publicService =
+    params && serv ? `${hostUrl}${publicUrls[serv]}` : `${hostUrl}${COURSE_INFO_URL}`
+
   return (
     (serv === 'kutv' || serv === 'pm' || serv === 'pmdata' || serv === 'kinfo') &&
     (event === 'save' || event === 'pub' || event === 'delete' || event === 'removedPublished') && (
@@ -61,7 +65,7 @@ const AlertMsg = ({ props, courseCode, translate, lang }) => {
           <p>
             {translate.alertMessages.see_more}{' '}
             <a
-              href={`${KTH_SE_URL}${publicService}${courseCode}?l=${lang}`}
+              href={`${hostUrl}${publicService}${courseCode}?l=${lang}`}
               alt={translate.links_to[serv].aAlt}
             >
               {translate.links_to[serv].aTitle}
