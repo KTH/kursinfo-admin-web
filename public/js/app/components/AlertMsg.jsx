@@ -1,7 +1,6 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
 import {
-  KTH_SE_URL,
   COURSE_INFO_URL,
   COURSE_PMDATA_URL,
   COURSE_UTVECKLING,
@@ -64,10 +63,7 @@ const AlertMsg = ({ props, courseCode, translate, lang }) => {
         {event === 'pub' ? (
           <p>
             {translate.alertMessages.see_more}{' '}
-            <a
-              href={`${hostUrl}${publicService}${courseCode}?l=${lang}`}
-              alt={translate.links_to[serv].aAlt}
-            >
+            <a href={`${publicService}${courseCode}?l=${lang}`} alt={translate.links_to[serv].aAlt}>
               {translate.links_to[serv].aTitle}
             </a>
           </p>
@@ -79,7 +75,7 @@ const AlertMsg = ({ props, courseCode, translate, lang }) => {
                 : translate.alertMessages[serv].r_msg}
               {mapAdminUrl[serv] && (
                 <a
-                  href={`${KTH_SE_URL}${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
+                  href={`${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
                   alt={translate.alertMessages[serv].fast_admin_link_label[event]}
                 >
                   {translate.alertMessages[serv].fast_admin_link_label[event]}
