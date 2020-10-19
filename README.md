@@ -101,6 +101,8 @@ Later you will use it as a *BLOB_SERVICE_SAS_URL* in secrets together with a nam
 
 Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly.
 
+IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
+
 ```
 API_KEY=[key you specified in kursinfo-api for this service]
 KURSUTVECKLING_API_KEY=[secret key to connect to kursutveckling-api]
