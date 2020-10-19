@@ -1,7 +1,7 @@
 # Welcome to kursinfo-admin-web 👋
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-8.12.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-12.0.0-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Introduction
