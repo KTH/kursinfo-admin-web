@@ -9,7 +9,7 @@ export const ADMIN_COURSE_PM_DATA = '/kursinfoadmin/kurs-pm-data/'
 export const ADMIN_OM_COURSE = '/kursinfoadmin/kurser/kurs/'
 export const ADMIN_COURSE_UTV = '/kursinfoadmin/kursutveckling/'
 export const USER_MANUAL_URL =
-  'https://intra.kth.se/utbildning/utbi/kursinformation/kursinfo-anvandarmanual'
+  'https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/anvandarmanual-om-kursen'
 export const KOPPS_ADMIN_URL = 'https://app.kth.se/kopps/admin/courses/getAllVersions/'
 export const KOPPS_ADMIN_USERLIST_URL = 'https://app.kth.se/kopps/admin/userlist'
 export const KOPPS_ABOUT_URL =
