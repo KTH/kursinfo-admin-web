@@ -50,7 +50,31 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 8.12.0
+- node 12.0.0
+
+### Blob storage. Generate Shared access signature
+
+- blob container (STORAGE_CONTAINER_NAME) `kursinfo-image-container`
+
+While images uploads directly to a blob container located in a cloud in the storage account, f.e., `kursinfostoragestage`, the name of uploaded image will be saved in `kursinfo-api`.
+To connect to blob storage, the Shared access signature is used to limit what can be done by using this signature, f.e., only read, or write and which services. In stage environment keys were generated on base of key2.
+For each service generated a separate Shared access signature and saved(f.e., SAS-REF-blob-service-sas-url) in standard key vault.
+
+It requires package `"@azure/storage-blob": "^12.2.1"`. Further to parse a file between client and server, you need to have npm package `body-parser`. More details in `server/blobStorage.js`.
+
+#### Blob storage. Generate Shared access signature
+To generate it, go to a storage account, f.e., `kursinfostoragestage`, choose Shared Access signature and choose:
+
+- Allowed services: *Blob*
+- Allowed resource types: *Object*
+- Allowed permissions: *Read, Write, Create*
+- Start and expiry date/time
+- HTTPS only
+- Signing key: key1 or key2
+
+After a generation of a key, copy **Blob service SAS URL** and save it in a standard key vault and set **Expiration Date**.
+Later you will use it as a *BLOB_SERVICE_SAS_URL* in secrets together with a name of blob container STORAGE_CONTAINER_NAME
+
 
 ### Secrets for Development
 
@@ -69,7 +93,10 @@ REDIS_URI=[connection string to redis]
 /*If you want to start your server on another port, add the following two variables, else use default ones from serversettings.js*/
 SERVER_PORT=[your port for the server]
 SERVER_HOST_URL=http://localhost:[SERVER_PORT]
+BLOB_SERVICE_SAS_URL=https://kursinfostoragestage.blob.core.windows.net/?sv=[date]&ss=b&srt=o&sp=rwcx&se=[date]&st=[date]&spr=https&sig=[generated signature]
+STORAGE_CONTAINER_NAME=kursinfo-image-container
 ```
+
 
 These settings are also available in an `env.in` file.
 
@@ -98,10 +125,6 @@ npm run test
 ```sh
 docker-compose up
 ```
-
-### Issue with lowell/sharp
-
-Docker image is set to `kthse/kth-nodejs:10.14.0_2d4b27f` to prevent [Segmentation fault during build phase, and during execution #2048](https://github.com/lovell/sharp/issues/2048).
 
 ## Author
 
