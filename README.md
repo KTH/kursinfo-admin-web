@@ -14,12 +14,33 @@ Kursinfo-admin-web is a microservice with an administration tool for teachers to
 
 ## Overview
 
-The app displays course analysis and course data published by course coordinators sorted by years. Prospective, current, and previous students can use the information for selecting courses or follow up on previous course evaluations. Teachers, course coordinators, examiners, etc. can use the app as a tool for course development.
+Firstly, the app displays en entrance page for services to organize information about course. Secondly user can edit a short description about a course and upload a image which will be displayed together with a short description on public pages of microservice `kursinfo-web` 
 
-The app consists of two parts:
+The app consists of several pages:
 
 - Administrate start page with menu and cards to show what can be changed by course responsibles and examiners.
+```
+localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
+```
 - Course introduction text for course information page, which can be edited by course responsibles and examiners.
+
+```
+localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
+
+```
+- Statistic page displays all courses, published course memos, course analysis exists per school and department, per semester
+
+```
+localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., IF Autumn 2020: 20202]
+
+```
+- page displays which groups user has access to
+
+```
+localhost:3000/kursinfoadmin/kurser/kurs/:courseCode/myCourses
+
+```
+
 
 ### Administrate start page
 
@@ -54,7 +75,7 @@ We must try to make changes that affect the template projects in the template pr
 
 ### Blob storage. Generate Shared access signature
 
-- blob container (STORAGE_CONTAINER_NAME) `kursinfo-image-container`
+*blob container (STORAGE_CONTAINER_NAME) `kursinfo-image-container`*
 
 While images uploads directly to a blob container located in a cloud in the storage account, f.e., `kursinfostoragestage`, the name of uploaded image will be saved in `kursinfo-api`.
 To connect to blob storage, the Shared access signature is used to limit what can be done by using this signature, f.e., only read, or write and which services. In stage environment keys were generated on base of key2.
@@ -62,7 +83,7 @@ For each service generated a separate Shared access signature and saved(f.e., SA
 
 It requires package `"@azure/storage-blob": "^12.2.1"`. Further to parse a file between client and server, you need to have npm package `body-parser`. More details in `server/blobStorage.js`.
 
-#### Blob storage. Generate Shared access signature
+#### How to generate a Shared access signature
 To generate it, go to a storage account, f.e., `kursinfostoragestage`, choose Shared Access signature and choose:
 
 - Allowed services: *Blob*
