@@ -25,7 +25,7 @@ The app consists of several pages:
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
 - Course introduction text for course information page, which can be edited by course responsibles and examiners.
-(requires only: API_KEY kursinfo-api)
+(requires only: `API_KEY` kursinfo-api)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
@@ -33,10 +33,10 @@ localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
 ```
 - Statistic page displays all courses, published course memos, course analysis exists per school and department, per semester
 (requires
-KURSUTVECKLING_API_KEY
-KURS_PM_DATA_API_KEY)
+`KURSUTVECKLING_API_KEY`,
+`KURS_PM_DATA_API_KEY`)
 ```
-localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., IF Autumn 2020: 20202]
+localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., if Autumn 2020: 20202]
 
 ```
 - page displays which groups user has access to
@@ -110,7 +110,8 @@ IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
 
 ```
 API_KEY=[key you specified in kursinfo-api for this service]
-KURSUTVECKLING_API_KEY=[secret key to connect to kursutveckling-api]
+KURSUTVECKLING_API_KEY=[only for statistic page, secret key to connect to kursutveckling-api]
+KURS_PM_DATA_API_KEY=[only for statistic page, secret key to connect to kursutveckling-api]
 KOPPS_URI=https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000
 SESSION_SECRET=[something random]
 SESSION_KEY=kursinfo-admin-web.sid
