@@ -60,7 +60,7 @@ Application is fetching data from kursinfo-api to show:
 
 #### Use Cache for Kopps API and for kursinfo-web
 
-REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one sesrvice to another.
+REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one service to another. Though it should be avoided to cache kursinfo-api, or only for a short time.
 
 ### Related projects
 
