@@ -18,18 +18,23 @@ Firstly, the app displays en entrance page for services to organize information 
 
 The app consists of several pages:
 
-- Administrate start page with menu and cards to show what can be changed by course responsibles and examiners.
+- Administrate start page with menu and cards to show what can be changed by course responsibles and examiners. 
+(requires no api keys, only kopps url)
+
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
 - Course introduction text for course information page, which can be edited by course responsibles and examiners.
+(requires only: API_KEY kursinfo-api)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
 
 ```
 - Statistic page displays all courses, published course memos, course analysis exists per school and department, per semester
-
+(requires
+KURSUTVECKLING_API_KEY
+KURS_PM_DATA_API_KEY)
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., IF Autumn 2020: 20202]
 
