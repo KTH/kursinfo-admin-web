@@ -38,10 +38,10 @@ function _getFriendlyErrorMessage(lang, statusCode) {
 function _final(err, req, res) {
   switch (err.status) {
     case 403:
-      log.info({ err }, `403 Forbidden ${err.message}`)
+      log.debug({ err }, `403 Forbidden ${err.message}`)
       break
     case 404:
-      log.info({ err }, `404 Not found ${err.message}`)
+      log.debug({ err }, `404 Not found ${err.message}`)
       break
     default:
       log.error({ err }, `Unhandled error ${err.message}`)
