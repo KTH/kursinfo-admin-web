@@ -14,6 +14,7 @@ const serverPaths = require('../server').getPaths()
 
 const LISTS_OF_PILOT_COURSES = [
   'AF1301',
+  'AF1402',
   'AI1145',
   'ED1110',
   'EH2720',
@@ -24,6 +25,7 @@ const LISTS_OF_PILOT_COURSES = [
   'MG1028',
   'MH2101',
   'MJ2462',
+  'ML1333',
   'SD2900',
   'SD2925'
 ]
