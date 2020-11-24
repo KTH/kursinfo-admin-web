@@ -2,7 +2,6 @@
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
-// import { LISTS_OF_PILOT_COURSES } from '../util/pilotCourses'x
 
 const paramRegex = /\/(:[^\/\s]*)/g
 
@@ -44,9 +43,6 @@ class AdminStore {
   @observable user = ''
   // @observable hasDoneSubmit = false
   @observable apiError = ''
-
-  //saving if course is in pilot
-  @observable isPilotCourse = false
 
   buildApiUrl(path, params) {
     let host

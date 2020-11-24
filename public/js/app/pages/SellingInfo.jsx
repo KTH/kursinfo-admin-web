@@ -139,12 +139,10 @@ class SellingInfo extends Component {
     return (
       <div className="TextEditor--SellingInfo col">
         {/* ---TEXT Editors for each language--- */}
-        {this.state.errMsg ? (
+        {this.state.errMsg && (
           <Alert color="info">
             <p>{this.state.errMsg}</p>
           </Alert>
-        ) : (
-          ''
         )}
         <span className="title_and_info">
           <h2>{introLabel.label_step_2}</h2>{' '}

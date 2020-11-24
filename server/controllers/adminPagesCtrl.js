@@ -12,27 +12,6 @@ const i18n = require('../../i18n')
 
 const serverPaths = require('../server').getPaths()
 
-const LISTS_OF_PILOT_COURSES = [
-  'AF1301',
-  'AF1402',
-  'AI1145',
-  'ED1110',
-  'EH2720',
-  'EH2070',
-  'HS1001',
-  'LH238V',
-  'LS1532',
-  'MG1028',
-  'MH2101',
-  'MJ2462',
-  'ML1333',
-  'SK1114',
-  'SD2900',
-  'SD2925'
-]
-
-const checkIfPilotCourse = (courseCode) => LISTS_OF_PILOT_COURSES.includes(courseCode)
-
 function hydrateStores(renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
@@ -71,7 +50,6 @@ async function getAdminStart(req, res, next) {
       serverConfig.hostUrl
     )
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
-    renderProps.props.children.props.adminStore.isPilotCourse = checkIfPilotCourse(courseCode)
 
     // Load koppsData
     renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(

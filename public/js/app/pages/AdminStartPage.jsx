@@ -20,7 +20,6 @@ import {
 class AdminStartPage extends Component {
   render() {
     const { courseTitleData, lang } = this.props.adminStore.koppsData
-    const { isPilotCourse } = this.props.adminStore
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
@@ -38,13 +37,12 @@ class AdminStartPage extends Component {
           <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
         </div>
         <div className="col">
-          <span
-            className={
-              isPilotCourse
-                ? 'AdminPage--ShowDescription--PilotCourse'
-                : 'AdminPage--ShowDescription'
-            }
-          >
+          <span className="AdminPage--ShowDescription--FirstRow">
+            {/* / className={
+          //   isPilotCourse
+          //     ? 'AdminPage--ShowDescription--PilotCourse'
+          //     : 'AdminPage--ShowDescription'
+          // } */}
             <Card className="KursInfo--SellingText">
               <CardBody>
                 <CardTitle>
@@ -65,71 +63,43 @@ class AdminStartPage extends Component {
                 </a>
               </CardFooter>
             </Card>
-            {(isPilotCourse && (
-              <Card className="Skapa--Kurs-PM">
-                <CardBody>
-                  <CardTitle>
-                    <h4>
-                      {startCards.coursePM_hd} <Badge color="success">New</Badge>
-                    </h4>
-                  </CardTitle>
-                  <CardText>
-                    <p>{startCards.coursePM_create_desc_p1}</p>
-                    <p>{startCards.coursePM_create_desc_p2}</p>
-                    <p>{startCards.coursePM_create_desc_p3}</p>
-                  </CardText>
-                </CardBody>
-                <CardFooter className="text-right">
-                  <span>
-                    <CardLink
-                      href={`${ADMIN_COURSE_PM_DATA}${courseCode}?l=${lang}`}
-                      className="btn btn-primary"
-                      alt={startCards.coursePM_btn_new}
-                    >
-                      {startCards.coursePM_btn_new}
-                    </CardLink>
-                    <CardLink
-                      href={`${ADMIN_COURSE_PM_DATA}published/${courseCode}?l=${lang}`}
-                      className="btn btn-primary"
-                      alt={startCards.coursePM_btn_edit}
-                    >
-                      {startCards.coursePM_btn_edit}
-                    </CardLink>
-                  </span>
-                  <span>
-                    <CardLink href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}>
-                      {startCards.coursePM_link_upload_memo}
-                    </CardLink>
-                  </span>
-                </CardFooter>
-              </Card>
-            )) || (
-              <Card className="Ladda--Upp--Kurs-PM">
-                <CardBody>
-                  <CardTitle>
-                    <h4>{startCards.coursePM_hd}</h4>
-                  </CardTitle>
-                  <CardText>{startCards.coursePM_desc}</CardText>
-                </CardBody>
-                <CardFooter className="text-right">
-                  <a
-                    href={PM_TEMPLATE}
+            <Card className="Skapa--Kurs-PM">
+              <CardBody>
+                <CardTitle>
+                  <h4>
+                    {startCards.coursePM_hd} <Badge color="success">New</Badge>
+                  </h4>
+                </CardTitle>
+                <CardText>
+                  <p>{startCards.coursePM_create_desc_p1}</p>
+                  <p>{startCards.coursePM_create_desc_p2}</p>
+                  <p>{startCards.coursePM_create_desc_p3}</p>
+                </CardText>
+              </CardBody>
+              <CardFooter className="text-right">
+                <span>
+                  <CardLink
+                    href={`${ADMIN_COURSE_PM_DATA}${courseCode}?l=${lang}`}
                     className="btn btn-primary"
-                    alt={startCards.coursePM_btn_template}
-                    target="_blank"
+                    alt={startCards.coursePM_btn_new}
                   >
-                    {startCards.coursePM_btn_template}
-                  </a>
-                  <a
-                    href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}
+                    {startCards.coursePM_btn_new}
+                  </CardLink>
+                  <CardLink
+                    href={`${ADMIN_COURSE_PM_DATA}published/${courseCode}?l=${lang}`}
                     className="btn btn-primary"
-                    alt={startCards.coursePM_btn}
+                    alt={startCards.coursePM_btn_edit}
                   >
-                    {startCards.coursePM_btn}
-                  </a>
-                </CardFooter>
-              </Card>
-            )}
+                    {startCards.coursePM_btn_edit}
+                  </CardLink>
+                </span>
+                <span>
+                  <CardLink href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}>
+                    {startCards.coursePM_link_upload_memo}
+                  </CardLink>
+                </span>
+              </CardFooter>
+            </Card>
             <Card className="course-development">
               <CardBody>
                 <CardTitle>
@@ -154,6 +124,33 @@ class AdminStartPage extends Component {
                   alt={startCards.courseDev_btn_edit}
                 >
                   {startCards.courseDev_btn_edit}
+                </a>
+              </CardFooter>
+            </Card>
+          </span>
+          <span className="AdminPage--ShowDescription">
+            <Card style={{ width: '23.5em' }}>
+              <CardBody>
+                <CardTitle>
+                  <h4>{startCards.coursePM_hd}</h4>
+                </CardTitle>
+                <CardText>{startCards.coursePM_desc}</CardText>
+              </CardBody>
+              <CardFooter className="text-right">
+                <a
+                  href={PM_TEMPLATE}
+                  className="btn btn-primary"
+                  alt={startCards.coursePM_btn_template}
+                  target="_blank"
+                >
+                  {startCards.coursePM_btn_template}
+                </a>
+                <a
+                  href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}
+                  className="btn btn-primary"
+                  alt={startCards.coursePM_btn}
+                >
+                  {startCards.coursePM_btn}
                 </a>
               </CardFooter>
             </Card>
