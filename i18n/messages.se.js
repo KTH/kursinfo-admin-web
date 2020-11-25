@@ -132,8 +132,6 @@ module.exports = {
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
-    coursePM_desc:
-      'Publicera kurs-PM för kommande kursomgångar. Använd gärna mall för kurs-PM. Publicerat kurs-PM kommer att visas på sidan Kursinformation för vald termin och kursomgång.',
     coursePM_create_desc_p1:
       'Skapa och publicera kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
     coursePM_create_desc_p2:
@@ -141,8 +139,6 @@ module.exports = {
     coursePM_create_desc_p3:
       'Det finns fortfarande möjlighet, men är inte att föredra, att ladda upp ett alternativt kurs-PM.',
     coursePM_link_upload_memo: 'Ladda upp alternativt kurs-PM',
-    coursePM_btn_template: 'Ladda ner mall',
-    coursePM_btn: 'Publicera',
     coursePM_btn_edit: 'Ändra publicerad',
     coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
@@ -154,12 +150,7 @@ module.exports = {
     courseDev_btn_new: 'Publicera ny',
     courseDev_link: 'Kursens utveckling - mer information och hjälp',
     beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
-    beta_more_link: 'Vill du veta mer eller delta?',
-    altLabel: {
-      sellingText_btn: 'Redigera introduktion till kursen',
-      coursePM_btn: 'Ladda upp kurs-PM',
-      courseDev_btn: 'Redigera kusanalys och kursdata'
-    }
+    beta_more_link: 'Vill du veta mer eller delta?'
   },
   introLabel: {
     alertMessages: {

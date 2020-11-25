@@ -133,8 +133,6 @@ module.exports = {
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
-    coursePM_desc:
-      'Publish course memo before start of course offerings. Please use provided course memo template. Published course memo will be displayed on the page Course information for chosen semester and course offering.',
     coursePM_create_desc_p1:
       'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
     coursePM_create_desc_p2:
@@ -142,8 +140,6 @@ module.exports = {
     coursePM_create_desc_p3:
       'It is still possible, but not advisable, to upload an alternative course memo as PDF',
     coursePM_link_upload_memo: 'Upload alternative course memo',
-    coursePM_btn_template: 'Download template',
-    coursePM_btn: 'Publish',
     coursePM_btn_edit: 'Change published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
@@ -155,12 +151,7 @@ module.exports = {
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
-    beta_more_link: 'Are you interested to know more or participate in development?',
-    altLabel: {
-      sellingText_btn: 'Edit selling description',
-      coursePM_btn: 'Create course PM',
-      courseDev_btn: 'Edit course analysis and course data information'
-    }
+    beta_more_link: 'Are you interested to know more or participate in development?'
   },
   introLabel: {
     alertMessages: {
