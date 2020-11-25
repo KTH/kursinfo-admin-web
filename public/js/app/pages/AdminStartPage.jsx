@@ -11,8 +11,7 @@ import {
   ADMIN_COURSE_UTV,
   ADMIN_COURSE_PM,
   ADMIN_COURSE_PM_DATA,
-  ADMIN_OM_COURSE,
-  PM_TEMPLATE
+  ADMIN_OM_COURSE
 } from '../util/constants'
 
 @inject(['adminStore'])
@@ -37,12 +36,7 @@ class AdminStartPage extends Component {
           <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
         </div>
         <div className="col">
-          <span className="AdminPage--ShowDescription--FirstRow">
-            {/* / className={
-          //   isPilotCourse
-          //     ? 'AdminPage--ShowDescription--PilotCourse'
-          //     : 'AdminPage--ShowDescription'
-          // } */}
+          <span className="AdminPage--ShowDescription">
             <Card className="KursInfo--SellingText">
               <CardBody>
                 <CardTitle>
@@ -70,7 +64,7 @@ class AdminStartPage extends Component {
                     {startCards.coursePM_hd} <Badge color="success">New</Badge>
                   </h4>
                 </CardTitle>
-                <CardText>
+                <CardText tag={'span'}>
                   <p>{startCards.coursePM_create_desc_p1}</p>
                   <p>{startCards.coursePM_create_desc_p2}</p>
                   <p>{startCards.coursePM_create_desc_p3}</p>
@@ -124,33 +118,6 @@ class AdminStartPage extends Component {
                   alt={startCards.courseDev_btn_edit}
                 >
                   {startCards.courseDev_btn_edit}
-                </a>
-              </CardFooter>
-            </Card>
-          </span>
-          <span className="AdminPage--ShowDescription">
-            <Card style={{ width: '23.5em' }}>
-              <CardBody>
-                <CardTitle>
-                  <h4>{startCards.coursePM_hd}</h4>
-                </CardTitle>
-                <CardText>{startCards.coursePM_desc}</CardText>
-              </CardBody>
-              <CardFooter className="text-right">
-                <a
-                  href={PM_TEMPLATE}
-                  className="btn btn-primary"
-                  alt={startCards.coursePM_btn_template}
-                  target="_blank"
-                >
-                  {startCards.coursePM_btn_template}
-                </a>
-                <a
-                  href={`${ADMIN_COURSE_PM}${courseCode}?l=${lang}`}
-                  className="btn btn-primary"
-                  alt={startCards.coursePM_btn}
-                >
-                  {startCards.coursePM_btn}
                 </a>
               </CardFooter>
             </Card>
