@@ -8,8 +8,8 @@ import {
 } from '../util/constants'
 
 const _fetchParameters = (props) => {
-  let params
-  if (props.location.sellingDesciprion !== 'success') {
+  let params = {}
+  if (props.location && props.location.sellingDesciprion !== 'success') {
     params = props.location.search
       .substring(1)
       .split('&')
@@ -26,7 +26,6 @@ const publicUrls = {
   pmdata: COURSE_PMDATA_URL
 }
 const mapAdminUrl = {
-  // pm: ADMIN_COURSE_PM,
   // kutv: ADMIN_COURSE_UTV,
   // kinfo: ADMIN_OM_COURSE,
   pmdata: {
