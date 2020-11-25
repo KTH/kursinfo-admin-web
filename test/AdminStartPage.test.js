@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'mobx-react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
 import mockAdminStore from './mocks/adminStore'
@@ -20,16 +20,17 @@ const renderWithState = (stateToSet = {}, pageNumber) => {
 }
 
 describe('<AdminStartPage> (and subordinates)', () => {
-  test('Has correct main heading', () => {
+  test('Has correct main heading', (done) => {
     const { getAllByRole } = renderEditPage()
     const allH1Headers = getAllByRole('heading', { level: 1 })
     expect(allH1Headers.length).toBe(1)
     expect(allH1Headers[0]).toHaveTextContent(
       /^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/
     )
+    done()
   })
 
-  test('Has correct h4 heading in correct order', () => {
+  test('Has correct h4 heading in correct order', (done) => {
     const { getAllByRole } = renderEditPage()
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(4)
@@ -37,9 +38,10 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allH4Headers[1]).toHaveTextContent(/^Introduktion till kursen/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[3]).toHaveTextContent(/^Kursanalys och kursdata/)
+    done()
   })
 
-  test('Has correct buttons and links in correct order', () => {
+  test('Has correct buttons and links in correct order', (done) => {
     const { getAllByRole } = renderEditPage()
     const allLinks = getAllByRole('link')
     expect(allLinks.length).toBe(12)
@@ -88,5 +90,22 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[11].href).toBe(
       'http://localhost/kursinfoadmin/kursutveckling/SF1624?l=sv&status=p&serv=admin&title=Algebra%20och%20geometri_7.5'
     )
+    done()
+  })
+
+  test('Intra kth link 1 opens in a new window', async (done) => {
+    const { getAllByRole } = renderEditPage()
+    const allLinks = getAllByRole('link')
+
+    allLinks[4].click()
+    await waitFor(() => {
+      //stay one the same page
+      const allH1Headers = getAllByRole('heading', { level: 1 })
+      expect(allH1Headers.length).toBe(1)
+      expect(allH1Headers[0]).toHaveTextContent(
+        /^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/
+      )
+    })
+    done()
   })
 })
