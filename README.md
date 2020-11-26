@@ -1,7 +1,7 @@
 # Welcome to kursinfo-admin-web 👋
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-12.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-14.0.0-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Introduction
@@ -14,38 +14,41 @@ Kursinfo-admin-web is a microservice with an administration tool for teachers to
 
 ## Overview
 
-Firstly, the app displays en entrance page for services to organize information about course. Secondly user can edit a short description about a course and upload a image which will be displayed together with a short description on public pages of microservice `kursinfo-web` 
+Firstly, the app displays en entrance page for services to organize information about course. Secondly user can edit a short description about a course and upload a image which will be displayed together with a short description on public pages of microservice `kursinfo-web`
 
 The app consists of several pages:
 
-- Administrate start page with menu and cards to show what can be changed by course responsibles and examiners. 
-(requires no api keys, only kopps url)
+- Administrate start page with menu and cards to show what can be changed by course responsibles and examiners.
+  (requires no api keys, only kopps url)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
+
 - Course introduction text for course information page, which can be edited by course responsibles and examiners.
-(requires only: `API_KEY` kursinfo-api)
+  (requires only: `API_KEY` kursinfo-api)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
 
 ```
+
 - Statistic page displays all courses, published course memos, course analysis exists per school and department, per semester
-(requires
-`KURSUTVECKLING_API_KEY`,
-`KURS_PM_DATA_API_KEY`)
+  (requires
+  `KURSUTVECKLING_API_KEY`,
+  `KURS_PM_DATA_API_KEY`)
+
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., if Autumn 2020: 20202]
 
 ```
+
 - page displays which groups user has access to
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode/myCourses
 
 ```
-
 
 ### Administrate start page
 
@@ -76,11 +79,11 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 12.0.0
+- node 14.0.0
 
 ### Blob storage. Generate Shared access signature
 
-*blob container (STORAGE_CONTAINER_NAME) `kursinfo-image-container`*
+_blob container (STORAGE_CONTAINER_NAME) `kursinfo-image-container`_
 
 While images uploads directly to a blob container located in a cloud in the storage account, f.e., `kursinfostoragestage`, the name of uploaded image will be saved in `kursinfo-api`.
 To connect to blob storage, the Shared access signature is used to limit what can be done by using this signature, f.e., only read, or write and which services. In stage environment keys were generated on base of key2.
@@ -89,18 +92,18 @@ For each service generated a separate Shared access signature and saved(f.e., SA
 It requires package `"@azure/storage-blob": "^12.2.1"`. Further to parse a file between client and server, you need to have npm package `body-parser`. More details in `server/blobStorage.js`.
 
 #### How to generate a Shared access signature
+
 To generate it, go to a storage account, f.e., `kursinfostoragestage`, choose Shared Access signature and choose:
 
-- Allowed services: *Blob*
-- Allowed resource types: *Object*
-- Allowed permissions: *Read, Write, Create*
+- Allowed services: _Blob_
+- Allowed resource types: _Object_
+- Allowed permissions: _Read, Write, Create_
 - Start and expiry date/time
 - HTTPS only
 - Signing key: key1 or key2
 
 After a generation of a key, copy **Blob service SAS URL** and save it in a standard key vault and set **Expiration Date**.
-Later you will use it as a *BLOB_SERVICE_SAS_URL* in secrets together with a name of blob container STORAGE_CONTAINER_NAME
-
+Later you will use it as a _BLOB_SERVICE_SAS_URL_ in secrets together with a name of blob container STORAGE_CONTAINER_NAME
 
 ### Secrets for Development
 
@@ -125,7 +128,6 @@ SERVER_HOST_URL=http://localhost:[SERVER_PORT]
 BLOB_SERVICE_SAS_URL=https://kursinfostoragestage.blob.core.windows.net/?sv=[date]&ss=b&srt=o&sp=rwcx&se=[date]&st=[date]&spr=https&sig=[generated signature]
 STORAGE_CONTAINER_NAME=kursinfo-image-container
 ```
-
 
 These settings are also available in an `env.in` file.
 
