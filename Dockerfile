@@ -1,5 +1,7 @@
 FROM kthse/kth-nodejs:14.0.0
 
+RUN rm -rf /npm
+
 RUN mkdir -p /npm && \
     mkdir -p /application
 
