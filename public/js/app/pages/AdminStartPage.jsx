@@ -4,7 +4,7 @@ import i18n from '../../../../i18n'
 
 import PageTitle from '../components/PageTitle'
 import { Badge, Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
-import KipLinkNav from '../components/KipNav'
+import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 
 import {
@@ -23,7 +23,9 @@ class AdminStartPage extends Component {
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
     return (
-      <div key="kursinfo-container" className="kursinfo-main-page col">
+      <div key="kursinfo-container" className="kursinfo-main-page start-page col">
+        <LinkToAboutCourseInformation courseCode={courseCode} lang={lang} translate={pageTitles} />
+
         {/* ---COURSE TITEL--- */}
         <PageTitle
           key="title"
@@ -31,7 +33,9 @@ class AdminStartPage extends Component {
           pageTitle={pageTitles.administrate}
           language={lang}
         />
-        <KipLinkNav courseCode={courseCode} lang={lang} translate={pageTitles} />
+
+        <TextAboutRights courseCode={courseCode} translate={pageTitles} />
+
         <div className="AdminPage--Alert">
           <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
         </div>

@@ -30,7 +30,6 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {
 }
 
 export const TextAboutRights = ({ courseCode, translate }) => (
-  // <span className=" row">
   <div className="introduction col">
     <p>{translate.instruction_1}</p>
     <p>
@@ -53,7 +52,6 @@ export const TextAboutRights = ({ courseCode, translate }) => (
       </a>
     </p>
   </div>
-  // </span>
 )
 
 export default LinkToAboutCourseInformation
