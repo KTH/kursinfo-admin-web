@@ -9,7 +9,7 @@ import {
 
 const _fetchParameters = (props) => {
   let params = {}
-  if (props.location && props.location.sellingDesciprion !== 'success') {
+  if (props && props.location && props.location.sellingDesciprion !== 'success') {
     params = props.location.search
       .substring(1)
       .split('&')
@@ -34,50 +34,59 @@ const mapAdminUrl = {
   }
 }
 
-const AlertMsg = ({ props, courseCode, translate, lang }) => {
+const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = _fetchParameters(props)
-  const { event, serv, term, name } = params
+  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term } = params
 
   const publicService =
-    params && serv ? `${hostUrl}${publicUrls[serv]}` : `${hostUrl}${COURSE_INFO_URL}`
+    params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
+
+  const { alertMessages, course_short_semester } = translate
 
   return (
-    (serv === 'kutv' || serv === 'pm' || serv === 'pmdata' || serv === 'kinfo') &&
-    (event === 'save' || event === 'pub' || event === 'delete' || event === 'removedPublished') && (
+    (serviceAbbr === 'kutv' ||
+      serviceAbbr === 'pm' ||
+      serviceAbbr === 'pmdata' ||
+      serviceAbbr === 'kinfo') &&
+    (doneAction === 'save' ||
+      doneAction === 'pub' ||
+      doneAction === 'delete' ||
+      doneAction === 'removedPublished') && (
       <Alert color="success" aria-live="polite">
-        <h4>{translate.alertMessages[serv][event]}</h4>
+        <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
         {term && (
           <p>
-            {translate.alertMessages.term}:{' '}
-            {translate.course_short_semester[term.toString().substring(4, 5)]}
-            {term.toString().substring(0, 4)}
+            {`${alertMessages.term}: ${
+              course_short_semester[term.toString().substring(4, 5)]
+            }${term.toString().substring(0, 4)}`}
           </p>
         )}
-        {name && (
-          <p>
-            {translate.alertMessages.course_round}:{decodeURIComponent(name)}
-          </p>
+        {courseRoundName && (
+          <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>
         )}
-        {event === 'pub' ? (
+        {doneAction === 'pub' ? (
           <p>
-            {translate.alertMessages.see_more}{' '}
-            <a href={`${publicService}${courseCode}?l=${lang}`} alt={translate.links_to[serv].aAlt}>
-              {translate.links_to[serv].aTitle}
+            {`${alertMessages.see_more} `}
+            <a
+              href={`${publicService}${courseCode}?l=${lang}`}
+              alt={translate.links_to[serviceAbbr].aAlt}
+            >
+              {translate.links_to[serviceAbbr].aTitle}
             </a>
           </p>
         ) : (
-          (event === 'save' || event === 'removedPublished') && (
+          (doneAction === 'save' || doneAction === 'removedPublished') && (
             <p>
-              {event === 'save'
-                ? translate.alertMessages[serv].s_msg
-                : translate.alertMessages[serv].r_msg}
-              {mapAdminUrl[serv] && (
+              {doneAction === 'save'
+                ? alertMessages[serviceAbbr].s_msg
+                : alertMessages[serviceAbbr].r_msg}
+              {mapAdminUrl[serviceAbbr] && (
                 <a
-                  href={`${mapAdminUrl[serv][event]}${courseCode}?l=${lang}`}
-                  alt={translate.alertMessages[serv].fast_admin_link_label[event]}
+                  href={`${mapAdminUrl[serviceAbbr][doneAction]}${courseCode}?l=${lang}`}
+                  alt={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
                 >
-                  {translate.alertMessages[serv].fast_admin_link_label[event]}
+                  {alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
                 </a>
               )}
             </p>
