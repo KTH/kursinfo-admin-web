@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Badge, Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 import i18n from '../../../../i18n'
 
 import PageTitle from '../components/PageTitle'
-import { Badge, Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 
