@@ -36,19 +36,21 @@ function _getFriendlyErrorMessage(lang, statusCode) {
 
 // this function must keep this signature for it to work properly
 function _final(err, req, res) {
+  const statusCode = err.status || err.statusCode || 500
+
   switch (err.status) {
     case 403:
-      log.debug({ err }, `403 Forbidden ${err.message}`)
+      //Forbidden is not an error but a message with information
+      log.debug({ message: err }, `403 Forbidden ${err.message}`)
       break
     case 404:
-      log.debug({ err }, `404 Not found ${err.message}`)
+      log.debug({ message: err }, `404 Not found ${err.message}`)
       break
     default:
       log.error({ err }, `Unhandled error ${err.message}`)
       break
   }
 
-  const statusCode = err.status || err.statusCode || 500
   const isProd = /prod/gi.test(process.env.NODE_ENV)
   const lang = language.getLanguage(res)
 
