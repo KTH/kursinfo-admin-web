@@ -38,7 +38,7 @@ function _getFriendlyErrorMessage(lang, statusCode) {
 function _final(err, req, res) {
   const statusCode = err.status || err.statusCode || 500
 
-  switch (err.status) {
+  switch (statusCode) {
     case 403:
       //Forbidden is not an error but a message with information
       log.debug({ message: err }, `403 Forbidden ${err.message}`)
