@@ -5,6 +5,7 @@ const config = require('./configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
 const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
+const { System } = require('./controllers')
 
 /**
  * Passport will maintain persistent login sessions. In order for persistent sessions to work, the authenticated
@@ -43,51 +44,56 @@ passport.deserializeUser(function (user, done) {
 const casOptions = {
   ssoBaseURL: config.cas.ssoBaseURL,
   serverBaseURL: config.hostUrl,
-  log: log
+  log
 }
 
 if (config.cas.pgtUrl) {
   casOptions.pgtURL = config.hostUrl + config.cas.pgtUrl
 }
 
-const strategy = new CasStrategy(casOptions,
-  function (logOnResult, done) {
-    const user = logOnResult.user
-    log.debug(`User from CAS: ${user} ${JSON.stringify(logOnResult)}`)
-    return done(null, user, logOnResult)
-  }
-)
+const strategy = new CasStrategy(casOptions, function (logOnResult, done) {
+  const { user } = logOnResult
+  log.debug(`User from CAS: ${user} ${JSON.stringify(logOnResult)}`)
+  return done(null, user, logOnResult)
+})
 
 passport.use(strategy)
 
-passport.use(new GatewayStrategy({
-  casUrl: config.cas.ssoBaseURL
-}, function (result, done) {
-  log.debug({ result: result }, `CAS Gateway user: ${result.user}`)
-  done(null, result.user, result)
-}))
+passport.use(
+  new GatewayStrategy(
+    {
+      casUrl: config.cas.ssoBaseURL
+    },
+    function (result, done) {
+      log.debug({ result }, `CAS Gateway user: ${result.user}`)
+      done(null, result.user, result)
+    }
+  )
+)
 
 // The factory routeHandlers.getRedirectAuthenticatedUser returns a middleware that sets the user in req.session.authUser and
 // redirects to appropriate place when returning from CAS login
 // The unpackLdapUser function transforms an ldap user to a user object that is stored as
 const ldapClient = require('./adldapClient')
 const { hasGroup, getGroups } = require('kth-node-ldap').utils
-module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser({
-  ldapConfig: config.ldap,
-  ldapClient: ldapClient,
-  proxyPrefixPath: config.proxyPrefixPath.uri,
-  unpackLdapUser: function (ldapUser, pgtIou) {
-    return {
-      username: ldapUser.ugUsername,
-      displayName: ldapUser.displayName,
-      email: ldapUser.mail,
-      ugKthid: ldapUser.ugKthid,
-      pgtIou: pgtIou,
-      memberOf: getGroups(ldapUser), // memberOf important for requireRole
-      isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
+module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas').routeHandlers.getRedirectAuthenticatedUser(
+  {
+    ldapConfig: config.ldap,
+    ldapClient,
+    proxyPrefixPath: config.proxyPrefixPath.uri,
+    unpackLdapUser: function (ldapUser, pgtIou) {
+      return {
+        username: ldapUser.ugUsername,
+        displayName: ldapUser.displayName,
+        email: ldapUser.mail,
+        ugKthid: ldapUser.ugKthid,
+        pgtIou,
+        memberOf: getGroups(ldapUser), // memberOf important for requireRole
+        isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
+      }
     }
   }
-})
+)
 
 /*
   Checks req.session.authUser as created above im unpackLdapUser.
@@ -96,14 +102,14 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
 
   requireRole('isAdmin', 'isEditor')
 */
-function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
+function _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
   const groups = ldapUser.memberOf
   const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
   const endWith = '.courseresponsible'
   if (groups && groups.length > 0) {
     for (var i = 0; i < groups.length; i++) {
-      if (groups[ i ].indexOf(startWith) >= 0 && groups[ i ].indexOf(endWith) >= 0) {
+      if (groups[i].indexOf(startWith) >= 0 && groups[i].indexOf(endWith) >= 0) {
         return true
       }
     }
@@ -111,10 +117,11 @@ function _hasCourseResponsibleGroup (courseCode, courseInitials, ldapUser) {
   return false
 }
 
-module.exports.requireRole = function () { // TODO:Different roles for selling text and course development
+module.exports.requireRole = function () {
+  // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
 
-  return async function _hasCourseAcceptedRoles (req, res, next) {
+  return async function _hasCourseAcceptedRoles(req, res, next) {
     const ldapUser = req.session.authUser || {}
     const courseCode = req.params.courseCode.toUpperCase()
     const courseInitials = req.params.courseCode.slice(0, 2).toUpperCase()
@@ -129,11 +136,13 @@ module.exports.requireRole = function () { // TODO:Different roles for selling t
     const hasAuthorizedRole = roles.reduce((prev, curr) => prev || userCourseRoles[curr], false)
 
     if (!hasAuthorizedRole) {
-      const error = new Error('Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
+      const infoAboutAuth = {
+        status: 403,
+        message: `Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
         Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
-        https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459')
-      error.status = 403
-      return next(error)
+        https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459`
+      }
+      return System.final(infoAboutAuth, req, res)
     }
     return next()
   }
