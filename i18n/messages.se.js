@@ -52,7 +52,7 @@ module.exports = {
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
     instruction_kopps_1:
-      'Sidorna som tillhör “Om kursen” består dels av information som hämtas från KOPPS och dels av information som redigeras här i “Administrera Om kursen”. I KOPPS redigeras kursplan, kursgemensam information och kurstillfälle. Ändring av kursgemensam information samt examinator, kursansvarig och lärare görs i ',
+      'Sidorna som tillhör ”Om kursen” består dels av information som hämtas från KOPPS och dels av information som redigeras här i ”Administrera Om kursen”. I KOPPS redigeras kursplan, kursgemensam information och kurstillfälle. Ändring av kursgemensam information samt examinator, kursansvarig och lärare görs i ',
     instruction_kopps_2:
       'av den som är KOPPS-användare. Läs mer om behörigheter och se användare i KOPPS ',
     instruction_kopps_3_link_access_rights: 'Användarbehörighet',
