@@ -1,10 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react'
 import {
   COURSE_INFO_URL,
   USER_MANUAL_URL,
   KOPPS_ADMIN_URL,
-  KOPPS_ADMIN_USERLIST_URL,
-  KOPPS_ABOUT_URL
+  KOPPS_ACCESS_RIGHTS_INFO
 } from '../util/constants'
 
 const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {
@@ -31,23 +31,19 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {
 
 export const TextAboutRights = ({ courseCode, translate }) => (
   <div className="introduction col">
-    <p>{translate.instruction_1}</p>
     <p>
       {translate.instruction_kopps_1}
       <a href={`${KOPPS_ADMIN_URL}${courseCode}`} alt={translate.instruction_kopps_alt}>
         {'KOPPS '}
       </a>
       {translate.instruction_kopps_2}
-      <a href={KOPPS_ADMIN_USERLIST_URL} alt={translate.instruction_kopps_alt}>
-        {translate.instruction_kopps_3_link}
+      <a lang="sv" href={KOPPS_ACCESS_RIGHTS_INFO}>
+        {translate.instruction_kopps_3_link_access_rights}
       </a>
-      {translate.instruction_kopps_4}
-      <a href={KOPPS_ABOUT_URL} alt={translate.instruction_kopps_alt}>
-        {translate.instruction_kopps_5_link}
-      </a>
+      {'.'}
     </p>
     <p>
-      <a href={USER_MANUAL_URL} alt={translate.link_user_manual}>
+      <a lang="sv" href={USER_MANUAL_URL}>
         {translate.link_user_manual}
       </a>
     </p>
