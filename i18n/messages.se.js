@@ -51,16 +51,13 @@ module.exports = {
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
-    instruction_1:
-      'Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen ”Om kursen” som inte hämtas från KOPPS.',
     instruction_kopps_1:
-      'Vill du ändra den grundinformation som hämtas eller ändra roller/ behörigheter för kursen så görs det i ',
-    instruction_kopps_2: 'av ',
-    instruction_kopps_3_link: 'personal som har behörighet i KOPPS ',
-    instruction_kopps_4: 'läs mer om Kopps ',
-    instruction_kopps_5_link: 'behörigheter.',
+      'Sidorna som tillhör “Om kursen” består dels av information som hämtas från KOPPS och dels av information som redigeras här i “Administrera Om kursen”. I KOPPS redigeras kursplan, kursgemensam information och kurstillfälle. Ändring av kursgemensam information samt examinator, kursansvarig och lärare görs i ',
+    instruction_kopps_2:
+      'av den som är KOPPS-användare. Läs mer om behörigheter och se användare i KOPPS ',
+    instruction_kopps_3_link_access_rights: 'Användarbehörighet',
     instruction_kopps_alt: 'Till KOPPS',
-    link_user_manual: 'Information och hjälp för att administrera Om kursen',
+    link_user_manual: 'Användarmanual - Om kursen',
     links_to: {
       kutv: {
         aTitle: 'Kursens utveckling och historik',

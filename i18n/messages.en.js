@@ -52,16 +52,13 @@ module.exports = {
     administrate: 'Administrate About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
-    instruction_1:
-      'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
     instruction_kopps_1:
-      'If you need to change information or roles / access rights for this course it is possible to do it in ',
-    instruction_kopps_2: 'for ',
-    instruction_kopps_3_link: 'those who has access rights in KOPPS ',
-    instruction_kopps_4: 'read more about KOPPS ',
-    instruction_kopps_5_link: 'access rights.',
+      'The “About course” pages contain information retrieved from KOPPS and information edited here, in “Administrate About course.” The syllabus, information valid for all course offerings, and course instance information, are edited in KOPPS. Changes to information valid for all course offerings, examiner, course coordinator, and teachers are made in ',
+    instruction_kopps_2:
+      'by the authorized user. Read more about authorization and view authorized users in KOPPS ',
+    instruction_kopps_3_link_access_rights: 'Användarbehörighet (In Swedish)',
     instruction_kopps_alt: 'To KOPPS',
-    link_user_manual: 'Information and help to administrate About course pages',
+    link_user_manual: 'Användarmanual - Om kursen (In Swedish)',
     links_to: {
       kutv: {
         aTitle: 'Course development and history',
