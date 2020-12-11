@@ -51,6 +51,9 @@ $red: #e01f28;
     .introduction {
       margin-right: 1em;
       margin-bottom: 50px;
+      p:first-of-type {
+        font-family: Georgia, 'garamond pro', garamond, 'times new roman', times, serif;
+      }
     }
     .pageTitle {
       .t4 {
