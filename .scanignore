@@ -1,1 +1,6 @@
 /public/js/lib/firebug-lite/
+/public/js/lib/firebug-lite/build/chrome-extension/firebug-lite.js
+/public/js/lib/firebug-lite/build/firebug-lite-beta.js
+/public/js/lib/firebug-lite/build/firebug-lite-debug.js
+/public/js/lib/firebug-lite/build/firebug-lite.js
+/public/js/lib/firebug-lite/content/firebug/reps.js
