@@ -18,14 +18,14 @@ Firstly, the app displays en entrance page for services to organize information 
 
 The app consists of several pages:
 
-- Administrate start page with menu and cards to show what can be changed by course responsibles and examiners.
+- Administrate start page with menu and cards to show what can be changed by course coordinators and examiners.
   (requires no api keys, only kopps url)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
 
-- Course introduction text for course information page, which can be edited by course responsibles and examiners.
+- Course introduction text for course information page, which can be edited by course coordinators and examiners.
   (requires only: `API_KEY` kursinfo-api)
 
 ```

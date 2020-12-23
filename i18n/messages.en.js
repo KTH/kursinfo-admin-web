@@ -24,7 +24,7 @@ module.exports = {
     service_name: 'course information administration',
     title: 'Administrate About course information',
     description:
-      'Here a course responsible or examinator for this course can administrate information for “About course” pages.',
+      'Here a course coordinator or examinator for this course can administrate information for “About course” pages.',
 
     example_message_key: 'This is an english translation of a label',
 
