@@ -98,6 +98,9 @@
     "pre-push": "^0.1.1",
     "sass": "^1.26.10"
   },
+  "resolutions": {
+    "node-forge": "0.10.0"
+  },
   "engines": {
     "node": "12"
   },
