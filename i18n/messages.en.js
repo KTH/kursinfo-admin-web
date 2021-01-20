@@ -61,8 +61,8 @@ module.exports = {
     link_user_manual: 'Användarmanual - Om kursen (In Swedish)',
     links_to: {
       kutv: {
-        aTitle: 'Course development and history',
-        aAlt: 'To Course development and history view'
+        aTitle: 'Course development',
+        aAlt: 'To Course development view'
       },
       pm: {
         aTitle: 'Course information',
@@ -141,9 +141,9 @@ module.exports = {
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1:
-      'Publish or edit published course analysis and course data regarding the development and history of the course.',
+      'Publish or edit published course analysis and course data regarding the development of the course.',
     courseDev_decs_p2:
-      'Published course analysis with course data is displayed on the page “Course development and history”.',
+      'Published course analysis with course data is displayed on the page “Course development”.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',

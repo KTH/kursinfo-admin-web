@@ -60,8 +60,8 @@ module.exports = {
     link_user_manual: 'Användarmanual - Om kursen',
     links_to: {
       kutv: {
-        aTitle: 'Kursens utveckling och historik',
-        aAlt: 'Till Kursens utveckling och historik vy'
+        aTitle: 'Kursens utveckling',
+        aAlt: 'Till Kursens utveckling vy'
       },
       pm: {
         aTitle: 'Kursinformation',
@@ -140,9 +140,9 @@ module.exports = {
     coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
     courseDev_decs_p1:
-      'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling och historik.',
+      'Publicera eller ändra publicerad kursanalys och kursdata för kursens utveckling.',
     courseDev_decs_p2:
-      'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling och historik”',
+      'Publicerade kursanalyser med kursdata visas på sidan ”Kursens utveckling”',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
     courseDev_link: 'Kursens utveckling - mer information och hjälp',
