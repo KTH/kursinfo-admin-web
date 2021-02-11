@@ -21,7 +21,7 @@ function appFactory() {
     <Provider adminStore={adminStore}>
       <Switch>
         <Route
-          path="/kursinfoadmin/kurser/kurs/statistik/:courseRound"
+          path="/kursinfoadmin/kurser/kurs/statistik/:semester"
           component={CourseStatisticsPage}
         />
         <Route

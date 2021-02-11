@@ -178,18 +178,18 @@ function fetchStatisticsPerSchool(courseAnalyses, courseMemoData, courses) {
   }
 }
 
-const fetchStatistic = async (courseRound) => {
+const fetchStatistic = async (semester) => {
   try {
     const { client } = statisticApis.koppsApi.koppsApi
 
-    const courseAnalyses = await kursutvecklingData(courseRound)
+    const courseAnalyses = await kursutvecklingData(semester)
     const courses = await client.getAsync({
       uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(
-        courseRound
+        semester
       )}&skip_coordinator_info=true`,
       useCache: true
     })
-    const courseMemoData = await kursPmDataApiData(courseRound)
+    const courseMemoData = await kursPmDataApiData(semester)
 
     const rawCourseOfferings = await fetchStatisticPerDepartment(courses)
 
@@ -207,7 +207,7 @@ const fetchStatistic = async (courseRound) => {
 
     return {
       totalOfferings: courses.body.length,
-      courseRound,
+      semester,
       combinedDataPerSchool,
       courseOfferings: combinedDataPerDepartment
     }

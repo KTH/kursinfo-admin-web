@@ -32,7 +32,7 @@ function hydrateStores(renderProps) {
 }
 
 async function getData(req, res, next) {
-  const { courseRound } = req.params
+  const { semester } = req.params
   try {
     const renderProps = _staticRender()
     // setBrowserConfig should be first because of setting paths for other next functions
@@ -43,7 +43,7 @@ async function getData(req, res, next) {
       serverConfig.hostUrl
     )
     renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
-    renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(courseRound)
+    renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(semester)
     const statistic = ReactDOMServer.renderToString(renderProps)
 
     res.render('course/index', {

@@ -16,7 +16,7 @@ class CourseStatisticsPage extends Component {
   }
 
   render() {
-    const { courseRound, combinedDataPerSchool, courseOfferings } = this.statisticData
+    const { semester, combinedDataPerSchool, courseOfferings } = this.statisticData
     const { browserConfig } = this.props.adminStore
 
     // SCHOOL: HTML Rows of a table Per SCHOOL data
@@ -154,7 +154,7 @@ class CourseStatisticsPage extends Component {
 
     return (
       <div key="kursinfo-container" className="kursinfo-main-page col">
-        <h1>Course Information Statistics {courseRound}</h1>
+        <h1>Course Information Statistics {semester}</h1>
         <h2>Per School</h2>
         <p>
           Column <q>Number of courses</q> holds the number of active courses for the particular
@@ -173,7 +173,7 @@ class CourseStatisticsPage extends Component {
           <q>Download per school statistics (CSV file)</q>.
         </p>
         <CSVLink
-          filename={`course-information-statistics-per-school-${courseRound}.csv`}
+          filename={`course-information-statistics-per-school-${semester}.csv`}
           className="btn btn-primary btn-sm float-right"
           data={csvPerSchoolData}
         >
@@ -199,7 +199,7 @@ class CourseStatisticsPage extends Component {
           <q>Download raw data (CSV file)</q>.
         </p>
         <CSVLink
-          filename={`course-information-statistics-raw-data-${courseRound}.csv`}
+          filename={`course-information-statistics-raw-data-${semester}.csv`}
           className="btn btn-primary btn-sm float-right"
           data={csvPerDepartmentData}
         >

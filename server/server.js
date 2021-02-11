@@ -241,7 +241,7 @@ server.use('/', systemRoute.getRouter())
 const statisticRoute = AppRouter()
 statisticRoute.get(
   'statistic.getData',
-  config.proxyPrefixPath.uri + '/statistik/:courseRound',
+  config.proxyPrefixPath.uri + '/statistik/:semester',
   getServerGatewayLogin(),
   StatisticPageCtrl.getData
 ) // requireRole('isSuperUser'),

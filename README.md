@@ -39,7 +39,7 @@ localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
   `KURS_PM_DATA_API_KEY`)
 
 ```
-localhost:3000/kursinfoadmin/kurser/kurs/statistik/:courseRound [f.e., if Autumn 2020: 20202]
+localhost:3000/kursinfoadmin/kurser/kurs/statistik/:semester [f.e., if Autumn 2020: 20202]
 
 ```
 
