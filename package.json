@@ -55,6 +55,7 @@
     "kth-node-web-common": "^5.1.2",
     "kth-style": "^5.0.30",
     "locale": "^0.1.0",
+    "lodash": "^4.17.20",
     "mobx": "^5.15.6",
     "mobx-react": "^5.4.4",
     "passport": "^0.4.1",
@@ -91,11 +92,11 @@
     "jest-extended": "^0.11.5",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.4",
+    "pre-push": "^0.1.1",
     "prettier": "^2.1.1",
     "prettier-eslint-cli": "^5.0.0",
     "pretty-quick": "^3.0.1",
     "react-test-renderer": "^16.13.1",
-    "pre-push": "^0.1.1",
     "sass": "^1.26.10"
   },
   "resolutions": {
