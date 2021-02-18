@@ -150,20 +150,28 @@ function _getProgramList(programs) {
 
 /**
  * Compiles list of offerings’ relevant data.
- * @param {{}} courses   Courses as returned by '/api/kopps/v2/courses/offerings'.
- * @returns {[]}         Array of offerings’ relevant data
+ * @param {{}} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
+ * @param {string} semester Course offering’s last semester
+ * @returns {[]}            Array of offerings’ relevant data
  */
-function _getOfferingsWithoutAnalysis(courses) {
+function _getOfferingsWithoutAnalysis(courses, semester) {
   const courseOfferingsWithoutAnalysis = []
   courses.body.forEach((course) => {
-    courseOfferingsWithoutAnalysis.push({
-      semester: course.first_yearsemester,
-      schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
-      departmentName: course.department_name,
-      connectedPrograms: _getProgramList(course.connected_programs),
-      courseCode: course.course_code,
-      offeringId: course.offering_id
-    })
+    const { offered_semesters: offeredSemesters } = course
+    const courseOfferingLastSemester =
+      Array.isArray(offeredSemesters) && offeredSemesters.length
+        ? offeredSemesters[offeredSemesters.length - 1].semester
+        : ''
+    if (courseOfferingLastSemester === semester) {
+      courseOfferingsWithoutAnalysis.push({
+        semester: course.first_yearsemester,
+        schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
+        departmentName: course.department_name,
+        connectedPrograms: _getProgramList(course.connected_programs),
+        courseCode: course.course_code,
+        offeringId: course.offering_id
+      })
+    }
   })
   // log.debug('_getOfferingsWithoutAnalysis returns', courseOfferingsWithoutAnalysis)
   return courseOfferingsWithoutAnalysis
@@ -359,9 +367,10 @@ const fetchStatistic = async (semester) => {
     })
 
     // Array of offerings’ relevant data.
-    const rawCourseOfferings = _getOfferingsWithoutAnalysis(courses)
+    const rawCourseOfferings = _getOfferingsWithoutAnalysis(courses, semester)
 
     // Earliest semester found in offerings.
+    // TODO: Rework this and use of function _spanOfSemesters to only included needed semesters.
     const earliestSemester = _earliestSemesterInRawCourseOfferings(rawCourseOfferings)
 
     // For each semester in span of earliest and choosen semester,

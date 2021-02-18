@@ -11,6 +11,7 @@ import {
 } from '../server/statisticTransformer'
 import {
   mockEarliestSemester,
+  mockSemester,
   mockKoppsCourseOfferingsResponse,
   mockOfferingsWithoutAnalysis
 } from './mocks/koppsCourseOfferings'
@@ -95,7 +96,10 @@ const customizer = (objValue, srcValue, key, object) => {
 
 describe('Test statisticTransformer', () => {
   test('_getOfferingsWithoutAnalysis – Compilation of offerings’ relevant data', () => {
-    const rawCourseOfferings = _getOfferingsWithoutAnalysis(mockKoppsCourseOfferingsResponse)
+    const rawCourseOfferings = _getOfferingsWithoutAnalysis(
+      mockKoppsCourseOfferingsResponse,
+      mockSemester
+    )
     expect(rawCourseOfferings).toEqual(mockOfferingsWithoutAnalysis)
   })
   test('_earliestSemesterInRawCourseOfferings – Find earliest semester', () => {
