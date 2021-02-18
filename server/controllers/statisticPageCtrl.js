@@ -23,7 +23,7 @@ function hydrateStores(renderProps) {
 
   const { props } = renderProps.props.children
   const outp = {}
-  for (let key in props) {
+  for (const key in props) {
     if (typeof props[key].initializeStore === 'function') {
       outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
     }
@@ -50,7 +50,8 @@ async function getData(req, res, next) {
       debug: 'debug' in req.query,
       html: statistic,
       paths: JSON.stringify(serverPaths),
-      initialState: JSON.stringify(hydrateStores(renderProps))
+      initialState: JSON.stringify(hydrateStores(renderProps)),
+      title: 'Course Information Statistics ' + semester
     })
   } catch (err) {
     log.debug('Error in getData', { error: err })
