@@ -1,23 +1,22 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { CSVLink } from 'react-csv'
-import i18n from '../../../../i18n'
 
 @inject(['adminStore'])
 @observer
 class CourseStatisticsPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      progress: 1
-    }
-    this.statisticData = this.props.adminStore.statisticData
+    const { adminStore } = this.props
+    this.statisticData = adminStore.statisticData
   }
 
   render() {
     const { semester, combinedDataPerSchool, courseOfferings } = this.statisticData
-    const { browserConfig } = this.props.adminStore
+    const { adminStore } = this.props
+    const { browserConfig } = adminStore
 
     // SCHOOL: HTML Rows of a table Per SCHOOL data
 
