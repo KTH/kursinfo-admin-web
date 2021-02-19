@@ -152,73 +152,86 @@ class CourseStatisticsPage extends Component {
     })
 
     return (
-      <div key="kursinfo-container" className="kursinfo-main-page col">
-        <h1>Course Information Statistics {semester}</h1>
-        <h2>Per School</h2>
-        <p>
-          Column <q>Number of courses</q> holds the number of active courses for the particular
-          school the given semester according to Kopps.
-        </p>
-        <p>
-          Column <q>Number of course analysis</q> holds the number of unique published course
-          analysis for the particular school the given semester.
-        </p>
-        <p>
-          Column <q>Number of course memos</q> holds the number of unique published course memos for
-          the particular school the given semester.
-        </p>
-        <p>
-          You can export the data to a CSV file by clicking on the button{' '}
-          <q>Download per school statistics (CSV file)</q>.
-        </p>
-        <CSVLink
-          filename={`course-information-statistics-per-school-${semester}.csv`}
-          className="btn btn-primary btn-sm float-right"
-          data={csvPerSchoolData}
-        >
-          Download per school statistics (CSV file)
-        </CSVLink>
-        <table>
-          <thead>
-            <tr>
-              <th>School</th>
-              <th>Number of courses</th>
-              <th>Number of course analyses</th>
-              <th>Number of web course memos</th>
-              <th>Number of PDF course memos</th>
-            </tr>
-          </thead>
-          <tbody>{perSchoolRows}</tbody>
-        </table>
-
-        <h2>Raw Data</h2>
-        <p>
-          Use the course information raw data to make own aggregations for example departments or
-          programmes. You can export the data to a CSV file by clicking on the button{' '}
-          <q>Download raw data (CSV file)</q>.
-        </p>
-        <CSVLink
-          filename={`course-information-statistics-raw-data-${semester}.csv`}
-          className="btn btn-primary btn-sm float-right"
-          data={csvPerDepartmentData}
-        >
-          Download raw data (CSV file)
-        </CSVLink>
-        <table>
-          <thead>
-            <tr>
-              <th>Semester</th>
-              <th>School</th>
-              <th>Department Name</th>
-              <th>Course Code</th>
-              <th>Connected program(s)</th>
-              <th>Offering ID</th>
-              <th>Course Analysis</th>
-              <th>Course Memos</th>
-            </tr>
-          </thead>
-          <tbody>{perDepartmentCourseOfferingRows}</tbody>
-        </table>
+      <div className="container standard department" style={{ paddingTop: '30px' }}>
+        <div className="row">
+          <div className="col">
+            <header>
+              <h1>Course Information Statistics {semester}</h1>
+            </header>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <main id="mainContent">
+              <h2>Per School</h2>
+              <p>
+                Column <q>Number of courses</q> holds the number of active courses for the
+                particular school the given semester according to Kopps.
+              </p>
+              <p>
+                Column <q>Number of course analysis</q> holds the number of unique published course
+                analysis for the particular school the given semester.
+              </p>
+              <p>
+                Column <q>Number of course memos</q> holds the number of unique published course
+                memos for the particular school the given semester.
+              </p>
+              <p>
+                You can export the data to a CSV file by clicking on the button{' '}
+                <q>Download per school statistics (CSV file)</q>.
+              </p>
+              <CSVLink
+                filename={`course-information-statistics-per-school-${semester}.csv`}
+                className="btn btn-primary btn-sm float-right mb-2"
+                data={csvPerSchoolData}
+              >
+                Download per school statistics (CSV file)
+              </CSVLink>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>School</th>
+                    <th>Number of courses</th>
+                    <th>Number of course analyses</th>
+                    <th>Number of web course memos</th>
+                    <th>Number of PDF course memos</th>
+                  </tr>
+                </thead>
+                <tbody>{perSchoolRows}</tbody>
+              </table>
+              <h2>Raw Data</h2>
+              <p>
+                Use the course information raw data to make own aggregations for example departments
+                or programmes. You can export the data to a CSV file by clicking on the button{' '}
+                <q>Download raw data (CSV file)</q>.
+              </p>
+              <CSVLink
+                filename={`course-information-statistics-raw-data-${semester}.csv`}
+                className="btn btn-primary btn-sm float-right mb-2"
+                data={csvPerDepartmentData}
+              >
+                Download raw data (CSV file)
+              </CSVLink>
+              <div style={{ overflowX: 'auto', width: '100%' }}>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Semester</th>
+                      <th>School</th>
+                      <th>Department Name</th>
+                      <th>Course Code</th>
+                      <th>Connected program(s)</th>
+                      <th>Offering ID</th>
+                      <th>Course Analysis</th>
+                      <th>Course Memos</th>
+                    </tr>
+                  </thead>
+                  <tbody>{perDepartmentCourseOfferingRows}</tbody>
+                </table>
+              </div>
+            </main>
+          </div>
+        </div>
       </div>
     )
   }
