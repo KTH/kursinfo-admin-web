@@ -14,9 +14,15 @@ class CourseStatisticsPage extends Component {
   }
 
   render() {
-    const { semester, combinedDataPerSchool, courseOfferings } = this.statisticData
+    const {
+      semester,
+      combinedDataPerSchool,
+      courseOfferings,
+      koppsApiBasePath
+    } = this.statisticData
     const { adminStore } = this.props
     const { browserConfig } = adminStore
+    const koppsUrl = `${koppsApiBasePath}courses/offerings?from=${semester}&skip_coordinator_info=true`
 
     // SCHOOL: HTML Rows of a table Per SCHOOL data
 
@@ -165,27 +171,51 @@ class CourseStatisticsPage extends Component {
             <main id="mainContent">
               <h2>Per School</h2>
               <p>
-                Column <q>Number of courses</q> holds the number of active courses for the
-                particular school the given semester according to Kopps.
+                Course information statistics grouped by school. You can export the data to a csv
+                file by clicking the button <q>Download per school statistics (csv file)</q>.
               </p>
-              <p>
-                Column <q>Number of course analysis</q> holds the number of unique published course
-                analysis for the particular school the given semester.
-              </p>
-              <p>
-                Column <q>Number of course memos</q> holds the number of unique published course
-                memos for the particular school the given semester.
-              </p>
-              <p>
-                You can export the data to a CSV file by clicking on the button{' '}
-                <q>Download per school statistics (CSV file)</q>.
-              </p>
+              <details>
+                <summary className="white">Data Used</summary>
+                <p>
+                  Data is fetched from{' '}
+                  <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">
+                    KOPPS API for Courses
+                  </a>
+                  , endpoint <code>/api/kopps/v2/courses/offerings</code>. Data for the current page
+                  was fetched with{' '}
+                  <a href={koppsUrl} target="_blank" rel="noreferrer">
+                    <code>{koppsUrl}</code>
+                  </a>
+                  .
+                </p>
+                <p>
+                  Course offerings that didn’t finish during the {semester} semester are filtered
+                  out. This is done by discarding offerings that doesn’t meet the criteria:
+                  <br />
+                  <code>course.offered_semesters[last-element].semester == {semester}</code>
+                </p>
+              </details>
+              <details>
+                <summary className="white">Table Columns</summary>
+                <p>
+                  Column <q>Number of courses</q> holds the number of active courses for the
+                  particular school the given semester according to Kopps.
+                </p>
+                <p>
+                  Column <q>Number of course analysis</q> holds the number of unique published
+                  course analysis for the particular school the given semester.
+                </p>
+                <p>
+                  Column <q>Number of course memos</q> holds the number of unique published course
+                  memos for the particular school the given semester.
+                </p>
+              </details>
               <CSVLink
                 filename={`course-information-statistics-per-school-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
                 data={csvPerSchoolData}
               >
-                Download per school statistics (CSV file)
+                Download per school statistics (csv file)
               </CSVLink>
               <table className="table">
                 <thead>
@@ -202,15 +232,15 @@ class CourseStatisticsPage extends Component {
               <h2>Raw Data</h2>
               <p>
                 Use the course information raw data to make own aggregations for example departments
-                or programmes. You can export the data to a CSV file by clicking on the button{' '}
-                <q>Download raw data (CSV file)</q>.
+                or programmes. You can export the data to a csv file by clicking on the button{' '}
+                <q>Download raw data (csv file)</q>.
               </p>
               <CSVLink
                 filename={`course-information-statistics-raw-data-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
                 data={csvPerDepartmentData}
               >
-                Download raw data (CSV file)
+                Download raw data (csv file)
               </CSVLink>
               <div style={{ overflowX: 'auto', width: '100%' }}>
                 <table className="table">

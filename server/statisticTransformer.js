@@ -397,6 +397,9 @@ const fetchStatistic = async (semester) => {
 
     return {
       totalOfferings: courses.body.length,
+      koppsApiBasePath: `${config.koppsApi.https ? 'https' : 'http'}://${config.koppsApi.host}${
+        config.koppsApi.basePath
+      }`,
       semester,
       combinedDataPerSchool,
       courseOfferings: combinedDataPerDepartment
