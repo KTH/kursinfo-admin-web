@@ -154,14 +154,13 @@ class CourseStatisticsPage extends Component {
     const kursPmApiUrl = `${kursPmDataApiBasePath}/v1/webAndPdfPublishedMemosBySemester/`
 
     const { withAnalyses, withMemos } = combinedDataPerDepartment
-    const courseOfferings = [...withAnalyses, ...withMemos]
 
     // DEPARTMENT: HTML Rows for all course offerings for a table Per DEPARTMENT data
-    const perDepartmentCourseOfferingRows = []
-    courseOfferings.forEach((courseOffering) => {
+    const perDepartmentCourseOfferingRowsWithAnalyses = []
+    withAnalyses.forEach((courseOffering) => {
       const cO = toJS(courseOffering)
 
-      perDepartmentCourseOfferingRows.push(
+      perDepartmentCourseOfferingRowsWithAnalyses.push(
         <tr>
           <td>{cO.semester}</td>
           <td>{cO.schoolMainCode}</td>
@@ -170,6 +169,22 @@ class CourseStatisticsPage extends Component {
           <td width="300">{cO.connectedPrograms}</td>
           <td>{cO.offeringId}</td>
           <td>{cO.courseAnalysis}</td>
+        </tr>
+      )
+    })
+
+    const perDepartmentCourseOfferingRowsWithMemos = []
+    withMemos.forEach((courseOffering) => {
+      const cO = toJS(courseOffering)
+
+      perDepartmentCourseOfferingRowsWithMemos.push(
+        <tr>
+          <td>{cO.semester}</td>
+          <td>{cO.schoolMainCode}</td>
+          <td>{cO.departmentName}</td>
+          <td>{cO.courseCode}</td>
+          <td width="300">{cO.connectedPrograms}</td>
+          <td>{cO.offeringId}</td>
           <td>
             <a
               href={
@@ -187,29 +202,49 @@ class CourseStatisticsPage extends Component {
       )
     })
 
-    // CSV Per department data
-    const csvPerDepartmentData = []
-    csvPerDepartmentData.push([
+    const csvPerDepartmentDataWithAnalyses = []
+    csvPerDepartmentDataWithAnalyses.push([
       'Semester',
       'School',
       'Department Name',
       'Course Code',
       'Connected program(s)',
       'Offering ID',
-      'Course Analysis',
-      'Course Memos'
+      'Course Analysis'
     ])
-    courseOfferings.forEach((courseOffering) => {
+    withAnalyses.forEach((courseOffering) => {
       const cO = toJS(courseOffering)
-      csvPerDepartmentData.push([
+      csvPerDepartmentDataWithAnalyses.push([
         cO.semester,
         cO.schoolMainCode,
         cO.departmentName,
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
-        cO.courseAnalysis,
-        cO.courseMemoEndPoint
+        cO.courseAnalysis
+      ])
+    })
+
+    const csvPerDepartmentDataWithMemos = []
+    csvPerDepartmentDataWithMemos.push([
+      'Semester',
+      'School',
+      'Department Name',
+      'Course Code',
+      'Connected program(s)',
+      'Offering ID',
+      'Course Memo'
+    ])
+    withMemos.forEach((courseOffering) => {
+      const cO = toJS(courseOffering)
+      csvPerDepartmentDataWithAnalyses.push([
+        cO.semester,
+        cO.schoolMainCode,
+        cO.departmentName,
+        cO.courseCode,
+        cO.connectedPrograms,
+        cO.offeringId,
+        cO.courseMemoInfo && cO.courseMemoInfo.memoId
       ])
     })
 
@@ -373,11 +408,11 @@ class CourseStatisticsPage extends Component {
                 <q>Download raw data (csv file)</q>.
               </p>
               <CSVLink
-                filename={`course-information-statistics-raw-data-${semester}.csv`}
+                filename={`course-information-statistics-raw-data-with-analyses-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
-                data={csvPerDepartmentData}
+                data={csvPerDepartmentDataWithAnalyses}
               >
-                Download raw data (csv file)
+                Download raw data with analyses (csv file)
               </CSVLink>
               <div style={{ overflowX: 'auto', width: '100%' }}>
                 <table className="table">
@@ -390,10 +425,32 @@ class CourseStatisticsPage extends Component {
                       <th>Connected program(s)</th>
                       <th>Offering ID</th>
                       <th>Course Analysis</th>
+                    </tr>
+                  </thead>
+                  <tbody>{perDepartmentCourseOfferingRowsWithAnalyses}</tbody>
+                </table>
+              </div>
+              <CSVLink
+                filename={`course-information-statistics-raw-data-with-memos${semester}.csv`}
+                className="btn btn-primary btn-sm float-right mb-2"
+                data={csvPerDepartmentDataWithMemos}
+              >
+                Download raw data with memos (csv file)
+              </CSVLink>
+              <div style={{ overflowX: 'auto', width: '100%' }}>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Semester</th>
+                      <th>School</th>
+                      <th>Department Name</th>
+                      <th>Course Code</th>
+                      <th>Connected program(s)</th>
+                      <th>Offering ID</th>
                       <th>Course Memos</th>
                     </tr>
                   </thead>
-                  <tbody>{perDepartmentCourseOfferingRows}</tbody>
+                  <tbody>{perDepartmentCourseOfferingRowsWithMemos}</tbody>
                 </table>
               </div>
             </main>
