@@ -141,11 +141,17 @@ class CourseStatisticsPage extends Component {
       combinedDataPerDepartment,
       combinedAnalysesDataPerSchool,
       combinedMemosDataPerSchool,
-      koppsApiBasePath
+      koppsApiBasePath,
+      kursutvecklingApiBasePath,
+      semestersInAnalyses,
+      kursPmDataApiBasePath,
+      semestersInMemos
     } = this.statisticData
     const { adminStore } = this.props
     const { browserConfig } = adminStore
-    const koppsUrl = `${koppsApiBasePath}courses/offerings?from=${semester}&skip_coordinator_info=true`
+    const koppsApiUrl = `${koppsApiBasePath}courses/offerings?from=${semester}&skip_coordinator_info=true`
+    const kursutvecklingApiUrl = `${kursutvecklingApiBasePath}/v1/courseAnalyses/`
+    const kursPmApiUrl = `${kursPmDataApiBasePath}/v1/webAndPdfPublishedMemosBySemester/`
 
     const { withAnalyses, withMemos } = combinedDataPerDepartment
     const courseOfferings = [...withAnalyses, ...withMemos]
@@ -221,45 +227,109 @@ class CourseStatisticsPage extends Component {
             <main id="mainContent">
               <h2>Per School</h2>
               <p>
-                Course information statistics grouped by school. You can export the data to a csv
-                file by clicking the button <q>Download per school statistics (csv file)</q>.
+                Course information statistics grouped by school, presented for course analyses and
+                course memos, respectively. You can export the data to a csv file by clicking{' '}
+                <q>Download per school statistics for analyses (csv file)</q> or{' '}
+                <q>Download per school statistics for memos (csv file)</q>.
               </p>
               <details>
                 <summary className="white">Data Used</summary>
+                <h3>Course Data</h3>
                 <p>
-                  Data is fetched from{' '}
+                  Course data is fetched from&nbsp;
                   <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">
                     KOPPS API for Courses
                   </a>
                   , endpoint <code>/api/kopps/v2/courses/offerings</code>. Data for the current page
-                  was fetched with{' '}
-                  <a href={koppsUrl} target="_blank" rel="noreferrer">
-                    <code>{koppsUrl}</code>
+                  was fetched from&nbsp;
+                  <a href={koppsApiUrl} target="_blank" rel="noreferrer">
+                    <code>{koppsApiUrl}</code>
                   </a>
                   .
                 </p>
                 <p>
-                  Course offerings that didn’t finish during the {semester} semester are filtered
-                  out. This is done by discarding offerings that doesn’t meet the criteria:
+                  For course analyses, offerings that didn’t finish during the {semester} semester
+                  are filtered out. This is done by discarding offerings that doesn’t meet the
+                  criteria:
                   <br />
-                  <code>course.offered_semesters[last-element].semester == {semester}</code>
+                  <code>
+                    course.offered_semesters[&#123;last-element&#125;].semester == {semester}
+                  </code>
+                </p>
+                <p>
+                  For course memos, offerings that didn’t start during the {semester} semester are
+                  filtered out. This is done by discarding offerings that doesn’t meet the criteria:
+                  <br />
+                  <code>course.first_yearsemester == {semester}</code>
+                </p>
+                <h3>Course Analyses Data</h3>
+                <p>
+                  Course analyses data is fetched from&nbsp;
+                  <a
+                    href="https://github.com/KTH/kursutveckling-api"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    kursutveckling-api
+                  </a>
+                  , endpoint <code>/api/kursutveckling/v1/courseAnalyses/&#123;semester&#125;</code>
+                  . Data for the current page was fetched from&nbsp;
+                  <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
+                    <code>{kursutvecklingApiUrl}&#123;semester&#125;</code>
+                  </a>
+                  , using semester(s) <code>{semestersInAnalyses.sort().join(', ')}</code>.
+                </p>
+                <h3>Course Memo Data</h3>
+                <p>
+                  Course memo data is fetched from&nbsp;
+                  <a
+                    href="https://github.com/KTH/kurs-pm-data-api"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    kurs-pm-data-api
+                  </a>
+                  , endpoint{' '}
+                  <code>
+                    /api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/&#123;semester&#125;
+                  </code>
+                  . Data for the current page was fetched from&nbsp;
+                  <a href={kursPmApiUrl} target="_blank" rel="noreferrer">
+                    <code>{kursPmApiUrl}&#123;semester&#125;</code>
+                  </a>
+                  , using semester(s) <code>{semestersInMemos.sort().join(', ')}</code>.
                 </p>
               </details>
               <details>
                 <summary className="white">Table Columns</summary>
+                <h3>School</h3>
+                Schools from course data, mapped with abbreviations:&nbsp;
+                <code>
+                  ABE: ABE, CBH: CBH, STH: CBH, CHE: CBH, BIO: CBH, CSC: EECS, ECE: EECS, EECS:
+                  EECS, EES: EECS, ICT: EECS, ITM: ITM, SCI: SCI
+                </code>
+                .<h3>Number of Courses</h3>
                 <p>
                   Column <q>Number of courses</q> holds the number of active courses for the
                   particular school the given semester according to Kopps.
                 </p>
+                <h3>Number of course analysis</h3>
                 <p>
                   Column <q>Number of course analysis</q> holds the number of unique published
                   course analysis for the particular school the given semester.
                 </p>
+                <h3>Number of course memos</h3>
                 <p>
                   Column <q>Number of course memos</q> holds the number of unique published course
                   memos for the particular school the given semester.
                 </p>
+                <h3>Number of PDF course memos</h3>
+                <p>
+                  Column <q>Number of PDF course memos</q> holds the number of unique uploaded
+                  course memos for the particular school the given semester.
+                </p>
               </details>
+              <h3>Course Analyses</h3>
               <CSVLink
                 filename={`course-information-statistics-per-school-for-analyses-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
@@ -277,6 +347,7 @@ class CourseStatisticsPage extends Component {
                 </thead>
                 <tbody>{analysisPerSchoolRows(combinedAnalysesDataPerSchool)}</tbody>
               </table>
+              <h3>Course Memos</h3>
               <CSVLink
                 filename={`course-information-statistics-per-school-for-memos-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"

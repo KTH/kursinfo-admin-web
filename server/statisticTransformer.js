@@ -526,10 +526,18 @@ const fetchStatistic = async (semester) => {
       koppsApiBasePath: `${config.koppsApi.https ? 'https' : 'http'}://${config.koppsApi.host}${
         config.koppsApi.basePath
       }`,
+      kursutvecklingApiBasePath: `${config.kursutvecklingApi.https ? 'https' : 'http'}://${
+        config.kursutvecklingApi.host
+      }${config.kursutvecklingApi.proxyBasePath}`,
+      kursPmDataApiBasePath: `${config.kursPmDataApi.https ? 'https' : 'http'}://${
+        config.kursPmDataApi.host
+      }${config.kursPmDataApi.proxyBasePath}`,
       semester,
       combinedDataPerDepartment,
       combinedAnalysesDataPerSchool,
       combinedMemosDataPerSchool,
+      semestersInAnalyses,
+      semestersInMemos,
       combinedDataPerSchool: {}, // TODO: Remove this!
       courseOfferings: [] // TODO: Remove this!
     }
