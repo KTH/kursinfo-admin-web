@@ -34,27 +34,8 @@ const mockKoppsCourseOfferingsResponse = {
       offered_semesters: []
     },
     // 3. Objects with full data
-    // {
-    //   first_yearsemester: '20181',
-    //   school_code: 'ABE',
-    //   department_name: 'ABE/Test',
-    //   connected_programs: [
-    //     {
-    //       code: 'XXX',
-    //       study_year: 1
-    //     },
-    //     {
-    //       code: 'YYY',
-    //       spec_code: 'ZZZ',
-    //       study_year: 2
-    //     }
-    //   ],
-    //   course_code: 'AAA123',
-    //   offering_id: '1',
-    //   offered_semesters: [{ semester: '20181' }]
-    // },
     {
-      first_yearsemester: mockEarliestSemester, //20172
+      first_yearsemester: '20162',
       school_code: 'ABE',
       department_name: 'ABE/Test',
       connected_programs: [
@@ -70,10 +51,19 @@ const mockKoppsCourseOfferingsResponse = {
       ],
       course_code: 'AAA123',
       offering_id: '1',
-      offered_semesters: [{ semester: mockEarliestSemester }] //20172
+      offered_semesters: [
+        { semester: '20162' },
+        { semester: '20171' },
+        { semester: '20172' },
+        { semester: '20181' },
+        { semester: '20182' },
+        { semester: '20191' },
+        { semester: '20192' },
+        { semester: '20201' }
+      ]
     },
     {
-      first_yearsemester: '20202',
+      first_yearsemester: '20201',
       school_code: 'ABE',
       department_name: 'ABE/Test',
       connected_programs: [
@@ -89,9 +79,48 @@ const mockKoppsCourseOfferingsResponse = {
       ],
       course_code: 'AAA123',
       offering_id: '1',
-      offered_semesters: [{ semester: '20202' }]
+      offered_semesters: [{ semester: '20201' }]
     }
   ]
+}
+
+const mockAnalysisOfferings = [
+  {
+    semester: '20162',
+    schoolMainCode: 'ABE',
+    departmentName: 'ABE/Test',
+    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+    courseCode: 'AAA123',
+    offeringId: '1'
+  },
+  {
+    semester: '20201',
+    schoolMainCode: 'ABE',
+    departmentName: 'ABE/Test',
+    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+    courseCode: 'AAA123',
+    offeringId: '1'
+  }
+]
+
+const mockSemestersInAnalyses = ['20162', '20201']
+
+const mockMemoOfferings = [
+  {
+    semester: '20201',
+    schoolMainCode: 'ABE',
+    departmentName: 'ABE/Test',
+    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+    courseCode: 'AAA123',
+    offeringId: '1'
+  }
+]
+
+const mockSemestersInMemos = ['20201']
+
+const mockParsedOfferings = {
+  forAnalyses: mockAnalysisOfferings,
+  forMemos: mockMemoOfferings
 }
 
 const mockOfferingsWithoutAnalysis = [
@@ -144,5 +173,10 @@ export {
   mockEarliestSemester,
   mockSemester,
   mockKoppsCourseOfferingsResponse,
+  mockAnalysisOfferings,
+  mockSemestersInAnalyses,
+  mockMemoOfferings,
+  mockSemestersInMemos,
+  mockParsedOfferings,
   mockOfferingsWithoutAnalysis
 }

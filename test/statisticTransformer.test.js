@@ -1,9 +1,8 @@
 const _ = require('lodash')
 
 import {
-  _getOfferingsWithoutAnalysis,
-  _earliestSemesterInRawCourseOfferings,
-  _spanOfSemesters,
+  _parseOfferings,
+  _semestersInParsedOfferings,
   _fetchCourseAnalyses,
   _fetchCourseMemos,
   _documentsPerCourseOffering,
@@ -13,6 +12,11 @@ import {
   mockEarliestSemester,
   mockSemester,
   mockKoppsCourseOfferingsResponse,
+  mockAnalysisOfferings,
+  mockSemestersInAnalyses,
+  mockMemoOfferings,
+  mockSemestersInMemos,
+  mockParsedOfferings,
   mockOfferingsWithoutAnalysis
 } from './mocks/koppsCourseOfferings'
 import {
@@ -26,7 +30,6 @@ import {
   mockKursPmDataApiData
 } from './mocks/courseMemos'
 import {
-  mockRawCourseOfferings,
   mockCourseAnalyses,
   mockCourseMemos,
   mockExpectedCourseOfferings
@@ -89,41 +92,18 @@ jest.mock('../server/koppsApi', () => {
   }
 })
 
-const customizer = (objValue, srcValue, key, object) => {
-  if (key === 'numberOfUniqAnalyses' && Number.isInteger(objValue) && Number.isInteger(srcValue))
-    return objValue + srcValue
-}
-
 describe('Test statisticTransformer', () => {
-  test('_getOfferingsWithoutAnalysis – Compilation of offerings’ relevant data', () => {
-    const rawCourseOfferings = _getOfferingsWithoutAnalysis(
-      mockKoppsCourseOfferingsResponse,
-      mockSemester
-    )
-    expect(rawCourseOfferings).toEqual(mockOfferingsWithoutAnalysis)
+  test('_parseOfferings – Compilation of offerings’ relevant data', () => {
+    const parsedOfferings = _parseOfferings(mockKoppsCourseOfferingsResponse, '20201')
+    const { forAnalyses: analysisOfferings, forMemos: memoOfferings } = parsedOfferings
+    expect(analysisOfferings).toEqual(mockAnalysisOfferings)
+    expect(memoOfferings).toEqual(mockMemoOfferings)
   })
-  test('_earliestSemesterInRawCourseOfferings – Find earliest semester', () => {
-    const earliestSemester = _earliestSemesterInRawCourseOfferings(mockOfferingsWithoutAnalysis)
-    expect(earliestSemester).toEqual(mockEarliestSemester)
-    expect(() => _earliestSemesterInRawCourseOfferings([])).toThrow(
-      '_earliestSemesterInRawCourseOfferings - No semesters found in course offerings'
-    )
-  })
-  test('_spanOfSemesters - Create a list of semesters', () => {
-    const startSemester = '20171'
-    const endSemester = '20202'
-    const expectedSpanOfSemesters = [
-      '20171',
-      '20172',
-      '20181',
-      '20182',
-      '20191',
-      '20192',
-      '20201',
-      '20202'
-    ]
-    const spanOfSemesters = _spanOfSemesters(startSemester, endSemester)
-    expect(spanOfSemesters).toEqual(expectedSpanOfSemesters)
+  test('_semestersInParsedOfferings – Find unique semesters', () => {
+    const semestersInAnalyses = _semestersInParsedOfferings(mockAnalysisOfferings)
+    expect(semestersInAnalyses).toEqual(mockSemestersInAnalyses)
+    const semestersInMemos = _semestersInParsedOfferings(mockMemoOfferings)
+    expect(semestersInMemos).toEqual(mockSemestersInMemos)
   })
   test('_fetchCourseAnalyses - Fetch course analyses for semesters', async () => {
     const courseAnalyses = await _fetchCourseAnalyses(mockCourseAnalysesSemesters)
@@ -135,7 +115,7 @@ describe('Test statisticTransformer', () => {
   })
   test('_documentsPerCourseOffering - Match analyses and memos with course offerings', () => {
     const courseOfferings = _documentsPerCourseOffering(
-      mockRawCourseOfferings,
+      mockParsedOfferings,
       mockCourseAnalyses,
       mockCourseMemos
     )
@@ -148,10 +128,6 @@ describe('Test statisticTransformer', () => {
       mockEmptyCourses
     )
     expect(mockExpectedEmptyCombinedDataPerSchool).toMatchObject(combinedDataPerSchool)
-    combinedDataPerSchool = _dataPerSchool(
-      mockCourseAnalyses,
-      mockCourseMemos,
-      mockKoppsCourseOfferingsResponse
-    )
+    combinedDataPerSchool = _dataPerSchool(mockCourseAnalyses, mockCourseMemos)
   })
 })

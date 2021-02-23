@@ -4,6 +4,128 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { CSVLink } from 'react-csv'
 
+const analysisPerSchoolRows = (combinedAnalysesDataPerSchool) => {
+  // SCHOOL: HTML Rows of a table Per SCHOOL data
+  const rows = []
+  const {
+    schools = {},
+    totalNumberOfCourses,
+    totalNumberOfAnalyses
+  } = combinedAnalysesDataPerSchool
+  Object.keys(schools).forEach((sC) => {
+    const { numberOfCourses, numberOfUniqAnalyses } = schools[sC]
+    rows.push(
+      <tr key={sC}>
+        <td>{sC}</td>
+        <td>{numberOfCourses}</td>
+        <td>{numberOfUniqAnalyses}</td>
+      </tr>
+    )
+  })
+  rows.push(
+    <tr key="totals">
+      <td>
+        <b>
+          <i>Total</i>
+        </b>
+      </td>
+      <td>
+        <b>{totalNumberOfCourses}</b>
+      </td>
+      <td>
+        <b>{totalNumberOfAnalyses}</b>
+      </td>
+    </tr>
+  )
+  return rows
+}
+
+const memosPerSchoolRows = (combinedMemosDataPerSchool) => {
+  const rows = []
+  const {
+    schools = {},
+    totalNumberOfCourses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos
+  } = combinedMemosDataPerSchool
+  Object.keys(schools).forEach((sC) => {
+    const { numberOfCourses, numberOfUniqMemos, numberOfUniqPdfMemos } = schools[sC]
+    rows.push(
+      <tr key={sC}>
+        <td>{sC}</td>
+        <td>{numberOfCourses}</td>
+        <td>{numberOfUniqMemos}</td>
+        <td>{numberOfUniqPdfMemos}</td>
+      </tr>
+    )
+  })
+  rows.push(
+    <tr key="totals">
+      <td>
+        <b>
+          <i>Total</i>
+        </b>
+      </td>
+      <td>
+        <b>{totalNumberOfCourses}</b>
+      </td>
+      <td>
+        <b>{totalNumberOfWebMemos}</b>
+      </td>
+      <td>
+        <b>{totalNumberOfPdfMemos}</b>
+      </td>
+    </tr>
+  )
+  return rows
+}
+
+const analysisPerSchoolCSV = (combinedAnalysesDataPerSchool) => {
+  const {
+    schools = {},
+    totalNumberOfCourses,
+    totalNumberOfAnalyses
+  } = combinedAnalysesDataPerSchool
+  const csvPerSchoolData = []
+  csvPerSchoolData.push(['School', 'Number of courses', 'Number of course analyses'])
+  Object.keys(schools).forEach((sC) => {
+    csvPerSchoolData.push([sC, schools[sC].numberOfCourses, schools[sC].numberOfUniqAnalyses])
+  })
+  csvPerSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfAnalyses])
+  return csvPerSchoolData
+}
+
+const memosPerSchoolCSV = (combinedMemosDataPerSchool) => {
+  const {
+    schools = {},
+    totalNumberOfCourses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos
+  } = combinedMemosDataPerSchool
+  const csvPerSchoolData = []
+  csvPerSchoolData.push([
+    'School',
+    'Number of courses',
+    'Number of web course memos',
+    'Number of PDF course memos'
+  ])
+  Object.keys(schools).forEach((sC) => {
+    csvPerSchoolData.push([
+      sC,
+      schools[sC].numberOfCourses,
+      schools[sC].numberOfUniqMemos,
+      schools[sC].numberOfUniqPdfMemos
+    ])
+  })
+  csvPerSchoolData.push([
+    'Total',
+    totalNumberOfCourses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos
+  ])
+  return csvPerSchoolData
+}
+
 @inject(['adminStore'])
 @observer
 class CourseStatisticsPage extends Component {
@@ -16,92 +138,19 @@ class CourseStatisticsPage extends Component {
   render() {
     const {
       semester,
-      combinedDataPerSchool,
-      courseOfferings,
+      combinedDataPerDepartment,
+      combinedAnalysesDataPerSchool,
+      combinedMemosDataPerSchool,
       koppsApiBasePath
     } = this.statisticData
     const { adminStore } = this.props
     const { browserConfig } = adminStore
     const koppsUrl = `${koppsApiBasePath}courses/offerings?from=${semester}&skip_coordinator_info=true`
 
-    // SCHOOL: HTML Rows of a table Per SCHOOL data
-
-    const perSchoolRows = []
-    const {
-      schools,
-      totalNumberOfCourses,
-      totalNumberOfAnalyses,
-      totalNumberOfWebMemos,
-      totalNumberOfPdfMemos
-    } = combinedDataPerSchool
-    Object.keys(schools).forEach((sC) => {
-      const {
-        numberOfCourses,
-        numberOfUniqAnalyses,
-        numberOfUniqMemos,
-        numberOfUniqPdfMemos
-      } = schools[sC]
-      perSchoolRows.push(
-        <tr>
-          <td>{sC}</td>
-          <td>{numberOfCourses}</td>
-          <td>{numberOfUniqAnalyses}</td>
-          <td>{numberOfUniqMemos}</td>
-          <td>{numberOfUniqPdfMemos}</td>
-        </tr>
-      )
-    })
-    perSchoolRows.push(
-      <tr>
-        <td>
-          <b>
-            <i>Total</i>
-          </b>
-        </td>
-        <td>
-          <b>{totalNumberOfCourses}</b>
-        </td>
-        <td>
-          <b>{totalNumberOfAnalyses}</b>
-        </td>
-        <td>
-          <b>{totalNumberOfWebMemos}</b>
-        </td>
-        <td>
-          <b>{totalNumberOfPdfMemos}</b>
-        </td>
-      </tr>
-    )
-
-    // CSV for table per school data
-
-    const csvPerSchoolData = []
-    csvPerSchoolData.push([
-      'School',
-      'Number of courses',
-      'Number of course analyses',
-      'Number of web course memos',
-      'Number of PDF course memos'
-    ])
-    Object.keys(schools).forEach((sC) => {
-      csvPerSchoolData.push([
-        sC,
-        schools[sC].numberOfCourses,
-        schools[sC].numberOfUniqAnalyses,
-        schools[sC].numberOfUniqMemos,
-        schools[sC].numberOfUniqPdfMemos
-      ])
-    })
-    csvPerSchoolData.push([
-      'Total',
-      totalNumberOfCourses,
-      totalNumberOfAnalyses,
-      totalNumberOfWebMemos,
-      totalNumberOfPdfMemos
-    ])
+    const { withAnalyses, withMemos } = combinedDataPerDepartment
+    const courseOfferings = [...withAnalyses, ...withMemos]
 
     // DEPARTMENT: HTML Rows for all course offerings for a table Per DEPARTMENT data
-
     const perDepartmentCourseOfferingRows = []
     courseOfferings.forEach((courseOffering) => {
       const cO = toJS(courseOffering)
@@ -118,12 +167,14 @@ class CourseStatisticsPage extends Component {
           <td>
             <a
               href={
-                cO.courseMemoInfo.isPdf
+                cO.courseMemoInfo && cO.courseMemoInfo.isPdf
                   ? `${browserConfig.memoStorageUri}${cO.courseMemoInfo.memoId}`
-                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseCode}/${cO.courseMemoInfo.memoId}`
+                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseCode}/${
+                      cO.courseMemoInfo && cO.courseMemoInfo.memoId
+                    }`
               }
             >
-              {cO.courseMemoInfo.memoId}
+              {cO.courseMemoInfo && cO.courseMemoInfo.memoId}
             </a>
           </td>
         </tr>
@@ -131,7 +182,6 @@ class CourseStatisticsPage extends Component {
     })
 
     // CSV Per department data
-
     const csvPerDepartmentData = []
     csvPerDepartmentData.push([
       'Semester',
@@ -211,11 +261,11 @@ class CourseStatisticsPage extends Component {
                 </p>
               </details>
               <CSVLink
-                filename={`course-information-statistics-per-school-${semester}.csv`}
+                filename={`course-information-statistics-per-school-for-analyses-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
-                data={csvPerSchoolData}
+                data={analysisPerSchoolCSV(combinedAnalysesDataPerSchool)}
               >
-                Download per school statistics (csv file)
+                Download per school statistics for analyses (csv file)
               </CSVLink>
               <table className="table">
                 <thead>
@@ -223,11 +273,27 @@ class CourseStatisticsPage extends Component {
                     <th>School</th>
                     <th>Number of courses</th>
                     <th>Number of course analyses</th>
+                  </tr>
+                </thead>
+                <tbody>{analysisPerSchoolRows(combinedAnalysesDataPerSchool)}</tbody>
+              </table>
+              <CSVLink
+                filename={`course-information-statistics-per-school-for-memos-${semester}.csv`}
+                className="btn btn-primary btn-sm float-right mb-2"
+                data={memosPerSchoolCSV(combinedMemosDataPerSchool)}
+              >
+                Download per school statistics for memos (csv file)
+              </CSVLink>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>School</th>
+                    <th>Number of courses</th>
                     <th>Number of web course memos</th>
                     <th>Number of PDF course memos</th>
                   </tr>
                 </thead>
-                <tbody>{perSchoolRows}</tbody>
+                <tbody>{memosPerSchoolRows(combinedMemosDataPerSchool)}</tbody>
               </table>
               <h2>Raw Data</h2>
               <p>

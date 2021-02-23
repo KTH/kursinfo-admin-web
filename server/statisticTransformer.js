@@ -96,34 +96,47 @@ const _kursPmDataApiData = async (semester) => {
 
 /**
  * Matches analyses and memos with course offerings.
- * @param {[]} rawCourseOfferings Array of offerings’ relevant data
- * @param {{}} analysis           Collection of course analyses
- * @param {{}} memos              Collection of course memos
- * @returns {[]}                  Array of course offerings, and their documents
+ * @param {[]} parsedOfferings Array of offerings’ relevant data
+ * @param {{}} analysis        Collection of course analyses
+ * @param {{}} memos           Collection of course memos
+ * @returns {{}}               Object with two arrays, each containing offerings and their documents.
  */
-const _documentsPerCourseOffering = (rawCourseOfferings, analysis, memos) => {
-  const courseOfferings = []
+const _documentsPerCourseOffering = (parsedOfferings, analysis, memos) => {
+  const courseOfferings = {
+    withAnalyses: [],
+    withMemos: []
+  }
+  const { forAnalyses: offeringsWithAnalyses, forMemos: offeringsWithMemos } = parsedOfferings
 
-  rawCourseOfferings.forEach((cO) => {
-    const { courseCode, semester } = cO
-    const offeringId = Number(cO.offeringId)
+  offeringsWithAnalyses.forEach((offering) => {
+    const { courseCode, semester } = offering
+    const offeringId = Number(offering.offeringId)
     let courseAnalysis = ''
-    let courseMemoInfo = {}
     if (
       analysis[courseCode] &&
       analysis[courseCode][semester] &&
       analysis[courseCode][semester][offeringId]
     )
       courseAnalysis = analysis[courseCode][semester][offeringId]
-    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId])
-      courseMemoInfo = memos[courseCode][semester][offeringId]
 
     const courseOffering = {
-      ...cO,
-      courseAnalysis,
+      ...offering,
+      courseAnalysis
+    }
+    courseOfferings.withAnalyses.push(courseOffering)
+  })
+
+  offeringsWithMemos.forEach((offering) => {
+    const { courseCode, semester } = offering
+    const offeringId = Number(offering.offeringId)
+    let courseMemoInfo = {}
+    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId])
+      courseMemoInfo = memos[courseCode][semester][offeringId]
+    const courseOffering = {
+      ...offering,
       courseMemoInfo
     }
-    courseOfferings.push(courseOffering)
+    courseOfferings.withMemos.push(courseOffering)
   })
 
   // log.debug('_documentsPerCourseOffering returns', courseOfferings)
@@ -149,22 +162,38 @@ function _getProgramList(programs) {
 }
 
 /**
- * Compiles list of offerings’ relevant data.
+ * Parses offerings from Kopps and returns an object with two lists:
+ * - One list containing offerings that starts with semester parameter. This is used for course memos.
+ * - One list containing offerings that ends with semester parameter. This is used for course analyses.
  * @param {{}} courses      Courses as returned by '/api/kopps/v2/courses/offerings'.
- * @param {string} semester Course offering’s last semester
- * @returns {[]}            Array of offerings’ relevant data
+ * @param {string} semester Course offering’s first or last semester, depending on use
+ * @returns {{}}            Object with two arrays, each containing offerings’ relevant data
  */
-function _getOfferingsWithoutAnalysis(courses, semester) {
-  const courseOfferingsWithoutAnalysis = []
+function _parseOfferings(courses, semester) {
+  const parsedOfferings = {
+    forAnalyses: [],
+    forMemos: []
+  }
+
   courses.body.forEach((course) => {
-    const { offered_semesters: offeredSemesters } = course
+    const { first_yearsemester: firstSemester, offered_semesters: offeredSemesters } = course
     const courseOfferingLastSemester =
       Array.isArray(offeredSemesters) && offeredSemesters.length
         ? offeredSemesters[offeredSemesters.length - 1].semester
         : ''
     if (courseOfferingLastSemester === semester) {
-      courseOfferingsWithoutAnalysis.push({
-        semester: course.first_yearsemester,
+      parsedOfferings.forAnalyses.push({
+        semester: firstSemester,
+        schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
+        departmentName: course.department_name,
+        connectedPrograms: _getProgramList(course.connected_programs),
+        courseCode: course.course_code,
+        offeringId: course.offering_id
+      })
+    }
+    if (firstSemester === semester) {
+      parsedOfferings.forMemos.push({
+        semester: firstSemester,
         schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
         departmentName: course.department_name,
         connectedPrograms: _getProgramList(course.connected_programs),
@@ -173,12 +202,135 @@ function _getOfferingsWithoutAnalysis(courses, semester) {
       })
     }
   })
-  // log.debug('_getOfferingsWithoutAnalysis returns', courseOfferingsWithoutAnalysis)
-  return courseOfferingsWithoutAnalysis
+  // log.debug('_parseOfferings returns', courseOfferingsWithoutAnalysis)
+  return parsedOfferings
 }
 
 /**
  * TODO: Write tests for this function!
+ * Compiles collection with statistics per school, and totals, for analyses.
+ * @param {[]} courseOfferings  Array containing offerings and their analyses
+ * @returns {{}}                Collection with statistics per school, and totals, for analyses
+ */
+function _analysesDataPerSchool(courseOfferings) {
+  const schools = {}
+  const uniqueCourseAnalysis = []
+  let totalNumberOfCourses = 0
+  let totalNumberOfAnalyses = 0
+
+  courseOfferings.forEach((courseOffering) => {
+    const { schoolMainCode, courseCode, courseAnalysis } = courseOffering
+    if (SCHOOL_MAP[schoolMainCode]) {
+      const schoolCode = SCHOOL_MAP[schoolMainCode]
+      let numberOfAnalyses = 0
+      if (courseAnalysis) {
+        if (!uniqueCourseAnalysis.includes(courseAnalysis)) {
+          uniqueCourseAnalysis.push(courseAnalysis)
+          numberOfAnalyses = 1
+        }
+      }
+      if (schools[schoolCode]) {
+        if (!schools[schoolCode].courseCodes.includes(courseCode)) {
+          schools[schoolCode].courseCodes.push(courseCode)
+          totalNumberOfCourses++
+          schools[schoolCode].numberOfCourses += 1
+          schools[schoolCode].numberOfUniqAnalyses += numberOfAnalyses
+        } else {
+          schools[schoolCode].numberOfUniqAnalyses += numberOfAnalyses
+        }
+      } else {
+        totalNumberOfCourses++
+        schools[schoolCode] = {
+          numberOfCourses: 1,
+          courseCodes: [courseCode],
+          numberOfUniqAnalyses: numberOfAnalyses
+        }
+      }
+    }
+  })
+
+  Object.values(schools).forEach((sc) => {
+    totalNumberOfAnalyses += sc.numberOfUniqAnalyses
+  })
+  const dataPerSchool = {
+    schools,
+    totalNumberOfCourses,
+    totalNumberOfAnalyses
+  }
+  // log.debug('_dataPerSchool returns', dataPerSchool)
+  return dataPerSchool
+}
+
+/**
+ * TODO: Write tests for this function!
+ * Compiles collection with statistics per school, and totals, for memos.
+ * @param {[]} courseOfferings  Array containing offerings and their memos
+ * @returns {{}}                Collection with statistics per school, and totals, for memos
+ */
+function _memosDataPerSchool(courseOfferings) {
+  const schools = {}
+  const uniqueCourseMemoPublished = []
+  const uniqueCourseMemoPdf = []
+  let totalNumberOfCourses = 0
+  let totalNumberOfWebMemos = 0
+  let totalNumberOfPdfMemos = 0
+
+  courseOfferings.forEach((courseOffering) => {
+    const { schoolMainCode, courseCode, courseMemoInfo } = courseOffering
+    if (SCHOOL_MAP[schoolMainCode]) {
+      const schoolCode = SCHOOL_MAP[schoolMainCode]
+      let numberOfMemoPdf = 0
+      let numberOfMemoPublished = 0
+      if (!_.isEmpty(courseMemoInfo)) {
+        if (courseMemoInfo.isPdf) {
+          if (!uniqueCourseMemoPdf.includes(courseMemoInfo.memoId)) {
+            uniqueCourseMemoPdf.push(courseMemoInfo.memoId)
+            numberOfMemoPdf = 1
+          }
+        } else if (!uniqueCourseMemoPublished.includes(courseMemoInfo.memoId)) {
+          uniqueCourseMemoPublished.push(courseMemoInfo.memoId)
+          numberOfMemoPublished = 1
+        }
+      }
+      if (schools[schoolCode]) {
+        if (!schools[schoolCode].courseCodes.includes(courseCode)) {
+          schools[schoolCode].courseCodes.push(courseCode)
+          totalNumberOfCourses++
+          schools[schoolCode].numberOfCourses += 1
+          schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
+          schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
+        } else {
+          schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
+          schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
+        }
+      } else {
+        totalNumberOfCourses++
+        schools[schoolCode] = {
+          numberOfCourses: 1,
+          courseCodes: [courseCode],
+          numberOfUniqMemos: numberOfMemoPublished,
+          numberOfUniqPdfMemos: numberOfMemoPdf
+        }
+      }
+    }
+  })
+
+  Object.values(schools).forEach((sc) => {
+    totalNumberOfWebMemos += sc.numberOfUniqMemos
+    totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
+  })
+  const dataPerSchool = {
+    schools,
+    totalNumberOfCourses,
+    totalNumberOfWebMemos,
+    totalNumberOfPdfMemos
+  }
+  // log.debug('_dataPerSchool returns', dataPerSchool)
+  return dataPerSchool
+}
+
+/**
+ * TODO: Remove this function!
  * Compiles collection with statistics per school, and totals.
  * @param {{}} courseAnalyses   Collection of course analyses
  * @param {{}} courseMemoData   Collection of course memos
@@ -262,40 +414,17 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
 }
 
 /**
- * Finds earliest semester in list of offerings.
- * @param {[]} rawCourseOfferings  Array of offerings’ relevant data
- * @returns {number}               Earliest semester found
+ * Finds unique semesters in object with parsed offerings.
+ * @param {[]} parsedOfferings Object with two arrays, each containing offerings’ relevant data.
+ * @returns {[]}               Array with found unique semesters
  */
-const _earliestSemesterInRawCourseOfferings = (rawCourseOfferings) => {
-  const maxEarliestSemester = '21001'
-  const earliestSemester = rawCourseOfferings.reduce((foundSemester, courseOffering) => {
-    return courseOffering.semester && foundSemester.localeCompare(courseOffering.semester) > 0
-      ? courseOffering.semester
-      : foundSemester
-  }, maxEarliestSemester)
-  if (earliestSemester === maxEarliestSemester) {
-    throw new Error(
-      '_earliestSemesterInRawCourseOfferings - No semesters found in course offerings',
-      rawCourseOfferings
-    )
-  }
-  return earliestSemester
-}
-
-/**
- * Create list of semesters between two semesters, including start and end semesters.
- * @param {string} startSemester  First semester in span
- * @param {string} endSemester    Last semester in span
- * @returns {[]}                  Array with span of semesters
- */
-const _spanOfSemesters = (startSemester, endSemester) => {
-  const start = parseInt(startSemester, 10)
-  const end = parseInt(endSemester, 10)
-  const semesters = []
-  for (let semester = start; semester <= end; semester % 10 === 2 ? (semester += 9) : semester++) {
-    semesters.push(semester.toString())
-  }
-  return semesters
+const _semestersInParsedOfferings = (parsedOfferings) => {
+  return parsedOfferings.reduce((foundSemesters, o) => {
+    if (o.semester && !foundSemesters.includes(o.semester)) {
+      foundSemesters.push(o.semester)
+    }
+    return foundSemesters
+  }, [])
 }
 
 /**
@@ -360,40 +489,37 @@ const fetchStatistic = async (semester) => {
 
     // Returns a list of course rounds valid for given semester parameter.
     const courses = await client.getAsync({
-      uri: `${config.koppsApi.basePath}courses/offerings?from=${encodeURIComponent(
-        semester
-      )}&skip_coordinator_info=true`,
+      uri: `${config.koppsApi.basePath}courses/offerings?from=${semester}&skip_coordinator_info=true`,
       useCache: true
     })
 
-    // Array of offerings’ relevant data.
-    const rawCourseOfferings = _getOfferingsWithoutAnalysis(courses, semester)
+    // Object with two arrays, each containing offerings’ relevant data.
+    const parsedOfferings = _parseOfferings(courses, semester)
 
-    // Earliest semester found in offerings.
-    // TODO: Rework this and use of function _spanOfSemesters to only included needed semesters.
-    const earliestSemester = _earliestSemesterInRawCourseOfferings(rawCourseOfferings)
+    // Semesters found in parsed offerings.
+    const semestersInAnalyses = _semestersInParsedOfferings(parsedOfferings.forAnalyses)
+    const semestersInMemos = _semestersInParsedOfferings(parsedOfferings.forMemos)
 
-    // For each semester in span of earliest and choosen semester,
-    // fetch course analyses and course memos.
-    const semesters = _spanOfSemesters(earliestSemester, semester)
-
-    const courseAnalyses = await _fetchCourseAnalyses(semesters)
-    const courseMemoData = await _fetchCourseMemos([semester])
+    // Course analyses for semesters
+    const courseAnalyses = await _fetchCourseAnalyses(semestersInAnalyses)
+    // Course memos for semesters
+    const courseMemoData = await _fetchCourseMemos(semestersInMemos)
 
     // Matches analyses and memos with course offerings.
+    // Returns an object with two arrays, each containing offerings and their documents.
     const combinedDataPerDepartment = _documentsPerCourseOffering(
-      rawCourseOfferings,
+      parsedOfferings,
       courseAnalyses,
       courseMemoData
     )
 
-    // Compiles statistics per school, including totals.
-    const combinedDataPerSchool = _dataPerSchool(
-      courseAnalyses,
-      courseMemoData,
-      courses,
-      combinedDataPerDepartment
+    // Compiles statistics per school, including totals, for analyses.
+    const combinedAnalysesDataPerSchool = _analysesDataPerSchool(
+      combinedDataPerDepartment.withAnalyses
     )
+
+    // Compiles statistics per school, including totals, for memos.
+    const combinedMemosDataPerSchool = _memosDataPerSchool(combinedDataPerDepartment.withMemos)
 
     return {
       totalOfferings: courses.body.length,
@@ -401,8 +527,11 @@ const fetchStatistic = async (semester) => {
         config.koppsApi.basePath
       }`,
       semester,
-      combinedDataPerSchool,
-      courseOfferings: combinedDataPerDepartment
+      combinedDataPerDepartment,
+      combinedAnalysesDataPerSchool,
+      combinedMemosDataPerSchool,
+      combinedDataPerSchool: {}, // TODO: Remove this!
+      courseOfferings: [] // TODO: Remove this!
     }
   } catch (err) {
     log.error('Exception in statisticsTransformer.fetchStatistic', { error: err })
@@ -413,9 +542,8 @@ const fetchStatistic = async (semester) => {
 // "Internal" functions exported for test purposes
 module.exports = {
   fetchStatistic,
-  _getOfferingsWithoutAnalysis,
-  _earliestSemesterInRawCourseOfferings,
-  _spanOfSemesters,
+  _parseOfferings,
+  _semestersInParsedOfferings,
   _fetchCourseAnalyses,
   _fetchCourseMemos,
   _documentsPerCourseOffering,

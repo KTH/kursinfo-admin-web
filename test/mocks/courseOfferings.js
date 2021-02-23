@@ -1,5 +1,5 @@
 const _mockEarliestSemester = '20172'
-const mockRawCourseOfferings = [
+const mockParsedOfferingsX = [
   {
     semester: '',
     schoolMainCode: '---',
@@ -49,10 +49,9 @@ const mockCourseAnalyses = {
     20181: {
       2: 'analysis-20181-2.pdf'
     },
-    20202: {
-      1: 'analysis-20202-1.pdf'
-    },
-    numberOfUniqAnalyses: 3
+    20201: {
+      1: 'analysis-20201-1.pdf'
+    }
   }
 }
 const mockCourseMemos = {
@@ -63,64 +62,43 @@ const mockCourseMemos = {
     20181: {
       2: { memoId: 'memo-AAA12320181-yyy.pdf', isPdf: true }
     },
-    20202: {
-      1: { memoId: 'AAA12320202-1', isPdf: false }
-    },
-    numberOfUniqMemos: 1,
-    numberOfUniqPdfMemos: 2
+    20201: {
+      1: { memoId: 'AAA12320201-1', isPdf: false }
+    }
   }
 }
-const mockExpectedCourseOfferings = [
-  {
-    semester: '',
-    schoolMainCode: '---',
-    departmentName: '',
-    connectedPrograms: '',
-    courseCode: '',
-    offeringId: '',
-    courseAnalysis: '',
-    courseMemoInfo: {}
-  },
-  {
-    semester: '',
-    schoolMainCode: '---',
-    departmentName: '',
-    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
-    courseCode: '',
-    offeringId: '',
-    courseAnalysis: '',
-    courseMemoInfo: {}
-  },
-  {
-    semester: '20181',
-    schoolMainCode: 'ABE',
-    departmentName: 'ABE/Test',
-    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
-    courseCode: 'AAA123',
-    offeringId: '2',
-    courseAnalysis: 'analysis-20181-2.pdf',
-    courseMemoInfo: { memoId: 'memo-AAA12320181-yyy.pdf', isPdf: true }
-  },
-  {
-    semester: _mockEarliestSemester,
-    schoolMainCode: 'ABE',
-    departmentName: 'ABE/Test',
-    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
-    courseCode: 'AAA123',
-    offeringId: '1',
-    courseAnalysis: 'analysis-20172-1.pdf',
-    courseMemoInfo: { memoId: 'memo-AAA12320172-xxx.pdf', isPdf: true }
-  },
-  {
-    semester: '20202',
-    schoolMainCode: 'ABE',
-    departmentName: 'ABE/Test',
-    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
-    courseCode: 'AAA123',
-    offeringId: '1',
-    courseAnalysis: 'analysis-20202-1.pdf',
-    courseMemoInfo: { memoId: 'AAA12320202-1', isPdf: false }
-  }
-]
+const mockExpectedCourseOfferings = {
+  withAnalyses: [
+    {
+      semester: '20162',
+      schoolMainCode: 'ABE',
+      departmentName: 'ABE/Test',
+      connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+      courseCode: 'AAA123',
+      offeringId: '1',
+      courseAnalysis: ''
+    },
+    {
+      semester: '20201',
+      schoolMainCode: 'ABE',
+      departmentName: 'ABE/Test',
+      connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+      courseCode: 'AAA123',
+      offeringId: '1',
+      courseAnalysis: 'analysis-20201-1.pdf'
+    }
+  ],
+  withMemos: [
+    {
+      semester: '20201',
+      schoolMainCode: 'ABE',
+      departmentName: 'ABE/Test',
+      connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+      courseCode: 'AAA123',
+      offeringId: '1',
+      courseMemoInfo: { memoId: 'AAA12320201-1', isPdf: false }
+    }
+  ]
+}
 
-export { mockRawCourseOfferings, mockCourseAnalyses, mockCourseMemos, mockExpectedCourseOfferings }
+export { mockParsedOfferingsX, mockCourseAnalyses, mockCourseMemos, mockExpectedCourseOfferings }
