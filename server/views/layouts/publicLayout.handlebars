@@ -20,12 +20,6 @@
   {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
   <script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>
-  <!-- analytics start -->
-  {{#extend 'head-scripts'}}
-
-  {{{blocks.analytics}}}
-  <!-- analytics end -->
-  {{/extend}}
 
   {{#if debug}}
   {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
