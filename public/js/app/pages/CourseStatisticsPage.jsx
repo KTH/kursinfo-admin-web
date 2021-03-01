@@ -237,7 +237,7 @@ class CourseStatisticsPage extends Component {
     ])
     withMemos.forEach((courseOffering) => {
       const cO = toJS(courseOffering)
-      csvPerDepartmentDataWithAnalyses.push([
+      csvPerDepartmentDataWithMemos.push([
         cO.semester,
         cO.schoolMainCode,
         cO.departmentName,
@@ -431,7 +431,7 @@ class CourseStatisticsPage extends Component {
                 </table>
               </div>
               <CSVLink
-                filename={`course-information-statistics-raw-data-with-memos${semester}.csv`}
+                filename={`course-information-statistics-raw-data-with-memos-${semester}.csv`}
                 className="btn btn-primary btn-sm float-right mb-2"
                 data={csvPerDepartmentDataWithMemos}
               >
