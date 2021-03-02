@@ -367,7 +367,7 @@ class CourseStatisticsPage extends Component {
               <h3>Course Analyses</h3>
               <CSVLink
                 filename={`course-information-statistics-per-school-for-analyses-${semester}.csv`}
-                className="btn btn-primary btn-sm float-right mb-2"
+                className="btn btn-primary float-right mb-2"
                 data={analysisPerSchoolCSV(combinedAnalysesDataPerSchool)}
               >
                 Download per school statistics for analyses (csv file)
@@ -385,7 +385,7 @@ class CourseStatisticsPage extends Component {
               <h3>Course Memos</h3>
               <CSVLink
                 filename={`course-information-statistics-per-school-for-memos-${semester}.csv`}
-                className="btn btn-primary btn-sm float-right mb-2"
+                className="btn btn-primary float-right mb-2"
                 data={memosPerSchoolCSV(combinedMemosDataPerSchool)}
               >
                 Download per school statistics for memos (csv file)
@@ -407,14 +407,15 @@ class CourseStatisticsPage extends Component {
                 or programmes. You can export the data to a csv file by clicking on the button{' '}
                 <q>Download raw data (csv file)</q>.
               </p>
-              <CSVLink
-                filename={`course-information-statistics-raw-data-with-analyses-${semester}.csv`}
-                className="btn btn-primary btn-sm float-right mb-2"
-                data={csvPerDepartmentDataWithAnalyses}
-              >
-                Download raw data with analyses (csv file)
-              </CSVLink>
-              <div style={{ overflowX: 'auto', width: '100%' }}>
+              <details style={{ overflowX: 'auto', width: '100%' }}>
+                <summary className="white">Course Analyses</summary>
+                <CSVLink
+                  filename={`course-information-statistics-raw-data-with-analyses-${semester}.csv`}
+                  className="btn btn-primary float-right mb-2"
+                  data={csvPerDepartmentDataWithAnalyses}
+                >
+                  Download raw data with analyses (csv file)
+                </CSVLink>
                 <table className="table">
                   <thead>
                     <tr>
@@ -429,15 +430,16 @@ class CourseStatisticsPage extends Component {
                   </thead>
                   <tbody>{perDepartmentCourseOfferingRowsWithAnalyses}</tbody>
                 </table>
-              </div>
-              <CSVLink
-                filename={`course-information-statistics-raw-data-with-memos-${semester}.csv`}
-                className="btn btn-primary btn-sm float-right mb-2"
-                data={csvPerDepartmentDataWithMemos}
-              >
-                Download raw data with memos (csv file)
-              </CSVLink>
-              <div style={{ overflowX: 'auto', width: '100%' }}>
+              </details>
+              <details style={{ overflowX: 'auto', width: '100%' }}>
+                <summary className="white">Course Memos</summary>
+                <CSVLink
+                  filename={`course-information-statistics-raw-data-with-memos-${semester}.csv`}
+                  className="btn btn-primary float-right mb-2"
+                  data={csvPerDepartmentDataWithMemos}
+                >
+                  Download raw data with memos (csv file)
+                </CSVLink>
                 <table className="table">
                   <thead>
                     <tr>
@@ -452,7 +454,7 @@ class CourseStatisticsPage extends Component {
                   </thead>
                   <tbody>{perDepartmentCourseOfferingRowsWithMemos}</tbody>
                 </table>
-              </div>
+              </details>
             </main>
           </div>
         </div>
