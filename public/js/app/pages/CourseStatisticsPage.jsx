@@ -141,7 +141,7 @@ const englishTexts = {
   ),
   subHeader: 'Per School',
   subPageDescription:
-    'Course information statistics grouped by the school, presented for course analyses and course memos, respectively. You have also the possibility to export data from the tables to a csv file.',
+    'Course information statistics grouped by the school, presented for course analyses and course memos, respectively. You also have the possibility to export data from the tables to a csv file.',
   courseAnalysesHeader: 'Course Analyses',
   courseAnalysesDescription: () => (
     <>
@@ -233,11 +233,11 @@ const englishTexts = {
   rawDataHeader: 'Raw Data',
   rawDataDescription: () => (
     <p>
-      Use the course information raw data to make aggregations for example departments or programs.
-      You can export the data to a csv file by clicking on the button{' '}
-      <q>Download raw data (csv file)</q>.
+      Use the course information raw data to make aggregations for example departments or programs. You can export the data to a csv file.
     </p>
-  )
+  ),
+  exportRawCourseAnalysesData: 'Export raw course analyses data (csv file)',
+  exportRawCourseMemosData: 'Export raw course memos data (csv file)'
 }
 
 @inject(['adminStore'])
@@ -409,25 +409,6 @@ class CourseStatisticsPage extends Component {
               {englishTexts.courseMemosDescription()}
               <details>
                 <summary className="white">{englishTexts.sourceOfData}</summary>
-                <p>
-                  Course memo data is fetched from&nbsp;
-                  <a
-                    href="https://github.com/KTH/kurs-pm-data-api"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    kurs-pm-data-api
-                  </a>
-                  , endpoint{' '}
-                  <code>
-                    /api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/&#123;semester&#125;
-                  </code>
-                  . Data for the current page was fetched from&nbsp;
-                  <a href={kursPmApiUrl} target="_blank" rel="noreferrer">
-                    <code>{kursPmApiUrl}&#123;semester&#125;</code>
-                  </a>
-                  , using semester(s) <code>{semestersInMemos.sort().join(', ')}</code>.
-                </p>
                 {englishTexts.courseDataApiDescription(koppsApiUrl)}
                 {englishTexts.courseMemosFilterDescription(semester)}
                 {englishTexts.courseMemosDataApiDescription(kursPmApiUrl, semestersInMemos)}
@@ -437,7 +418,7 @@ class CourseStatisticsPage extends Component {
                 className="btn btn-primary float-right mb-2"
                 data={memosPerSchoolCSV(combinedMemosDataPerSchool)}
               >
-                {englishTexts.exportCourseAnalysesData}
+                {englishTexts.exportCourseMemosData}
               </CSVLink>
               <table className="table">
                 <thead>
@@ -453,13 +434,13 @@ class CourseStatisticsPage extends Component {
               <h2>{englishTexts.rawDataHeader}</h2>
               {englishTexts.rawDataDescription()}
               <details style={{ overflowX: 'auto', width: '100%' }}>
-                <summary className="white">Course Analyses</summary>
+                <summary className="white">{englishTexts.courseAnalysesHeader}</summary>
                 <CSVLink
                   filename={`course-information-statistics-raw-data-with-analyses-${semester}.csv`}
                   className="btn btn-primary float-right mb-2"
                   data={csvPerDepartmentDataWithAnalyses}
                 >
-                  Download raw data with analyses (csv file)
+                  {englishTexts.exportRawCourseAnalysesData}
                 </CSVLink>
                 <table className="table">
                   <thead>
@@ -477,13 +458,13 @@ class CourseStatisticsPage extends Component {
                 </table>
               </details>
               <details style={{ overflowX: 'auto', width: '100%' }}>
-                <summary className="white">Course Memos</summary>
+                <summary className="white">{englishTexts.courseMemosHeader}</summary>
                 <CSVLink
                   filename={`course-information-statistics-raw-data-with-memos-${semester}.csv`}
                   className="btn btn-primary float-right mb-2"
                   data={csvPerDepartmentDataWithMemos}
                 >
-                  Download raw data with memos (csv file)
+                  {englishTexts.exportRawCourseMemosData}
                 </CSVLink>
                 <table className="table">
                   <thead>
