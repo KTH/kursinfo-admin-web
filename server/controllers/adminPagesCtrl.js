@@ -49,7 +49,6 @@ async function getAdminStart(req, res, next) {
       serverPaths,
       serverConfig.hostUrl
     )
-    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
 
     // Load koppsData
     renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(

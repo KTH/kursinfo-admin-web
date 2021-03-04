@@ -71,7 +71,6 @@ async function getDescription(req, res, next) {
       serverPaths,
       serverConfig.hostUrl
     )
-    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     // Load koppsData and kurinfo-api data
     renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(
       courseCode,

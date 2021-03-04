@@ -61,26 +61,6 @@ class AdminStore {
     return [host, newPath].join('')
   }
 
-  _getOptions(params) {
-    // Pass Cookie header on SSR-calls
-    let options
-    if (typeof window === 'undefined') {
-      options = {
-        headers: {
-          Cookie: this.cookieHeader,
-          Accept: 'application/json',
-          'X-Forwarded-Proto': _webUsesSSL(this.apiHost) ? 'https' : 'http'
-        },
-        timeout: 10000,
-        params: params
-      }
-    } else {
-      options = {
-        params: params
-      }
-    }
-    return options
-  }
   @action setUser(userKthId) {
     this.user = userKthId
   }
@@ -118,19 +98,14 @@ class AdminStore {
 
   @action doUpsertItem(text, courseCode, imageName) {
     return axios
-      .post(
-        this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }),
-        {
-          sellingText: text,
-          imageName,
-          user: this.user
-        },
-        this._getOptions()
-      )
+      .post(this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }), {
+        sellingText: text,
+        imageName,
+        user: this.user
+      })
       .then((res) => {
         let msg = null
         if (safeGet(() => res.data.body.message)) {
-          console.log('We got error from api', res.data.body.message)
           msg = res.data.body.message
           throw new Error(res.data.body.message)
         } else {
@@ -152,12 +127,6 @@ class AdminStore {
     this.paths = paths
     this.apiHost = apiHost
     this.hostUrl = hostUrl
-  }
-
-  @action __SSR__setCookieHeader(cookieHeader) {
-    if (typeof window === 'undefined') {
-      this.cookieHeader = cookieHeader
-    }
   }
 
   initializeStore(storeName) {

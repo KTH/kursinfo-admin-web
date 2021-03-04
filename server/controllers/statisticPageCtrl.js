@@ -42,7 +42,6 @@ async function getData(req, res, next) {
       serverPaths,
       serverConfig.hostUrl
     )
-    renderProps.props.children.props.adminStore.__SSR__setCookieHeader(req.headers.cookie)
     renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(semester)
     const statistic = ReactDOMServer.renderToString(renderProps)
 
