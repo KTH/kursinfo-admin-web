@@ -7,18 +7,14 @@ import PageTitle from '../components/PageTitle'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 
-import {
-  ADMIN_COURSE_UTV,
-  ADMIN_COURSE_PM,
-  ADMIN_COURSE_PM_DATA,
-  ADMIN_OM_COURSE
-} from '../util/constants'
+import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 
 @inject(['adminStore'])
 @observer
 class AdminStartPage extends Component {
   render() {
     const { courseTitleData, lang } = this.props.adminStore.koppsData
+    const { visibilityLevel } = this.props.adminStore.userRoles
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
@@ -27,12 +23,7 @@ class AdminStartPage extends Component {
         <LinkToAboutCourseInformation courseCode={courseCode} lang={lang} translate={pageTitles} />
 
         {/* ---COURSE TITEL--- */}
-        <PageTitle
-          key="title"
-          courseTitleData={courseTitleData}
-          pageTitle={pageTitles.administrate}
-          language={lang}
-        />
+        <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={pageTitles.administrate} language={lang} />
 
         <TextAboutRights courseCode={courseCode} translate={pageTitles} />
 
@@ -41,26 +32,28 @@ class AdminStartPage extends Component {
         </div>
         <div className="col">
           <span className="AdminPage--ShowDescription">
-            <Card className="KursInfo--SellingText">
-              <CardBody>
-                <CardTitle>
-                  <h4>{startCards.sellingText_hd}</h4>
-                </CardTitle>
-                <CardText tag={'span'}>
-                  <p>{startCards.sellingText_desc_p1}</p>
-                  <p>{startCards.sellingText_desc_p2}</p>
-                </CardText>
-              </CardBody>
-              <CardFooter className="text-right">
-                <a
-                  href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`}
-                  alt={startCards.sellingText_btn}
-                  className="btn btn-primary"
-                >
-                  {startCards.sellingText_btn}
-                </a>
-              </CardFooter>
-            </Card>
+            {visibilityLevel == 'all' && (
+              <Card className="KursInfo--SellingText">
+                <CardBody>
+                  <CardTitle>
+                    <h4>{startCards.sellingText_hd}</h4>
+                  </CardTitle>
+                  <CardText tag={'span'}>
+                    <p>{startCards.sellingText_desc_p1}</p>
+                    <p>{startCards.sellingText_desc_p2}</p>
+                  </CardText>
+                </CardBody>
+                <CardFooter className="text-right">
+                  <a
+                    href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`}
+                    alt={startCards.sellingText_btn}
+                    className="btn btn-primary"
+                  >
+                    {startCards.sellingText_btn}
+                  </a>
+                </CardFooter>
+              </Card>
+            )}
             <Card className="Skapa--Kurs-PM">
               <CardBody>
                 <CardTitle>
@@ -98,33 +91,35 @@ class AdminStartPage extends Component {
                 </span>
               </CardFooter>
             </Card>
-            <Card className="course-development">
-              <CardBody>
-                <CardTitle>
-                  <h4>{startCards.courseDev_hd}</h4>
-                </CardTitle>
-                <CardText tag={'span'}>
-                  <p>{startCards.courseDev_decs_p1}</p>
-                  <p>{startCards.courseDev_decs_p2}</p>
-                </CardText>
-              </CardBody>
-              <CardFooter className="text-right">
-                <a
-                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
-                  className="btn btn-primary"
-                  alt={startCards.courseDev_btn_new}
-                >
-                  {startCards.courseDev_btn_new}
-                </a>
-                <a
-                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
-                  className="btn btn-primary"
-                  alt={startCards.courseDev_btn_edit}
-                >
-                  {startCards.courseDev_btn_edit}
-                </a>
-              </CardFooter>
-            </Card>
+            {visibilityLevel == 'all' && (
+              <Card className="course-development">
+                <CardBody>
+                  <CardTitle>
+                    <h4>{startCards.courseDev_hd}</h4>
+                  </CardTitle>
+                  <CardText tag={'span'}>
+                    <p>{startCards.courseDev_decs_p1}</p>
+                    <p>{startCards.courseDev_decs_p2}</p>
+                  </CardText>
+                </CardBody>
+                <CardFooter className="text-right">
+                  <a
+                    href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
+                    className="btn btn-primary"
+                    alt={startCards.courseDev_btn_new}
+                  >
+                    {startCards.courseDev_btn_new}
+                  </a>
+                  <a
+                    href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
+                    className="btn btn-primary"
+                    alt={startCards.courseDev_btn_edit}
+                  >
+                    {startCards.courseDev_btn_edit}
+                  </a>
+                </CardFooter>
+              </Card>
+            )}
           </span>
         </div>
       </div>
