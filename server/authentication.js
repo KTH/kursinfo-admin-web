@@ -44,7 +44,7 @@ passport.deserializeUser(function (user, done) {
 const casOptions = {
   ssoBaseURL: config.cas.ssoBaseURL,
   serverBaseURL: config.hostUrl,
-  log
+  log,
 }
 
 if (config.cas.pgtUrl) {
@@ -62,7 +62,7 @@ passport.use(strategy)
 passport.use(
   new GatewayStrategy(
     {
-      casUrl: config.cas.ssoBaseURL
+      casUrl: config.cas.ssoBaseURL,
     },
     function (result, done) {
       log.debug({ result }, `CAS Gateway user: ${result.user}`)
@@ -89,9 +89,9 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
         ugKthid: ldapUser.ugKthid,
         pgtIou,
         memberOf: getGroups(ldapUser), // memberOf important for requireRole
-        isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser)
+        isSuperUser: hasGroup(config.auth.superuserGroup, ldapUser),
       }
-    }
+    },
   }
 )
 
@@ -117,8 +117,26 @@ function _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser) {
   return false
 }
 
+function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
+  // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
+  // 'edu.courses.SF.SF1624.20182.9.teachers'
+
+  const groups = ldapUser.memberOf
+  const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
+  const endWith = `.${employeeType}`
+  if (groups && groups.length > 0) {
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].indexOf(startWith) >= 0 && groups[i].indexOf(endWith) >= 0) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+module.exports.isExaminatorOrResponsible = function (courseCode) {}
+
 module.exports.requireRole = function () {
-  // TODO:Different roles for selling text and course development
   const roles = Array.prototype.slice.call(arguments)
 
   return async function _hasCourseAcceptedRoles(req, res, next) {
@@ -128,8 +146,10 @@ module.exports.requireRole = function () {
     // TODO: Add date for courseresponsible
     const userCourseRoles = {
       isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
-      isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser),
-      isSuperUser: ldapUser.isSuperUser
+      // isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser),
+      isCourseResponsible: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'courseresponsible'),
+      isSuperUser: ldapUser.isSuperUser,
+      isCourseTeacher: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'teachers'),
     }
 
     // If we don't have one of these then access is forbidden
@@ -140,10 +160,11 @@ module.exports.requireRole = function () {
         status: 403,
         message: `Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
         Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
-        https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459`
+        https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459`,
       }
       return System.final(infoAboutAuth, req, res)
     }
+    req.session.thisCourseUserRoles = userCourseRoles
     return next()
   }
 }
