@@ -8,7 +8,7 @@ const paramRegex = /\/(:[^\/\s]*)/g
 function _paramReplace(path, params) {
   let tmpPath = path
   const tmpArray = tmpPath.match(paramRegex)
-  tmpArray.forEach((element) => {
+  tmpArray.forEach(element => {
     tmpPath = tmpPath.replace(element, '/' + params[element.slice(2)])
   })
   return tmpPath
@@ -22,7 +22,7 @@ class AdminStore {
   @observable statisticData
   @observable sellingText = {
     en: undefined,
-    sv: undefined
+    sv: undefined,
   }
   // Saving temporary state for picture between classes
   @observable newImageFile
@@ -65,11 +65,10 @@ class AdminStore {
     this.user = userKthId
   }
 
-
-  @action setUserRolesForThisCourse(roles={}) {
-    const {isCourseResponsible, isExaminator, isSuperUser} = roles
-    const visibilityLevel =  (isCourseResponsible || isExaminator || isSuperUser) ? 'all' : 'onlyMemo'
-    this.userRoles = {...roles, visibilityLevel}
+  @action setUserRolesForThisCourse(roles = {}) {
+    const { isCourseResponsible, isExaminator, isSuperUser } = roles
+    const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
+    this.userRoles = { ...roles, visibilityLevel }
   }
 
   @action addChangedByLastTime(data) {
@@ -84,13 +83,13 @@ class AdminStore {
   @action addSellingTextFromApi(data) {
     this.sellingText = {
       en: safeGet(() => data.sellingText.en, ''),
-      sv: safeGet(() => data.sellingText.sv, '')
+      sv: safeGet(() => data.sellingText.sv, ''),
     }
   }
   @action tempSaveText(data) {
     this.sellingText = {
       en: data.en,
-      sv: data.sv
+      sv: data.sv,
     }
   }
   @action tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
@@ -104,9 +103,9 @@ class AdminStore {
       .post(this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }), {
         sellingText: text,
         imageName,
-        user: this.user
+        user: this.user,
       })
-      .then((res) => {
+      .then(res => {
         let msg = null
         if (safeGet(() => res.data.body.message)) {
           msg = res.data.body.message
@@ -117,7 +116,7 @@ class AdminStore {
         }
         return msg
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.response) {
           throw new Error(err.message, err.response.data)
         }
@@ -135,12 +134,7 @@ class AdminStore {
   initializeStore(storeName) {
     const store = this
 
-    if (
-      typeof window !== 'undefined' &&
-      window.__initialState__ &&
-      window.__initialState__[storeName]
-    ) {
-
+    if (typeof window !== 'undefined' && window.__initialState__ && window.__initialState__[storeName]) {
       const tmp = JSON.parse(decodeURIComponent(window.__initialState__[storeName]))
       for (let key in tmp) {
         store[key] = tmp[key]
