@@ -38,7 +38,7 @@ const logConfiguration = {
   level: config.logging.log.level,
   console: config.logging.console,
   stdout: config.logging.stdout,
-  src: config.logging.src
+  src: config.logging.src,
 }
 log.init(logConfiguration)
 
@@ -56,7 +56,7 @@ server.engine(
   exphbs({
     defaultLayout: 'publicLayout',
     layoutsDir: server.settings.layouts,
-    partialsDir: server.settings.partials
+    partialsDir: server.settings.partials,
   })
 )
 server.set('view engine', 'handlebars')
@@ -99,10 +99,7 @@ server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHa
 // Map Bootstrap.
 // server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
 // Map kth-style.
-server.use(
-  config.proxyPrefixPath.uri + '/static/kth-style',
-  express.static('./node_modules/kth-style/dist')
-) // Map static content like images, css and js.
+server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist')) // Map static content like images, css and js.
 server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
 server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
@@ -153,25 +150,20 @@ const {
   logoutHandler,
   pgtCallbackHandler,
   serverLogin,
-  getServerGatewayLogin
+  getServerGatewayLogin,
 } = require('kth-node-passport-cas').routeHandlers({
   casLoginUri: config.proxyPrefixPath.uri + '/login',
   casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
   proxyPrefixPath: config.proxyPrefixPath.uri,
   server,
-  cookieTimeout: config.cas.cookieTimeout
+  cookieTimeout: config.cas.cookieTimeout,
 })
 const { redirectAuthenticatedUserHandler } = require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 
 const authRoute = AppRouter()
-authRoute.get(
-  'cas.login',
-  config.proxyPrefixPath.uri + '/login',
-  authLoginHandler,
-  redirectAuthenticatedUserHandler
-)
+authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
 authRoute.get(
   'cas.gateway',
   config.proxyPrefixPath.uri + '/loginGateway',
@@ -197,7 +189,7 @@ server.use(
     blockUrl: config.blockApi.blockUrl,
     proxyPrefixPath: config.proxyPrefixPath.uri,
     hostUrl: config.hostUrl,
-    redisConfig: config.cache.cortinaBlock.redis
+    redisConfig: config.cache.cortinaBlock.redis,
   })
 )
 
@@ -210,7 +202,7 @@ const excludeExpression = new RegExp(excludePath)
 server.use(
   excludeExpression,
   require('kth-node-web-common/lib/web/crawlerRedirect')({
-    hostUrl: config.hostUrl
+    hostUrl: config.hostUrl,
   })
 )
 
@@ -260,7 +252,7 @@ appRoute.get(
   'course.getAdminStart',
   config.proxyPrefixPath.uri + '/:courseCode',
   serverLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isCourseTeacher'),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
