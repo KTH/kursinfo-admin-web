@@ -38,23 +38,17 @@ function _staticRender(context, location) {
 async function getAdminStart(req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   const lang = language.getLanguage(res) || 'sv'
+  const { thisCourseUserRoles } = req.session
 
   try {
     // Render inferno app
     const renderProps = _staticRender()
     // setBrowserConfig should be first because of setting paths for other next functions
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(
-      browserConfig,
-      serverPaths,
-      serverConfig.hostUrl
-    )
-
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    renderProps.props.children.props.adminStore.setUserRolesForThisCourse(thisCourseUserRoles)
     // Load koppsData
-    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(
-      courseCode,
-      lang
-    )
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
 
     const html = ReactDOMServer.renderToString(renderProps)
     res.render('course/index', {
@@ -64,7 +58,7 @@ async function getAdminStart(req, res, next) {
       description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
       html,
       paths: JSON.stringify(serverPaths),
-      initialState: JSON.stringify(hydrateStores(renderProps))
+      initialState: JSON.stringify(hydrateStores(renderProps)),
     })
   } catch (error) {
     log.error('Error in _getAdminStart', { error })
@@ -73,5 +67,5 @@ async function getAdminStart(req, res, next) {
 }
 
 module.exports = {
-  getAdminStart
+  getAdminStart,
 }

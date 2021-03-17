@@ -18,7 +18,6 @@ function _webUsesSSL(url) {
   return url.startsWith('https:')
 }
 class AdminStore {
-  // This won't work because primitives can't be ovserved https://mobx.js.org/best/pitfalls.html#dereference-values-as-late-as-possible
   @observable koppsData
   @observable statisticData
   @observable sellingText = {
@@ -43,6 +42,7 @@ class AdminStore {
   @observable user = ''
   // @observable hasDoneSubmit = false
   @observable apiError = ''
+  @observable userRoles = {}
 
   buildApiUrl(path, params) {
     let host
@@ -65,10 +65,13 @@ class AdminStore {
     this.user = userKthId
   }
 
-  // @action addStatistic (data) {
-  //   console.log("data", data)
-  //   this.statisticData = data
-  // }
+
+  @action setUserRolesForThisCourse(roles={}) {
+    const {isCourseResponsible, isExaminator, isSuperUser} = roles
+    const visibilityLevel =  (isCourseResponsible || isExaminator || isSuperUser) ? 'all' : 'onlyMemo'
+    this.userRoles = {...roles, visibilityLevel}
+  }
+
   @action addChangedByLastTime(data) {
     this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
   }
@@ -137,16 +140,6 @@ class AdminStore {
       window.__initialState__ &&
       window.__initialState__[storeName]
     ) {
-      /* TODO:
-      const util = globalRegistry.getUtility(IDeserialize, 'kursinfo-admin-web')
-      const importData = JSON.parse(decodeURIComponent(window.__initialState__[storeName]))
-      console.log("importData",importData, "util",util)
-      for (let key in importData) {
-        // Deserialize so we get proper ObjectPrototypes
-        // NOTE! We need to escape/unescape each store to avoid JS-injection
-        store[key] = util.deserialize(importData[key])
-      }
-      delete window.__initialState__[storeName]*/
 
       const tmp = JSON.parse(decodeURIComponent(window.__initialState__[storeName]))
       for (let key in tmp) {
