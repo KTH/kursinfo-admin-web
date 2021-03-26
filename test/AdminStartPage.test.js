@@ -20,17 +20,15 @@ const renderWithState = (stateToSet = {}, pageNumber) => {
 }
 
 describe('<AdminStartPage> (and subordinates)', () => {
-  test('Has correct main heading', (done) => {
+  test('Has correct main heading', done => {
     const { getAllByRole } = renderEditPage()
     const allH1Headers = getAllByRole('heading', { level: 1 })
     expect(allH1Headers.length).toBe(1)
-    expect(allH1Headers[0]).toHaveTextContent(
-      /^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/
-    )
+    expect(allH1Headers[0]).toHaveTextContent(/^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/)
     done()
   })
 
-  test('Has correct h4 heading in correct order', (done) => {
+  test('Has correct h4 heading in correct order', done => {
     const { getAllByRole } = renderEditPage()
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
@@ -40,7 +38,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     done()
   })
 
-  test('Has correct buttons and links in correct order', (done) => {
+  test('Has correct buttons and links in correct order', done => {
     const { getAllByRole } = renderEditPage()
     const allLinks = getAllByRole('link')
     expect(allLinks.length).toBe(10)
@@ -51,14 +49,10 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[1].href).toBe('https://app.kth.se/kopps/admin/courses/getAllVersions/SF1624')
 
     expect(allLinks[2]).toHaveTextContent(/^Användarbehörighet/)
-    expect(allLinks[2].href).toBe(
-      'https://intra.kth.se/utbildning/utbildningsadministr/kopps/behorighet'
-    )
+    expect(allLinks[2].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/kopps/behorighet')
 
     expect(allLinks[3]).toHaveTextContent(/^Användarmanual - Om kursen/)
-    expect(allLinks[3].href).toBe(
-      'https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/anvandarmanual-om-kursen'
-    )
+    expect(allLinks[3].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/anvandarmanual')
 
     expect(allLinks[4]).toHaveTextContent(/^Redigera/)
     expect(allLinks[4].href).toBe('http://localhost/kursinfoadmin/kurser/kurs/edit/SF1624?l=sv')
@@ -67,9 +61,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[5].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/SF1624?l=sv')
 
     expect(allLinks[6]).toHaveTextContent(/^Ändra publicerad/)
-    expect(allLinks[6].href).toBe(
-      'http://localhost/kursinfoadmin/kurs-pm-data/published/SF1624?l=sv'
-    )
+    expect(allLinks[6].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/published/SF1624?l=sv')
 
     expect(allLinks[7]).toHaveTextContent(/^Ladda upp alternativt kurs-PM/)
     expect(allLinks[7].href).toBe('http://localhost/kursinfoadmin/pm/SF1624?l=sv')
@@ -86,7 +78,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     done()
   })
 
-  test('Intra kth link 1 opens in a new window', async (done) => {
+  test('Intra kth link 1 opens in a new window', async done => {
     const { getAllByRole } = renderEditPage()
     const allLinks = getAllByRole('link')
 
@@ -95,9 +87,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
       //stay one the same page
       const allH1Headers = getAllByRole('heading', { level: 1 })
       expect(allH1Headers.length).toBe(1)
-      expect(allH1Headers[0]).toHaveTextContent(
-        /^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/
-      )
+      expect(allH1Headers[0]).toHaveTextContent(/^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/)
     })
     done()
   })
