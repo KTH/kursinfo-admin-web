@@ -41,7 +41,7 @@ module.exports = {
     site_name: 'Course information admin',
     host_name: 'KTH',
     page_admin: 'COURSE INFO ADMIN',
-    page_course_programme: 'COURSE AND PROGRAMME DIRECTORY'
+    page_course_programme: 'COURSE AND PROGRAMME DIRECTORY',
   },
   pageTitles: {
     course_admin_title: 'Administrate',
@@ -54,41 +54,40 @@ module.exports = {
     previewSelling: 'Preview a course introduction',
     instruction_kopps_1:
       'The “About course” pages contain information retrieved from KOPPS and information edited here, in “Administrate About course.” The syllabus, information valid for all course offerings, and course instance information, are edited in KOPPS. Changes to information valid for all course offerings, examiner, course coordinator, and teachers are made in ',
-    instruction_kopps_2:
-      'by the authorized user. Read more about authorization and view authorized users in KOPPS ',
+    instruction_kopps_2: 'by the authorized user. Read more about authorization and view authorized users in KOPPS ',
     instruction_kopps_3_link_access_rights: 'Användarbehörighet (In Swedish)',
     instruction_kopps_alt: 'To KOPPS',
     link_user_manual: 'Användarmanual - Om kursen (In Swedish)',
     links_to: {
       kutv: {
         aTitle: 'Course development',
-        aAlt: 'To Course development view'
+        aAlt: 'To Course development view',
       },
       pm: {
         aTitle: 'Course information',
-        aAlt: 'To Course information page'
+        aAlt: 'To Course information page',
       },
       pmdata: {
         aTitle: 'Course Memo',
-        aAlt: 'To Course Memos page'
+        aAlt: 'To Course Memos page',
       },
       kinfo: {
         aTitle: 'Course information',
-        aAlt: 'To Course information page'
-      }
+        aAlt: 'To Course information page',
+      },
     },
     alertMessages: {
       kutv: {
         save: 'Draft for course analysis and course data has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
         pub: 'Course analysis and course data have been published',
-        delete: 'Draft for course analysis and course data has been removed'
+        delete: 'Draft for course analysis and course data has been removed',
       },
       pm: {
         save: 'Draft for course memo has been saved',
         s_msg: 'You can find saved drafts under Course memo / Publish new',
         pub: 'Course memo has been published',
-        delete: 'Draft for course memo has been removed'
+        delete: 'Draft for course memo has been removed',
       },
       pmdata: {
         save: 'Draft for course memo has been saved',
@@ -97,13 +96,13 @@ module.exports = {
         r_msg: 'Draft for course memo has been removed after cancelation you can go back to ',
         fast_admin_link_label: {
           save: 'Create and publish course memo',
-          removedPublished: 'Edit published'
+          removedPublished: 'Edit published',
         },
         pub: 'Course memo has been published',
-        delete: 'Draft for course memo has been removed'
+        delete: 'Draft for course memo has been removed',
       },
       kinfo: {
-        pub: 'New version of the course introduction has been published '
+        pub: 'New version of the course introduction has been published ',
       },
       see_more: 'Look at',
       term: 'Term',
@@ -114,41 +113,37 @@ module.exports = {
       storage_api_error:
         'Failed to save the image you chose, due to technical issues mightly. Go back to “1. Choose image” and change the image. Then try to Publish again.',
       kopps_api_down:
-        'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.'
+        'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.',
     },
     course_short_semester: {
       1: 'Spring ',
-      2: 'Autumn '
-    }
+      2: 'Autumn ',
+    },
   },
   startCards: {
     sellingText_hd: 'Course introduction',
     sellingText_desc_p1:
       'Choose your own decorative image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
-    sellingText_desc_p2:
-      '“Introduction to course” is displayed at the top of the “Course Information” page.',
+    sellingText_desc_p2: '“Introduction to course” is displayed at the top of the “Course Information” page.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
     coursePM_create_desc_p1:
       'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
-    coursePM_create_desc_p2:
-      'A published course memo will be available on the page “Course memo” for the semester and course offering.',
-    coursePM_create_desc_p3:
-      'It is still possible, but not advisable, to upload an alternative course memo as PDF',
+    coursePM_create_desc_p2: 'A published course memo will be available on the subpage “Prepare and take course”.',
+    coursePM_create_desc_p3: 'It is still possible, but not advisable, to upload an alternative course memo as PDF',
     coursePM_link_upload_memo: 'Upload alternative course memo',
     coursePM_btn_edit: 'Change published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1:
       'Publish or edit published course analysis and course data regarding the development of the course.',
-    courseDev_decs_p2:
-      'Published course analysis with course data is displayed on the page “Course development”.',
+    courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development”.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
     beta_coursePm: 'Functionality to upload a course PM is under development now.',
-    beta_more_link: 'Are you interested to know more or participate in development?'
+    beta_more_link: 'Are you interested to know more or participate in development?',
   },
   introLabel: {
     alertMessages: {
@@ -158,7 +153,7 @@ module.exports = {
         to be able to continue to “Edit text”.`,
       not_correct_format_return_to_api_pic: `You need to choose an image in the correct format (see red markings below) 
         to be able to continue to “Edit text”.`,
-      replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`
+      replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`,
     },
     info_publish: {
       header: 'To be aware of before publishing!',
@@ -170,7 +165,7 @@ module.exports = {
         Do you want to publish?`,
       btnCancel: 'No, go back',
       btnConfirm: 'Yes, publish',
-      infoCourse: 'Course: '
+      infoCourse: 'Course: ',
     },
     info_cancel: {
       header: 'To be aware of before cancelling!',
@@ -178,14 +173,14 @@ module.exports = {
         'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
       btnCancel: 'No, go back',
       btnConfirm: 'Yes, cancel',
-      infoCourse: 'Course: '
+      infoCourse: 'Course: ',
     },
     info_image: {
       header: 'Choose image',
       body: `Choose a decorative image that will be displayed on the page Course information. The image should be decorative rather than informative, to fulfill accessibility requirements.
       You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. 
       The image will be displayed with 400px width and 300px height. The file format must be .png or .jpg.`,
-      btnCancel: 'Close'
+      btnCancel: 'Close',
     },
     editCourseIntro: 'Edit course introduction',
     image: {
@@ -198,7 +193,7 @@ module.exports = {
       secondOption: 'Choose your own picture',
       agreeCheck:
         'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
-      imagesOnTheWeb: 'Images on the web.'
+      imagesOnTheWeb: 'Images on the web.',
     },
     step_1_desc: `Choose a decorative image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
     Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.`,
@@ -213,26 +208,26 @@ module.exports = {
     label_step_3: 'Preview',
     langLabelKopps: {
       en: 'Short description from KOPPS (EN)',
-      sv: 'Short description from KOPPS (SW)'
+      sv: 'Short description from KOPPS (SW)',
     },
     langLabelIntro: {
       en: 'Course introduction (EN)',
-      sv: 'Course introduction (SW)'
+      sv: 'Course introduction (SW)',
     },
     langLabelText: {
       en: 'English text',
-      sv: 'Swedish text'
+      sv: 'Swedish text',
     },
     langLabelPreview: {
       en: 'English introduction to the course',
-      sv: 'Swedish introduction to the course'
+      sv: 'Swedish introduction to the course',
     },
     button: {
       cancel: 'Cancel',
       publish: 'Publish',
       step1: 'Choose image',
       step2: 'Edit text',
-      step3: 'Preview'
+      step3: 'Preview',
     },
     alt: {
       step1: 'Go to previous step to choose image',
@@ -242,13 +237,13 @@ module.exports = {
       cancel: 'Cancel and go back to admin start page',
       publish: 'Save and publish course introduction',
       image: 'Picture for a course description decoration',
-      tempImage: 'Placeholder to show up a chosen picture'
+      tempImage: 'Placeholder to show up a chosen picture',
     },
     required: {
       image: 'Required (format: .png or .jpg)',
-      agreement: 'Required'
+      agreement: 'Required',
     },
-    redirectToStart: 'Success, redirecting to start page...'
+    redirectToStart: 'Success, redirecting to start page...',
   },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
@@ -258,8 +253,7 @@ module.exports = {
     Physics: 'Picture_by_MainFieldOfStudy_05_Physics.jpg',
     'Industrial Management': 'Picture_by_MainFieldOfStudy_06_Industrial_Management.jpg',
     'Information Technology': 'Picture_by_MainFieldOfStudy_07_Information_Technology.jpg',
-    'Information and Communication Technology':
-      'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
+    'Information and Communication Technology': 'Picture_by_MainFieldOfStudy_08_Information_Communication.jpg',
     'Chemical Science and Engineering': 'Picture_by_MainFieldOfStudy_09_Chemical_Science.jpg',
     'Chemistry and Chemical Engineering': 'Picture_by_MainFieldOfStudy_10_Chemistry_Chemical.jpg',
     Mathematics: 'Picture_by_MainFieldOfStudy_11_Mathematics.jpg',
@@ -277,6 +271,6 @@ module.exports = {
     Technology: 'Picture_by_MainFieldOfStudy_23_Technology.jpg',
     'Engineering and Management': 'Picture_by_MainFieldOfStudy_24_Engineering_Management.jpg',
     'Technology and Learning': 'Picture_by_MainFieldOfStudy_25_Technology_Learning.jpg',
-    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg'
-  }
+    default: 'Picture_by_MainFieldOfStudy_26_Default_picture.jpg',
+  },
 }
