@@ -1,10 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Alert, Button, Col, Row } from 'reactstrap'
+
 import i18n from '../../../../i18n'
 
 import KoppsTextCollapse from '../components/KoppsTextCollapse'
-import { Alert, Button, Col, Row } from 'reactstrap'
 import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 
@@ -16,11 +17,11 @@ const editorConf = {
     { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
     { name: 'list' },
     { name: 'links' },
-    { name: 'about' }
+    { name: 'about' },
   ],
   removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
   language: i18n.isSwedish() ? 'sv' : 'en',
-  width: ['98%']
+  width: ['98%'],
 }
 
 @inject(['adminStore'])
@@ -34,7 +35,7 @@ class SellingInfo extends Component {
       leftTextSign_sv: undefined,
       leftTextSign_en: undefined,
       isError: false,
-      errMsg: ''
+      errMsg: '',
     }
     this.sellingTextAuthor = this.props.adminStore.sellingTextAuthor
     this.koppsData = this.props.adminStore.koppsData
@@ -62,7 +63,7 @@ class SellingInfo extends Component {
     this.setState({
       [`leftTextSign_${editorId}`]: 1500 - length,
       isError: false,
-      errMsg: ''
+      errMsg: '',
     })
     return [text, length]
   }
@@ -75,21 +76,21 @@ class SellingInfo extends Component {
       // this is max in api
       this.setState({
         isError: true,
-        errMsg: translation.over_html_limit
+        errMsg: translation.over_html_limit,
       })
     } else if (cleanTextLen > 1500) {
       // this is an abstract max
       this.setState({
         isError: true,
-        errMsg: translation.over_text_limit
+        errMsg: translation.over_text_limit,
       })
     } else if (cleanText.trim().length === 0) {
       this.setState({
-        [l]: ''
+        [l]: '',
       })
     } else {
       this.setState({
-        [l]: htmlText
+        [l]: htmlText,
       })
     }
   }
@@ -98,21 +99,19 @@ class SellingInfo extends Component {
     const { sv, en } = this.state
     return {
       sv,
-      en
+      en,
     }
   }
 
   startEditor() {
     if (!nodeEnvTest) {
-      ;['sv', 'en'].map((editorId) => {
+      ;['sv', 'en'].map(editorId => {
         // eslint-disable-next-line no-undef
         CKEDITOR.replace(editorId, editorConf)
         // eslint-disable-next-line no-undef
-        CKEDITOR.instances[editorId].on('instanceReady', (event) =>
-          this._countTextLen(event, editorId)
-        )
+        CKEDITOR.instances[editorId].on('instanceReady', event => this._countTextLen(event, editorId))
         // eslint-disable-next-line no-undef
-        CKEDITOR.instances[editorId].on('change', (event) => this._validateLen(event, editorId))
+        CKEDITOR.instances[editorId].on('change', event => this._validateLen(event, editorId))
       })
     }
   }
@@ -149,11 +148,7 @@ class SellingInfo extends Component {
         </span>
         <span className="Editors--Area" key="editorsArea" role="tablist">
           <span className="left" key="leftEditorForSwedish">
-            <KoppsTextCollapse
-              instructions={introLabel}
-              koppsText={koppsData.koppsText.sv}
-              lang="sv"
-            />
+            <KoppsTextCollapse instructions={introLabel} koppsText={koppsData.koppsText.sv} lang="sv" />
             <p>
               {introLabel.label_left_number_letters}
               <span className="badge badge-warning badge-pill">{this.state.leftTextSign_sv}</span>
@@ -161,11 +156,7 @@ class SellingInfo extends Component {
             <textarea name="sv" id="sv" className="editor" defaultValue={this.state.sv} />
           </span>
           <span className="right" key="rightEditorForEnglish">
-            <KoppsTextCollapse
-              instructions={introLabel}
-              koppsText={koppsData.koppsText.en}
-              lang="en"
-            />
+            <KoppsTextCollapse instructions={introLabel} koppsText={koppsData.koppsText.en} lang="en" />
             <p>
               {introLabel.label_left_number_letters}
               <span className="badge badge-warning badge-pill">{this.state.leftTextSign_en}</span>
@@ -175,12 +166,7 @@ class SellingInfo extends Component {
         </span>
         <Row className="control-buttons">
           <Col sm="4" className="step-back">
-            <Button
-              onClick={this.quitEditor}
-              className="back"
-              id="back-to-image"
-              alt={introLabel.alt.step1}
-            >
+            <Button onClick={this.quitEditor} className="back" id="back-to-image" alt={introLabel.alt.step1}>
               {introLabel.button.step1}
             </Button>
           </Col>

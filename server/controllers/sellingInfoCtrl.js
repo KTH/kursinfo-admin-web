@@ -1,16 +1,17 @@
 'use strict'
 
-const api = require('../api')
 const log = require('kth-node-log')
 const language = require('kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
+const httpResponse = require('kth-node-response')
+
+const api = require('../api')
 const { runBlobStorage } = require('../blobStorage.js')
 const { filteredKoppsData } = require('../koppsApi')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
-const httpResponse = require('kth-node-response')
 const i18n = require('../../i18n')
 const serverPaths = require('../server').getPaths()
 
@@ -31,14 +32,11 @@ async function _getSellingTextFromKursinfoApi(courseCode) {
   try {
     const { client, paths } = api.kursinfoApi
 
-    return await client.getAsync(
-      client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }),
-      { useCache: false }
-    )
+    return await client.getAsync(client.resolve(paths.getSellingTextByCourseCode.uri, { courseCode }), {
+      useCache: false,
+    })
   } catch (error) {
-    const apiError = new Error(
-      'Redigering av säljande texten är inte tillgänlig för nu, försöker senare'
-    )
+    const apiError = new Error('Redigering av säljande texten är inte tillgänlig för nu, försöker senare')
     // apiError.status = 500
     log.error('Error in _getSellingTextFromKursinfoApi', { error })
     throw apiError
@@ -66,16 +64,9 @@ async function getDescription(req, res, next) {
     const userKthId = req.session.authUser.ugKthid
     renderProps.props.children.props.adminStore.setUser(userKthId)
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(
-      browserConfig,
-      serverPaths,
-      serverConfig.hostUrl
-    )
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     // Load koppsData and kurinfo-api data
-    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(
-      courseCode,
-      lang
-    )
+    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
     renderProps.props.children.props.adminStore.addSellingTextFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addPictureFromApi(respSellDesc.body)
     renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
@@ -86,7 +77,7 @@ async function getDescription(req, res, next) {
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
       html,
       initialState: JSON.stringify(hydrateStores(renderProps)),
-      title: i18n.messages[langIndex].messages.title + ' | ' + courseCode
+      title: i18n.messages[langIndex].messages.title + ' | ' + courseCode,
     })
   } catch (err) {
     log.error('Error in _getDescription', { error: err })
@@ -102,7 +93,7 @@ async function myCourses(req, res, next) {
     res.render('course/my_course', {
       debug: 'debug' in req.query,
       html: user,
-      courseCode: req.params.courseCode
+      courseCode: req.params.courseCode,
     })
   } catch (err) {
     log.error('Error in _my_courses', { error: err })
@@ -118,15 +109,15 @@ async function updateDescription(req, res, next) {
     const lang = language.getLanguage(res) || 'sv'
     const result = await client.postAsync({
       uri: client.resolve(apipaths.postSellingTextByCourseCode.uri, {
-        courseCode: req.params.courseCode
+        courseCode: req.params.courseCode,
       }),
       body: {
         sellingText: req.body.sellingText,
         sellingTextAuthor: req.body.user,
         imageInfo: req.body.imageName,
-        lang
+        lang,
       },
-      useCache: false
+      useCache: false,
     })
     if (safeGet(() => result.body.message)) {
       log.error('Error from API: ', result.body.message)
@@ -157,5 +148,5 @@ module.exports = {
   getDescription,
   updateDescription,
   myCourses,
-  saveImageToStorage
+  saveImageToStorage,
 }

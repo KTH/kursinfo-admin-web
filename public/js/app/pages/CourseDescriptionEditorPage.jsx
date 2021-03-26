@@ -15,7 +15,7 @@ class CourseDescriptionEditorPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      progress: props.progress ? Number(props.progress) : 1
+      progress: props.progress ? Number(props.progress) : 1,
     }
     this.koppsData = this.props.adminStore.koppsData
     this.storageUri = this.props.adminStore.browserConfig.storageUri
@@ -54,14 +54,8 @@ class CourseDescriptionEditorPage extends Component {
             updateParent={this.doUpdateStates}
           />
         )) ||
-          (this.state.progress === 2 && (
-            <SellingInfo koppsData={koppsData} updateParent={this.doUpdateStates} />
-          )) || (
-            <Preview
-              introLabel={introLabel}
-              defaultImageUrl={defaultImageUrl}
-              updateParent={this.doUpdateStates}
-            />
+          (this.state.progress === 2 && <SellingInfo koppsData={koppsData} updateParent={this.doUpdateStates} />) || (
+            <Preview introLabel={introLabel} defaultImageUrl={defaultImageUrl} updateParent={this.doUpdateStates} />
           )}
       </div>
     )

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Badge, Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
-import i18n from '../../../../i18n'
+import { Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 
+import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
@@ -13,10 +13,12 @@ import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURS
 @observer
 class AdminStartPage extends Component {
   render() {
-    const { courseTitleData, lang } = this.props.adminStore.koppsData
-    const { visibilityLevel } = this.props.adminStore.userRoles
+    const { adminStore } = this.props
+    const { courseTitleData, lang } = adminStore.koppsData
+    const { isCourseResponsible, isExaminator, isSuperUser } = adminStore.userRoles
     const courseCode = courseTitleData.course_code
     const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
+    const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
 
     return (
       <div key="kursinfo-container" className="kursinfo-main-page start-page col">
@@ -32,13 +34,13 @@ class AdminStartPage extends Component {
         </div>
         <div className="col">
           <span className="AdminPage--ShowDescription">
-            {visibilityLevel == 'all' && (
+            {visibilityLevel === 'all' && (
               <Card className="KursInfo--SellingText">
                 <CardBody>
                   <CardTitle>
                     <h4>{startCards.sellingText_hd}</h4>
                   </CardTitle>
-                  <CardText tag={'span'}>
+                  <CardText tag="span">
                     <p>{startCards.sellingText_desc_p1}</p>
                     <p>{startCards.sellingText_desc_p2}</p>
                   </CardText>
@@ -57,11 +59,9 @@ class AdminStartPage extends Component {
             <Card className="Skapa--Kurs-PM">
               <CardBody>
                 <CardTitle>
-                  <h4>
-                    {startCards.coursePM_hd} <Badge color="success">New</Badge>
-                  </h4>
+                  <h4>{startCards.coursePM_hd}</h4>
                 </CardTitle>
-                <CardText tag={'span'}>
+                <CardText tag="span">
                   <p>{startCards.coursePM_create_desc_p1}</p>
                   <p>{startCards.coursePM_create_desc_p2}</p>
                   <p>{startCards.coursePM_create_desc_p3}</p>
@@ -91,13 +91,13 @@ class AdminStartPage extends Component {
                 </span>
               </CardFooter>
             </Card>
-            {visibilityLevel == 'all' && (
+            {visibilityLevel === 'all' && (
               <Card className="course-development">
                 <CardBody>
                   <CardTitle>
                     <h4>{startCards.courseDev_hd}</h4>
                   </CardTitle>
-                  <CardText tag={'span'}>
+                  <CardText tag="span">
                     <p>{startCards.courseDev_decs_p1}</p>
                     <p>{startCards.courseDev_decs_p2}</p>
                   </CardText>

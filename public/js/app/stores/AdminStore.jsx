@@ -1,4 +1,5 @@
 'use strict'
+
 import { observable, action } from 'mobx'
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
@@ -66,9 +67,7 @@ class AdminStore {
   }
 
   @action setUserRolesForThisCourse(roles = {}) {
-    const { isCourseResponsible, isExaminator, isSuperUser } = roles
-    const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
-    this.userRoles = { ...roles, visibilityLevel }
+    this.userRoles = roles
   }
 
   @action addChangedByLastTime(data) {

@@ -30,7 +30,7 @@ class PictureUpload extends Component {
       isDefault: this.props.adminStore.isDefaultChosen,
       isError: false,
       infoMsg: undefined,
-      tempFilePath: this.props.adminStore.tempImagePath // not a boolean but file cache to proceed between steps
+      tempFilePath: this.props.adminStore.tempImagePath, // not a boolean but file cache to proceed between steps
     }
     this.courseCode = this.props.koppsData.courseTitleData.course_code
     this.lang = this.props.koppsData.lang
@@ -57,8 +57,8 @@ class PictureUpload extends Component {
 
   _choosenNewPicture(isError, fileUrl) {
     this.setState({
-      isError: isError,
-      tempFilePath: fileUrl
+      isError,
+      tempFilePath: fileUrl,
     })
   }
 
@@ -66,7 +66,7 @@ class PictureUpload extends Component {
     const termsAgreement = document.getElementById('termsAgreement')
     this.setState({
       isError: !termsAgreement.checked,
-      errMsg: termsAgreement.checked ? '' : 'approve_term'
+      errMsg: termsAgreement.checked ? '' : 'approve_term',
     })
     return termsAgreement.checked
   }
@@ -88,7 +88,7 @@ class PictureUpload extends Component {
       isDefault: isDefaultPic,
       isError: false,
       errMsg: undefined,
-      infoMsg: undefined
+      infoMsg: undefined,
     })
     if (isDefaultPic) {
       // if user choose to override api picture with default
@@ -128,9 +128,8 @@ class PictureUpload extends Component {
 
   doNextStep(event) {
     event.preventDefault()
-    const tempFilePath = this.state.tempFilePath
-    let errorMayNotProceed = this.state.isError
-    const isDefault = this.state.isDefault
+    const { isDefault, tempFilePath } = this.state
+    let { isError: errorMayNotProceed } = this.state
     if (tempFilePath && !isDefault) {
       errorMayNotProceed |= !this.checkTerms()
     } else if (!this.isApiPicAvailable && !isDefault) {
@@ -140,7 +139,7 @@ class PictureUpload extends Component {
     if (!errorMayNotProceed) {
       this.props.adminStore.tempSaveNewImage(this.state.newImage, tempFilePath, isDefault)
       this.props.updateParent({
-        progress: 2
+        progress: 2,
       })
     }
   }
@@ -154,19 +153,12 @@ class PictureUpload extends Component {
           <Alert color="info">{introLabel.alertMessages[this.state.infoMsg]}</Alert>
         ) : (
           this.state.isError &&
-          this.state.errMsg && (
-            <Alert color="danger">{introLabel.alertMessages[this.state.errMsg]}</Alert>
-          )
+          this.state.errMsg && <Alert color="danger">{introLabel.alertMessages[this.state.errMsg]}</Alert>
         )}
         <span className="title_and_info">
           <h2 data-testid="intro-heading">
             {introLabel.label_step_1}
-            <ButtonModal
-              id="infoPic"
-              type="info-icon"
-              modalLabels={introLabel.info_image}
-              course={this.courseCode}
-            />
+            <ButtonModal id="infoPic" type="info-icon" modalLabels={introLabel.info_image} course={this.courseCode} />
           </h2>
         </span>
         <p>{introLabel.image.choiceInfo}</p>
@@ -206,9 +198,7 @@ class PictureUpload extends Component {
           <span>
             <span
               id="own-picture"
-              className={
-                this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''
-              }
+              className={this.state.isError && this.state.errMsg === 'no_file_chosen' ? 'error-area' : ''}
               key="uploader"
             >
               <span className="preview-pic">
@@ -265,9 +255,7 @@ class PictureUpload extends Component {
             {this.state.isError && (
               <span data-testid="error-text" className="error-label">
                 <p>
-                  {this.state.errMsg !== 'approve_term'
-                    ? introLabel.required.image
-                    : introLabel.required.agreement}
+                  {this.state.errMsg !== 'approve_term' ? introLabel.required.image : introLabel.required.agreement}
                 </p>
               </span>
             )}
