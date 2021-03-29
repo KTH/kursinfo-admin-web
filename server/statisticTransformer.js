@@ -13,7 +13,7 @@ const SCHOOL_MAP = {
   CHE: 'CBH',
   BIO: 'CBH',
   CSC: 'EECS',
-  ECE: 'EECS',
+  ECE: 'ITM',
   EECS: 'EECS',
   EES: 'EECS',
   ICT: 'EECS',
