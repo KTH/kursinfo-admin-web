@@ -115,17 +115,17 @@ IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
 API_KEY=[key you specified in kursinfo-api for this service]
 KURSUTVECKLING_API_KEY=[only for statistic page, secret key to connect to kursutveckling-api]
 KURS_PM_DATA_API_KEY=[only for statistic page, secret key to connect to kursutveckling-api]
-KOPPS_URI=https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000
+KOPPS_URI=https://[kopps api]/api/kopps/v2/?defaultTimeout=60000
 SESSION_SECRET=[something random]
-SESSION_KEY=kursinfo-admin-web.sid
+SESSION_KEY=[f.e. kursinfo-admin-web.sid]
 LDAP_BASE=OU=UG,DC=ref,DC=ug,DC=kth,DC=se
-LDAP_URI=ldaps://[find in gsv-key vault]@[ref].ug.kth.se@ldap.[ref].ug.kth.se
+LDAP_URI=ldaps://[find in gsv-key vault]
 LDAP_PASSWORD=[password]
 REDIS_URI=[connection string to redis]
 /*If you want to start your server on another port, add the following two variables, else use default ones from serversettings.js*/
 SERVER_PORT=[your port for the server]
 SERVER_HOST_URL=http://localhost:[SERVER_PORT]
-BLOB_SERVICE_SAS_URL=https://kursinfostoragestage.blob.core.windows.net/?sv=[date]&ss=b&srt=o&sp=rwcx&se=[date]&st=[date]&spr=https&sig=[generated signature]
+BLOB_SERVICE_SAS_URL=https://[blob storage address]/?sv=[date]&ss=b&srt=o&sp=rwcx&se=[date]&st=[date]&spr=https&sig=[generated signature]
 STORAGE_CONTAINER_NAME=kursinfo-image-container
 ```
 
@@ -156,6 +156,9 @@ npm run test
 ```sh
 docker-compose up
 ```
+## Editor CKEDITOR and gulp
+
+@kth/kth-ckeditor-build package is used for editor. It uses gulp file to be built in /dist folder.
 
 ## Author
 
