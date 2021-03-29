@@ -18,7 +18,7 @@ const SCHOOL_MAP = {
   EES: 'EECS',
   ICT: 'EECS',
   ITM: 'ITM',
-  SCI: 'SCI'
+  SCI: 'SCI',
 }
 
 /**
@@ -28,18 +28,18 @@ const SCHOOL_MAP = {
  * @param {string} semester Semester to get course analyses for
  * @returns {{}}            Course analyses collected under course codes
  */
-const _kursutvecklingData = async (semester) => {
+const _kursutvecklingData = async semester => {
   const { client } = statisticApis.kursutvecklingApi.kursutvecklingApi
   const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`
   try {
     const response = await client.getAsync({ uri })
     const courseAnalyses = {}
     if (response.body) {
-      response.body.forEach((ca) => {
+      response.body.forEach(ca => {
         courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] || { numberOfUniqAnalyses: 0 }
         courseAnalyses[ca.courseCode].numberOfUniqAnalyses++
         courseAnalyses[ca.courseCode][semester] = courseAnalyses[ca.courseCode][semester] || {}
-        ca.roundIdList.split(',').forEach((roundId) => {
+        ca.roundIdList.split(',').forEach(roundId => {
           courseAnalyses[ca.courseCode][semester][roundId] = ca.analysisFileName
         })
       })
@@ -59,32 +59,30 @@ const _kursutvecklingData = async (semester) => {
  * @param {string} semester Semester to get course analyses for
  * @returns {{}}            Course memos collected under course codes
  */
-const _kursPmDataApiData = async (semester) => {
+const _kursPmDataApiData = async semester => {
   const { client } = statisticApis.kursPmDataApi.kursPmDataApi
   const uri = `/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/${semester}`
   try {
     const response = await client.getAsync({ uri })
     const memos = {}
     if (response.body) {
-      response.body.forEach(
-        ({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf }) => {
-          if (ladokRoundIds) {
-            memos[courseCode] = memos[courseCode] || {
-              [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0
-            }
-            if (isPdf) memos[courseCode].numberOfUniqPdfMemos++
-            else memos[courseCode].numberOfUniqMemos++
-
-            memos[courseCode][semester] = memos[courseCode][semester] || {}
-            ladokRoundIds.forEach((roundId) => {
-              memos[courseCode][semester][roundId] = {
-                memoId: courseMemoFileName || memoEndPoint,
-                isPdf
-              }
-            })
+      response.body.forEach(({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf }) => {
+        if (ladokRoundIds) {
+          memos[courseCode] = memos[courseCode] || {
+            [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0,
           }
+          if (isPdf) memos[courseCode].numberOfUniqPdfMemos++
+          else memos[courseCode].numberOfUniqMemos++
+
+          memos[courseCode][semester] = memos[courseCode][semester] || {}
+          ladokRoundIds.forEach(roundId => {
+            memos[courseCode][semester][roundId] = {
+              memoId: courseMemoFileName || memoEndPoint,
+              isPdf,
+            }
+          })
         }
-      )
+      })
     }
     // log.debug('_kursPmDataApiData returns', memos)
     return memos
@@ -104,29 +102,25 @@ const _kursPmDataApiData = async (semester) => {
 const _documentsPerCourseOffering = (parsedOfferings, analysis, memos) => {
   const courseOfferings = {
     withAnalyses: [],
-    withMemos: []
+    withMemos: [],
   }
   const { forAnalyses: offeringsWithAnalyses, forMemos: offeringsWithMemos } = parsedOfferings
 
-  offeringsWithAnalyses.forEach((offering) => {
+  offeringsWithAnalyses.forEach(offering => {
     const { courseCode, semester } = offering
     const offeringId = Number(offering.offeringId)
     let courseAnalysis = ''
-    if (
-      analysis[courseCode] &&
-      analysis[courseCode][semester] &&
-      analysis[courseCode][semester][offeringId]
-    )
+    if (analysis[courseCode] && analysis[courseCode][semester] && analysis[courseCode][semester][offeringId])
       courseAnalysis = analysis[courseCode][semester][offeringId]
 
     const courseOffering = {
       ...offering,
-      courseAnalysis
+      courseAnalysis,
     }
     courseOfferings.withAnalyses.push(courseOffering)
   })
 
-  offeringsWithMemos.forEach((offering) => {
+  offeringsWithMemos.forEach(offering => {
     const { courseCode, semester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
@@ -134,7 +128,7 @@ const _documentsPerCourseOffering = (parsedOfferings, analysis, memos) => {
       courseMemoInfo = memos[courseCode][semester][offeringId]
     const courseOffering = {
       ...offering,
-      courseMemoInfo
+      courseMemoInfo,
     }
     courseOfferings.withMemos.push(courseOffering)
   })
@@ -172,10 +166,10 @@ function _getProgramList(programs) {
 function _parseOfferings(courses, semester) {
   const parsedOfferings = {
     forAnalyses: [],
-    forMemos: []
+    forMemos: [],
   }
 
-  courses.body.forEach((course) => {
+  courses.body.forEach(course => {
     const { first_yearsemester: firstSemester, offered_semesters: offeredSemesters } = course
     const courseOfferingLastSemester =
       Array.isArray(offeredSemesters) && offeredSemesters.length
@@ -188,7 +182,7 @@ function _parseOfferings(courses, semester) {
         departmentName: course.department_name,
         connectedPrograms: _getProgramList(course.connected_programs),
         courseCode: course.course_code,
-        offeringId: course.offering_id
+        offeringId: course.offering_id,
       })
     }
     if (firstSemester === semester) {
@@ -198,7 +192,7 @@ function _parseOfferings(courses, semester) {
         departmentName: course.department_name,
         connectedPrograms: _getProgramList(course.connected_programs),
         courseCode: course.course_code,
-        offeringId: course.offering_id
+        offeringId: course.offering_id,
       })
     }
   })
@@ -218,7 +212,7 @@ function _analysesDataPerSchool(courseOfferings) {
   let totalNumberOfCourses = 0
   let totalNumberOfAnalyses = 0
 
-  courseOfferings.forEach((courseOffering) => {
+  courseOfferings.forEach(courseOffering => {
     const { schoolMainCode, courseCode, courseAnalysis } = courseOffering
     if (SCHOOL_MAP[schoolMainCode]) {
       const schoolCode = SCHOOL_MAP[schoolMainCode]
@@ -243,19 +237,19 @@ function _analysesDataPerSchool(courseOfferings) {
         schools[schoolCode] = {
           numberOfCourses: 1,
           courseCodes: [courseCode],
-          numberOfUniqAnalyses: numberOfAnalyses
+          numberOfUniqAnalyses: numberOfAnalyses,
         }
       }
     }
   })
 
-  Object.values(schools).forEach((sc) => {
+  Object.values(schools).forEach(sc => {
     totalNumberOfAnalyses += sc.numberOfUniqAnalyses
   })
   const dataPerSchool = {
     schools,
     totalNumberOfCourses,
-    totalNumberOfAnalyses
+    totalNumberOfAnalyses,
   }
   // log.debug('_dataPerSchool returns', dataPerSchool)
   return dataPerSchool
@@ -275,7 +269,7 @@ function _memosDataPerSchool(courseOfferings) {
   let totalNumberOfWebMemos = 0
   let totalNumberOfPdfMemos = 0
 
-  courseOfferings.forEach((courseOffering) => {
+  courseOfferings.forEach(courseOffering => {
     const { schoolMainCode, courseCode, courseMemoInfo } = courseOffering
     if (SCHOOL_MAP[schoolMainCode]) {
       const schoolCode = SCHOOL_MAP[schoolMainCode]
@@ -309,13 +303,13 @@ function _memosDataPerSchool(courseOfferings) {
           numberOfCourses: 1,
           courseCodes: [courseCode],
           numberOfUniqMemos: numberOfMemoPublished,
-          numberOfUniqPdfMemos: numberOfMemoPdf
+          numberOfUniqPdfMemos: numberOfMemoPdf,
         }
       }
     }
   })
 
-  Object.values(schools).forEach((sc) => {
+  Object.values(schools).forEach(sc => {
     totalNumberOfWebMemos += sc.numberOfUniqMemos
     totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
   })
@@ -323,7 +317,7 @@ function _memosDataPerSchool(courseOfferings) {
     schools,
     totalNumberOfCourses,
     totalNumberOfWebMemos,
-    totalNumberOfPdfMemos
+    totalNumberOfPdfMemos,
   }
   // log.debug('_dataPerSchool returns', dataPerSchool)
   return dataPerSchool
@@ -347,7 +341,7 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
   let totalNumberOfWebMemos = 0
   let totalNumberOfPdfMemos = 0
 
-  courseOfferings.forEach((courseOffering) => {
+  courseOfferings.forEach(courseOffering => {
     const { schoolMainCode, courseCode, courseAnalysis, courseMemoInfo } = courseOffering
     if (SCHOOL_MAP[schoolMainCode]) {
       const schoolCode = SCHOOL_MAP[schoolMainCode]
@@ -391,13 +385,13 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
           courseCodes: [courseCode],
           numberOfUniqAnalyses: numberOfAnalyses,
           numberOfUniqMemos: numberOfMemoPublished,
-          numberOfUniqPdfMemos: numberOfMemoPdf
+          numberOfUniqPdfMemos: numberOfMemoPdf,
         }
       }
     }
   })
 
-  Object.values(schools).forEach((sc) => {
+  Object.values(schools).forEach(sc => {
     totalNumberOfAnalyses += sc.numberOfUniqAnalyses
     totalNumberOfWebMemos += sc.numberOfUniqMemos
     totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
@@ -407,7 +401,7 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
     totalNumberOfCourses,
     totalNumberOfAnalyses,
     totalNumberOfWebMemos,
-    totalNumberOfPdfMemos
+    totalNumberOfPdfMemos,
   }
   // log.debug('_dataPerSchool returns', dataPerSchool)
   return dataPerSchool
@@ -418,7 +412,7 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
  * @param {[]} parsedOfferings Object with two arrays, each containing offerings’ relevant data.
  * @returns {[]}               Array with found unique semesters
  */
-const _semestersInParsedOfferings = (parsedOfferings) => {
+const _semestersInParsedOfferings = parsedOfferings => {
   return parsedOfferings.reduce((foundSemesters, o) => {
     if (o.semester && !foundSemesters.includes(o.semester)) {
       foundSemesters.push(o.semester)
@@ -438,9 +432,7 @@ const _semestersInParsedOfferings = (parsedOfferings) => {
 // eslint-disable-next-line consistent-return
 const _customizer = (objValue, srcValue, key) => {
   if (
-    (key === 'numberOfUniqAnalyses' ||
-      key === 'numberOfUniqPdfMemos' ||
-      key === 'numberOfUniqMemos') &&
+    (key === 'numberOfUniqAnalyses' || key === 'numberOfUniqPdfMemos' || key === 'numberOfUniqMemos') &&
     Number.isInteger(objValue) &&
     Number.isInteger(srcValue)
   ) {
@@ -452,7 +444,7 @@ const _customizer = (objValue, srcValue, key) => {
  * Fetch course analyses for each semester in list of semesters.
  * @param {[]} semesters Array of semesters
  */
-const _fetchCourseAnalyses = async (semesters) => {
+const _fetchCourseAnalyses = async semesters => {
   let courseAnalyses = {}
   for await (const semester of semesters) {
     const courseAnalysesForSemester = await _kursutvecklingData(semester)
@@ -466,7 +458,7 @@ const _fetchCourseAnalyses = async (semesters) => {
  * Fetch course memos for each semester in list of semesters.
  * @param {[]} semesters Array of semesters
  */
-const _fetchCourseMemos = async (semesters) => {
+const _fetchCourseMemos = async semesters => {
   let courseMemos = {}
   for await (const semester of semesters) {
     const courseMemosForSemester = await _kursPmDataApiData(semester)
@@ -483,14 +475,14 @@ const _fetchCourseMemos = async (semesters) => {
  * @param {number} semester Semester to compile statistics for
  * @returns {{}}            Statistics data formatted for state store
  */
-const fetchStatistic = async (semester) => {
+const fetchStatistic = async semester => {
   try {
     const { client } = statisticApis.koppsApi.koppsApi
 
-    // Returns a list of course rounds valid for given semester parameter.
+    // Returns a list of course offerings valid for given semester parameter.
     const courses = await client.getAsync({
       uri: `${config.koppsApi.basePath}courses/offerings?from=${semester}&skip_coordinator_info=true`,
-      useCache: true
+      useCache: true,
     })
 
     // Object with two arrays, each containing offerings’ relevant data.
@@ -507,16 +499,10 @@ const fetchStatistic = async (semester) => {
 
     // Matches analyses and memos with course offerings.
     // Returns an object with two arrays, each containing offerings and their documents.
-    const combinedDataPerDepartment = _documentsPerCourseOffering(
-      parsedOfferings,
-      courseAnalyses,
-      courseMemoData
-    )
+    const combinedDataPerDepartment = _documentsPerCourseOffering(parsedOfferings, courseAnalyses, courseMemoData)
 
     // Compiles statistics per school, including totals, for analyses.
-    const combinedAnalysesDataPerSchool = _analysesDataPerSchool(
-      combinedDataPerDepartment.withAnalyses
-    )
+    const combinedAnalysesDataPerSchool = _analysesDataPerSchool(combinedDataPerDepartment.withAnalyses)
 
     // Compiles statistics per school, including totals, for memos.
     const combinedMemosDataPerSchool = _memosDataPerSchool(combinedDataPerDepartment.withMemos)
@@ -529,9 +515,9 @@ const fetchStatistic = async (semester) => {
       kursutvecklingApiBasePath: `${config.kursutvecklingApi.https ? 'https' : 'http'}://${
         config.kursutvecklingApi.host
       }${config.kursutvecklingApi.proxyBasePath}`,
-      kursPmDataApiBasePath: `${config.kursPmDataApi.https ? 'https' : 'http'}://${
-        config.kursPmDataApi.host
-      }${config.kursPmDataApi.proxyBasePath}`,
+      kursPmDataApiBasePath: `${config.kursPmDataApi.https ? 'https' : 'http'}://${config.kursPmDataApi.host}${
+        config.kursPmDataApi.proxyBasePath
+      }`,
       semester,
       combinedDataPerDepartment,
       combinedAnalysesDataPerSchool,
@@ -539,7 +525,7 @@ const fetchStatistic = async (semester) => {
       semestersInAnalyses,
       semestersInMemos,
       combinedDataPerSchool: {}, // TODO: Remove this!
-      courseOfferings: [] // TODO: Remove this!
+      courseOfferings: [], // TODO: Remove this!
     }
   } catch (err) {
     log.error('Exception in statisticsTransformer.fetchStatistic', { error: err })
@@ -555,5 +541,5 @@ module.exports = {
   _fetchCourseAnalyses,
   _fetchCourseMemos,
   _documentsPerCourseOffering,
-  _dataPerSchool
+  _dataPerSchool,
 }

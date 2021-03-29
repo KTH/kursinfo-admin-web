@@ -4,15 +4,11 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { CSVLink } from 'react-csv'
 
-const analysisPerSchoolRows = (combinedAnalysesDataPerSchool) => {
+const analysisPerSchoolRows = combinedAnalysesDataPerSchool => {
   // SCHOOL: HTML Rows of a table Per SCHOOL data
   const rows = []
-  const {
-    schools = {},
-    totalNumberOfCourses,
-    totalNumberOfAnalyses
-  } = combinedAnalysesDataPerSchool
-  Object.keys(schools).forEach((sC) => {
+  const { schools = {}, totalNumberOfCourses, totalNumberOfAnalyses } = combinedAnalysesDataPerSchool
+  Object.keys(schools).forEach(sC => {
     const { numberOfCourses, numberOfUniqAnalyses } = schools[sC]
     rows.push(
       <tr key={sC}>
@@ -40,15 +36,15 @@ const analysisPerSchoolRows = (combinedAnalysesDataPerSchool) => {
   return rows
 }
 
-const memosPerSchoolRows = (combinedMemosDataPerSchool) => {
+const memosPerSchoolRows = combinedMemosDataPerSchool => {
   const rows = []
   const {
     schools = {},
     totalNumberOfCourses,
     totalNumberOfWebMemos,
-    totalNumberOfPdfMemos
+    totalNumberOfPdfMemos,
   } = combinedMemosDataPerSchool
-  Object.keys(schools).forEach((sC) => {
+  Object.keys(schools).forEach(sC => {
     const { numberOfCourses, numberOfUniqMemos, numberOfUniqPdfMemos } = schools[sC]
     rows.push(
       <tr key={sC}>
@@ -80,63 +76,47 @@ const memosPerSchoolRows = (combinedMemosDataPerSchool) => {
   return rows
 }
 
-const analysisPerSchoolCSV = (combinedAnalysesDataPerSchool) => {
-  const {
-    schools = {},
-    totalNumberOfCourses,
-    totalNumberOfAnalyses
-  } = combinedAnalysesDataPerSchool
+const analysisPerSchoolCSV = combinedAnalysesDataPerSchool => {
+  const { schools = {}, totalNumberOfCourses, totalNumberOfAnalyses } = combinedAnalysesDataPerSchool
   const csvPerSchoolData = []
   csvPerSchoolData.push(['School', 'Number of courses', 'Number of course analyses'])
-  Object.keys(schools).forEach((sC) => {
+  Object.keys(schools).forEach(sC => {
     csvPerSchoolData.push([sC, schools[sC].numberOfCourses, schools[sC].numberOfUniqAnalyses])
   })
   csvPerSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfAnalyses])
   return csvPerSchoolData
 }
 
-const memosPerSchoolCSV = (combinedMemosDataPerSchool) => {
+const memosPerSchoolCSV = combinedMemosDataPerSchool => {
   const {
     schools = {},
     totalNumberOfCourses,
     totalNumberOfWebMemos,
-    totalNumberOfPdfMemos
+    totalNumberOfPdfMemos,
   } = combinedMemosDataPerSchool
   const csvPerSchoolData = []
-  csvPerSchoolData.push([
-    'School',
-    'Number of courses',
-    'Number of web course memos',
-    'Number of PDF course memos'
-  ])
-  Object.keys(schools).forEach((sC) => {
+  csvPerSchoolData.push(['School', 'Number of courses', 'Number of web course memos', 'Number of PDF course memos'])
+  Object.keys(schools).forEach(sC => {
     csvPerSchoolData.push([
       sC,
       schools[sC].numberOfCourses,
       schools[sC].numberOfUniqMemos,
-      schools[sC].numberOfUniqPdfMemos
+      schools[sC].numberOfUniqPdfMemos,
     ])
   })
-  csvPerSchoolData.push([
-    'Total',
-    totalNumberOfCourses,
-    totalNumberOfWebMemos,
-    totalNumberOfPdfMemos
-  ])
+  csvPerSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfWebMemos, totalNumberOfPdfMemos])
   return csvPerSchoolData
 }
 
 const englishTexts = {
-  pageHeader: (semester) => `Course Information Statistics ${semester}`,
+  pageHeader: semester => `Course Information Statistics ${semester}`,
   pageDescription: () => (
     <>
       <p>
-        A semester is expressed as a year followed by 1 for Spring or 2 for Autumn, for example,
-        20191 for Spring semester 2019 or 20202 for Autumn semester 2020.
+        A semester is expressed as a year followed by 1 for Spring or 2 for Autumn, for example, 20191 for Spring
+        semester 2019 or 20202 for Autumn semester 2020.
       </p>
-      <p>
-        Please note that this service cannot provide accurate statistics from earlier than 2019.
-      </p>
+      <p>Please note that this service cannot provide accurate statistics from earlier than 2019.</p>
     </>
   ),
   subHeader: 'Per School',
@@ -146,22 +126,21 @@ const englishTexts = {
   courseAnalysesDescription: () => (
     <>
       <p>
-        Column <q>Number of courses</q> holds the number of active courses for the particular school
-        ending the given semester according to KOPPS.
+        Column <q>Number of courses</q> holds the number of active courses for the particular school ending the given
+        semester according to KOPPS.
       </p>
       <p>
-        Column <q>Number of course analysis</q> holds the number of unique published course analysis
-        for the particular school the given semester. For course rounds running over several
-        semesters the course analysis is presented at the last semester of the course round.
+        Column <q>Number of course analysis</q> holds the number of unique published course analysis for the particular
+        school the given semester. For course offerings running over several semesters the course analysis is presented
+        at the last semester of the course offerings.
       </p>
     </>
   ),
   sourceOfData: 'Source of Data',
-  courseDataApiDescription: (koppsApiUrl) => (
+  courseDataApiDescription: koppsApiUrl => (
     <p>
       Course data is fetched from&nbsp;
-      <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>,
-      endpoint&nbsp;
+      <a href="https://www.kth.se/api/kopps/v2/apiInfo/courses">KOPPS API for Courses</a>, endpoint&nbsp;
       <code>/api/kopps/v2/courses/offerings</code>. Data for the current page was fetched from&nbsp;
       <a href={koppsApiUrl} target="_blank" rel="noreferrer">
         <code>{koppsApiUrl}</code>
@@ -169,10 +148,10 @@ const englishTexts = {
       .
     </p>
   ),
-  courseAnalysesFilterDescription: (semester) => (
+  courseAnalysesFilterDescription: semester => (
     <p>
-      For course analyses, offerings that didn’t finish during the {semester} semester are filtered
-      out. This is done by discarding offerings that don’t meet the criteria:
+      For course analyses, offerings that didn’t finish during the {semester} semester are filtered out. This is done by
+      discarding offerings that don’t meet the criteria:
       <br />
       <code>course.offered_semesters[&#123;last-element&#125;].semester == {semester}</code>
     </p>
@@ -183,8 +162,8 @@ const englishTexts = {
       <a href="https://github.com/KTH/kursutveckling-api" target="_blank" rel="noreferrer">
         kursutveckling-api
       </a>
-      , endpoint <code>/api/kursutveckling/v1/courseAnalyses/&#123;semester&#125;</code>. Data for
-      the current page was fetched from&nbsp;
+      , endpoint <code>/api/kursutveckling/v1/courseAnalyses/&#123;semester&#125;</code>. Data for the current page was
+      fetched from&nbsp;
       <a href={kursutvecklingApiUrl} target="_blank" rel="noreferrer">
         <code>{kursutvecklingApiUrl}&#123;semester&#125;</code>
       </a>
@@ -196,13 +175,13 @@ const englishTexts = {
   courseMemosDescription: () => (
     <>
       <p>
-        Column <q>Number of courses</q> holds the number of active courses for the particular school
-        starting the given semester according to KOPPS.
+        Column <q>Number of courses</q> holds the number of active courses for the particular school starting the given
+        semester according to KOPPS.
       </p>
       <p>
-        Column <q>Number of course memos</q> holds the number of unique published course memos for
-        the particular school in the given semester. For course rounds running over several
-        semesters, the course memo is presented at the first semester of the course round.
+        Column <q>Number of course memos</q> holds the number of unique published course memos for the particular school
+        in the given semester. For course offerings running over several semesters, the course memo is presented at the
+        first semester of the course offerings.
       </p>
     </>
   ),
@@ -212,19 +191,18 @@ const englishTexts = {
       <a href="https://github.com/KTH/kurs-pm-data-api" target="_blank" rel="noreferrer">
         kurs-pm-data-api
       </a>
-      , endpoint{' '}
-      <code>/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/&#123;semester&#125;</code>. Data
-      for the current page was fetched from&nbsp;
+      , endpoint <code>/api/kurs-pm-data/v1/webAndPdfPublishedMemosBySemester/&#123;semester&#125;</code>. Data for the
+      current page was fetched from&nbsp;
       <a href={kursPmApiUrl} target="_blank" rel="noreferrer">
         <code>{kursPmApiUrl}&#123;semester&#125;</code>
       </a>
       , using semester(s) <code>{semestersInMemos.sort().join(', ')}</code>.
     </p>
   ),
-  courseMemosFilterDescription: (semester) => (
+  courseMemosFilterDescription: semester => (
     <p>
-      For course memos, offerings that didn’t start during the {semester} semester are filtered out.
-      This is done by discarding offerings that doesn’t meet the criteria:
+      For course memos, offerings that didn’t start during the {semester} semester are filtered out. This is done by
+      discarding offerings that doesn’t meet the criteria:
       <br />
       <code>course.first_yearsemester == {semester}</code>
     </p>
@@ -233,11 +211,12 @@ const englishTexts = {
   rawDataHeader: 'Raw Data',
   rawDataDescription: () => (
     <p>
-      Use the course information raw data to make aggregations for example departments or programs. You can export the data to a csv file.
+      Use the course information raw data to make aggregations for example departments or programs. You can export the
+      data to a csv file.
     </p>
   ),
   exportRawCourseAnalysesData: 'Export raw course analyses data (csv file)',
-  exportRawCourseMemosData: 'Export raw course memos data (csv file)'
+  exportRawCourseMemosData: 'Export raw course memos data (csv file)',
 }
 
 @inject(['adminStore'])
@@ -259,7 +238,7 @@ class CourseStatisticsPage extends Component {
       kursutvecklingApiBasePath,
       semestersInAnalyses,
       kursPmDataApiBasePath,
-      semestersInMemos
+      semestersInMemos,
     } = this.statisticData
     const { adminStore } = this.props
     const { browserConfig } = adminStore
@@ -271,7 +250,7 @@ class CourseStatisticsPage extends Component {
 
     // DEPARTMENT: HTML Rows for all course offerings for a table Per DEPARTMENT data
     const perDepartmentCourseOfferingRowsWithAnalyses = []
-    withAnalyses.forEach((courseOffering) => {
+    withAnalyses.forEach(courseOffering => {
       const cO = toJS(courseOffering)
 
       perDepartmentCourseOfferingRowsWithAnalyses.push(
@@ -288,7 +267,7 @@ class CourseStatisticsPage extends Component {
     })
 
     const perDepartmentCourseOfferingRowsWithMemos = []
-    withMemos.forEach((courseOffering) => {
+    withMemos.forEach(courseOffering => {
       const cO = toJS(courseOffering)
 
       perDepartmentCourseOfferingRowsWithMemos.push(
@@ -304,9 +283,7 @@ class CourseStatisticsPage extends Component {
               href={
                 cO.courseMemoInfo && cO.courseMemoInfo.isPdf
                   ? `${browserConfig.memoStorageUri}${cO.courseMemoInfo.memoId}`
-                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseCode}/${
-                      cO.courseMemoInfo && cO.courseMemoInfo.memoId
-                    }`
+                  : `${browserConfig.hostUrl}/kurs-pm/${cO.courseCode}/${cO.courseMemoInfo && cO.courseMemoInfo.memoId}`
               }
             >
               {cO.courseMemoInfo && cO.courseMemoInfo.memoId}
@@ -324,9 +301,9 @@ class CourseStatisticsPage extends Component {
       'Course Code',
       'Connected program(s)',
       'Offering ID',
-      'Course Analysis'
+      'Course Analysis',
     ])
-    withAnalyses.forEach((courseOffering) => {
+    withAnalyses.forEach(courseOffering => {
       const cO = toJS(courseOffering)
       csvPerDepartmentDataWithAnalyses.push([
         cO.semester,
@@ -335,7 +312,7 @@ class CourseStatisticsPage extends Component {
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
-        cO.courseAnalysis
+        cO.courseAnalysis,
       ])
     })
 
@@ -347,9 +324,9 @@ class CourseStatisticsPage extends Component {
       'Course Code',
       'Connected program(s)',
       'Offering ID',
-      'Course Memo'
+      'Course Memo',
     ])
-    withMemos.forEach((courseOffering) => {
+    withMemos.forEach(courseOffering => {
       const cO = toJS(courseOffering)
       csvPerDepartmentDataWithMemos.push([
         cO.semester,
@@ -358,7 +335,7 @@ class CourseStatisticsPage extends Component {
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
-        cO.courseMemoInfo && cO.courseMemoInfo.memoId
+        cO.courseMemoInfo && cO.courseMemoInfo.memoId,
       ])
     })
 
@@ -383,10 +360,7 @@ class CourseStatisticsPage extends Component {
                 <summary className="white">{englishTexts.sourceOfData}</summary>
                 {englishTexts.courseDataApiDescription(koppsApiUrl)}
                 {englishTexts.courseAnalysesFilterDescription(semester)}
-                {englishTexts.courseAnalysesDataApiDescription(
-                  kursutvecklingApiUrl,
-                  semestersInAnalyses
-                )}
+                {englishTexts.courseAnalysesDataApiDescription(kursutvecklingApiUrl, semestersInAnalyses)}
               </details>
               <CSVLink
                 filename={`course-information-statistics-per-school-for-analyses-${semester}.csv`}
