@@ -15,8 +15,11 @@ module.exports = {
      * Error messages
      */
 
+    error_bad_request: 'Tyvärr kan eller vill inte servern svara',
     error_not_found: 'Tyvärr kunde vi inte hitta sidan du söker',
     error_generic: 'Något gick fel på servern, var god försök igen senare',
+
+    error_invalid_semester_for_statistics: 'Den här tjänsten kan inte visa korrekt statistik före 2019.',
 
     /**
      * Message keys

@@ -1,3 +1,5 @@
+/* eslint-disable import/order */
+
 'use strict'
 
 /**
@@ -27,6 +29,8 @@ function _notFound(req, res, next) {
 
 function _getFriendlyErrorMessage(lang, statusCode) {
   switch (statusCode) {
+    case 400:
+      return i18n.message('error_bad_request', lang)
     case 404:
       return i18n.message('error_not_found', lang)
     default:
@@ -34,13 +38,18 @@ function _getFriendlyErrorMessage(lang, statusCode) {
   }
 }
 
-// this function must keep this signature for it to work properly
-function _final(err, req, res) {
+// This function must keep this signature for it to work properly,
+// see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+// eslint-disable-next-line no-unused-vars
+function _final(err, req, res, next) {
   const statusCode = err.status || err.statusCode || 500
 
   switch (statusCode) {
+    case 400:
+      log.debug({ message: err }, `400 Bad request ${err.message}`)
+      break
     case 403:
-      //Forbidden is not an error but a message with information
+      // Forbidden is not an error but a message with information
       log.debug({ message: err }, `403 Forbidden ${err.message}`)
       break
     case 404:
@@ -62,7 +71,7 @@ function _final(err, req, res) {
         friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? {} : err,
         status: statusCode,
-        debug: 'debug' in req.query
+        debug: 'debug' in req.query,
       })
     },
 
@@ -70,7 +79,7 @@ function _final(err, req, res) {
       res.status(statusCode).json({
         message: err.message,
         friendly: _getFriendlyErrorMessage(lang, statusCode),
-        error: isProd ? undefined : err.stack
+        error: isProd ? null : err.stack,
       })
     },
 
@@ -79,7 +88,7 @@ function _final(err, req, res) {
         .status(statusCode)
         .type('text')
         .send(isProd ? err.message : err.stack)
-    }
+    },
   })
 }
 
@@ -102,7 +111,7 @@ function _about(req, res) {
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
     language: language.getLanguage(res),
-    env: require('../server').get('env')
+    env: require('../server').get('env'),
   })
 }
 
@@ -113,10 +122,10 @@ function _monitor(req, res) {
   const apiConfig = config.nodeApi
 
   // Check APIs
-  const subSystems = Object.keys(api).map((apiKey) => {
+  const subSystems = Object.keys(api).map(apiKey => {
     const apiHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-api')
     return apiHealthUtil.status(api[apiKey], {
-      required: apiConfig[apiKey].required
+      required: apiConfig[apiKey].required,
     })
   })
   // Check LDAP
@@ -137,7 +146,7 @@ function _monitor(req, res) {
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
   systemStatus
-    .then((status) => {
+    .then(status => {
       // Return the result either as JSON or text
       if (req.headers.accept === 'application/json') {
         const outp = systemHealthUtil.renderJSON(status)
@@ -147,7 +156,7 @@ function _monitor(req, res) {
         res.type('text').status(status.statusCode).send(outp)
       }
     })
-    .catch((err) => {
+    .catch(err => {
       res.type('text').status(500).send(err)
     })
 }
@@ -178,5 +187,5 @@ module.exports = {
   robotsTxt: _robotsTxt,
   paths: _paths,
   notFound: _notFound,
-  final: _final
+  final: _final,
 }

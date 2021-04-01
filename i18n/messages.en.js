@@ -15,8 +15,11 @@ module.exports = {
      * Error messages
      */
 
+    error_bad_request: 'Sorry, the server cannot or will not process the request',
     error_not_found: "Sorry, we can't find your requested page",
     error_generic: 'Something went wrong on the server, please try again later.',
+
+    error_invalid_semester_for_statistics: 'This service cannot provide accurate statistics from earlier than 2019.',
 
     /**
      * Message keys

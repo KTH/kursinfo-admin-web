@@ -1,12 +1,14 @@
 'use strict'
 
 const log = require('kth-node-log')
+const language = require('kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
 const { toJS } = require('mobx')
 const { fetchStatistic } = require('../statisticTransformer')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const serverPaths = require('../server').getPaths()
+const i18n = require('../../i18n')
 
 function _staticRender(context, location) {
   if (process.env.NODE_ENV === 'development') {
@@ -32,16 +34,19 @@ function hydrateStores(renderProps) {
 }
 
 async function getData(req, res, next) {
-  const { semester } = req.params
+  const lang = language.getLanguage(res)
+  const { semester = '0' } = req.params
   try {
+    const semesterAsNumber = parseInt(semester, 10)
+    if (semesterAsNumber < 20191 || semesterAsNumber > 20992) {
+      const error = new Error(i18n.message('error_invalid_semester_for_statistics', lang))
+      error.status = 400
+      throw error
+    }
     const renderProps = _staticRender()
     // setBrowserConfig should be first because of setting paths for other next functions
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(
-      browserConfig,
-      serverPaths,
-      serverConfig.hostUrl
-    )
+    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(semester)
     const statistic = ReactDOMServer.renderToString(renderProps)
 
@@ -50,14 +55,14 @@ async function getData(req, res, next) {
       html: statistic,
       paths: JSON.stringify(serverPaths),
       initialState: JSON.stringify(hydrateStores(renderProps)),
-      title: 'Course Information Statistics ' + semester
+      title: 'Course Information Statistics ' + semester,
     })
   } catch (err) {
-    log.debug('Error in getData', { error: err })
+    log.error('Error in getData', { error: err })
     next(err)
   }
 }
 
 module.exports = {
-  getData
+  getData,
 }
