@@ -1,3 +1,5 @@
+/* eslint-disable import/newline-after-import */
+/* eslint-disable import/order */
 const server = require('kth-node-server')
 
 // Now read the server config etc.
@@ -81,8 +83,8 @@ const compression = require('compression')
 server.use(compression())
 
 // helper
-function setCustomCacheControl(res, path) {
-  if (express.static.mime.lookup(path) === 'text/html') {
+function setCustomCacheControl(res, extensionPath) {
+  if (express.static.mime.lookup(extensionPath) === 'text/html') {
     // Custom Cache-Control for HTML files
     res.setHeader('Cache-Control', 'no-cache')
   }
