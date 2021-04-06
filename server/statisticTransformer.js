@@ -169,33 +169,35 @@ function _parseOfferings(courses, semester) {
     forMemos: [],
   }
 
-  courses.body.forEach(course => {
-    const { first_yearsemester: firstSemester, offered_semesters: offeredSemesters } = course
-    const courseOfferingLastSemester =
-      Array.isArray(offeredSemesters) && offeredSemesters.length
-        ? offeredSemesters[offeredSemesters.length - 1].semester
-        : ''
-    if (courseOfferingLastSemester === semester) {
-      parsedOfferings.forAnalyses.push({
-        semester: firstSemester,
-        schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
-        departmentName: course.department_name,
-        connectedPrograms: _getProgramList(course.connected_programs),
-        courseCode: course.course_code,
-        offeringId: course.offering_id,
-      })
-    }
-    if (firstSemester === semester) {
-      parsedOfferings.forMemos.push({
-        semester: firstSemester,
-        schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
-        departmentName: course.department_name,
-        connectedPrograms: _getProgramList(course.connected_programs),
-        courseCode: course.course_code,
-        offeringId: course.offering_id,
-      })
-    }
-  })
+  if (Array.isArray(courses.body)) {
+    courses.body.forEach(course => {
+      const { first_yearsemester: firstSemester, offered_semesters: offeredSemesters } = course
+      const courseOfferingLastSemester =
+        Array.isArray(offeredSemesters) && offeredSemesters.length
+          ? offeredSemesters[offeredSemesters.length - 1].semester
+          : ''
+      if (courseOfferingLastSemester === semester) {
+        parsedOfferings.forAnalyses.push({
+          semester: firstSemester,
+          schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
+          departmentName: course.department_name,
+          connectedPrograms: _getProgramList(course.connected_programs),
+          courseCode: course.course_code,
+          offeringId: course.offering_id,
+        })
+      }
+      if (firstSemester === semester) {
+        parsedOfferings.forMemos.push({
+          semester: firstSemester,
+          schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
+          departmentName: course.department_name,
+          connectedPrograms: _getProgramList(course.connected_programs),
+          courseCode: course.course_code,
+          offeringId: course.offering_id,
+        })
+      }
+    })
+  }
   // log.debug('_parseOfferings returns', courseOfferingsWithoutAnalysis)
   return parsedOfferings
 }

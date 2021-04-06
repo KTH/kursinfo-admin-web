@@ -19,6 +19,7 @@ module.exports = {
     error_not_found: 'Tyvärr kunde vi inte hitta sidan du söker',
     error_generic: 'Något gick fel på servern, var god försök igen senare',
 
+    error_invalid_semester: 'Felaktig termin',
     error_invalid_semester_for_statistics: 'Den här tjänsten kan inte visa korrekt statistik före 2019.',
 
     /**

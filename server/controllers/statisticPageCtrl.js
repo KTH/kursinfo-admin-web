@@ -37,8 +37,14 @@ async function getData(req, res, next) {
   const lang = language.getLanguage(res)
   const { semester = '0' } = req.params
   try {
+    const validSemester = /^(19|20)\d{2}[1|2]$/
+    if (!semester.match(validSemester)) {
+      const error = new Error(i18n.message('error_invalid_semester', lang))
+      error.status = 400
+      throw error
+    }
     const semesterAsNumber = parseInt(semester, 10)
-    if (semesterAsNumber < 20191 || semesterAsNumber > 20992) {
+    if (semesterAsNumber < 20191) {
       const error = new Error(i18n.message('error_invalid_semester_for_statistics', lang))
       error.status = 400
       throw error
