@@ -261,7 +261,11 @@ class CourseStatisticsPage extends Component {
           <td>{cO.courseCode}</td>
           <td width="300">{cO.connectedPrograms}</td>
           <td>{cO.offeringId}</td>
-          <td>{cO.courseAnalysis}</td>
+          <td>
+            {cO.courseAnalysis && (
+              <a href={`${browserConfig.analysesStorageUri}${cO.courseAnalysis}`}>{cO.courseAnalysis}</a>
+            )}
+          </td>
         </tr>
       )
     })
