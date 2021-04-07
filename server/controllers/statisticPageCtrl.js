@@ -64,7 +64,7 @@ async function getData(req, res, next) {
       title: 'Course Information Statistics ' + semester,
     })
   } catch (err) {
-    log.error('Error in getData', { error: err })
+    log.error('Error in statisticPageCtrl.js -> in getData', { error: err })
     next(err)
   }
 }

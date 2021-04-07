@@ -1,11 +1,10 @@
 'use strict'
 
 const passport = require('passport')
-const config = require('./configuration').server
 const log = require('kth-node-log')
 const CasStrategy = require('kth-node-passport-cas').Strategy
-const GatewayStrategy = require('kth-node-passport-cas').GatewayStrategy
-const { System } = require('./controllers')
+const { GatewayStrategy } = require('kth-node-passport-cas')
+const config = require('./configuration').server
 
 /**
  * Passport will maintain persistent login sessions. In order for persistent sessions to work, the authenticated
@@ -95,28 +94,6 @@ module.exports.redirectAuthenticatedUserHandler = require('kth-node-passport-cas
   }
 )
 
-/*
-  Checks req.session.authUser as created above im unpackLdapUser.
-
-  Usage:
-
-  requireRole('isAdmin', 'isEditor')
-*/
-function _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser) {
-  // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
-  const groups = ldapUser.memberOf
-  const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
-  const endWith = '.courseresponsible'
-  if (groups && groups.length > 0) {
-    for (var i = 0; i < groups.length; i++) {
-      if (groups[i].indexOf(startWith) >= 0 && groups[i].indexOf(endWith) >= 0) {
-        return true
-      }
-    }
-  }
-  return false
-}
-
 function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
   // 'edu.courses.SF.SF1624.20182.9.teachers'
@@ -134,8 +111,6 @@ function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
   return false
 }
 
-module.exports.isExaminatorOrResponsible = function (courseCode) {}
-
 module.exports.requireRole = function () {
   const roles = Array.prototype.slice.call(arguments)
 
@@ -146,7 +121,6 @@ module.exports.requireRole = function () {
     // TODO: Add date for courseresponsible
     const userCourseRoles = {
       isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
-      // isCourseResponsible: _hasCourseResponsibleGroup(courseCode, courseInitials, ldapUser),
       isCourseResponsible: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'courseresponsible'),
       isSuperUser: ldapUser.isSuperUser,
       isCourseTeacher: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'teachers'),
@@ -158,11 +132,12 @@ module.exports.requireRole = function () {
     if (!hasAuthorizedRole) {
       const infoAboutAuth = {
         status: 403,
+        showMessage: true,
         message: `Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator eller kursansvarig för kursen. \
         Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs. \
         https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459`,
       }
-      return System.final(infoAboutAuth, req, res)
+      return next(infoAboutAuth)
     }
     req.session.thisCourseUserRoles = userCourseRoles
     return next()

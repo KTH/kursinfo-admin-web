@@ -80,7 +80,7 @@ async function getDescription(req, res, next) {
       title: i18n.messages[langIndex].messages.title + ' | ' + courseCode,
     })
   } catch (err) {
-    log.error('Error in _getDescription', { error: err })
+    log.error('Error in sellingInfoCrtl -> getDescription', { error: err })
     next(err)
   }
 }
@@ -96,7 +96,7 @@ async function myCourses(req, res, next) {
       courseCode: req.params.courseCode,
     })
   } catch (err) {
-    log.error('Error in _my_courses', { error: err })
+    log.error('Error in myCourses', { error: err })
     next(err)
   }
 }
@@ -120,12 +120,12 @@ async function updateDescription(req, res, next) {
       useCache: false,
     })
     if (safeGet(() => result.body.message)) {
-      log.error('Error from API: ', result.body.message)
+      log.error('Error while updateDescription from API: ', result.body.message)
     }
     log.info('Selling text and picture updated in kursinfo api for course:', req.params.courseCode)
     return res.json(result)
   } catch (err) {
-    log.error('Error in _updateDescription', { error: err })
+    log.error('Error in updateDescription', { error: err })
     next(err)
   }
 }

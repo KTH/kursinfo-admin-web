@@ -68,6 +68,7 @@ function _final(err, req, res, next) {
       res.status(statusCode).render('system/error', {
         layout: 'errorLayout',
         message: err.message,
+        showMessage: err.showMessage || false,
         friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? {} : err,
         status: statusCode,

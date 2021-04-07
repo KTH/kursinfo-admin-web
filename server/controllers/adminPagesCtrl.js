@@ -15,7 +15,7 @@ const serverPaths = require('../server').getPaths()
 function hydrateStores(renderProps) {
   // This assumes that all stores are specified in a root element called Provider
 
-  const props = renderProps.props.children.props
+  const { props } = renderProps.props.children
   const outp = {}
   for (let key in props) {
     if (typeof props[key].initializeStore === 'function') {
@@ -61,7 +61,7 @@ async function getAdminStart(req, res, next) {
       initialState: JSON.stringify(hydrateStores(renderProps)),
     })
   } catch (error) {
-    log.error('Error in _getAdminStart', { error })
+    log.error('Error in adminPagesCtrl -> in getAdminStart', { error })
     next(error)
   }
 }
