@@ -52,7 +52,9 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[2].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/kopps/behorighet')
 
     expect(allLinks[3]).toHaveTextContent(/^Användarmanual - Om kursen/)
-    expect(allLinks[3].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/anvandarmanual')
+    expect(allLinks[3].href).toBe(
+      'https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/anvandarmanual-om-kursen-1.1020345'
+    )
 
     expect(allLinks[4]).toHaveTextContent(/^Redigera/)
     expect(allLinks[4].href).toBe('http://localhost/kursinfoadmin/kurser/kurs/edit/SF1624?l=sv')
