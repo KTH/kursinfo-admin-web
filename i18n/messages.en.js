@@ -18,10 +18,19 @@ module.exports = {
     error_bad_request: 'Sorry, the server cannot or will not process the request',
     error_not_found: "Sorry, we can't find your requested page",
     error_generic: 'Something went wrong on the server, please try again later.',
-    error_have_not_rights: `Missing permission to edit the Course Information page because you are not registered in KOPPS as an examiner, teacher or course coordinator for the course. \
-         See a list of KOPPS administrators who can help you get into the right role for your course. `,
     error_invalid_semester: 'Invalid semester',
     error_invalid_semester_for_statistics: 'This service cannot provide accurate statistics from earlier than 2019.',
+
+    /**
+     * Authentication message
+     */
+
+    contact_support: 'Contact',
+    for_questions: 'for questions',
+    friendly_message_have_not_rights: 'Missing permission to use About the course administration tool.',
+    look_at_list_of_kopps_admin:
+      'If you want to know who is the Kopps administrator at your school, look at the list here:',
+    message_have_not_rights: `Missing permission to use About the course administration tool. Permission is automatically granted to those who are registered in KOPPS as an examiner, course coordinator or teacher for the course.`,
 
     /**
      * Message keys

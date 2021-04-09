@@ -8,13 +8,19 @@
 <div class="errorMain">
   {{{blocks.image}}}
   <h1>{{status}}</h1>
+  <h3>{{friendly}}</h3>
   {{#if showMessage }}
-  <p>{{friendly}}</p>
+  <p>{{message}}</p>
+  {{#if showKoppsLink}}
+  <p>{{i18n 'look_at_list_of_kopps_admin' lang}}</p>
   <p><a target="_blank" rel="noreferrer"
       href="https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459">https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459</a>
   </p>
-  {{else}}
-  <h3>{{friendly}}</h3>
+  {{/if}}
+  <p>
+    {{i18n 'contact_support' lang}} <a href="mailto:it-support@kth.se">it-support@kth.se</a> {{i18n 'for_questions'
+    lang}}
+  </p>
   {{/if}}
 
   <div class="card card-body bg-light">

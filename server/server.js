@@ -254,7 +254,7 @@ appRoute.get(
   'course.getAdminStart',
   config.proxyPrefixPath.uri + '/:courseCode',
   serverLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isCourseTeacher'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(

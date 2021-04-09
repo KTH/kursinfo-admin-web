@@ -32,7 +32,7 @@ function _getFriendlyErrorMessage(lang, statusCode) {
     case 400:
       return i18n.message('error_bad_request', lang)
     case 403:
-      return i18n.message('error_have_not_rights', lang)
+      return i18n.message('friendly_message_have_not_rights', lang)
     case 404:
       return i18n.message('error_not_found', lang)
     default:
@@ -68,9 +68,11 @@ function _final(err, req, res, next) {
   res.format({
     'text/html': () => {
       res.status(statusCode).render('system/error', {
+        lang,
         layout: 'errorLayout',
         message: err.message,
         showMessage: err.showMessage || false,
+        showKoppsLink: statusCode === 403,
         friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? {} : err,
         status: statusCode,

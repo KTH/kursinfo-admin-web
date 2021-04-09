@@ -18,10 +18,18 @@ module.exports = {
     error_bad_request: 'Tyvärr kan eller vill inte servern svara',
     error_not_found: 'Tyvärr kunde vi inte hitta sidan du söker',
     error_generic: 'Något gick fel på servern, var god försök igen senare',
-    error_have_not_rights: `Du har inte behörighet att redigera Kursinformationssidan eftersom du inte är inlagd i KOPPS som examinator, lärare eller kursansvarig för kursen. \
-        Se förteckning över KOPPS-administratörer som kan hjälpa dig att lägga in dig på rätt roll för din kurs.`,
     error_invalid_semester: 'Felaktig termin',
     error_invalid_semester_for_statistics: 'Den här tjänsten kan inte visa korrekt statistik före 2019.',
+
+    /**
+     * Authentication message
+     */
+
+    contact_support: 'Kontakta',
+    for_questions: 'vid frågor',
+    friendly_message_have_not_rights: 'Du saknar behörighet att använda Om kursens administrationsverktyg',
+    look_at_list_of_kopps_admin: 'Vill du veta vem är Kopps-administratör på din skola, se förteckning här:',
+    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda i KOPPS som examinator, kursansvarig eller lärare för kursen. `,
 
     /**
      * Message keys
