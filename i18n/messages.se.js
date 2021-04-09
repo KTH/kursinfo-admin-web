@@ -28,7 +28,7 @@ module.exports = {
     contact_support: 'Kontakta',
     for_questions: 'vid frågor',
     friendly_message_have_not_rights: 'Du saknar behörighet att använda Om kursens administrationsverktyg',
-    look_at_list_of_kopps_admin: 'Vill du veta vem är Kopps-administratör på din skola, se förteckning här:',
+    look_at_list_of_kopps_admin: 'Vill du veta vem som är Kopps-administratör på din skola, se förteckning här:',
     message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda i KOPPS som examinator, kursansvarig eller lärare för kursen. `,
 
     /**
