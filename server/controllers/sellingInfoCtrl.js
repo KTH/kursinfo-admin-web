@@ -61,7 +61,7 @@ async function getDescription(req, res, next) {
   try {
     const renderProps = _staticRender()
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
-    const userKthId = req.session.authUser.ugKthid
+    const userKthId = req.session.passport.user.ugKthid
     renderProps.props.children.props.adminStore.setUser(userKthId)
     // Load browserConfig and server paths for internal api
     renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
@@ -89,7 +89,7 @@ async function getDescription(req, res, next) {
 async function myCourses(req, res, next) {
   _staticRender()
   try {
-    const user = req.session.authUser.memberOf
+    const user = req.session.passport.user.memberOf
     res.render('course/my_course', {
       debug: 'debug' in req.query,
       html: user,

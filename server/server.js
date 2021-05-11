@@ -26,6 +26,8 @@ server.locals.secret = new Map()
 module.exports = server
 module.exports.getPaths = () => getPaths()
 
+const _addProxy = uri => `${config.proxyPrefixPath.uri}${uri}`
+
 /* ***********************
  * ******* LOGGING *******
  * ***********************
@@ -93,18 +95,18 @@ function setCustomCacheControl(res, extensionPath) {
 // Files/statics routes--
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
 server.use(
-  config.proxyPrefixPath.uri + '/static/js/components',
+  _addProxy('/static/js/components'),
   express.static('./dist/js/components', { setHeaders: setCustomCacheControl })
 )
 // Expose browser configurations
-server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
+server.use(_addProxy('/static/browserConfig'), browserConfigHandler)
 // Map Bootstrap.
-// server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
+// server.use(_addProxy('/static/bootstrap'), express.static('./node_modules/bootstrap/dist'))
 // Map kth-style.
-server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist')) // Map static content like images, css and js.
-server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
+server.use(_addProxy('/static/kth-style'), express.static('./node_modules/kth-style/dist')) // Map static content like images, css and js.
+server.use(_addProxy('/static'), express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
-server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
+server.use(_addProxy('/static'), (req, res, next) => {
   const error = new Error('File not found: ' + req.originalUrl)
   error.statusCode = 404
   next(error)
@@ -141,46 +143,55 @@ const { languageHandler } = require('kth-node-web-common/lib/language')
 server.use(config.proxyPrefixPath.uri, languageHandler)
 
 /* ******************************
- * ******* AUTHENTICATION *******
- * ******************************
- */
+ ***** AUTHENTICATION - OIDC ****
+ ****************************** */
+
 const passport = require('passport')
-// const ldapClient = require('./adldapClient')
-const {
-  authLoginHandler,
-  authCheckHandler,
-  logoutHandler,
-  pgtCallbackHandler,
-  serverLogin,
-  getServerGatewayLogin,
-} = require('kth-node-passport-cas').routeHandlers({
-  casLoginUri: config.proxyPrefixPath.uri + '/login',
-  casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
-  proxyPrefixPath: config.proxyPrefixPath.uri,
-  server,
-  cookieTimeout: config.cas.cookieTimeout,
-})
-const { redirectAuthenticatedUserHandler } = require('./authentication')
+
 server.use(passport.initialize())
 server.use(passport.session())
 
-const authRoute = AppRouter()
-authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
-authRoute.get(
-  'cas.gateway',
-  config.proxyPrefixPath.uri + '/loginGateway',
-  authCheckHandler,
-  redirectAuthenticatedUserHandler
-)
-authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
-// Optional pgtCallback (use config.cas.pgtUrl?)
-authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
-server.use('/', authRoute.getRouter())
+passport.serializeUser((user, done) => {
+  if (user) {
+    done(null, user)
+  } else {
+    done()
+  }
+})
 
-// Convenience methods that should really be removed
-server.login = serverLogin
-server.gatewayLogin = getServerGatewayLogin
+passport.deserializeUser((user, done) => {
+  if (user) {
+    done(null, user)
+  } else {
+    done()
+  }
+})
 
+const { OpenIDConnect, hasGroup } = require('@kth/kth-node-passport-oidc')
+
+const oidc = new OpenIDConnect(server, passport, {
+  ...config.oidc,
+  callbackLoginRoute: _addProxy('/auth/login/callback'),
+  callbackLogoutRoute: _addProxy('/auth/logout/callback'),
+  callbackSilentLoginRoute: _addProxy('/auth/silent/callback'),
+  defaultRedirect: _addProxy(''),
+  failureRedirect: _addProxy(''),
+  // eslint-disable-next-line no-unused-vars
+  extendUser: (user, claims) => {
+    // eslint-disable-next-line no-param-reassign
+    const { kthid, memberOf } = claims
+
+    user.isSuperUser = hasGroup(config.auth.superuserGroup, user)
+    user.ugKthid = kthid
+    user.memberOf = memberOf
+  },
+})
+
+// eslint-disable-next-line no-unused-vars
+server.get(_addProxy('/login'), oidc.login, (req, res, next) => res.redirect(_addProxy('')))
+
+// eslint-disable-next-line no-unused-vars
+server.get(_addProxy('/logout'), oidc.logout)
 /* ******************************
  * ******* CORTINA BLOCKS *******
  * ******************************
@@ -199,7 +210,7 @@ server.use(
  * ******* CRAWLER REDIRECT *******
  * ********************************
  */
-const excludePath = config.proxyPrefixPath.uri + '(?!/static).*'
+const excludePath = _addProxy('(?!/static).*')
 const excludeExpression = new RegExp(excludePath)
 server.use(
   excludeExpression,
@@ -221,66 +232,57 @@ server.use(fileUpload())
  * **********************************
  */
 const { System, SellingInfo, AdminPagesCtrl, StatisticPageCtrl } = require('./controllers')
-const { requireRole } = require('./authentication')
+// use own requireRole because it has better error and role management
+const { requireRole } = require('./requireRole')
 
 // System routes
 const systemRoute = AppRouter()
-systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
-systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
-systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
+systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
+systemRoute.get('system.about', _addProxy('/_about'), System.about)
+systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
 
 // Statistic routes
 const statisticRoute = AppRouter()
-statisticRoute.get(
-  'statistic.getData',
-  config.proxyPrefixPath.uri + '/statistik/:semester',
-  getServerGatewayLogin(),
-  StatisticPageCtrl.getData
-) // requireRole('isSuperUser'),
+statisticRoute.get('statistic.getData', _addProxy('/statistik/:semester'), oidc.silentLogin, StatisticPageCtrl.getData)
 server.use('/', statisticRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
 
-appRoute.get(
-  'course.myCourses',
-  config.proxyPrefixPath.uri + '/:courseCode/myCourses',
-  getServerGatewayLogin(),
-  SellingInfo.myCourses
-)
+appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, SellingInfo.myCourses)
 appRoute.get(
   'course.getAdminStart',
-  config.proxyPrefixPath.uri + '/:courseCode',
-  serverLogin,
+  _addProxy('/:courseCode'),
+  oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
   'course.editDescription',
-  config.proxyPrefixPath.uri + '/edit/:courseCode',
-  serverLogin,
+  _addProxy('/edit/:courseCode'),
+  oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 appRoute.post(
   'course.updateDescription',
-  config.proxyPrefixPath.uri + '/api/:courseCode/',
-  serverLogin,
+  _addProxy('/api/:courseCode/'),
+  oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.updateDescription
 )
 // File upload for a course picture
 appRoute.post(
   'storage.saveImage',
-  config.proxyPrefixPath.uri + '/storage/saveImage/:courseCode/:published',
+  _addProxy('/storage/saveImage/:courseCode/:published'),
   SellingInfo.saveImageToStorage
 )
 appRoute.get(
   'system.gateway',
-  config.proxyPrefixPath.uri + '/gateway',
-  getServerGatewayLogin('/'),
+  _addProxy('/gateway'),
+  oidc.silentLogin,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )

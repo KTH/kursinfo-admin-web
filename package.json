@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.2.1",
+    "@kth/kth-node-passport-oidc": "^1.0.38",
     "applicationinsights": "^1.8.10",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
@@ -42,10 +43,8 @@
     "kth-node-configuration": "^2.0.3",
     "kth-node-express-routing": "^2.0.5",
     "kth-node-i18n": "^1.0.5",
-    "kth-node-ldap": "^4.0.1",
     "kth-node-log": "^3.1.3",
     "kth-node-monitor": "^1.1.9",
-    "kth-node-passport-cas": "^3.1.15",
     "kth-node-redis": "^3.1.19",
     "kth-node-response": "https://github.com/KTH/kth-node-response#v1.0.0",
     "kth-node-server": "^3.1.2",
