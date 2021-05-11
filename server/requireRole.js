@@ -1,6 +1,8 @@
 'use strict'
 
 const language = require('kth-node-web-common/lib/language')
+const { hasGroup } = require('@kth/kth-node-passport-oidc')
+
 const i18n = require('../i18n')
 
 function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
@@ -20,21 +22,19 @@ function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
   return false
 }
 
-module.exports.requireRole = function () {
-  const roles = Array.prototype.slice.call(arguments)
-
-  return async function _hasCourseAcceptedRoles(req, res, next) {
+module.exports.requireRole = (...roles) =>
+  async function _hasCourseAcceptedRoles(req, res, next) {
     const lang = language.getLanguage(res)
 
-    const ldapUser = req.session.authUser || {}
+    const user = req.session.passport.user || {}
     const courseCode = req.params.courseCode.toUpperCase()
     const courseInitials = req.params.courseCode.slice(0, 2).toUpperCase()
     // TODO: Add date for courseresponsible
     const userCourseRoles = {
-      // isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, ldapUser),
-      isCourseResponsible: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'courseresponsible'),
-      isSuperUser: ldapUser.isSuperUser,
-      isCourseTeacher: _hasThisTypeGroup(courseCode, courseInitials, ldapUser, 'teachers'),
+      isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, user),
+      isCourseResponsible: _hasThisTypeGroup(courseCode, courseInitials, user, 'courseresponsible'),
+      isSuperUser: user.isSuperUser,
+      isCourseTeacher: _hasThisTypeGroup(courseCode, courseInitials, user, 'teachers'),
     }
 
     // If we don't have one of these then access is forbidden
@@ -48,7 +48,8 @@ module.exports.requireRole = function () {
       }
       return next(infoAboutAuth)
     }
+
     req.session.thisCourseUserRoles = userCourseRoles
+
     return next()
   }
-}

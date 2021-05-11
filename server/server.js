@@ -179,7 +179,11 @@ const oidc = new OpenIDConnect(server, passport, {
   // eslint-disable-next-line no-unused-vars
   extendUser: (user, claims) => {
     // eslint-disable-next-line no-param-reassign
+    const { kthid, memberOf } = claims
+
     user.isSuperUser = hasGroup(config.auth.superuserGroup, user)
+    user.ugKthid = kthid
+    user.memberOf = memberOf
   },
 })
 
@@ -228,7 +232,8 @@ server.use(fileUpload())
  * **********************************
  */
 const { System, SellingInfo, AdminPagesCtrl, StatisticPageCtrl } = require('./controllers')
-const { requireRole } = require('./authentication')
+// use own requireRole because it has better error and role management
+const { requireRole } = require('./requireRole')
 
 // System routes
 const systemRoute = AppRouter()
@@ -240,7 +245,7 @@ server.use('/', systemRoute.getRouter())
 
 // Statistic routes
 const statisticRoute = AppRouter()
-statisticRoute.get('statistic.getData', _addProxy('/statistik/:semester'), oidc.silentLogin, StatisticPageCtrl.getData) // requireRole('isSuperUser'),
+statisticRoute.get('statistic.getData', _addProxy('/statistik/:semester'), oidc.silentLogin, StatisticPageCtrl.getData)
 server.use('/', statisticRoute.getRouter())
 
 // App routes
@@ -250,23 +255,22 @@ appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silen
 appRoute.get(
   'course.getAdminStart',
   _addProxy('/:courseCode'),
-  // oidc.login,
-  oidc.requireRole('isSuperUser'),
-  // requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
   'course.editDescription',
   _addProxy('/edit/:courseCode'),
   oidc.login,
-  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 appRoute.post(
   'course.updateDescription',
   _addProxy('/api/:courseCode/'),
   oidc.login,
-  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.updateDescription
 )
 // File upload for a course picture
@@ -279,7 +283,7 @@ appRoute.get(
   'system.gateway',
   _addProxy('/gateway'),
   oidc.silentLogin,
-  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 
