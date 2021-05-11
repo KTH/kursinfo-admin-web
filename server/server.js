@@ -26,6 +26,8 @@ server.locals.secret = new Map()
 module.exports = server
 module.exports.getPaths = () => getPaths()
 
+const _addProxy = uri => `${config.proxyPrefixPath.uri}${uri}`
+
 /* ***********************
  * ******* LOGGING *******
  * ***********************
@@ -93,18 +95,18 @@ function setCustomCacheControl(res, extensionPath) {
 // Files/statics routes--
 // Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
 server.use(
-  config.proxyPrefixPath.uri + '/static/js/components',
+  _addProxy('/static/js/components'),
   express.static('./dist/js/components', { setHeaders: setCustomCacheControl })
 )
 // Expose browser configurations
-server.use(config.proxyPrefixPath.uri + '/static/browserConfig', browserConfigHandler)
+server.use(_addProxy('/static/browserConfig'), browserConfigHandler)
 // Map Bootstrap.
-// server.use(config.proxyPrefixPath.uri + '/static/bootstrap', express.static('./node_modules/bootstrap/dist'))
+// server.use(_addProxy('/static/bootstrap'), express.static('./node_modules/bootstrap/dist'))
 // Map kth-style.
-server.use(config.proxyPrefixPath.uri + '/static/kth-style', express.static('./node_modules/kth-style/dist')) // Map static content like images, css and js.
-server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
+server.use(_addProxy('/static/kth-style'), express.static('./node_modules/kth-style/dist')) // Map static content like images, css and js.
+server.use(_addProxy('/static'), express.static('./dist'))
 // Return 404 if static file isn't found so we don't go through the rest of the pipeline
-server.use(config.proxyPrefixPath.uri + '/static', (req, res, next) => {
+server.use(_addProxy('/static'), (req, res, next) => {
   const error = new Error('File not found: ' + req.originalUrl)
   error.statusCode = 404
   next(error)
@@ -143,7 +145,6 @@ server.use(config.proxyPrefixPath.uri, languageHandler)
 /* ******************************
  ***** AUTHENTICATION - OIDC ****
  ****************************** */
-const _addProxy = uri => `${config.proxyPrefixPath.uri}${uri}`
 
 const passport = require('passport')
 
@@ -205,7 +206,7 @@ server.use(
  * ******* CRAWLER REDIRECT *******
  * ********************************
  */
-const excludePath = config.proxyPrefixPath.uri + '(?!/static).*'
+const excludePath = _addProxy('(?!/static).*')
 const excludeExpression = new RegExp(excludePath)
 server.use(
   excludeExpression,
@@ -231,34 +232,24 @@ const { requireRole } = require('./authentication')
 
 // System routes
 const systemRoute = AppRouter()
-systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
-systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
-systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
+systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
+systemRoute.get('system.about', _addProxy('/_about'), System.about)
+systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
 
 // Statistic routes
 const statisticRoute = AppRouter()
-statisticRoute.get(
-  'statistic.getData',
-  config.proxyPrefixPath.uri + '/statistik/:semester',
-  oidc.silentLogin,
-  StatisticPageCtrl.getData
-) // requireRole('isSuperUser'),
+statisticRoute.get('statistic.getData', _addProxy('/statistik/:semester'), oidc.silentLogin, StatisticPageCtrl.getData) // requireRole('isSuperUser'),
 server.use('/', statisticRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()
 
-appRoute.get(
-  'course.myCourses',
-  config.proxyPrefixPath.uri + '/:courseCode/myCourses',
-  oidc.silentLogin,
-  SellingInfo.myCourses
-)
+appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, SellingInfo.myCourses)
 appRoute.get(
   'course.getAdminStart',
-  config.proxyPrefixPath.uri + '/:courseCode',
+  _addProxy('/:courseCode'),
   // oidc.login,
   oidc.requireRole('isSuperUser'),
   // requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
@@ -266,14 +257,14 @@ appRoute.get(
 )
 appRoute.get(
   'course.editDescription',
-  config.proxyPrefixPath.uri + '/edit/:courseCode',
+  _addProxy('/edit/:courseCode'),
   oidc.login,
   // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 appRoute.post(
   'course.updateDescription',
-  config.proxyPrefixPath.uri + '/api/:courseCode/',
+  _addProxy('/api/:courseCode/'),
   oidc.login,
   // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.updateDescription
@@ -281,12 +272,12 @@ appRoute.post(
 // File upload for a course picture
 appRoute.post(
   'storage.saveImage',
-  config.proxyPrefixPath.uri + '/storage/saveImage/:courseCode/:published',
+  _addProxy('/storage/saveImage/:courseCode/:published'),
   SellingInfo.saveImageToStorage
 )
 appRoute.get(
   'system.gateway',
-  config.proxyPrefixPath.uri + '/gateway',
+  _addProxy('/gateway'),
   oidc.silentLogin,
   // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
