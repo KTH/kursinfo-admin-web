@@ -178,7 +178,7 @@ const oidc = new OpenIDConnect(server, passport, {
   // eslint-disable-next-line no-unused-vars
   extendUser: (user, claims) => {
     // eslint-disable-next-line no-param-reassign
-    user.isAdmin = hasGroup(config.auth.superuserGroup, user)
+    user.isSuperUser = hasGroup(config.auth.superuserGroup, user)
   },
 })
 
