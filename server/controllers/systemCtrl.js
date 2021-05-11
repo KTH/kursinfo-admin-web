@@ -9,7 +9,6 @@ const log = require('kth-node-log')
 const version = require('../../config/version')
 const config = require('../configuration').server
 const packageFile = require('../../package.json')
-const ldapClient = require('../adldapClient')
 const { getPaths } = require('kth-node-express-routing')
 const language = require('kth-node-web-common/lib/language')
 const i18n = require('../../i18n')
@@ -133,9 +132,6 @@ function _monitor(req, res) {
       required: apiConfig[apiKey].required,
     })
   })
-  // Check LDAP
-  const ldapHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-ldap')
-  subSystems.push(ldapHealthUtil.status(ldapClient, config.ldap))
 
   // If we need local system checks, such as memory or disk, we would add it here.
   // Make sure it returns a promise which resolves with an object containing:

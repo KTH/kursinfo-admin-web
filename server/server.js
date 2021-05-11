@@ -141,46 +141,52 @@ const { languageHandler } = require('kth-node-web-common/lib/language')
 server.use(config.proxyPrefixPath.uri, languageHandler)
 
 /* ******************************
- * ******* AUTHENTICATION *******
- * ******************************
- */
+ ***** AUTHENTICATION - OIDC ****
+ ****************************** */
+const _addProxy = uri => `${config.proxyPrefixPath.uri}${uri}`
+
 const passport = require('passport')
-// const ldapClient = require('./adldapClient')
-const {
-  authLoginHandler,
-  authCheckHandler,
-  logoutHandler,
-  pgtCallbackHandler,
-  serverLogin,
-  getServerGatewayLogin,
-} = require('kth-node-passport-cas').routeHandlers({
-  casLoginUri: config.proxyPrefixPath.uri + '/login',
-  casGatewayUri: config.proxyPrefixPath.uri + '/loginGateway',
-  proxyPrefixPath: config.proxyPrefixPath.uri,
-  server,
-  cookieTimeout: config.cas.cookieTimeout,
-})
-const { redirectAuthenticatedUserHandler } = require('./authentication')
+
 server.use(passport.initialize())
 server.use(passport.session())
 
-const authRoute = AppRouter()
-authRoute.get('cas.login', config.proxyPrefixPath.uri + '/login', authLoginHandler, redirectAuthenticatedUserHandler)
-authRoute.get(
-  'cas.gateway',
-  config.proxyPrefixPath.uri + '/loginGateway',
-  authCheckHandler,
-  redirectAuthenticatedUserHandler
-)
-authRoute.get('cas.logout', config.proxyPrefixPath.uri + '/logout', logoutHandler)
-// Optional pgtCallback (use config.cas.pgtUrl?)
-authRoute.get('cas.pgtCallback', config.proxyPrefixPath.uri + '/pgtCallback', pgtCallbackHandler)
-server.use('/', authRoute.getRouter())
+passport.serializeUser((user, done) => {
+  if (user) {
+    done(null, user)
+  } else {
+    done()
+  }
+})
 
-// Convenience methods that should really be removed
-server.login = serverLogin
-server.gatewayLogin = getServerGatewayLogin
+passport.deserializeUser((user, done) => {
+  if (user) {
+    done(null, user)
+  } else {
+    done()
+  }
+})
 
+const { OpenIDConnect, hasGroup } = require('@kth/kth-node-passport-oidc')
+
+const oidc = new OpenIDConnect(server, passport, {
+  ...config.oidc,
+  callbackLoginRoute: _addProxy('/auth/login/callback'),
+  callbackLogoutRoute: _addProxy('/auth/logout/callback'),
+  callbackSilentLoginRoute: _addProxy('/auth/silent/callback'),
+  defaultRedirect: _addProxy(''),
+  failureRedirect: _addProxy(''),
+  // eslint-disable-next-line no-unused-vars
+  extendUser: (user, claims) => {
+    // eslint-disable-next-line no-param-reassign
+    user.isAdmin = hasGroup(config.auth.superuserGroup, user)
+  },
+})
+
+// eslint-disable-next-line no-unused-vars
+server.get(_addProxy('/login'), oidc.login, (req, res, next) => res.redirect(_addProxy('')))
+
+// eslint-disable-next-line no-unused-vars
+server.get(_addProxy('/logout'), oidc.logout)
 /* ******************************
  * ******* CORTINA BLOCKS *******
  * ******************************
@@ -236,7 +242,7 @@ const statisticRoute = AppRouter()
 statisticRoute.get(
   'statistic.getData',
   config.proxyPrefixPath.uri + '/statistik/:semester',
-  getServerGatewayLogin(),
+  oidc.silentLogin,
   StatisticPageCtrl.getData
 ) // requireRole('isSuperUser'),
 server.use('/', statisticRoute.getRouter())
@@ -247,28 +253,29 @@ const appRoute = AppRouter()
 appRoute.get(
   'course.myCourses',
   config.proxyPrefixPath.uri + '/:courseCode/myCourses',
-  getServerGatewayLogin(),
+  oidc.silentLogin,
   SellingInfo.myCourses
 )
 appRoute.get(
   'course.getAdminStart',
   config.proxyPrefixPath.uri + '/:courseCode',
-  serverLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
+  // oidc.login,
+  oidc.requireRole('isSuperUser'),
+  // requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
   'course.editDescription',
   config.proxyPrefixPath.uri + '/edit/:courseCode',
-  serverLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  oidc.login,
+  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 appRoute.post(
   'course.updateDescription',
   config.proxyPrefixPath.uri + '/api/:courseCode/',
-  serverLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  oidc.login,
+  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.updateDescription
 )
 // File upload for a course picture
@@ -280,8 +287,8 @@ appRoute.post(
 appRoute.get(
   'system.gateway',
   config.proxyPrefixPath.uri + '/gateway',
-  getServerGatewayLogin('/'),
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  oidc.silentLogin,
+  // requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
 )
 
