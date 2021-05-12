@@ -178,11 +178,12 @@ const oidc = new OpenIDConnect(server, passport, {
   failureRedirect: _addProxy(''),
   // eslint-disable-next-line no-unused-vars
   extendUser: (user, claims) => {
-    // eslint-disable-next-line no-param-reassign
     const { kthid, memberOf } = claims
-
+    // eslint-disable-next-line no-param-reassign
     user.isSuperUser = hasGroup(config.auth.superuserGroup, user)
+    // eslint-disable-next-line no-param-reassign
     user.ugKthid = kthid
+    // eslint-disable-next-line no-param-reassign
     user.memberOf = memberOf
   },
 })
@@ -281,7 +282,7 @@ appRoute.post(
 )
 appRoute.get(
   'system.gateway',
-  _addProxy('/gateway'),
+  _addProxy('/silent'),
   oidc.silentLogin,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
   SellingInfo.getDescription
