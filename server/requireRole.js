@@ -5,11 +5,11 @@ const { hasGroup } = require('@kth/kth-node-passport-oidc')
 
 const i18n = require('../i18n')
 
-function _hasThisTypeGroup(courseCode, courseInitials, ldapUser, employeeType) {
+function _hasThisTypeGroup(courseCode, courseInitials, user, employeeType) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
   // 'edu.courses.SF.SF1624.20182.9.teachers'
 
-  const groups = ldapUser.memberOf
+  const groups = user.memberOf
   const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
   const endWith = `.${employeeType}`
   if (groups && groups.length > 0) {
