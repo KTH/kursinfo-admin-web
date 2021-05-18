@@ -6,7 +6,7 @@ import {
   _fetchCourseAnalyses,
   _fetchCourseMemos,
   _documentsPerCourseOffering,
-  _dataPerSchool
+  _dataPerSchool,
 } from '../server/statisticTransformer'
 import {
   mockEarliestSemester,
@@ -17,47 +17,34 @@ import {
   mockMemoOfferings,
   mockSemestersInMemos,
   mockParsedOfferings,
-  mockOfferingsWithoutAnalysis
+  mockOfferingsWithoutAnalysis,
 } from './mocks/koppsCourseOfferings'
-import {
-  mockCourseAnalysesSemesters,
-  mockExpectedCourseAnalyses,
-  mockKursutvecklingData
-} from './mocks/courseAnalyses'
-import {
-  mockCourseMemosSemesters,
-  mockExpectedCourseMemos,
-  mockKursPmDataApiData
-} from './mocks/courseMemos'
-import {
-  mockCourseAnalyses,
-  mockCourseMemos,
-  mockExpectedCourseOfferings
-} from './mocks/courseOfferings'
+import { mockCourseAnalysesSemesters, mockExpectedCourseAnalyses, mockKursutvecklingData } from './mocks/courseAnalyses'
+import { mockCourseMemosSemesters, mockExpectedCourseMemos, mockKursPmDataApiData } from './mocks/courseMemos'
+import { mockCourseAnalyses, mockCourseMemos, mockExpectedCourseOfferings } from './mocks/courseOfferings'
 import {
   mockEmptyCourseAnalyses,
   mockEmptyCourseMemos,
   mockEmptyCourses,
-  mockExpectedEmptyCombinedDataPerSchool
+  mockExpectedEmptyCombinedDataPerSchool,
 } from './mocks/dataPerSchool'
 
 jest.mock('../server/configuration', () => {
   return {
     server: {
-      ldap: {},
       koppsApi: {},
       kursutvecklingApi: {},
       kursPmDataApi: {},
       apiKey: {
         kursutvecklingApi: '1234',
-        kursPmDataApi: '1234'
+        kursPmDataApi: '1234',
       },
       logging: {
         log: {
-          level: 'debug'
-        }
-      }
-    }
+          level: 'debug',
+        },
+      },
+    },
   }
 })
 
@@ -70,11 +57,11 @@ jest.mock('../server/koppsApi', () => {
             const uriParts = uri.split('/')
             const semester = uriParts[uriParts.length - 1]
             return {
-              body: mockKursutvecklingData(semester)
+              body: mockKursutvecklingData(semester),
             }
-          }
-        }
-      }
+          },
+        },
+      },
     },
     kursPmDataApi: {
       kursPmDataApi: {
@@ -83,12 +70,12 @@ jest.mock('../server/koppsApi', () => {
             const uriParts = uri.split('/')
             const semester = uriParts[uriParts.length - 1]
             return {
-              body: mockKursPmDataApiData(semester)
+              body: mockKursPmDataApiData(semester),
             }
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   }
 })
 
@@ -114,19 +101,11 @@ describe('Test statisticTransformer', () => {
     expect(courseMemos).toMatchObject(mockExpectedCourseMemos)
   })
   test('_documentsPerCourseOffering - Match analyses and memos with course offerings', () => {
-    const courseOfferings = _documentsPerCourseOffering(
-      mockParsedOfferings,
-      mockCourseAnalyses,
-      mockCourseMemos
-    )
+    const courseOfferings = _documentsPerCourseOffering(mockParsedOfferings, mockCourseAnalyses, mockCourseMemos)
     expect(mockExpectedCourseOfferings).toMatchObject(courseOfferings)
   })
   test('_dataPerSchool - Compile statistics per school, including totals', () => {
-    let combinedDataPerSchool = _dataPerSchool(
-      mockEmptyCourseAnalyses,
-      mockEmptyCourseMemos,
-      mockEmptyCourses
-    )
+    let combinedDataPerSchool = _dataPerSchool(mockEmptyCourseAnalyses, mockEmptyCourseMemos, mockEmptyCourses)
     expect(mockExpectedEmptyCombinedDataPerSchool).toMatchObject(combinedDataPerSchool)
     combinedDataPerSchool = _dataPerSchool(mockCourseAnalyses, mockCourseMemos)
   })
