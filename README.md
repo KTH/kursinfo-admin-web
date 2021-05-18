@@ -109,7 +109,7 @@ Later you will use it as a _BLOB_SERVICE_SAS_URL_ in secrets together with a nam
 
 ### Secrets for Development
 
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project. This file should be in .gitignore. It needs to contain at least ldap connection URI and password in order for authentication to work properly.
+Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project.
 
 IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
 
