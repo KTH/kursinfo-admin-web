@@ -12,6 +12,7 @@
   },
   "scripts": {
     "//": "Gulp installs css and javascript",
+    "prepare": "husky install",
     "preinstall": "npx npm-force-resolutions",
     "test": "jest test",
     "test-watch": "jest --watch",
@@ -84,7 +85,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
     "gulp": "^4.0.2",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "jest": "^27.0.6",
     "jest-extended": "^0.11.5",
     "nodemon": "^2.0.8",
@@ -100,12 +101,6 @@
   },
   "engines": {
     "node": "12"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "npm run test"
-    }
   },
   "jshintConfig": {
     "maxerr": 5
