@@ -80,7 +80,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     done()
   })
 
-  test('Intra kth link 1 opens in a new window', async done => {
+  test('Intra kth link 1 opens in a new window', async () => {
     const { getAllByRole } = renderEditPage()
     const allLinks = getAllByRole('link')
 
@@ -91,6 +91,5 @@ describe('<AdminStartPage> (and subordinates)', () => {
       expect(allH1Headers.length).toBe(1)
       expect(allH1Headers[0]).toHaveTextContent(/^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/)
     })
-    done()
   })
 })
