@@ -67,14 +67,14 @@ module.exports = {
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
     instruction_kopps_1:
-      'The \u201CAbout course\u201D pages contain information retrieved from KOPPS and information edited here in the \u201CAbout course\u201D administration tool. Information retrieved from KOPPS is the syllabus, information valid for all course offerings, and course instance information. The latter include examiners, course coordinators, and teachers. Make changes to this information in KOPPS.',
+      'The \u201CAbout course\u201D pages contain information retrieved from KOPPS and information edited here in the \u201CAbout course\u201D administration tool. Information retrieved from KOPPS is the course syllabus, information valid for all course offerings, and course instance information. The latter include examiners, course coordinators, and teachers. Make changes to this information in KOPPS.',
     instruction_kopps_2: 'Instructions and help for ',
     instruction_kopps_detail_title: 'Authorizations to edit information',
     instruction_kopps_detail_1:
       'Anyone listed as an examiner, course coordinator, or teacher on the course in KOPPS, will automatically be allowed to use the \u201CAbout course\u201D administration tool; see below. Teachers can administrate \u201CCourse memos.\u201D Examiners and course coordinators can administrate \u201CCourse memos,\u201D as well as \u201CCourse introduction\u201D and “Course analysis and course data.”',
     instruction_kopps_detail_2: 'KOPPS users can make changes in KOPPS. Read more about permissions for KOPPS and see ',
     instruction_kopps_detail_2_link: 'KOPPS users (in Swedish)',
-    link_user_manual: 'About course (in Swedish)',
+    link_user_manual: 'About course',
     links_to: {
       kutv: {
         aTitle: 'Course development',

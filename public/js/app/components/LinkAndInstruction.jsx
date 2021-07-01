@@ -23,7 +23,7 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {
   )
 }
 
-export const TextAboutRights = ({ translate }) => (
+export const TextAboutRights = ({ lang, translate }) => (
   <div className="paragraphs introduction col">
     <p>{translate.instruction_kopps_1}</p>
     <CollapseDetails title={translate.instruction_kopps_detail_title}>
@@ -40,7 +40,7 @@ export const TextAboutRights = ({ translate }) => (
     </CollapseDetails>
     <p>
       {translate.instruction_kopps_2}
-      <a lang="sv" href={USER_MANUAL_URL}>
+      <a lang={lang} href={USER_MANUAL_URL[lang]}>
         {translate.link_user_manual}
       </a>
       {'.'}

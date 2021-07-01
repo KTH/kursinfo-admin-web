@@ -27,7 +27,7 @@ class AdminStartPage extends Component {
         {/* ---COURSE TITEL--- */}
         <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={pageTitles.administrate} language={lang} />
 
-        <TextAboutRights courseCode={courseCode} translate={pageTitles} />
+        <TextAboutRights lang={lang} translate={pageTitles} />
 
         <div className="AdminPage--Alert">
           <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
