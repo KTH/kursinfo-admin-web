@@ -65,11 +65,15 @@ module.exports = {
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
     instruction_kopps_1:
-      'Sidorna som tillhör ”Om kursen” består dels av information som hämtas från KOPPS och dels av information som redigeras här i ”Administrera Om kursen”. I KOPPS redigeras kursplan, kursgemensam information och kurstillfälle. Ändring av kursgemensam information samt examinator, kursansvarig och lärare görs i ',
-    instruction_kopps_2: 'av den som är KOPPS-användare. Läs mer om behörigheter och se användare i KOPPS ',
-    instruction_kopps_3_link_access_rights: 'Användarbehörighet',
-    instruction_kopps_alt: 'Till KOPPS',
-    link_user_manual: 'Användarmanual - Om kursen',
+      'Sidorna som tillhör \u201DOm kursen\u201D består dels av information som hämtas från KOPPS och dels av information som redigeras här via Om kursens administrations\u00ADverktyg. Information som hämtats från KOPPS är kurs\u00ADplan, kurs\u00ADgemensam information och kurs\u00ADtillfälle, inklusive vem som är examinator, kurs\u00ADansvarig och lärare för kursen. Redigering av denna information görs i KOPPS.',
+    instruction_kopps_2: 'Instruktioner och hjälp för ',
+    instruction_kopps_detail_title: 'Behörigheter för att redigera information',
+    instruction_kopps_detail_1:
+      'Den som är upplagd som examinator, kurs\u00ADansvarig eller lärare på kursen i KOPPS får automatiskt behörighet att använda funktionerna i administrations\u00ADverktyget Om kursen, se nedan. Lärare kan dock endast administrera funktionen \u201DKurs-PM\u201D, medans examinator och kurs\u00ADansvarig även kan administrera funktionerna \u201DIntroduktion till kursen\u201D samt \u201DKurs\u00ADanalys och kurs\u00ADdata\u201D.',
+    instruction_kopps_detail_2:
+      'Ändringar i KOPPS görs av den som är KOPPS-användare. Läs mer om behörigheter för KOPPS och se ',
+    instruction_kopps_detail_2_link: 'användare i KOPPS',
+    link_user_manual: 'Om kursen',
     links_to: {
       kutv: {
         aTitle: 'Kursens utveckling',
