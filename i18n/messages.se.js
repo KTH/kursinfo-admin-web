@@ -80,12 +80,12 @@ module.exports = {
         aAlt: 'Till Kursens utveckling vy',
       },
       pm: {
-        aTitle: 'Kursinformation',
-        aAlt: 'Till Kursinformation vy',
+        aTitle: 'Förbereda och gå kurs/Kurs-PM',
+        aAlt: 'Till sidan Förbereda och gå kurs/Kurs-PM',
       },
       pmdata: {
-        aTitle: 'Kurs-PM, Förbereda och gå kurs',
-        aAlt: 'Till Kurs-PM vy',
+        aTitle: 'Förbereda och gå kurs/Kurs-PM',
+        aAlt: 'Till sidan Förbereda och gå kurs/Kurs-PM',
       },
       kinfo: {
         aTitle: 'Kursinformation',

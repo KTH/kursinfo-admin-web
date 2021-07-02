@@ -81,12 +81,12 @@ module.exports = {
         aAlt: 'To Course development view',
       },
       pm: {
-        aTitle: 'Course information',
-        aAlt: 'To Course information page',
+        aTitle: 'Prepare and take course/Course memo',
+        aAlt: 'To the Prepare and take course/Course memo page',
       },
       pmdata: {
-        aTitle: 'Course Memo',
-        aAlt: 'To Course Memos page',
+        aTitle: 'Prepare and take course/Course memo',
+        aAlt: 'To the Prepare and take course/Course memo page',
       },
       kinfo: {
         aTitle: 'Course information',
