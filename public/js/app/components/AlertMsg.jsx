@@ -15,7 +15,7 @@ const _fetchParameters = props => {
 }
 
 const publicUrls = {
-  pm: COURSE_INFO_URL,
+  pm: COURSE_PMDATA_URL,
   kutv: COURSE_UTVECKLING,
   kinfo: COURSE_INFO_URL,
   pmdata: COURSE_PMDATA_URL,
