@@ -30,11 +30,11 @@ export const TextAboutRights = ({ lang, translate }) => (
       <>
         <p>{translate.instruction_kopps_detail_1}</p>
         <p>
-          {translate.instruction_kopps_detail_2_start}
+          {translate.instruction_kopps_detail_2}
           <a lang="sv" href={RETRIEVED_COURSE_INFORMATION[lang]}>
             {translate.instruction_kopps_detail_2_link}
           </a>
-          {translate.instruction_kopps_detail_2_end}
+          {'.'}
         </p>
       </>
     </CollapseDetails>
