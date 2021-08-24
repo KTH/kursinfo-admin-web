@@ -72,8 +72,9 @@ module.exports = {
     instruction_kopps_detail_title: 'Authorizations to edit information',
     instruction_kopps_detail_1:
       'Anyone listed as an examiner, course coordinator, or teacher on the course in KOPPS, will automatically be allowed to use the \u201CAbout course\u201D administration tool; see below. Teachers can administrate \u201CCourse memos.\u201D Examiners and course coordinators can administrate \u201CCourse memos,\u201D as well as \u201CCourse introduction\u201D and “Course analysis and course data.”',
-    instruction_kopps_detail_2: 'KOPPS users can make changes in KOPPS. Read more about permissions for KOPPS and see ',
-    instruction_kopps_detail_2_link: 'KOPPS users (in Swedish)',
+    instruction_kopps_detail_2_start: 'See ',
+    instruction_kopps_detail_2_link: 'Retrieved course information',
+    instruction_kopps_detail_2_end: ' for information about permissions and editing of information in KOPPS.',
     link_user_manual: 'About course',
     links_to: {
       kutv: {

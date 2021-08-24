@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react'
 import { CollapseDetails } from '@kth/kth-kip-style-react-components'
-import { COURSE_INFO_URL, USER_MANUAL_URL, KOPPS_ACCESS_RIGHTS_INFO } from '../util/constants'
+import { COURSE_INFO_URL, USER_MANUAL_URL, RETRIEVED_COURSE_INFORMATION } from '../util/constants'
 
 const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {
   // kursinfoadmin is on app.kth.se but student is www.kth.se
@@ -30,11 +30,11 @@ export const TextAboutRights = ({ lang, translate }) => (
       <>
         <p>{translate.instruction_kopps_detail_1}</p>
         <p>
-          {translate.instruction_kopps_detail_2}
-          <a lang="sv" href={KOPPS_ACCESS_RIGHTS_INFO}>
+          {translate.instruction_kopps_detail_2_start}
+          <a lang="sv" href={RETRIEVED_COURSE_INFORMATION[lang]}>
             {translate.instruction_kopps_detail_2_link}
           </a>
-          {'.'}
+          {translate.instruction_kopps_detail_2_end}
         </p>
       </>
     </CollapseDetails>

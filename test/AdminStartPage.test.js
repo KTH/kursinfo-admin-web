@@ -45,8 +45,10 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[0]).toHaveTextContent(/^Om kursen/)
     expect(allLinks[0].href).toBe('https://localhost/student/kurser/kurs/SF1624?l=sv')
 
-    expect(allLinks[1]).toHaveTextContent(/^användare i KOPPS/)
-    expect(allLinks[1].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/kopps/behorighet')
+    expect(allLinks[1]).toHaveTextContent(/^Hämtad information/)
+    expect(allLinks[1].href).toBe(
+      'https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/hamtad-kursinformation-1.1079646'
+    )
 
     expect(allLinks[2]).toHaveTextContent(/^Om kursen/)
     expect(allLinks[2].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/om-kursen-1.1020344')

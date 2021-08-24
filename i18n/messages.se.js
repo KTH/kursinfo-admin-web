@@ -70,9 +70,9 @@ module.exports = {
     instruction_kopps_detail_title: 'Behörigheter för att redigera information',
     instruction_kopps_detail_1:
       'Den som är upplagd som examinator, kurs\u00ADansvarig eller lärare på kursen i KOPPS får automatiskt behörighet att använda funktionerna i administrations\u00ADverktyget Om kursen, se nedan. Lärare kan dock endast administrera funktionen \u201DKurs-PM\u201D, medans examinator och kurs\u00ADansvarig även kan administrera funktionerna \u201DIntroduktion till kursen\u201D samt \u201DKurs\u00ADanalys och kurs\u00ADdata\u201D.',
-    instruction_kopps_detail_2:
-      'Ändringar i KOPPS görs av den som är KOPPS-användare. Läs mer om behörigheter för KOPPS och se ',
-    instruction_kopps_detail_2_link: 'användare i KOPPS',
+    instruction_kopps_detail_2_start: 'Se ',
+    instruction_kopps_detail_2_link: 'Hämtad information',
+    instruction_kopps_detail_2_end: ' för information om redigering och behörigheter av information i KOPPS.',
     link_user_manual: 'Om kursen',
     links_to: {
       kutv: {
