@@ -94,7 +94,7 @@ module.exports = {
       },
     },
     alertMessages: {
-      noMemo: '... but it is missing a published course memo',
+      noMemoHeader: '... but it is missing a published course memo',
       kutv: {
         save: 'Draft for course analysis and course data has been saved',
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',

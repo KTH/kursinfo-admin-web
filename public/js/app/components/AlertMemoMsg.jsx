@@ -3,10 +3,10 @@ import { Alert } from 'reactstrap'
 import { fetchParameters } from '../util/fetchUrlParams'
 
 // &noMemo=CSAMH%20(%20Startdatum%202012-08-24,%20Svenska%20)
-const AlertMemoMsg = ({ props, translate = {}, lang = 'en' }) => {
+const AlertMemoMsg = ({ props, translate = { alertMessages: {} }, lang = 'en' }) => {
   const params = fetchParameters(props)
   const { noMemo: noMemoRoundNames = '' } = params
-  const { noMemo: noMemoHeader } = translate.alertMessages
+  const { noMemoHeader } = translate.alertMessages
   const decodedRoundNames = decodeURI(noMemoRoundNames).trim()
 
   return (
