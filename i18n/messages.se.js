@@ -92,6 +92,7 @@ module.exports = {
       },
     },
     alertMessages: {
+      noMemo: '... men det saknas att publicerat kurs-PM',
       kutv: {
         save: 'Utkast för kursanalys och kursdata har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
