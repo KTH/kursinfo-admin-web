@@ -6,6 +6,7 @@ import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
+import AlertMemoMsg from '../components/AlertMemoMsg'
 
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 
@@ -31,6 +32,9 @@ class AdminStartPage extends Component {
 
         <div className="AdminPage--Alert">
           <AlertMsg courseCode={courseCode} props={this.props} lang={lang} translate={pageTitles} />
+        </div>
+        <div className="AdminPage--Alert">
+          <AlertMemoMsg props={this.props} lang={lang} translate={pageTitles} />
         </div>
         <div className="col">
           <span className="AdminPage--ShowDescription">

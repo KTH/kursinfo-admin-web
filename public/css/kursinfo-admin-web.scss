@@ -135,6 +135,9 @@ $red: #e01f28;
   .alert {
     width: auto;
   }
+  & + .AdminPage--Alert > .alert {
+    margin-top: -40px;
+  }
 }
 
 // 4. Start page and cards style
