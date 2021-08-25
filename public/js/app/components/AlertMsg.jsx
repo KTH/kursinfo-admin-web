@@ -1,18 +1,7 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
 import { COURSE_INFO_URL, COURSE_PMDATA_URL, COURSE_UTVECKLING, ADMIN_COURSE_PM_DATA } from '../util/constants'
-
-const _fetchParameters = props => {
-  let params = {}
-  if (props && props.location && props.location.sellingDesciprion !== 'success') {
-    params = props.location.search
-      .substring(1)
-      .split('&')
-      .map(param => param.split('='))
-      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
-  }
-  return params
-}
+import { fetchParameters } from '../util/fetchUrlParams'
 
 const publicUrls = {
   pm: COURSE_PMDATA_URL,
@@ -31,13 +20,13 @@ const mapAdminUrl = {
 
 const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
-  const params = _fetchParameters(props)
+  const params = fetchParameters(props)
   const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
 
   // eslint-disable-next-line camelcase
-  const { alertMessages, course_short_semester } = translate
+  const { alertMessages, course_short_semester: shortSemester } = translate
 
   return (
     (serviceAbbr === 'kutv' || serviceAbbr === 'pm' || serviceAbbr === 'pmdata' || serviceAbbr === 'kinfo') &&
@@ -46,7 +35,7 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
         <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
         {term && (
           <p>
-            {`${alertMessages.term}: ${course_short_semester[term.toString().substring(4, 5)]}${term
+            {`${alertMessages.term}: ${shortSemester[term.toString().substring(4, 5)]}${term
               .toString()
               .substring(0, 4)}`}
           </p>
