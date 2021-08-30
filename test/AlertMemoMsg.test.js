@@ -57,14 +57,14 @@ describe('Swedish. Component <AlertMemoMsg> renders with different messages if u
   test('renders alert message if user went to admin and published data again', done => {
     render(<AlertMemoMsg props={TEST_PUBLISH} lang="sv" translate={pageTitles('sv')} />)
     const alertHeader = getByRole('heading', { level: 4 })
-    expect(alertHeader).toHaveTextContent(/^... men det saknas att publicerat kurs-PM/)
+    expect(alertHeader).toHaveTextContent(/^... men det saknas ett publicerat kurs-PM/)
     done()
   })
 
   test('renders alert message if user went to admin and saved data without publishing it', done => {
     render(<AlertMemoMsg props={TEST_SAVE} lang="sv" translate={pageTitles('sv')} />)
     const alertHeader = getByRole('heading', { level: 4 })
-    expect(alertHeader).toHaveTextContent(/^... men det saknas att publicerat kurs-PM/)
+    expect(alertHeader).toHaveTextContent(/^... men det saknas ett publicerat kurs-PM/)
     done()
   })
 })
