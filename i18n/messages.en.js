@@ -123,7 +123,7 @@ module.exports = {
         pub: 'New version of the course introduction has been published ',
       },
       see_more: 'Look at',
-      term: 'Term',
+      semester: 'Semester',
       course_round: 'Course round',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',

@@ -21,7 +21,7 @@ const mapAdminUrl = {
 const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = fetchParameters(props)
-  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term } = params
+  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
 
@@ -33,9 +33,9 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
     (doneAction === 'save' || doneAction === 'pub' || doneAction === 'delete' || doneAction === 'removedPublished') && (
       <Alert color="success" aria-live="polite">
         <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
-        {term && (
+        {semester && (
           <p>
-            {`${alertMessages.term}: ${shortSemester[term.toString().substring(4, 5)]}${term
+            {`${alertMessages.semester}: ${shortSemester[semester.toString().substring(4, 5)]}${semester
               .toString()
               .substring(0, 4)}`}
           </p>
