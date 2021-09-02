@@ -66,29 +66,46 @@ const _kursPmDataApiData = async semester => {
     const response = await client.getAsync({ uri })
     const memos = {}
     if (response.body) {
-      response.body.forEach(({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf }) => {
-        if (ladokRoundIds) {
-          memos[courseCode] = memos[courseCode] || {
-            [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0,
-          }
-          if (isPdf) memos[courseCode].numberOfUniqPdfMemos++
-          else memos[courseCode].numberOfUniqMemos++
-
-          memos[courseCode][semester] = memos[courseCode][semester] || {}
-          ladokRoundIds.forEach(roundId => {
-            memos[courseCode][semester][roundId] = {
-              memoId: courseMemoFileName || memoEndPoint,
-              isPdf,
+      response.body.forEach(
+        ({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf, lastChangeDate }) => {
+          if (ladokRoundIds) {
+            memos[courseCode] = memos[courseCode] || {
+              [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0,
             }
-          })
+            if (isPdf) memos[courseCode].numberOfUniqPdfMemos++
+            else memos[courseCode].numberOfUniqMemos++
+
+            memos[courseCode][semester] = memos[courseCode][semester] || {}
+            ladokRoundIds.forEach(roundId => {
+              memos[courseCode][semester][roundId] = {
+                memoId: courseMemoFileName || memoEndPoint,
+                lastChangeDate,
+                isPdf,
+              }
+            })
+          }
         }
-      })
+      )
     }
     // log.debug('_kursPmDataApiData returns', memos)
     return memos
   } catch (err) {
     log.error(err)
     throw err
+  }
+}
+
+const _publishedData = (offeringStartDate, memoChangeDate) => {
+  const offeringStartTime = Date.parse(offeringStartDate)
+  const publishedTime = Date.parse(memoChangeDate)
+  const formattedOfferingStartTime = new Date(offeringStartTime).toLocaleDateString('sv-SE')
+  const formattedPublishedTime = new Date(publishedTime).toLocaleDateString('sv-SE')
+  const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000
+  return {
+    offeringStartTime: formattedOfferingStartTime,
+    publishedTime: formattedPublishedTime,
+    publishedBeforeStart: offeringStartTime > publishedTime,
+    publishedBeforeDeadline: offeringStartTime - ONE_WEEK_IN_MS > publishedTime,
   }
 }
 
@@ -124,8 +141,10 @@ const _documentsPerCourseOffering = (parsedOfferings, analysis, memos) => {
     const { courseCode, semester } = offering
     const offeringId = Number(offering.offeringId)
     let courseMemoInfo = {}
-    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId])
+    if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId]) {
       courseMemoInfo = memos[courseCode][semester][offeringId]
+      courseMemoInfo.publishedData = _publishedData(offering.startDate, courseMemoInfo.lastChangeDate)
+    }
     const courseOffering = {
       ...offering,
       courseMemoInfo,
@@ -171,11 +190,17 @@ function _parseOfferings(courses, semester) {
 
   if (Array.isArray(courses.body)) {
     courses.body.forEach(course => {
-      const { first_yearsemester: firstSemester, offered_semesters: offeredSemesters } = course
-      const courseOfferingLastSemester =
-        Array.isArray(offeredSemesters) && offeredSemesters.length
-          ? offeredSemesters[offeredSemesters.length - 1].semester
-          : ''
+      // eslint-disable-next-line camelcase
+      const { first_yearsemester: firstSemester, offered_semesters } = course
+      // eslint-disable-next-line camelcase
+      const offeredSemesters = Array.isArray(offered_semesters) ? offered_semesters : []
+
+      const offeredSemester = offeredSemesters.find(os => os.semester === semester) || {}
+      const startDate = offeredSemester.start_date || ''
+      const courseOfferingLastSemester = offeredSemesters.length
+        ? offeredSemesters[offeredSemesters.length - 1].semester
+        : ''
+
       if (courseOfferingLastSemester === semester) {
         parsedOfferings.forAnalyses.push({
           semester: firstSemester,
@@ -189,6 +214,7 @@ function _parseOfferings(courses, semester) {
       if (firstSemester === semester) {
         parsedOfferings.forMemos.push({
           semester: firstSemester,
+          startDate,
           schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
           departmentName: course.department_name,
           connectedPrograms: _getProgramList(course.connected_programs),
@@ -270,6 +296,8 @@ function _memosDataPerSchool(courseOfferings) {
   let totalNumberOfCourses = 0
   let totalNumberOfWebMemos = 0
   let totalNumberOfPdfMemos = 0
+  let totalNumberOfMemosPublishedBeforeStart = 0
+  let totalNumberOfMemosPublishedBeforeDeadline = 0
 
   courseOfferings.forEach(courseOffering => {
     const { schoolMainCode, courseCode, courseMemoInfo } = courseOffering
@@ -277,6 +305,8 @@ function _memosDataPerSchool(courseOfferings) {
       const schoolCode = SCHOOL_MAP[schoolMainCode]
       let numberOfMemoPdf = 0
       let numberOfMemoPublished = 0
+      let numberOfMemosPublishedBeforeStart = 0
+      let numberOfMemosPublishedBeforeDeadline = 0
       if (!_.isEmpty(courseMemoInfo)) {
         if (courseMemoInfo.isPdf) {
           if (!uniqueCourseMemoPdf.includes(courseMemoInfo.memoId)) {
@@ -287,6 +317,10 @@ function _memosDataPerSchool(courseOfferings) {
           uniqueCourseMemoPublished.push(courseMemoInfo.memoId)
           numberOfMemoPublished = 1
         }
+        if (courseMemoInfo.publishedData) {
+          numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
+          numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
+        }
       }
       if (schools[schoolCode]) {
         if (!schools[schoolCode].courseCodes.includes(courseCode)) {
@@ -295,9 +329,13 @@ function _memosDataPerSchool(courseOfferings) {
           schools[schoolCode].numberOfCourses += 1
           schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
           schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
+          schools[schoolCode].numberOfMemosPublishedBeforeStart += numberOfMemosPublishedBeforeStart
+          schools[schoolCode].numberOfMemosPublishedBeforeDeadline += numberOfMemosPublishedBeforeDeadline
         } else {
           schools[schoolCode].numberOfUniqMemos += numberOfMemoPublished
           schools[schoolCode].numberOfUniqPdfMemos += numberOfMemoPdf
+          schools[schoolCode].numberOfMemosPublishedBeforeStart += numberOfMemosPublishedBeforeStart
+          schools[schoolCode].numberOfMemosPublishedBeforeDeadline += numberOfMemosPublishedBeforeDeadline
         }
       } else {
         totalNumberOfCourses++
@@ -306,6 +344,8 @@ function _memosDataPerSchool(courseOfferings) {
           courseCodes: [courseCode],
           numberOfUniqMemos: numberOfMemoPublished,
           numberOfUniqPdfMemos: numberOfMemoPdf,
+          numberOfMemosPublishedBeforeStart,
+          numberOfMemosPublishedBeforeDeadline,
         }
       }
     }
@@ -314,12 +354,16 @@ function _memosDataPerSchool(courseOfferings) {
   Object.values(schools).forEach(sc => {
     totalNumberOfWebMemos += sc.numberOfUniqMemos
     totalNumberOfPdfMemos += sc.numberOfUniqPdfMemos
+    totalNumberOfMemosPublishedBeforeStart += sc.numberOfMemosPublishedBeforeStart
+    totalNumberOfMemosPublishedBeforeDeadline += sc.numberOfMemosPublishedBeforeDeadline
   })
   const dataPerSchool = {
     schools,
     totalNumberOfCourses,
     totalNumberOfWebMemos,
     totalNumberOfPdfMemos,
+    totalNumberOfMemosPublishedBeforeStart,
+    totalNumberOfMemosPublishedBeforeDeadline,
   }
   // log.debug('_dataPerSchool returns', dataPerSchool)
   return dataPerSchool
@@ -414,14 +458,13 @@ function _dataPerSchool(courseAnalyses, courseMemoData, courses, courseOfferings
  * @param {[]} parsedOfferings Object with two arrays, each containing offerings’ relevant data.
  * @returns {[]}               Array with found unique semesters
  */
-const _semestersInParsedOfferings = parsedOfferings => {
-  return parsedOfferings.reduce((foundSemesters, o) => {
+const _semestersInParsedOfferings = parsedOfferings =>
+  parsedOfferings.reduce((foundSemesters, o) => {
     if (o.semester && !foundSemesters.includes(o.semester)) {
       foundSemesters.push(o.semester)
     }
     return foundSemesters
   }, [])
-}
 
 /**
  * TODO: Can probably remove when 'numberOfUniqAnalyses', 'numberOfUniqPdfMemos', and 'numberOfUniqMemos', are removed.

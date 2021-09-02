@@ -43,15 +43,25 @@ const memosPerSchoolRows = combinedMemosDataPerSchool => {
     totalNumberOfCourses,
     totalNumberOfWebMemos,
     totalNumberOfPdfMemos,
+    totalNumberOfMemosPublishedBeforeStart,
+    totalNumberOfMemosPublishedBeforeDeadline,
   } = combinedMemosDataPerSchool
   Object.keys(schools).forEach(sC => {
-    const { numberOfCourses, numberOfUniqMemos, numberOfUniqPdfMemos } = schools[sC]
+    const {
+      numberOfCourses,
+      numberOfUniqMemos,
+      numberOfUniqPdfMemos,
+      numberOfMemosPublishedBeforeStart,
+      numberOfMemosPublishedBeforeDeadline,
+    } = schools[sC]
     rows.push(
       <tr key={sC}>
         <td>{sC}</td>
         <td>{numberOfCourses}</td>
         <td>{numberOfUniqMemos}</td>
         <td>{numberOfUniqPdfMemos}</td>
+        <td>{numberOfMemosPublishedBeforeStart}</td>
+        <td>{numberOfMemosPublishedBeforeDeadline}</td>
       </tr>
     )
   })
@@ -70,6 +80,12 @@ const memosPerSchoolRows = combinedMemosDataPerSchool => {
       </td>
       <td>
         <b>{totalNumberOfPdfMemos}</b>
+      </td>
+      <td>
+        <b>{totalNumberOfMemosPublishedBeforeStart}</b>
+      </td>
+      <td>
+        <b>{totalNumberOfMemosPublishedBeforeDeadline}</b>
       </td>
     </tr>
   )
@@ -95,13 +111,22 @@ const memosPerSchoolCSV = combinedMemosDataPerSchool => {
     totalNumberOfPdfMemos,
   } = combinedMemosDataPerSchool
   const csvPerSchoolData = []
-  csvPerSchoolData.push(['School', 'Number of courses', 'Number of web course memos', 'Number of PDF course memos'])
+  csvPerSchoolData.push([
+    'School',
+    'Number of (#) courses',
+    '# web course memos',
+    '# PDF course memos',
+    '# memos published before start',
+    '# memos published one week before start',
+  ])
   Object.keys(schools).forEach(sC => {
     csvPerSchoolData.push([
       sC,
       schools[sC].numberOfCourses,
       schools[sC].numberOfUniqMemos,
       schools[sC].numberOfUniqPdfMemos,
+      schools[sC].numberOfMemosPublishedBeforeStart,
+      schools[sC].numberOfMemosPublishedBeforeDeadline,
     ])
   })
   csvPerSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfWebMemos, totalNumberOfPdfMemos])
@@ -175,13 +200,17 @@ const englishTexts = {
   courseMemosDescription: () => (
     <>
       <p>
-        Column <q>Number of courses</q> holds the number of active courses for the particular school starting the given
-        semester according to KOPPS.
+        Column <q>Number of (#) courses</q> holds the number of active courses for the particular school starting the
+        given semester according to KOPPS.
       </p>
       <p>
-        Column <q>Number of course memos</q> holds the number of unique published course memos for the particular school
-        in the given semester. For course offerings running over several semesters, the course memo is presented at the
-        first semester of the course offerings.
+        Columns <q># web course memos</q> and <q># PDF course memos</q> holds the number of unique published course
+        memos for the particular school in the given semester, seperated by publishing method. For course offerings
+        running over several semesters, the course memo is presented at the first semester of the course offerings.
+      </p>
+      <p>
+        Columns <q># memos published before start</q> and <q># memos published one week before start</q> holds the
+        number of course memos published at specific periods of time. The calculation uses dates in KOPPS.
       </p>
     </>
   ),
@@ -202,9 +231,9 @@ const englishTexts = {
   courseMemosFilterDescription: semester => (
     <p>
       For course memos, offerings that didn’t start during the {semester} semester are filtered out. This is done by
-      discarding offerings that doesn’t meet the criteria:
-      <br />
-      <code>course.first_yearsemester == {semester}</code>
+      discarding offerings that doesn’t meet the criteria: <code>course.first_yearsemester == {semester}</code>. Date
+      used to determine if memo was published before the offering started is{' '}
+      <code>course.offered_semesters[&#123;{semester}&#125;].start_date</code>.
     </p>
   ),
   exportCourseMemosData: 'Export course memos data per school (csv file)',
@@ -273,6 +302,8 @@ class CourseStatisticsPage extends Component {
     const perDepartmentCourseOfferingRowsWithMemos = []
     withMemos.forEach(courseOffering => {
       const cO = toJS(courseOffering)
+      const m = cO.courseMemoInfo || {}
+      const p = m.publishedData || {}
 
       perDepartmentCourseOfferingRowsWithMemos.push(
         <tr>
@@ -282,6 +313,7 @@ class CourseStatisticsPage extends Component {
           <td>{cO.courseCode}</td>
           <td width="300">{cO.connectedPrograms}</td>
           <td>{cO.offeringId}</td>
+          <td>{p.offeringStartTime}</td>
           <td>
             <a
               href={
@@ -293,6 +325,7 @@ class CourseStatisticsPage extends Component {
               {cO.courseMemoInfo && cO.courseMemoInfo.memoId}
             </a>
           </td>
+          <td>{p.publishedTime}</td>
         </tr>
       )
     })
@@ -328,10 +361,14 @@ class CourseStatisticsPage extends Component {
       'Course Code',
       'Connected program(s)',
       'Offering ID',
+      'Offering Start Date',
       'Course Memo',
+      'Publishing Date',
     ])
     withMemos.forEach(courseOffering => {
       const cO = toJS(courseOffering)
+      const m = cO.courseMemoInfo || {}
+      const p = m.publishedData || {}
       csvPerDepartmentDataWithMemos.push([
         cO.semester,
         cO.schoolMainCode,
@@ -339,7 +376,9 @@ class CourseStatisticsPage extends Component {
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
-        cO.courseMemoInfo && cO.courseMemoInfo.memoId,
+        p.offeringStartTime,
+        m.memoId,
+        p.publishedTime,
       ])
     })
 
@@ -402,9 +441,11 @@ class CourseStatisticsPage extends Component {
                 <thead>
                   <tr>
                     <th>School</th>
-                    <th>Number of courses</th>
-                    <th>Number of web course memos</th>
-                    <th>Number of PDF course memos</th>
+                    <th>Number of (#) courses</th>
+                    <th># web course memos</th>
+                    <th># PDF course memos</th>
+                    <th># memos published before start</th>
+                    <th># memos published one week before start</th>
                   </tr>
                 </thead>
                 <tbody>{memosPerSchoolRows(combinedMemosDataPerSchool)}</tbody>
@@ -453,7 +494,9 @@ class CourseStatisticsPage extends Component {
                       <th>Course Code</th>
                       <th>Connected program(s)</th>
                       <th>Offering ID</th>
+                      <th>Offering Start Date</th>
                       <th>Course Memos</th>
+                      <th>Publishing Date</th>
                     </tr>
                   </thead>
                   <tbody>{perDepartmentCourseOfferingRowsWithMemos}</tbody>
