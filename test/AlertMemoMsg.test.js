@@ -27,44 +27,48 @@ const TEST_SAVE = {
 const { getByRole, getByText } = screen
 const pageTitles = lang => i18n.messages[lang === 'en' ? 0 : 1].pageTitles
 
-describe('English. Component <AlertMemoMsg> renders with different messages if user went to save/publish course analysis and were returned in the end.', () => {
+describe('English. Component <AlertMemoMsg> renders with different messages if a user went to save/publish course analysis and were returned in the end.', () => {
   test('renders without props', done => {
     render(<AlertMemoMsg />)
     done()
   })
 
-  test('renders alert message if user went to admin and published data again', done => {
+  test('renders alert message if a user went to admin and published data again', done => {
     render(<AlertMemoMsg props={TEST_PUBLISH} lang="en" translate={pageTitles('en')} />)
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(/^... but it is missing a published course memo/)
     done()
   })
 
-  test('renders alert message if user went to admin and saved data without publishing it', done => {
+  test('does not render alert message if a user went to admin and saved data without publishing it', done => {
     render(<AlertMemoMsg props={TEST_SAVE} lang="en" translate={pageTitles('en')} />)
-    const alertHeader = getByRole('heading', { level: 4 })
-    expect(alertHeader).toHaveTextContent(/^... but it is missing a published course memo/)
+    const alertHeader = screen.queryByRole('heading', { level: 4 })
+    expect(alertHeader).not.toBeInTheDocument()
+    const alertText = screen.queryByText(/^... but it is missing a published course memo/)
+    expect(alertText).not.toBeInTheDocument()
     done()
   })
 })
 
-describe('Swedish. Component <AlertMemoMsg> renders with different messages if user went to admin page, have done some action and send back to public page.', () => {
+describe('Swedish. Component <AlertMemoMsg> renders with different messages if a user went to admin page, have done some action and send back to public page.', () => {
   test('renders without props', done => {
     render(<AlertMemoMsg />)
     done()
   })
 
-  test('renders alert message if user went to admin and published data again', done => {
+  test('renders alert message if a user went to admin and published data again', done => {
     render(<AlertMemoMsg props={TEST_PUBLISH} lang="sv" translate={pageTitles('sv')} />)
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(/^... men det saknas ett publicerat kurs-PM/)
     done()
   })
 
-  test('renders alert message if user went to admin and saved data without publishing it', done => {
+  test('does not render alert message if a user went to admin and saved data without publishing it', done => {
     render(<AlertMemoMsg props={TEST_SAVE} lang="sv" translate={pageTitles('sv')} />)
-    const alertHeader = getByRole('heading', { level: 4 })
-    expect(alertHeader).toHaveTextContent(/^... men det saknas ett publicerat kurs-PM/)
+    const alertHeader = screen.queryByRole('heading', { level: 4 })
+    expect(alertHeader).not.toBeInTheDocument()
+    const alertText = screen.queryByText(/^... but it is missing a published course memo/)
+    expect(alertText).not.toBeInTheDocument()
     done()
   })
 })
