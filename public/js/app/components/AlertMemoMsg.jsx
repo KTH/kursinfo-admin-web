@@ -8,7 +8,7 @@ const AlertMemoMsg = ({ props, translate = { alertMessages: {}, course_short_sem
   const { alertMessages, course_short_semester: shortSemester } = translate
 
   const { noMemoHeader } = alertMessages
-  const decodedRoundNames = decodeURI(roundNames).trim()
+  const decodedRoundNames = decodeURIComponent(roundNames).trim()
 
   const semesterFriendly = semester
     ? `${lang === 'en' ? 'semester' : 'termin'}: ${shortSemester[semester.toString().substring(4, 5)]}${semester
