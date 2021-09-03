@@ -7,6 +7,7 @@ import {
   _fetchCourseMemos,
   _documentsPerCourseOffering,
   _dataPerSchool,
+  _publishData,
 } from '../server/statisticTransformer'
 import {
   mockEarliestSemester,
@@ -21,7 +22,12 @@ import {
 } from './mocks/koppsCourseOfferings'
 import { mockCourseAnalysesSemesters, mockExpectedCourseAnalyses, mockKursutvecklingData } from './mocks/courseAnalyses'
 import { mockCourseMemosSemesters, mockExpectedCourseMemos, mockKursPmDataApiData } from './mocks/courseMemos'
-import { mockCourseAnalyses, mockCourseMemos, mockExpectedCourseOfferings } from './mocks/courseOfferings'
+import {
+  mockCourseAnalyses,
+  mockCourseMemos,
+  mockExpectedCourseOfferings,
+  mockPublishData,
+} from './mocks/courseOfferings'
 import {
   mockEmptyCourseAnalyses,
   mockEmptyCourseMemos,
@@ -108,5 +114,11 @@ describe('Test statisticTransformer', () => {
     let combinedDataPerSchool = _dataPerSchool(mockEmptyCourseAnalyses, mockEmptyCourseMemos, mockEmptyCourses)
     expect(mockExpectedEmptyCombinedDataPerSchool).toMatchObject(combinedDataPerSchool)
     combinedDataPerSchool = _dataPerSchool(mockCourseAnalyses, mockCourseMemos)
+  })
+  test('_publishData - Calculate and compile memo publish data', () => {
+    const { startDate } = mockMemoOfferings[0]
+    const { lastChangeDate } = mockCourseMemos.AAA123[20201][1]
+    let publishData = _publishData(startDate, lastChangeDate)
+    expect(mockPublishData).toMatchObject(publishData)
   })
 })

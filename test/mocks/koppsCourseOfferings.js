@@ -11,7 +11,7 @@ const mockKoppsCourseOfferingsResponse = {
       connected_programs: [],
       course_code: '',
       offering_id: '',
-      offered_semesters: []
+      offered_semesters: [],
     },
     // 2. Object with only program list
     {
@@ -21,17 +21,17 @@ const mockKoppsCourseOfferingsResponse = {
       connected_programs: [
         {
           code: 'XXX',
-          study_year: 1
+          study_year: 1,
         },
         {
           code: 'YYY',
           spec_code: 'ZZZ',
-          study_year: 2
-        }
+          study_year: 2,
+        },
       ],
       course_code: '',
       offering_id: '',
-      offered_semesters: []
+      offered_semesters: [],
     },
     // 3. Objects with full data
     {
@@ -41,26 +41,26 @@ const mockKoppsCourseOfferingsResponse = {
       connected_programs: [
         {
           code: 'XXX',
-          study_year: 1
+          study_year: 1,
         },
         {
           code: 'YYY',
           spec_code: 'ZZZ',
-          study_year: 2
-        }
+          study_year: 2,
+        },
       ],
       course_code: 'AAA123',
       offering_id: '1',
       offered_semesters: [
-        { semester: '20162' },
-        { semester: '20171' },
-        { semester: '20172' },
-        { semester: '20181' },
-        { semester: '20182' },
-        { semester: '20191' },
-        { semester: '20192' },
-        { semester: '20201' }
-      ]
+        { semester: '20162', start_date: '2016-08-20' },
+        { semester: '20171', start_date: '2017-01-20' },
+        { semester: '20172', start_date: '2017-08-20' },
+        { semester: '20181', start_date: '2018-01-20' },
+        { semester: '20182', start_date: '2018-08-20' },
+        { semester: '20191', start_date: '2019-01-20' },
+        { semester: '20192', start_date: '2019-08-20' },
+        { semester: '20201', start_date: '2020-01-20' },
+      ],
     },
     {
       first_yearsemester: '20201',
@@ -69,19 +69,19 @@ const mockKoppsCourseOfferingsResponse = {
       connected_programs: [
         {
           code: 'XXX',
-          study_year: 1
+          study_year: 1,
         },
         {
           code: 'YYY',
           spec_code: 'ZZZ',
-          study_year: 2
-        }
+          study_year: 2,
+        },
       ],
       course_code: 'AAA123',
       offering_id: '1',
-      offered_semesters: [{ semester: '20201' }]
-    }
-  ]
+      offered_semesters: [{ semester: '20201', start_date: '2020-01-20' }],
+    },
+  ],
 }
 
 const mockAnalysisOfferings = [
@@ -91,7 +91,7 @@ const mockAnalysisOfferings = [
     departmentName: 'ABE/Test',
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
-    offeringId: '1'
+    offeringId: '1',
   },
   {
     semester: '20201',
@@ -99,8 +99,8 @@ const mockAnalysisOfferings = [
     departmentName: 'ABE/Test',
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
-    offeringId: '1'
-  }
+    offeringId: '1',
+  },
 ]
 
 const mockSemestersInAnalyses = ['20162', '20201']
@@ -112,15 +112,16 @@ const mockMemoOfferings = [
     departmentName: 'ABE/Test',
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
-    offeringId: '1'
-  }
+    offeringId: '1',
+    startDate: '2020-01-20',
+  },
 ]
 
 const mockSemestersInMemos = ['20201']
 
 const mockParsedOfferings = {
   forAnalyses: mockAnalysisOfferings,
-  forMemos: mockMemoOfferings
+  forMemos: mockMemoOfferings,
 }
 
 const mockOfferingsWithoutAnalysis = [
@@ -149,7 +150,7 @@ const mockOfferingsWithoutAnalysis = [
     departmentName: 'ABE/Test',
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
-    offeringId: '1'
+    offeringId: '1',
     // },
     // {
     //   semester: mockEarliestSemester, //20172
@@ -166,7 +167,7 @@ const mockOfferingsWithoutAnalysis = [
     //   connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     //   courseCode: 'AAA123',
     //   offeringId: '1'
-  }
+  },
 ]
 
 export {
@@ -178,5 +179,5 @@ export {
   mockMemoOfferings,
   mockSemestersInMemos,
   mockParsedOfferings,
-  mockOfferingsWithoutAnalysis
+  mockOfferingsWithoutAnalysis,
 }

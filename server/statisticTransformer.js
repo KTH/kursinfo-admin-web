@@ -95,7 +95,13 @@ const _kursPmDataApiData = async semester => {
   }
 }
 
-const _publishedData = (offeringStartDate, memoChangeDate) => {
+/**
+ * Calculates and compiles memo publish data.
+ * @param {[]} offeringStartDate  Offering’s start date, in format accepted by Date.parse
+ * @param {{}} memoChangeDate     Memo’s change date, in format accepted by Date.parse
+ * @returns {{}}                  Object with publish data for memo
+ */
+const _publishData = (offeringStartDate, memoChangeDate) => {
   const offeringStartTime = Date.parse(offeringStartDate)
   const publishedTime = Date.parse(memoChangeDate)
   const formattedOfferingStartTime = new Date(offeringStartTime).toLocaleDateString('sv-SE')
@@ -104,8 +110,8 @@ const _publishedData = (offeringStartDate, memoChangeDate) => {
   return {
     offeringStartTime: formattedOfferingStartTime,
     publishedTime: formattedPublishedTime,
-    publishedBeforeStart: offeringStartTime > publishedTime,
-    publishedBeforeDeadline: offeringStartTime - ONE_WEEK_IN_MS > publishedTime,
+    publishedBeforeStart: offeringStartTime >= publishedTime,
+    publishedBeforeDeadline: offeringStartTime - ONE_WEEK_IN_MS >= publishedTime,
   }
 }
 
@@ -143,7 +149,7 @@ const _documentsPerCourseOffering = (parsedOfferings, analysis, memos) => {
     let courseMemoInfo = {}
     if (memos[courseCode] && memos[courseCode][semester] && memos[courseCode][semester][offeringId]) {
       courseMemoInfo = memos[courseCode][semester][offeringId]
-      courseMemoInfo.publishedData = _publishedData(offering.startDate, courseMemoInfo.lastChangeDate)
+      courseMemoInfo.publishedData = _publishData(offering.startDate, courseMemoInfo.lastChangeDate)
     }
     const courseOffering = {
       ...offering,
@@ -587,4 +593,5 @@ module.exports = {
   _fetchCourseMemos,
   _documentsPerCourseOffering,
   _dataPerSchool,
+  _publishData,
 }
