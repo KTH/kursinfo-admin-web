@@ -4,19 +4,21 @@ import { fetchParameters } from '../util/fetchUrlParams'
 
 // &noMemo=CSAMH%20(%20Startdatum%202012-08-24,%20Svenska%20)
 const AlertMemoMsg = ({ props, translate = { alertMessages: {}, course_short_semester: {} }, lang = 'en' }) => {
-  const { noMemo: noMemoRoundNames = '', term: semester } = fetchParameters(props)
+  const { event: doneAction, noMemo: roundNames = '', term: semester } = fetchParameters(props)
   const { alertMessages, course_short_semester: shortSemester } = translate
 
   const { noMemoHeader } = alertMessages
-  const decodedRoundNames = decodeURI(noMemoRoundNames).trim()
+  const decodedRoundNames = decodeURI(roundNames).trim()
+
   const semesterFriendly = semester
     ? `${lang === 'en' ? 'semester' : 'termin'}: ${shortSemester[semester.toString().substring(4, 5)]}${semester
         .toString()
         .substring(0, 4)}`
     : ''
+  const showAlert = decodedRoundNames !== '' && doneAction === 'pub'
 
   return (
-    decodedRoundNames !== '' && (
+    showAlert && (
       <Alert color="info" aria-live="polite">
         <h4>{noMemoHeader}</h4>
         {lang === 'sv' ? (
