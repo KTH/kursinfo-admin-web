@@ -229,12 +229,19 @@ const englishTexts = {
     </p>
   ),
   courseMemosFilterDescription: semester => (
-    <p>
-      For course memos, offerings that didn’t start during the {semester} semester are filtered out. This is done by
-      discarding offerings that doesn’t meet the criteria: <code>course.first_yearsemester == {semester}</code>. Date
-      used to determine if memo was published before the offering started is{' '}
-      <code>course.offered_semesters[&#123;{semester}&#125;].start_date</code>.
-    </p>
+    <>
+      <p>
+        For course memos, offerings that didn’t start during the {semester} semester are filtered out. This is done by
+        discarding offerings that doesn’t meet the criteria: <code>course.first_yearsemester == {semester}</code>. Date
+        used to determine if memo was published before the offering started is{' '}
+        <code>course.offered_semesters[&#123;{semester}&#125;].start_date</code>.
+      </p>
+      <p>
+        An earlier version of <i>Publish new course analysis and course data</i> had the option to upload course memos
+        together with course analyses. This option does not exist anymore, and course memos uploaded on that page are
+        filtered out.
+      </p>
+    </>
   ),
   exportCourseMemosData: 'Export course memos data per school (csv file)',
   rawDataHeader: 'Raw Data',
