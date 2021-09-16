@@ -1,16 +1,16 @@
 const { BlobServiceClient } = require('@azure/storage-blob')
 
-const serverConfig = require('./configuration').server
 const log = require('kth-node-log')
 const sharp = require('sharp')
+
+const { server: serverConfig } = require('./configuration')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const STORAGE_CONTAINER_NAME = serverConfig.fileStorage.kursinfoStorage.containerName
-
-const BLOB_SERVICE_SAS_URL = serverConfig.fileStorage.kursinfoStorage.blobServiceSasUrl
+const { containerName: STORAGE_CONTAINER_NAME, blobServiceSasUrl: BLOB_SERVICE_SAS_URL } =
+  serverConfig.fileStorage.kursinfoStorage
 
 const blobServiceClient = new BlobServiceClient(BLOB_SERVICE_SAS_URL)
 
@@ -28,15 +28,13 @@ const getTodayDate = (fileDate = true) => {
 async function _uploadBlob(blobName, content, fileType, metadata = {}) {
   try {
     const containerClient = blobServiceClient.getContainerClient(STORAGE_CONTAINER_NAME)
-    log.info('-------> 1 acontainerClient', containerClient)
     const blockBlobClient = containerClient.getBlockBlobClient(blobName)
-    log.info('-------> 2 ablockBlobClient', blockBlobClient)
 
-    log.debug(`3 Blobstorage - Upload block blob ${blobName} `)
+    log.debug(`Blobstorage - Upload block blob ${blobName} `)
 
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length)
 
-    log.debug(`4 Blobstorage - done ${uploadBlobResponse} `)
+    log.debug(`Blobstorage - file is uploaded. Updating metadata...`)
 
     await blockBlobClient.setHTTPHeaders({ blobContentType: fileType })
     metadata.date = getTodayDate(false)
