@@ -25,7 +25,7 @@
     "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore public/ app.js\""
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.6.0",
+    "@azure/storage-blob": "^12.8.0",
     "@kth/kth-kip-style-react-components": "^0.1.2",
     "@kth/kth-node-passport-oidc": "^3.0.29",
     "@opentelemetry/api": "^1.0.3",
