@@ -28,10 +28,15 @@ const getTodayDate = (fileDate = true) => {
 async function _uploadBlob(blobName, content, fileType, metadata = {}) {
   try {
     const containerClient = blobServiceClient.getContainerClient(STORAGE_CONTAINER_NAME)
+    log.info('-------> 1 acontainerClient', containerClient)
     const blockBlobClient = containerClient.getBlockBlobClient(blobName)
+    log.info('-------> 2 ablockBlobClient', blockBlobClient)
 
-    log.debug(`Blobstorage - Upload block blob ${blobName} `)
+    log.debug(`3 Blobstorage - Upload block blob ${blobName} `)
+
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length)
+
+    log.debug(`4 Blobstorage - done ${uploadBlobResponse} `)
 
     await blockBlobClient.setHTTPHeaders({ blobContentType: fileType })
     metadata.date = getTodayDate(false)
@@ -58,5 +63,5 @@ async function runBlobStorage(file, courseCode, metadata) {
 }
 
 module.exports = {
-  runBlobStorage
+  runBlobStorage,
 }
