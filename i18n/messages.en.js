@@ -166,6 +166,7 @@ module.exports = {
   introLabel: {
     alertMessages: {
       approve_term: 'You must approve the terms (see red markings below)',
+      failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
       no_file_chosen: 'You must first choose an image to continue to “Edit text”.',
       not_correct_format_choose_another: `You need to choose an image in the correct format (see red markings below)
         to be able to continue to “Edit text”.`,

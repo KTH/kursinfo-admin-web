@@ -47,48 +47,30 @@ class PictureUpload extends Component {
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
 
-  async _getFileData(imageFile) {
+  // eslint-disable-next-line class-methods-use-this
+  async _compressFile(imageFile) {
     const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 400,
+      initialQuality: 1,
+      maxSizeMB: 5,
+      maxWidthOrHeight: 800, // 2*400 to keep quality of f.e., text on the picture
       useWebWorker: true,
     }
-    const formData = new FormData()
-    console.log('before compressor fike', imageFile)
-
-    console.log('before compressor', imageFile.size)
-
     const compressedBlob = await imageCompression(imageFile, options)
-    // new Compressor(file, {
-    //   quality: 0.6,
-    //   // success(result) {
-    //   //   const formData = new FormData()
-
-    //   //   // The third parameter is required for server
-    //   //   formData.append('file', result, result.name)
-
-    //   //   // Send the compressed image file to server with XMLHttpRequest.
-    //   //   axios.post('/path/to/upload', formData).then(() => {
-    //   //     console.log('Upload success')
-    //   //   })
-    //   // },
-    //   // error(err) {
-    //   //   console.log(err.message)
-    //   // },
-    // })
-    console.log('after compressor', compressedBlob)
     const compressedFile = new File([compressedBlob], `compressed-image-${compressedBlob.name}`, {
       type: compressedBlob.type,
     })
-    console.log('after compressor', compressedFile)
+    const imageFilePath = compressedFile ? window.URL.createObjectURL(compressedFile) : ''
 
-    console.log('after compressor', compressedFile.size)
+    return { compressedFile, imageFilePath }
+  }
+
+  _appendFileData(imageFile) {
+    const formData = new FormData()
+
     formData.append('file', imageFile)
     formData.append('courseCode', this.courseCode)
     formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
     formData.append('pictureBy', 'Picture chosen by user')
-    console.log('formData', JSON.stringify(formData))
-
     return formData
   }
 
@@ -137,10 +119,15 @@ class PictureUpload extends Component {
     let infoMsg
     if (picFile) {
       if (_validFileType(picFile)) {
-        const compressedFile = await this._getFileData(picFile)
-        console.log('before state', compressedFile)
-        this._choosenNewPicture(!errTrue, window.URL.createObjectURL(picFile))
-        this.setState({ newImage: compressedFile })
+        const { compressedFile, imageFilePath } = await this._compressFile(picFile)
+        if (!imageFilePath) {
+          this._choosenNewPicture(errTrue, noFile)
+          errorIndex = 'failed_compression_of_file'
+        } else {
+          const fileData = await this._appendFileData(compressedFile)
+          this._choosenNewPicture(!errTrue, imageFilePath)
+          this.setState({ newImage: fileData })
+        }
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
