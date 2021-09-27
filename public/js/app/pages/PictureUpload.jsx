@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Alert, Button, Col } from 'reactstrap'
+import imageCompression from 'browser-image-compression'
 import ButtonModal from '../components/ButtonModal'
 import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
@@ -39,18 +41,35 @@ class PictureUpload extends Component {
     this.defaultImageUrl = this.props.defaultImageUrl // Default
 
     this.checkTerms = this.checkTerms.bind(this)
-    this.clickFileInput = this.clickFileInput.bind(this)
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
     this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
 
-  _getFileData(file) {
-    let formData = new FormData()
-    formData.append('file', file)
+  // eslint-disable-next-line class-methods-use-this
+  async _compressFile(imageFile) {
+    const options = {
+      initialQuality: 1,
+      maxSizeMB: 5,
+      maxWidthOrHeight: 800, // 2*400 to keep quality of f.e., text on the picture
+      useWebWorker: true,
+    }
+    const compressedBlob = await imageCompression(imageFile, options)
+    const compressedFile = new File([compressedBlob], `compressed-image-${compressedBlob.name}`, {
+      type: compressedBlob.type,
+    })
+    const imageFilePath = compressedFile ? window.URL.createObjectURL(compressedFile) : ''
+
+    return { compressedFile, imageFilePath }
+  }
+
+  _appendFileData(imageFile) {
+    const formData = new FormData()
+
+    formData.append('file', imageFile)
     formData.append('courseCode', this.courseCode)
-    formData.append('fileExtension', file.name.toLowerCase().split('.').pop())
+    formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
     formData.append('pictureBy', 'Picture chosen by user')
     return formData
   }
@@ -71,13 +90,9 @@ class PictureUpload extends Component {
     return termsAgreement.checked
   }
 
-  clickFileInput(event) {
-    if (event.target !== event.currentTarget) event.currentTarget.click()
-  }
-
   resetToPrevApiPicture(event) {
     this._choosenNewPicture(!errTrue, noFile)
-    let fileInput = document.querySelector('.pic-upload')
+    const fileInput = document.querySelector('.pic-upload')
     fileInput.value = ''
   }
 
@@ -97,14 +112,22 @@ class PictureUpload extends Component {
     this.setState({ infoMsg })
   }
 
-  displayValidatedPic(event) {
+  async displayValidatedPic(event) {
     const picFile = event.target.files[0]
     const isTempFile = this.state.tempFilePath
-    let errorIndex, infoMsg
+    let errorIndex
+    let infoMsg
     if (picFile) {
       if (_validFileType(picFile)) {
-        this._choosenNewPicture(!errTrue, window.URL.createObjectURL(picFile))
-        this.setState({ newImage: this._getFileData(picFile) })
+        const { compressedFile, imageFilePath } = await this._compressFile(picFile)
+        if (!imageFilePath) {
+          this._choosenNewPicture(errTrue, noFile)
+          errorIndex = 'failed_compression_of_file'
+        } else {
+          const fileData = await this._appendFileData(compressedFile)
+          this._choosenNewPicture(!errTrue, imageFilePath)
+          this.setState({ newImage: fileData })
+        }
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
@@ -172,9 +195,9 @@ class PictureUpload extends Component {
                 value="defaultPicture"
                 onClick={this.switchOption}
                 defaultChecked={this.state.isDefault}
-              />{' '}
-              {introLabel.image.firstOption}
-            </label>{' '}
+              />
+              {` ${introLabel.image.firstOption} `}
+            </label>
             <br />
             <label htmlFor="otherPicture">
               <input
@@ -184,9 +207,9 @@ class PictureUpload extends Component {
                 value="otherPicture"
                 onClick={this.switchOption}
                 defaultChecked={!this.state.isDefault}
-              />{' '}
-              {introLabel.image.secondOption}
-            </label>{' '}
+              />
+              {` ${introLabel.image.secondOption} `}
+            </label>
             <br />
           </span>
         </form>
@@ -245,8 +268,8 @@ class PictureUpload extends Component {
                   value="agree"
                 />
                 <label htmlFor="termsAgreement">
-                  {introLabel.image.agreeCheck}{' '}
-                  <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link">
+                  {`${introLabel.image.agreeCheck} `}
+                  <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link" rel="noreferrer">
                     {introLabel.image.imagesOnTheWeb}
                   </a>
                 </label>

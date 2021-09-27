@@ -165,6 +165,7 @@ module.exports = {
     alertMessages: {
       approve_term:
         'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
+      failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
       no_file_chosen: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
         för att kunna gå vidare till ”Redigera text”.`,
       not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
