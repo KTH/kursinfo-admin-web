@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Alert, Button, Col } from 'reactstrap'
+import imageCompression from 'browser-image-compression'
 import ButtonModal from '../components/ButtonModal'
 import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
@@ -39,19 +41,54 @@ class PictureUpload extends Component {
     this.defaultImageUrl = this.props.defaultImageUrl // Default
 
     this.checkTerms = this.checkTerms.bind(this)
-    this.clickFileInput = this.clickFileInput.bind(this)
     this.displayValidatedPic = this.displayValidatedPic.bind(this)
     this.doNextStep = this.doNextStep.bind(this)
     this.switchOption = this.switchOption.bind(this)
     this.resetToPrevApiPicture = this.resetToPrevApiPicture.bind(this)
   }
 
-  _getFileData(file) {
-    let formData = new FormData()
-    formData.append('file', file)
+  async _getFileData(imageFile) {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 400,
+      useWebWorker: true,
+    }
+    const formData = new FormData()
+    console.log('before compressor fike', imageFile)
+
+    console.log('before compressor', imageFile.size)
+
+    const compressedBlob = await imageCompression(imageFile, options)
+    // new Compressor(file, {
+    //   quality: 0.6,
+    //   // success(result) {
+    //   //   const formData = new FormData()
+
+    //   //   // The third parameter is required for server
+    //   //   formData.append('file', result, result.name)
+
+    //   //   // Send the compressed image file to server with XMLHttpRequest.
+    //   //   axios.post('/path/to/upload', formData).then(() => {
+    //   //     console.log('Upload success')
+    //   //   })
+    //   // },
+    //   // error(err) {
+    //   //   console.log(err.message)
+    //   // },
+    // })
+    console.log('after compressor', compressedBlob)
+    const compressedFile = new File([compressedBlob], `compressed-image-${compressedBlob.name}`, {
+      type: compressedBlob.type,
+    })
+    console.log('after compressor', compressedFile)
+
+    console.log('after compressor', compressedFile.size)
+    formData.append('file', imageFile)
     formData.append('courseCode', this.courseCode)
-    formData.append('fileExtension', file.name.toLowerCase().split('.').pop())
+    formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
     formData.append('pictureBy', 'Picture chosen by user')
+    console.log('formData', JSON.stringify(formData))
+
     return formData
   }
 
@@ -71,13 +108,9 @@ class PictureUpload extends Component {
     return termsAgreement.checked
   }
 
-  clickFileInput(event) {
-    if (event.target !== event.currentTarget) event.currentTarget.click()
-  }
-
   resetToPrevApiPicture(event) {
     this._choosenNewPicture(!errTrue, noFile)
-    let fileInput = document.querySelector('.pic-upload')
+    const fileInput = document.querySelector('.pic-upload')
     fileInput.value = ''
   }
 
@@ -97,14 +130,17 @@ class PictureUpload extends Component {
     this.setState({ infoMsg })
   }
 
-  displayValidatedPic(event) {
+  async displayValidatedPic(event) {
     const picFile = event.target.files[0]
     const isTempFile = this.state.tempFilePath
-    let errorIndex, infoMsg
+    let errorIndex
+    let infoMsg
     if (picFile) {
       if (_validFileType(picFile)) {
+        const compressedFile = await this._getFileData(picFile)
+        console.log('before state', compressedFile)
         this._choosenNewPicture(!errTrue, window.URL.createObjectURL(picFile))
-        this.setState({ newImage: this._getFileData(picFile) })
+        this.setState({ newImage: compressedFile })
       } else {
         if (!this.isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
@@ -172,9 +208,9 @@ class PictureUpload extends Component {
                 value="defaultPicture"
                 onClick={this.switchOption}
                 defaultChecked={this.state.isDefault}
-              />{' '}
-              {introLabel.image.firstOption}
-            </label>{' '}
+              />
+              {` ${introLabel.image.firstOption} `}
+            </label>
             <br />
             <label htmlFor="otherPicture">
               <input
@@ -184,9 +220,9 @@ class PictureUpload extends Component {
                 value="otherPicture"
                 onClick={this.switchOption}
                 defaultChecked={!this.state.isDefault}
-              />{' '}
-              {introLabel.image.secondOption}
-            </label>{' '}
+              />
+              {` ${introLabel.image.secondOption} `}
+            </label>
             <br />
           </span>
         </form>
@@ -245,8 +281,8 @@ class PictureUpload extends Component {
                   value="agree"
                 />
                 <label htmlFor="termsAgreement">
-                  {introLabel.image.agreeCheck}{' '}
-                  <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link">
+                  {`${introLabel.image.agreeCheck} `}
+                  <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link" rel="noreferrer">
                     {introLabel.image.imagesOnTheWeb}
                   </a>
                 </label>
