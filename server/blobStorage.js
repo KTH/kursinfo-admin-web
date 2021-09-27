@@ -1,7 +1,6 @@
 const { BlobServiceClient } = require('@azure/storage-blob')
 
 const log = require('kth-node-log')
-const sharp = require('sharp')
 
 const { server: serverConfig } = require('./configuration')
 
@@ -55,7 +54,6 @@ async function runBlobStorage(file, courseCode, metadata) {
   const content = file.data
 
   const fileType = file.mimetype
-  console.log('<<<<<<file>>>>', file)
   const uploadResponse = await _uploadBlob(imageName, content, fileType, metadata)
   log.debug(' Blobstorage - uploaded file response ', uploadResponse)
 
