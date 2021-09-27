@@ -50,9 +50,8 @@ async function runBlobStorage(file, courseCode, metadata) {
   log.info('runBlobStorage: ', file, ', courseCode: ', courseCode, ', metadata: ', metadata)
   // const containerName = 'kursinfo-image-container'
   const imageName = `Picture_by_own_choice_${courseCode}.${metadata.fileExtension}`
-  const content = file.data
+  const { data: content, mimetype: fileType } = file
 
-  const fileType = file.mimetype
   const uploadResponse = await _uploadBlob(imageName, content, fileType, metadata)
   log.debug(' Blobstorage - uploaded file response ', uploadResponse)
 
