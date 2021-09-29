@@ -166,7 +166,7 @@ class SellingInfo extends Component {
         </span>
         <Row className="control-buttons">
           <Col sm="4" className="step-back">
-            <Button onClick={this.quitEditor} className="back" id="back-to-image" alt={introLabel.alt.step1}>
+            <Button onClick={this.quitEditor} className="back" id="back-to-image" aria-label={introLabel.alt.step1}>
               {introLabel.button.step1}
             </Button>
           </Col>
@@ -186,7 +186,7 @@ class SellingInfo extends Component {
               id="to-peview"
               className="next"
               color="success"
-              alt={introLabel.alt.step3}
+              aria-label={introLabel.alt.step3}
               disabled={this.state.isError}
             >
               {introLabel.button.step3}

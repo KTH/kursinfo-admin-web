@@ -157,7 +157,7 @@ exports[`<CourseDescriptionEditorPage> (and subordinates) Renders without errors
           class="step-forward col-sm-4"
         >
           <button
-            alt="Till nästa steg att redigera text"
+            aria-label="Till nästa steg att redigera text"
             class="next btn btn-success"
             type="button"
           >

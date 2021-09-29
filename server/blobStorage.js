@@ -29,20 +29,20 @@ async function _uploadBlob(blobName, content, fileType, metadata = {}) {
     const containerClient = blobServiceClient.getContainerClient(STORAGE_CONTAINER_NAME)
     const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
-    log.debug(`Blobstorage - Upload block blob ${blobName} `)
+    log.debug(` Blobstorage - Upload block blob ${blobName} `)
 
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length)
 
-    log.debug(`Blobstorage - file is uploaded. Updating metadata...`)
+    log.debug(` Blobstorage - file is uploaded. Updating metadata...`)
 
     await blockBlobClient.setHTTPHeaders({ blobContentType: fileType })
     metadata.date = getTodayDate(false)
     await blockBlobClient.setMetadata(metadata)
-    log.info('uploadBlobResponse', uploadBlobResponse)
+    log.info(' uploadBlobResponse', uploadBlobResponse)
     return uploadBlobResponse
   } catch (error) {
-    log.error('Error when uploading file in blobStorage: ' + blobName, { error })
-    return error
+    log.error(' Error when uploading file in blobStorage: ' + blobName, { error })
+    return { errorMsg: 'Smth wrong with an upload of the picture', ...error }
   }
 }
 
@@ -53,9 +53,12 @@ async function runBlobStorage(file, courseCode, metadata) {
   const { data: content, mimetype: fileType } = file
 
   const uploadResponse = await _uploadBlob(imageName, content, fileType, metadata)
-  log.debug(' Blobstorage - uploaded file response ', uploadResponse)
+  if (uploadResponse && uploadResponse.errorMsg) {
+    log.error(' Blobstorage - FAILED uploaded file response ', file, ', courseCode: ', courseCode)
 
-  // TODO: if uploadResponse return error then no imageName
+    return null
+  }
+  log.debug(' Blobstorage - uploaded file response ', uploadResponse)
 
   return imageName
 }

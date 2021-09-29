@@ -52,7 +52,7 @@ class AdminStartPage extends Component {
                 <CardFooter className="text-right">
                   <a
                     href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`}
-                    alt={startCards.sellingText_btn}
+                    aria-label={startCards.sellingText_btn}
                     className="btn btn-primary"
                   >
                     {startCards.sellingText_btn}
@@ -76,14 +76,14 @@ class AdminStartPage extends Component {
                   <CardLink
                     href={`${ADMIN_COURSE_PM_DATA}${courseCode}?l=${lang}`}
                     className="btn btn-primary"
-                    alt={startCards.coursePM_btn_new}
+                    aria-label={startCards.coursePM_btn_new}
                   >
                     {startCards.coursePM_btn_new}
                   </CardLink>
                   <CardLink
                     href={`${ADMIN_COURSE_PM_DATA}published/${courseCode}?l=${lang}`}
                     className="btn btn-primary"
-                    alt={startCards.coursePM_btn_edit}
+                    aria-label={startCards.coursePM_btn_edit}
                   >
                     {startCards.coursePM_btn_edit}
                   </CardLink>
@@ -110,14 +110,14 @@ class AdminStartPage extends Component {
                   <a
                     href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
                     className="btn btn-primary"
-                    alt={startCards.courseDev_btn_new}
+                    aria-label={startCards.courseDev_btn_new}
                   >
                     {startCards.courseDev_btn_new}
                   </a>
                   <a
                     href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
                     className="btn btn-primary"
-                    alt={startCards.courseDev_btn_edit}
+                    aria-label={startCards.courseDev_btn_edit}
                   >
                     {startCards.courseDev_btn_edit}
                   </a>

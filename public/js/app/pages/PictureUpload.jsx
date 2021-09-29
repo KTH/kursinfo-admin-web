@@ -233,7 +233,7 @@ class PictureUpload extends Component {
                     alt={introLabel.alt.image}
                   />
                 ) : (
-                  <span className="empty-pic" alt={introLabel.alt.tempImage}>
+                  <span className="empty-pic" aria-label={introLabel.alt.tempImage}>
                     <p>
                       <i>{introLabel.image.noChosen}</i>
                     </p>
@@ -301,7 +301,7 @@ class PictureUpload extends Component {
               onClick={this.doNextStep}
               className="next"
               color="success"
-              alt={introLabel.alt.step2Next}
+              aria-label={introLabel.alt.step2Next}
               disabled={this.state.isError}
             >
               {introLabel.button.step2}

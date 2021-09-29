@@ -44,7 +44,7 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
         {doneAction === 'pub' ? (
           <p>
             {`${alertMessages.see_more} `}
-            <a href={`${publicService}${courseCode}?l=${lang}`} alt={translate.links_to[serviceAbbr].aAlt}>
+            <a href={`${publicService}${courseCode}?l=${lang}`} aria-label={translate.links_to[serviceAbbr].aAlt}>
               {translate.links_to[serviceAbbr].aTitle}
             </a>
           </p>
@@ -55,7 +55,7 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
               {mapAdminUrl[serviceAbbr] && (
                 <a
                   href={`${mapAdminUrl[serviceAbbr][doneAction]}${courseCode}?l=${lang}`}
-                  alt={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
+                  aria-label={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
                 >
                   {alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
                 </a>

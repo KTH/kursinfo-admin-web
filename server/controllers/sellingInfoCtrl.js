@@ -136,8 +136,8 @@ async function saveImageToStorage(req, res, next) {
   const { file } = req.files
   log.info('file', file, req.params.courseCode, req.body)
   try {
-    const savedImageName = await runBlobStorage(file, req.params.courseCode, req.body)
-    return httpResponse.json(res, savedImageName)
+    const savedImageNameObj = await runBlobStorage(file, req.params.courseCode, req.body)
+    return httpResponse.json(res, savedImageNameObj)
   } catch (error) {
     log.error('Exception from saveImageToStorage ', { error })
     next(error)
