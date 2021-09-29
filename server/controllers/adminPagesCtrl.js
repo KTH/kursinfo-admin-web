@@ -9,6 +9,9 @@ const { toJS } = require('mobx')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')
+const api = require('../api')
+
+const { getAllImagesBlobNames } = require('../blobStorage.js')
 
 const serverPaths = require('../server').getPaths()
 
@@ -66,6 +69,46 @@ async function getAdminStart(req, res, next) {
   }
 }
 
+async function _getImagesNamesFromKursinfoApi() {
+  try {
+    const { client, paths } = api.kursinfoApi
+
+    return await client.getAsync(client.resolve(paths.getUploadedImagesNames.uri), {
+      useCache: false,
+    })
+  } catch (error) {
+    const apiError = new Error('Fetching of images from kursinfo api is not available')
+    // apiError.status = 500
+    log.error('Error in _getImagesNamesFromKursinfoApi', { error })
+    throw apiError
+  }
+}
+
+async function monitorImages(req, res, next) {
+  _staticRender()
+  try {
+    const allImagesInContainer = await getAllImagesBlobNames()
+    const { body: allImagesNamesInApiDb } = await _getImagesNamesFromKursinfoApi()
+    const missingImagesInBlob = allImagesNamesInApiDb.filter(imageName => !allImagesInContainer.includes(imageName))
+
+    const unusedImagesInBlob = allImagesInContainer.filter(
+      fileName => fileName.match(/Picture_by_own_choice_*/) && !allImagesNamesInApiDb.includes(fileName)
+    )
+
+    res.render('course/monitor_images', {
+      debug: 'debug' in req.query,
+      missingImagesHeader: missingImagesInBlob.length > 0,
+      missingImagesInBlob,
+      unusedImagesInBlob,
+      unusedImagesInBlobHeader: unusedImagesInBlob.length > 0,
+    })
+  } catch (err) {
+    log.error('Error in monitorImages', { error: err })
+    next(err)
+  }
+}
+
 module.exports = {
   getAdminStart,
+  monitorImages,
 }

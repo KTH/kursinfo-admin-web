@@ -1,0 +1,42 @@
+<script>
+  window.__initialState__ =
+  {{{initialState}}}
+</script>
+{{prefixScript '/static/js/app.js' 'scripts'}}
+
+<div id='kth-kursinfo'>
+  <div key='kursinfo-container' className='kursinfo-main-page col'>
+
+    <h1>Monitor images</h1>
+
+    {{#if error}}
+      <p>Error: {{error}}</p>
+    {{else}}
+      <div id='api-data'>
+        {{#if missingImagesHeader}}
+          <h4>Missing images in file/blob storage</h4>
+
+          <ul>
+            {{#each missingImagesInBlob}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p><i>All images exist in blob storage, no errors.</i></p>
+        {{/if}}
+
+        {{#if unusedImagesInBlobHeader}}
+          <h4>Unused images in file storage which can be removed</h4>
+
+          <ul>
+            {{#each unusedImagesInBlob}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p><i>No unused images in file storage, no cleaning required.</i></p>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -55,9 +55,22 @@ async function runBlobStorage(file, courseCode, metadata) {
   const uploadResponse = await _uploadBlob(imageName, content, fileType, metadata)
   log.debug(' Blobstorage - uploaded file response ', uploadResponse)
 
+  // TODO: if uploadResponse return error then no imageName
+
   return imageName
+}
+
+async function getAllImagesBlobNames() {
+  const containerClient = blobServiceClient.getContainerClient(STORAGE_CONTAINER_NAME)
+  const imagesBlobs = await containerClient.listBlobsFlat()
+  const imagesNames = []
+  for await (const blob of imagesBlobs) {
+    imagesNames.push(blob.name)
+  }
+  return imagesNames
 }
 
 module.exports = {
   runBlobStorage,
+  getAllImagesBlobNames,
 }

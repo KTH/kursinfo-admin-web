@@ -253,6 +253,8 @@ server.use('/', statisticRoute.getRouter())
 const appRoute = AppRouter()
 
 appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, SellingInfo.myCourses)
+appRoute.get('course.allImagesCheck', _addProxy('/_monitor_images'), AdminPagesCtrl.monitorImages)
+
 appRoute.get(
   'course.getAdminStart',
   _addProxy('/:courseCode'),

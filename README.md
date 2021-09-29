@@ -50,6 +50,13 @@ localhost:3000/kursinfoadmin/kurser/kurs/:courseCode/myCourses
 
 ```
 
+- page to monitor images, if there are any missing files in blob storage or some unused files. _BLOB_SERVICE_SAS_URL_ should include list rights, section "Generate Shared access signature"
+
+```
+localhost:3000/kursinfoadmin/kurser/kurs/_monitor_images
+
+```
+
 ### Administrate start page
 
 - Menu with navigation links for course information related pages (kursinfo-web, kursinfo-admin-web)
@@ -98,8 +105,8 @@ It requires package `"@azure/storage-blob": "^12.2.1"`. Further to parse a file 
 To generate it, go to a storage account, f.e., `kursinfostoragestage`, choose Shared Access signature and choose:
 
 - Allowed services: _Blob_
-- Allowed resource types: _Object_
-- Allowed permissions: _Read, Write, Create_
+- Allowed resource types: _Container, Object_
+- Allowed permissions: _Read, Write, Create, List_
 - Start and expiry date/time
 - HTTPS only
 - Signing key: key1 or key2
