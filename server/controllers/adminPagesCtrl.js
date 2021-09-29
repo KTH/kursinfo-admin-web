@@ -89,11 +89,19 @@ async function monitorImages(req, res, next) {
   try {
     const allImagesInContainer = await getAllImagesBlobNames()
     const { body: allImagesNamesInApiDb } = await _getImagesNamesFromKursinfoApi()
-    const missingImagesInBlob = allImagesNamesInApiDb.filter(imageName => !allImagesInContainer.includes(imageName))
+    if (!allImagesInContainer || !allImagesNamesInApiDb)
+      return res.send('Blob storage or kursinfo-api is not available')
+    const missingImagesInBlob =
+      allImagesInContainer && allImagesNamesInApiDb
+        ? allImagesNamesInApiDb.filter(imageName => !allImagesInContainer.includes(imageName))
+        : []
 
-    const unusedImagesInBlob = allImagesInContainer.filter(
-      fileName => fileName.match(/Picture_by_own_choice_*/) && !allImagesNamesInApiDb.includes(fileName)
-    )
+    const unusedImagesInBlob =
+      allImagesInContainer && allImagesNamesInApiDb
+        ? allImagesInContainer.filter(
+            fileName => fileName.match(/Picture_by_own_choice_*/) && !allImagesNamesInApiDb.includes(fileName)
+          )
+        : []
 
     res.render('course/monitor_images', {
       debug: 'debug' in req.query,
