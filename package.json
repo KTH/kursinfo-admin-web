@@ -2,6 +2,7 @@
   "//": "JSHint configuration - http://jshint.com/docs/options/",
   "name": "kursinfo-admin-web",
   "version": "3.0.0",
+  "automaticPublish": "true",
   "description": "Administration tool for teachers to edit introduction text and start sida presenting the entrance to other microservices like course memo och course history",
   "main": "app.js",
   "private": true,
