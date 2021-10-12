@@ -165,7 +165,7 @@ npm install concurrently
 
 ### Usage
 
-Start the service on [localhost:3000/student/kurser/kurs/:courseCode](http://localhost:3000/student/kurser/kurs/:courseCode).
+Start the service on [localhost:3000/kursinfoadmin/kurser/kurs/:courseCode](http://localhost:3000/kursinfoadmin/kurser/kurs/:courseCode).
 
 ```sh
 npm run start-dev
