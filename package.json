@@ -21,9 +21,11 @@
     "docker": "npm install --development && npm run build && npm prune --production",
     "build": "NODE_ENV=production rm -rf dist && gulp build && parcel build ./public/js/app/app.jsx && npm run vendor --preserve-comments",
     "build-dev": "NODE_ENV=development rimraf ./dist && gulp build && parcel build ./public/js/app/app.jsx && parcel build ./public/js/vendor.js --public-url /kursinfoadmin/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /kursinfoadmin/kurser/kurs/static",
+    "build-dev-win": "cross-env NODE_ENV=development rimraf ./dist && gulp build && parcel build ./public/js/app/app.jsx && parcel build ./public/js/vendor.js --public-url /kursinfoadmin/kurser/kurs/static && parcel watch ./public/js/app/app.jsx --public-url /kursinfoadmin/kurser/kurs/static",
     "build-gulp": "cross-env NODE_ENV=development gulp watch",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore public/ app.js\""
+    "start-dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run build-dev\" \"nodemon --ignore dist/ --ignore public/ app.js\"",
+    "start-dev-win": "cross-env NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev-win\" \"nodemon --ignore dist/ --ignore public/ app.js\""
   },
   "dependencies": {
     "@azure/storage-blob": "^12.8.0",
@@ -86,7 +88,7 @@
     "@testing-library/react": "^12.0.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.6",
-    "concurrently": "^6.2.0",
+    "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
     "gulp": "^4.0.2",

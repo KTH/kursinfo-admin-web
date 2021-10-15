@@ -141,22 +141,23 @@ module.exports = {
   startCards: {
     sellingText_hd: 'Course introduction',
     sellingText_desc_p1:
-      'Choose your own decorative image to be displayed on the course page and/or replace the short description from Kopps to a more informative introduction to the course to help students make the right course selection.',
-    sellingText_desc_p2: '“Introduction to course” is displayed at the top of the “Course Information” page.',
+      'Select your own decorative image and/or replace the short course description from Kopps to a more informative introduction to the course, to help students select a course that suits them.',
+    sellingText_desc_p2: 'Course introductionis displayed at the page: Before course selection.',
     sellingText_btn: 'Edit',
     sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
     coursePM_create_desc_p1:
-      'Create and publish new course memo for forthcoming course offerings or change a published course memo.',
-    coursePM_create_desc_p2: 'A published course memo will be available on the subpage “Prepare and take course”.',
-    coursePM_create_desc_p3: 'It is still possible, but not advisable, to upload an alternative course memo as PDF',
+      'Create and publish new course memo for forthcoming course offerings or edit a published course memo.',
+    coursePM_create_desc_p2: 'A published course memo will be available on the subpage: Prepare and take course.',
+    coursePM_create_desc_p3:
+      'It is also possible to use the function: Upload alternative course memo,to publish a course memo created outside the tool at About course.The file you upload must be of type PDF and in an accessible format.',
     coursePM_link_upload_memo: 'Upload alternative course memo',
     coursePM_btn_edit: 'Change published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1:
-      'Publish or edit published course analysis and course data regarding the development of the course.',
-    courseDev_decs_p2: 'Published course analysis with course data is displayed on the page “Course development”.',
+      'Publish course analysis and course data for a completed course offeringor edit a published course analysis.',
+    courseDev_decs_p2: 'A published course analysis and course data is displayed on the page: Course development.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
     courseDev_link: 'Course development - more information and help',
