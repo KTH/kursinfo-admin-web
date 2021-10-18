@@ -140,16 +140,16 @@ module.exports = {
     sellingText_hd: 'Introduktion till kursen',
     sellingText_desc_p1:
       'Välj en egen dekorativ bild och/eller ersätt den korta kursbeskrivningen i Kopps med en mer informativ introduktion till kursen, för att hjälpa studenten att göra rätt kursval.',
-    sellingText_desc_p2: 'Introduktion tillkursen visas överst på sidan: Inför kursval.',
+    sellingText_desc_p2: 'Introduktion till kursen visas överst på sidan: Inför kursval.',
     sellingText_btn: 'Redigera',
     sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
     coursePM_create_desc_p1:
       'Skapa och publicera ett kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
     coursePM_create_desc_p2: 'Ett publicerat kurs-PM visas som en undersida till: Förbereda och gå kurs.',
-    coursePM_create_desc_p3: '',
-    coursePM_link_upload_memo:
-      'Du kan även välja att ladda upp ett kurs-PM som du har skapat utanför systemstödet, via funktionen: Ladda upp alternativt kurs-PM.Filen du laddarupp måste vara i PDF-format och tillgänglighetsanpassad.',
+    coursePM_create_desc_p3:
+      'Du kan även välja att ladda upp ett kurs-PM som du har skapat utanför systemstödet, via funktionen: Ladda upp alternativt kurs-PM. Filen du laddarupp måste vara i PDF-format och tillgänglighetsanpassad.',
+    coursePM_link_upload_memo: 'Ladda upp alternativt kurs-PM',
     coursePM_btn_edit: 'Ändra publicerad',
     coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
