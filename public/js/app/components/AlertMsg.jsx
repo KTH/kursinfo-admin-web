@@ -43,12 +43,13 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
         {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
         {doneAction === 'pub' ? (
           <p>
-            {!ver ? `Version: ${ver.replace('%', ' ')}, ` : ''}
-            {!ver ? `${alertMessages.see_more.toLowerCase()} ` : `${alertMessages.see_more} `}
+            {ver ? `Version: ${decodeURIComponent(ver)}, ` : ''}
+            {ver ? `${alertMessages.see_more.toLowerCase()} ` : `${alertMessages.see_more} `}
             <a href={`${publicService}${courseCode}?l=${lang}`} aria-label={translate.links_to[serviceAbbr].aAlt}>
-              {`${translate.links_to[serviceAbbr].aTitle} ${
-                shortSemester[semester.toString().substring(4, 5)]
-              } ${semester.toString().substring(0, 4)}`}
+              {`${translate.links_to[serviceAbbr].aTitle} `}{' '}
+              {semester
+                ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester.toString().substring(0, 4)}`
+                : ''}
             </a>
           </p>
         ) : (
