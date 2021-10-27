@@ -21,7 +21,7 @@ const mapAdminUrl = {
 const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = fetchParameters(props)
-  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester } = params
+  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester, ver } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
 
@@ -43,9 +43,12 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
         {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
         {doneAction === 'pub' ? (
           <p>
-            {`${alertMessages.see_more} `}
+            {!ver ? `Version: ${ver.replace('%', ' ')}, ` : ''}
+            {!ver ? `${alertMessages.see_more.toLowerCase()} ` : `${alertMessages.see_more} `}
             <a href={`${publicService}${courseCode}?l=${lang}`} aria-label={translate.links_to[serviceAbbr].aAlt}>
-              {translate.links_to[serviceAbbr].aTitle}
+              {`${translate.links_to[serviceAbbr].aTitle} ${
+                shortSemester[semester.toString().substring(4, 5)]
+              } ${semester.toString().substring(0, 4)}`}
             </a>
           </p>
         ) : (
