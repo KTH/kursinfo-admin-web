@@ -210,6 +210,7 @@ function _parseOfferings(courses, semester) {
       if (courseOfferingLastSemester === semester) {
         parsedOfferings.forAnalyses.push({
           semester: firstSemester,
+          startDate,
           schoolMainCode: SCHOOL_MAP[course.school_code] || '---',
           departmentName: course.department_name,
           connectedPrograms: _getProgramList(course.connected_programs),

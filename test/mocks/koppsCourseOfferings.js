@@ -92,6 +92,7 @@ const mockAnalysisOfferings = [
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
     offeringId: '1',
+    startDate: '2016-08-20',
   },
   {
     semester: '20201',
@@ -100,6 +101,7 @@ const mockAnalysisOfferings = [
     connectedPrograms: 'XXX-1, YYY-ZZZ-2',
     courseCode: 'AAA123',
     offeringId: '1',
+    startDate: '2020-01-20',
   },
 ]
 

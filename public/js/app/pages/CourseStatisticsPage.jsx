@@ -297,6 +297,7 @@ class CourseStatisticsPage extends Component {
           <td>{cO.courseCode}</td>
           <td width="300">{cO.connectedPrograms}</td>
           <td>{cO.offeringId}</td>
+          <td>{cO.startDate}</td>
           <td>
             {cO.courseAnalysis && (
               <a href={`${browserConfig.analysesStorageUri}${cO.courseAnalysis}`}>{cO.courseAnalysis}</a>
@@ -320,7 +321,7 @@ class CourseStatisticsPage extends Component {
           <td>{cO.courseCode}</td>
           <td width="300">{cO.connectedPrograms}</td>
           <td>{cO.offeringId}</td>
-          <td>{p.offeringStartTime}</td>
+          <td>{cO.startDate}</td>
           <td>
             <a
               href={
@@ -345,6 +346,7 @@ class CourseStatisticsPage extends Component {
       'Course Code',
       'Connected program(s)',
       'Offering ID',
+      'Offering Start Date',
       'Course Analysis',
     ])
     withAnalyses.forEach(courseOffering => {
@@ -356,6 +358,7 @@ class CourseStatisticsPage extends Component {
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
+        cO.startDate,
         cO.courseAnalysis,
       ])
     })
@@ -383,7 +386,7 @@ class CourseStatisticsPage extends Component {
         cO.courseCode,
         cO.connectedPrograms,
         cO.offeringId,
-        p.offeringStartTime,
+        cO.startDate,
         m.memoId,
         p.publishedTime,
       ])
@@ -477,6 +480,7 @@ class CourseStatisticsPage extends Component {
                       <th>Course Code</th>
                       <th>Connected program(s)</th>
                       <th>Offering ID</th>
+                      <th>Offering Start Date</th>
                       <th>Course Analysis</th>
                     </tr>
                   </thead>
