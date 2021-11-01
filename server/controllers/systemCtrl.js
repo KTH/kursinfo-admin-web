@@ -26,6 +26,7 @@ function _notFound(req, res, next) {
   next(err)
 }
 
+// !!!! Extended so differ from node-mallarna
 function _getFriendlyErrorMessage(lang, statusCode) {
   switch (statusCode) {
     case 400:
@@ -44,7 +45,7 @@ function _getFriendlyErrorMessage(lang, statusCode) {
 // eslint-disable-next-line no-unused-vars
 function _final(err, req, res, next) {
   const statusCode = err.status || err.statusCode || 500
-
+  // !!!! Extended so differ from node-mallarna
   switch (statusCode) {
     case 400:
       log.debug({ message: err }, `400 Bad request ${err.message}`)
@@ -70,6 +71,7 @@ function _final(err, req, res, next) {
         lang,
         layout: 'errorLayout',
         message: err.message,
+        // !!!! Extended so differ from node-mallarna
         showMessage: err.showMessage || false,
         showKoppsLink: statusCode === 403,
         friendly: _getFriendlyErrorMessage(lang, statusCode),
