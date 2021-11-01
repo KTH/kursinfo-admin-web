@@ -24,32 +24,27 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester, ver } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
-
   // eslint-disable-next-line camelcase
   const { alertMessages, course_short_semester: shortSemester } = translate
+  const semesterLabel = semester
+    ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester.toString().substring(0, 4)}`
+    : null
 
   return (
     (serviceAbbr === 'kutv' || serviceAbbr === 'pm' || serviceAbbr === 'pmdata' || serviceAbbr === 'kinfo') &&
     (doneAction === 'save' || doneAction === 'pub' || doneAction === 'delete' || doneAction === 'removedPublished') && (
       <Alert color="success" aria-live="polite">
         <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
-        {semester && (
-          <p>
-            {`${alertMessages.semester}: ${shortSemester[semester.toString().substring(4, 5)]}${semester
-              .toString()
-              .substring(0, 4)}`}
-          </p>
-        )}
+        {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
         {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
         {doneAction === 'pub' ? (
           <p>
-            {ver ? `Version: ${decodeURIComponent(ver)}, ` : ''}
-            {ver ? `${alertMessages.see_more.toLowerCase()} ` : `${alertMessages.see_more} `}
+            {ver
+              ? `Version: ${decodeURIComponent(ver)}, ${alertMessages.see_more.toLowerCase()} `
+              : `${alertMessages.see_more} `}
             <a href={`${publicService}${courseCode}?l=${lang}`} aria-label={translate.links_to[serviceAbbr].aAlt}>
-              {`${translate.links_to[serviceAbbr].aTitle} `}{' '}
-              {semester
-                ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester.toString().substring(0, 4)}`
-                : ''}
+              {`${translate.links_to[serviceAbbr].aTitle} `}
+              {semester ? ` ${semesterLabel}` : ''}
             </a>
           </p>
         ) : (
