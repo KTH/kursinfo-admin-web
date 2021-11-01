@@ -103,6 +103,7 @@ module.exports = {
         save: 'Utkast för kurs-PM har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kurs-PM/ Publicera ny',
         pub: 'Kurs-PM har publicerats',
+        pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
       },
       pmdata: {
@@ -115,6 +116,7 @@ module.exports = {
           removedPublished: 'Ändra publicerad',
         },
         pub: 'Kurs-PM har publicerats',
+        pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
       },
       kinfo: {

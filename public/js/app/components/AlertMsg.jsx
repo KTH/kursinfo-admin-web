@@ -21,7 +21,14 @@ const mapAdminUrl = {
 const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
   const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = fetchParameters(props)
-  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester, ver } = params
+  const {
+    event: doneAction,
+    name: courseRoundName,
+    serv: serviceAbbr,
+    term: semester,
+    ver,
+    memoendpoint: memoEndPoint,
+  } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
 
@@ -30,7 +37,11 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
 
   return (
     (serviceAbbr === 'kutv' || serviceAbbr === 'pm' || serviceAbbr === 'pmdata' || serviceAbbr === 'kinfo') &&
-    (doneAction === 'save' || doneAction === 'pub' || doneAction === 'delete' || doneAction === 'removedPublished') && (
+    (doneAction === 'save' ||
+      doneAction === 'pub' ||
+      doneAction === 'pub_changed' ||
+      doneAction === 'delete' ||
+      doneAction === 'removedPublished') && (
       <Alert color="success" aria-live="polite">
         <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
         {semester && (
@@ -41,14 +52,19 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
           </p>
         )}
         {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
-        {doneAction === 'pub' ? (
+        {doneAction === 'pub' || doneAction === 'pub_changed' ? (
           <p>
             {ver ? `Version: ${decodeURIComponent(ver)}, ` : ''}
             {ver ? `${alertMessages.see_more.toLowerCase()} ` : `${alertMessages.see_more} `}
-            <a href={`${publicService}${courseCode}?l=${lang}`} aria-label={translate.links_to[serviceAbbr].aAlt}>
+            <a
+              href={`${publicService}${courseCode}/${memoEndPoint}?l=${lang}`}
+              aria-label={translate.links_to[serviceAbbr].aAlt}
+            >
               {`${translate.links_to[serviceAbbr].aTitle} `}{' '}
               {semester
-                ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester.toString().substring(0, 4)}`
+                ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester
+                    .toString()
+                    .substring(0, 4)}-${semester.toString().substring(4, 5)}`
                 : ''}
             </a>
           </p>

@@ -117,6 +117,7 @@ module.exports = {
           removedPublished: 'Edit published',
         },
         pub: 'Course memo has been published',
+        pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
       },
       kinfo: {
