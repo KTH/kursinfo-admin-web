@@ -148,8 +148,8 @@ module.exports = {
       'Skapa och publicera ett kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
     coursePM_create_desc_p2: 'Ett publicerat kurs-PM visas som en undersida till: Förbereda och gå kurs.',
     coursePM_create_desc_p3:
-      'Du kan även välja att ladda upp ett kurs-PM som du har skapat utanför systemstödet, via funktionen: Ladda upp alternativt kurs-PM. Filen du laddar upp måste vara i PDF-format och tillgänglighetsanpassad.',
-    coursePM_link_upload_memo: 'Ladda upp alternativt kurs-PM',
+      'Du kan även välja att ladda upp ett kurs-PM som du har skapat utanför systemstödet, via funktionen: Ladda upp eller ändra kurs-PM som PDF. Filen du laddar upp måste vara i PDF-format och tillgänglighetsanpassad.',
+    coursePM_link_upload_memo: 'Ladda upp eller ändra kurs-PM som PDF',
     coursePM_btn_edit: 'Ändra publicerad',
     coursePM_btn_new: 'Skapa, publicera',
     courseDev_hd: 'Kursanalys och kursdata',
