@@ -19,6 +19,7 @@ import {
   mockSemestersInMemos,
   mockParsedOfferings,
   mockOfferingsWithoutAnalysis,
+  mockAnalysisOfferingsWithStartDateOfLastOffering,
 } from './mocks/koppsCourseOfferings'
 import { mockCourseAnalysesSemesters, mockExpectedCourseAnalyses, mockKursutvecklingData } from './mocks/courseAnalyses'
 import { mockCourseMemosSemesters, mockExpectedCourseMemos, mockKursPmDataApiData } from './mocks/courseMemos'
@@ -89,7 +90,7 @@ describe('Test statisticTransformer', () => {
   test('_parseOfferings – Compilation of offerings’ relevant data', () => {
     const parsedOfferings = _parseOfferings(mockKoppsCourseOfferingsResponse, '20201')
     const { forAnalyses: analysisOfferings, forMemos: memoOfferings } = parsedOfferings
-    expect(analysisOfferings).toEqual(mockAnalysisOfferings)
+    expect(analysisOfferings).toEqual(mockAnalysisOfferingsWithStartDateOfLastOffering)
     expect(memoOfferings).toEqual(mockMemoOfferings)
   })
   test('_semestersInParsedOfferings – Find unique semesters', () => {

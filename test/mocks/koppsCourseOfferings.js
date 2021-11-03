@@ -104,6 +104,26 @@ const mockAnalysisOfferings = [
     startDate: '2020-01-20',
   },
 ]
+const mockAnalysisOfferingsWithStartDateOfLastOffering = [
+  {
+    semester: '20162',
+    schoolMainCode: 'ABE',
+    departmentName: 'ABE/Test',
+    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+    courseCode: 'AAA123',
+    offeringId: '1',
+    startDate: '2020-01-20',
+  },
+  {
+    semester: '20201',
+    schoolMainCode: 'ABE',
+    departmentName: 'ABE/Test',
+    connectedPrograms: 'XXX-1, YYY-ZZZ-2',
+    courseCode: 'AAA123',
+    offeringId: '1',
+    startDate: '2020-01-20',
+  },
+]
 
 const mockSemestersInAnalyses = ['20162', '20201']
 
@@ -182,4 +202,5 @@ export {
   mockSemestersInMemos,
   mockParsedOfferings,
   mockOfferingsWithoutAnalysis,
+  mockAnalysisOfferingsWithStartDateOfLastOffering,
 }

@@ -71,6 +71,7 @@ const mockExpectedCourseOfferings = {
   withAnalyses: [
     {
       semester: '20162',
+      startDate: '2016-08-20',
       schoolMainCode: 'ABE',
       departmentName: 'ABE/Test',
       connectedPrograms: 'XXX-1, YYY-ZZZ-2',
@@ -80,6 +81,7 @@ const mockExpectedCourseOfferings = {
     },
     {
       semester: '20201',
+      startDate: '2020-01-20',
       schoolMainCode: 'ABE',
       departmentName: 'ABE/Test',
       connectedPrograms: 'XXX-1, YYY-ZZZ-2',

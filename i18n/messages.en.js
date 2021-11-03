@@ -105,6 +105,7 @@ module.exports = {
         save: 'Draft for course memo has been saved',
         s_msg: 'You can find saved drafts under Course memo / Publish new',
         pub: 'Course memo has been published',
+        pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
       },
       pmdata: {

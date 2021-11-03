@@ -28,6 +28,7 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
     term: semester,
     ver,
     memoendpoint: memoEndPoint,
+    ladokRound,
   } = params
 
   const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
@@ -54,11 +55,13 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
               ? `Version: ${decodeURIComponent(ver)}, ${alertMessages.see_more.toLowerCase()} `
               : `${alertMessages.see_more} `}
             <a
-              href={`${publicService}${courseCode}/${memoEndPoint}?l=${lang}`}
+              href={`${publicService}${courseCode}${
+                serviceAbbr === 'pm' || serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''
+              }?l=${lang}`}
               aria-label={translate.links_to[serviceAbbr].aAlt}
             >
               {`${translate.links_to[serviceAbbr].aTitle} `}
-              {semester ? ` ${semesterLabel}-${semester.toString().substring(4, 5)}` : ''}
+              {semester ? ` ${semesterLabel}-${ladokRound}` : ''}
             </a>
           </p>
         ) : (
