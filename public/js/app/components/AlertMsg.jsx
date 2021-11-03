@@ -61,7 +61,9 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
               aria-label={translate.links_to[serviceAbbr].aAlt}
             >
               {`${translate.links_to[serviceAbbr].aTitle} `}
-              {semester ? ` ${semesterLabel}-${ladokRound}` : ''}
+              {semester
+                ? ` ${semesterLabel}${serviceAbbr === 'pm' || serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}`
+                : ''}
             </a>
           </p>
         ) : (
