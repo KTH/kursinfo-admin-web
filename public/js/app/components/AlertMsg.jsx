@@ -55,15 +55,11 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
               ? `Version: ${decodeURIComponent(ver)}, ${alertMessages.see_more.toLowerCase()} `
               : `${alertMessages.see_more} `}
             <a
-              href={`${publicService}${courseCode}${
-                serviceAbbr === 'pm' || serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''
-              }?l=${lang}`}
+              href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
               aria-label={translate.links_to[serviceAbbr].aAlt}
             >
               {`${translate.links_to[serviceAbbr].aTitle} `}
-              {semester
-                ? ` ${semesterLabel}${serviceAbbr === 'pm' || serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}`
-                : ''}
+              {semester ? ` ${semesterLabel}${serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}` : ''}
             </a>
           </p>
         ) : (
