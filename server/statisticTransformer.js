@@ -32,10 +32,13 @@ const _kursutvecklingData = async semester => {
   const { client } = statisticApis.kursutvecklingApi.kursutvecklingApi
   const uri = `/api/kursutveckling/v1/courseAnalyses/${semester}`
   try {
-    const response = await client.getAsync({ uri })
+    const { body } = await client.getAsync({ uri })
     const courseAnalyses = {}
-    if (response.body) {
-      response.body.forEach(ca => {
+    if (body === 'Unauthorized') {
+      throw new Error('Error while fetching analyses, wrong key to kursutveckling-api')
+    }
+    if (body) {
+      body.forEach(ca => {
         courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] || { numberOfUniqAnalyses: 0 }
         courseAnalyses[ca.courseCode].numberOfUniqAnalyses++
         courseAnalyses[ca.courseCode][semester] = courseAnalyses[ca.courseCode][semester] || {}
@@ -94,7 +97,12 @@ const _kursPmDataApiData = async semester => {
     throw err
   }
 }
-
+function formatTimeToLocaleDateSV(parsedTime) {
+  if (!parsedTime || parsedTime === NaN) return ''
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
+  const formattedTime = new Date(parsedTime).toLocaleDateString('sv-SE', options)
+  return formattedTime
+}
 /**
  * Calculates and compiles memo publish data.
  * @param {[]} offeringStartDate  Offering’s start date, in format accepted by Date.parse
@@ -104,8 +112,8 @@ const _kursPmDataApiData = async semester => {
 const _publishData = (offeringStartDate, memoChangeDate) => {
   const offeringStartTime = Date.parse(offeringStartDate)
   const publishedTime = Date.parse(memoChangeDate)
-  const formattedOfferingStartTime = new Date(offeringStartTime).toLocaleDateString('sv-SE')
-  const formattedPublishedTime = new Date(publishedTime).toLocaleDateString('sv-SE')
+  const formattedOfferingStartTime = formatTimeToLocaleDateSV(offeringStartTime)
+  const formattedPublishedTime = formatTimeToLocaleDateSV(publishedTime)
   const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000
   return {
     offeringStartTime: formattedOfferingStartTime,
@@ -201,8 +209,8 @@ function _parseOfferings(courses, semester) {
       // eslint-disable-next-line camelcase
       const offeredSemesters = Array.isArray(offered_semesters) ? offered_semesters : []
 
-      const offeredSemester = offeredSemesters.find(os => os.semester === semester) || {}
-      const startDate = offeredSemester.start_date || ''
+      const { start_date: offeredSemesterStartDate = '' } = offeredSemesters.find(os => os.semester === semester) || {}
+      const startDate = offeredSemesterStartDate ? formatTimeToLocaleDateSV(Date.parse(offeredSemesterStartDate)) : ''
       const courseOfferingLastSemester = offeredSemesters.length
         ? offeredSemesters[offeredSemesters.length - 1].semester
         : ''
