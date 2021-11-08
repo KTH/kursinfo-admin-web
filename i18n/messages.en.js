@@ -58,7 +58,7 @@ module.exports = {
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY',
   },
   pageTitles: {
-    course_admin_title: 'Administrate',
+    course_admin_title: 'Administer',
     header_progress_select_pic: '1. Choose image',
     header_progress_edit: '2. Edit text',
     header_progress_review: '3. Review and publish',
