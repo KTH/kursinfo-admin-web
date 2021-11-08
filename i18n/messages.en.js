@@ -36,7 +36,7 @@ module.exports = {
      * Message keys
      */
     service_name: 'course information administration',
-    title: 'Administrate About course information',
+    title: 'Administer About course information',
     description:
       'Here a course coordinator or examinator for this course can administrate information for “About course” pages.',
 
@@ -63,7 +63,7 @@ module.exports = {
     header_progress_edit: '2. Edit text',
     header_progress_review: '3. Review and publish',
     about_course: 'About course',
-    administrate: 'Administrate About course information',
+    administrate: 'Administer About course information',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
     instruction_kopps_1:
