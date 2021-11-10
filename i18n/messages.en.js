@@ -63,7 +63,7 @@ module.exports = {
     header_progress_edit: '2. Edit text',
     header_progress_review: '3. Review and publish',
     about_course: 'About course',
-    administrate: 'Administer About course information',
+    administrate: 'Administer About course',
     editSelling: 'Edit a course introduction',
     previewSelling: 'Preview a course introduction',
     instruction_kopps_1:
