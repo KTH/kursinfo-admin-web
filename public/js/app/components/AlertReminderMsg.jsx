@@ -9,7 +9,7 @@ const AlertReminderMsg = ({ props, lang = 'en' }) => {
   return (
     (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&
     doneAction === 'pub_changed' && (
-      <Alert color="success" aria-live="polite">
+      <Alert color="info" aria-live="polite">
         {lang === 'sv' ? (
           <p>{`Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.`}</p>
         ) : (
