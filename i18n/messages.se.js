@@ -76,19 +76,19 @@ module.exports = {
     links_to: {
       kutv: {
         aTitle: 'Kursens utveckling',
-        aAlt: 'Till Kursens utveckling vy',
+        ariaLabel: 'Till Kursens utveckling vy',
       },
       pm: {
-        aTitle: 'Kurs-PM',
-        aAlt: 'Till sidan Kurs-PM',
+        aTitle: 'Förbereda och gå kurs/Kurs-PM',
+        ariaLabel: 'Till sidan Förbereda och gå kurs/Kurs-PM',
       },
       pmdata: {
         aTitle: 'Kurs-PM',
-        aAlt: 'Till sidan Kurs-PM',
+        ariaLabel: 'Till sidan Kurs-PM',
       },
       kinfo: {
         aTitle: 'Kursinformation',
-        aAlt: 'Till Kursinformation vy',
+        ariaLabel: 'Till Kursinformation vy',
       },
     },
     alertMessages: {

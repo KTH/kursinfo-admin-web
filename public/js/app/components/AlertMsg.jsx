@@ -50,18 +50,21 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
         {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
         {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
         {doneAction === 'pub' || doneAction === 'pub_changed' ? (
-          <p>
-            {ver
-              ? `Version: ${decodeURIComponent(ver)}, ${alertMessages.see_more.toLowerCase()} `
-              : `${alertMessages.see_more} `}
-            <a
-              href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
-              aria-label={translate.links_to[serviceAbbr].aAlt}
-            >
-              {`${translate.links_to[serviceAbbr].aTitle} `}
-              {semester ? ` ${semesterLabel}${serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}` : ''}
-            </a>
-          </p>
+          <>
+            <p>{ver && `Version: ${decodeURIComponent(ver)} `}</p>
+            <p>
+              {`${alertMessages.see_more} `}
+              <a
+                href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
+                aria-label={translate.links_to[serviceAbbr].ariaLabel}
+              >
+                {`${translate.links_to[serviceAbbr].aTitle} `}
+                {semester && serviceAbbr !== 'pm'
+                  ? ` ${semesterLabel}${serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}`
+                  : ''}
+              </a>
+            </p>
+          </>
         ) : (
           (doneAction === 'save' || doneAction === 'removedPublished') && (
             <p>

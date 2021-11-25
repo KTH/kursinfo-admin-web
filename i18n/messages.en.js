@@ -78,19 +78,19 @@ module.exports = {
     links_to: {
       kutv: {
         aTitle: 'Course development',
-        aAlt: 'To Course development view',
+        ariaLabel: 'To Course development view',
       },
       pm: {
         aTitle: 'Prepare and take course/Course memo',
-        aAlt: 'To the Prepare and take course/Course memo page',
+        ariaLabel: 'To the Prepare and take course/Course memo page',
       },
       pmdata: {
         aTitle: 'Prepare and take course/Course memo',
-        aAlt: 'To the Prepare and take course/Course memo page',
+        ariaLabel: 'To the Prepare and take course/Course memo page',
       },
       kinfo: {
         aTitle: 'Course information',
-        aAlt: 'To Course information page',
+        ariaLabel: 'To Course information page',
       },
     },
     alertMessages: {
