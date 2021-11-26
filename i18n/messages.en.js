@@ -126,7 +126,7 @@ module.exports = {
       },
       see_more: 'Look at',
       semester: 'Semester',
-      course_round: 'Course round',
+      course_offering: 'Course offering',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
       over_html_limit: 'HTML texten should be less than 10 000 chars',
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',

@@ -48,7 +48,7 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
       <Alert color="success" aria-live="polite">
         <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
         {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
-        {courseRoundName && <p>{`${alertMessages.course_round}: ${decodeURIComponent(courseRoundName)}`}</p>}
+        {courseRoundName && <p>{`${alertMessages.course_offering}: ${decodeURIComponent(courseRoundName)}`}</p>}
         {doneAction === 'pub' || doneAction === 'pub_changed' ? (
           <>
             <p>{ver && `Version: ${decodeURIComponent(ver)} `}</p>

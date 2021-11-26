@@ -87,7 +87,7 @@ describe('English. Component <AlertMsg> renders with different messages if user 
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(translate.en.alertMessages.kutv.pub)
     expect(getByText('Semester: Autumn 2019')).toBeInTheDocument()
-    expect(getByText('Course round: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
+    expect(getByText('Course offering: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
     done()
   })
 
@@ -96,7 +96,7 @@ describe('English. Component <AlertMsg> renders with different messages if user 
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(translate.en.alertMessages.kutv.save)
     expect(getByText('Semester: Autumn 2019')).toBeInTheDocument()
-    expect(getByText('Course round: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
+    expect(getByText('Course offering: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
     expect(
       getByText('You can find saved drafts under Course analysis and course data / Publish new')
     ).toBeInTheDocument()
@@ -108,7 +108,7 @@ describe('English. Component <AlertMsg> renders with different messages if user 
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(translate.en.alertMessages.kutv.delete)
     expect(getByText('Semester: Autumn 2019')).toBeInTheDocument()
-    expect(getByText('Course round: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
+    expect(getByText('Course offering: CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )')).toBeInTheDocument()
     done()
   })
 

@@ -124,7 +124,7 @@ module.exports = {
       },
       see_more: 'Se',
       semester: 'Termin',
-      course_round: 'Kursomgång',
+      course_offering: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
       over_html_limit: 'HTML texten får bara bestå av 10 000 tecken',
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
