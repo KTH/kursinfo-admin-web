@@ -134,6 +134,9 @@ $red: #e01f28;
   margin-right: 1rem;
   .alert {
     width: auto;
+    p {
+      margin-bottom: 1.25rem;
+    }
   }
   & + .AdminPage--Alert > .alert {
     margin-top: -40px;
