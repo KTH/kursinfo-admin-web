@@ -28,7 +28,7 @@ jobs:
           # Read more: https://github.com/kth/evolene
 
           # Environmental variables for Evolene:
-          # BUILD_INFORMATION_OUTPUT_FILE: "/config/version.js"  # Create a file with the build information
+          BUILD_INFORMATION_OUTPUT_FILE: "/config/version.js"  # Create a file with the build information
           # BRANCHES_SAVE_STARTING_WITH: "origin/"          # Builds non main or master branches.
           # BRANCHES_TAG_AS_MAIN: "True"                    # Do not add branch names to build artifacts
           SLACK_CHANNELS: "#team-kursinfo-build"            # List of Slack channels for user information
