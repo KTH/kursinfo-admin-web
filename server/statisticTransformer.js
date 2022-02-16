@@ -316,6 +316,7 @@ function _memosDataPerSchool(courseOfferings) {
 
   courseOfferings.forEach(courseOffering => {
     const { schoolMainCode, courseCode, courseMemoInfo } = courseOffering
+
     if (SCHOOL_MAP[schoolMainCode]) {
       const schoolCode = SCHOOL_MAP[schoolMainCode]
       let numberOfMemoPdf = 0
@@ -327,14 +328,18 @@ function _memosDataPerSchool(courseOfferings) {
           if (!uniqueCourseMemoPdf.includes(courseMemoInfo.memoId)) {
             uniqueCourseMemoPdf.push(courseMemoInfo.memoId)
             numberOfMemoPdf = 1
+            if (courseMemoInfo.publishedData) {
+              numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
+              numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
+            }
           }
         } else if (!uniqueCourseMemoPublished.includes(courseMemoInfo.memoId)) {
           uniqueCourseMemoPublished.push(courseMemoInfo.memoId)
           numberOfMemoPublished = 1
-        }
-        if (courseMemoInfo.publishedData) {
-          numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
-          numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
+          if (courseMemoInfo.publishedData) {
+            numberOfMemosPublishedBeforeStart = courseMemoInfo.publishedData.publishedBeforeStart ? 1 : 0
+            numberOfMemosPublishedBeforeDeadline = courseMemoInfo.publishedData.publishedBeforeDeadline ? 1 : 0
+          }
         }
       }
       if (schools[schoolCode]) {
