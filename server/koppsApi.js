@@ -1,9 +1,9 @@
 'use strict'
 const log = require('@kth/log')
-const config = require('./configuration').server
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
 const EMPTY = ['No information inserted', 'Ingen information tillagd']
+const config = require('./configuration').server
 
 const koppsOpts = {
   log,

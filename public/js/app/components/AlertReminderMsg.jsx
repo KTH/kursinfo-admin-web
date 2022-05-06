@@ -4,7 +4,7 @@ import { fetchParameters } from '../util/fetchUrlParams'
 
 const AlertReminderMsg = ({ props, lang = 'en' }) => {
   const params = fetchParameters(props)
-  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester } = params
+  const { event: doneAction, serv: serviceAbbr } = params
 
   return (
     (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&
