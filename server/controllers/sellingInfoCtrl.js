@@ -3,7 +3,6 @@
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
-const ReactDOMServer = require('react-dom/server')
 const httpResponse = require('@kth/kth-node-response')
 const api = require('../api')
 const { runBlobStorage } = require('../blobStorage.js')
@@ -38,7 +37,6 @@ async function getDescription(req, res, next) {
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
     const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
-    const compressedData = getCompressedData(webContext)
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
 
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
@@ -52,7 +50,9 @@ async function getDescription(req, res, next) {
     webContext.addPictureFromApi(respSellDesc.body)
     webContext.addChangedByLastTime(respSellDesc.body)
 
-    const html = renderStaticPage({
+    const compressedData = getCompressedData(webContext) // this has to be AFTER all webContext is ready
+
+    const view = renderStaticPage({
       applicationStore: {},
       location: req.url,
       basename: proxyPrefix,
@@ -64,7 +64,7 @@ async function getDescription(req, res, next) {
       compressedData,
       description: i18n.messages[langIndex].messages.description,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      html,
+      html: view,
       title: i18n.messages[langIndex].messages.title + ' | ' + courseCode,
     })
   } catch (err) {
@@ -75,14 +75,6 @@ async function getDescription(req, res, next) {
 
 // This function to see which groups user is in
 async function myCourses(req, res, next) {
-  const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
-  const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
-  renderStaticPage({
-    applicationStore: {},
-    location: req.url,
-    basename: proxyPrefix,
-    context: webContext,
-  })
   try {
     const user = req.session.passport.user.memberOf
     res.render('course/my_course', {
