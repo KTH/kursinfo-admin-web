@@ -14,7 +14,7 @@ function CourseDescriptionEditorPage(props) {
 
   const [state, setState] = useState({ progress: props.progress ? Number(props.progress) : 1 })
 
-  const { koppsData } = context.koppsData
+  const { koppsData } = context
   const langIndex = koppsData.lang === 'en' ? 0 : 1
   const { storageUri } = context.browserConfig
   const { introLabel } = i18n.messages[langIndex]
