@@ -1,4 +1,4 @@
-const fetchParameters = props => {
+function fetchParameters(props) {
   let params = {}
   if (props && props.location && props.location.sellingDescription !== 'success') {
     params = props.location.search
@@ -10,6 +10,4 @@ const fetchParameters = props => {
   return params
 }
 
-module.exports = {
-  fetchParameters,
-}
+export { fetchParameters }
