@@ -3,15 +3,14 @@ import React, { useReducer } from 'react'
 import { Alert, Button, Col, Row } from 'reactstrap'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import i18n from '../../../../i18n'
-import ButtonModal from './ButtonModal'
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
+import ButtonModal from './ButtonModal'
 
 const paramsReducer = (state, action) => ({ ...state, ...action })
 
 function Preview(props) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setContext] = useWebContext()
 
   const [state, setState] = useReducer(paramsReducer, {
     hasDoneSubmit: false,
@@ -28,7 +27,7 @@ function Preview(props) {
   function handleUploadImage() {
     const formData = newImage
     const { hostUrl } = context.browserConfig
-    const saveImageUrl = context.paths.storage.saveImage.uri.split(':')[0]
+    const [saveImageUrl] = context.paths.storage.saveImage.uri.split(':')
     let { fileProgress } = state
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
@@ -52,12 +51,20 @@ function Preview(props) {
     })
   }
 
+  function _shapeText() {
+    return {
+      sv: context.sellingTexts.sv,
+      en: context.sellingTexts.en,
+    }
+  }
+
   function handleSellingText(image) {
     const { imageName } = image
     const sellingTexts = _shapeText()
     context
       .doUpsertItem(sellingTexts, courseCode, imageName)
-      .then(() => {
+      .then(savedText => {
+        setContext({ ...context, sellingText: savedText })
         setState({
           hasDoneSubmit: true,
           redirectAfterSubmit: true,
@@ -106,13 +113,6 @@ function Preview(props) {
         })
     } else {
       handleSellingText({ imageName: context.imageNameFromApi })
-    }
-  }
-
-  function _shapeText() {
-    return {
-      sv: context.sellingTexts.sv,
-      en: context.sellingTexts.en,
     }
   }
 

@@ -39,14 +39,11 @@ function doUpsertItem(text, courseCode, imageName) {
       user: this.user,
     })
     .then(res => {
-      let msg = null
       if (safeGet(() => res.data.body.message)) {
-        msg = res.data.body.message
-        throw new Error(res.data.body.message)
-      } else {
-        this.sellingText = text
+        const { message: msg } = res.data.body
+        throw new Error(msg)
       }
-      return msg
+      return text
     })
     .catch(err => {
       if (err.response) {
