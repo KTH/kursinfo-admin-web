@@ -3,10 +3,10 @@ import React, { useState, useMemo } from 'react'
 import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
 import ProgressBar from '../components/ProgressBar'
-import PictureUpload from './PictureUpload'
-import SellingInfo from './SellingInfo'
 import Preview from '../components/PreviewText'
 import { useWebContext } from '../context/WebContext'
+import PictureUpload from './PictureUpload'
+import SellingInfo from './SellingInfo'
 
 function CourseDescriptionEditorPage(props) {
   const [webContext] = useWebContext()
@@ -16,16 +16,16 @@ function CourseDescriptionEditorPage(props) {
 
   const { koppsData } = context.koppsData
   const langIndex = koppsData.lang === 'en' ? 0 : 1
-  const storageUri = context.browserConfig.storageUri
+  const { storageUri } = context.browserConfig
   const { introLabel } = i18n.messages[langIndex]
-  const { courseImage } = i18n.messages[1]
+  const [, { courseImage }] = i18n.messages
   let courseImageID = courseImage[koppsData.mainSubject]
   if (courseImageID === undefined) courseImageID = courseImage.default
   const defaultImageUrl = `${storageUri}${courseImageID}`
   const introText = introLabel[`step_${state.progress}_desc`]
 
   function doUpdateStates(states) {
-    if (states) setState(states)
+    if (states) setState({ ...state, states })
   }
 
   return (
