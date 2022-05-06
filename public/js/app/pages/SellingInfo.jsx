@@ -24,7 +24,7 @@ const editorConf = {
 
 const paramsReducer = (state, action) => ({ ...state, ...action })
 
-function SellingInfo() {
+function SellingInfo({ updateParent }) {
   const [context, setContext] = useWebContext()
 
   const [state, setState] = React.useReducer(paramsReducer, {
@@ -129,7 +129,7 @@ function SellingInfo() {
       // eslint-disable-next-line no-undef
       CKEDITOR.instances.en.destroy(true)
     }
-    props.updateParent({ progress })
+    updateParent({ progress })
   }
 
   const { introLabel } = i18n.messages[langIndex]

@@ -45,7 +45,7 @@ function CourseDescriptionEditorPage(props) {
           updateParent={doUpdateStates}
         />
       )) ||
-        (state.progress === 2 && <SellingInfo koppsData={koppsData} updateParent={doUpdateStates} />) || (
+        (state.progress === 2 && <SellingInfo updateParent={doUpdateStates} />) || (
           <Preview introLabel={introLabel} defaultImageUrl={defaultImageUrl} updateParent={doUpdateStates} />
         )}
     </div>
