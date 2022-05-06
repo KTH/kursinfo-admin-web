@@ -36,11 +36,6 @@ const mockAdminStore = {
     isExaminator: false,
     isTeacher: false,
   },
-  tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
-    this.newImageFile = imageFile
-    this.tempImagePath = tempImagePath
-    this.isDefaultChosen = isDefaultChosen
-  },
 
   doUpsertItem(text, courseCode, imageName) {
     return new Promise((resolve, reject) => {

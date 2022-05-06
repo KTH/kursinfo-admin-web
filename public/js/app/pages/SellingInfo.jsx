@@ -6,7 +6,6 @@ import KoppsTextCollapse from '../components/KoppsTextCollapse'
 import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 import { useWebContext } from '../context/WebContext'
-import { param } from 'jquery'
 
 const nodeEnvTest = process.env.NODE_ENV.toLowerCase() === 'test'
 const editorConf = {
@@ -46,25 +45,25 @@ function SellingInfo() {
     }
   }, [])
 
-  const { sellingTextAuthor, koppsData } = context
+  const { koppsData } = context
   const courseCode = koppsData.courseTitleData.course_code
   const langIndex = koppsData.lang === 'en' ? 0 : 1
 
-  function _countTextLen(event, editorId) {
-    const text = event.editor.document.getBody().getText().replace(/\n/g, '')
-    const { length } = text
+  function _countTextLen(ev, editorId) {
+    const text = ev.editor.document.getBody().getText().replace(/\n/g, '')
+    const { length: textLength } = text
     setState({
-      [`leftTextSign_${editorId}`]: 1500 - length,
+      [`leftTextSign_${editorId}`]: 1500 - textLength,
       isError: false,
       errMsg: '',
     })
-    return [text, length]
+    return [text, textLength]
   }
 
-  function _validateLen(event, l) {
+  function _validateLen(ev, l) {
     const translation = i18n.messages[langIndex].pageTitles.alertMessages
-    const [cleanText, cleanTextLen] = _countTextLen(event, l)
-    const htmlText = event.editor.getData()
+    const [cleanText, cleanTextLen] = _countTextLen(ev, l)
+    const htmlText = ev.editor.getData()
     if (htmlText.length > 10000) {
       // this is max in api
       setState({
@@ -98,21 +97,21 @@ function SellingInfo() {
 
   function startEditor() {
     if (!nodeEnvTest) {
-      ;['sv', 'en'].map(editorId => {
+      ;['sv', 'en'].forEach(editorId => {
         // eslint-disable-next-line no-undef
         CKEDITOR.replace(editorId, editorConf)
         // eslint-disable-next-line no-undef
-        CKEDITOR.instances[editorId].on('instanceReady', event => _countTextLen(event, editorId))
+        CKEDITOR.instances[editorId].on('instanceReady', ev => _countTextLen(ev, editorId))
         // eslint-disable-next-line no-undef
-        CKEDITOR.instances[editorId].on('change', event => _validateLen(event, editorId))
+        CKEDITOR.instances[editorId].on('change', ev => _validateLen(ev, editorId))
       })
     }
   }
 
-  function quitEditor(event) {
-    event.preventDefault()
+  function quitEditor(ev) {
+    ev.preventDefault()
     const sellingTexts = _shapeText()
-    const progress = event.target.id === 'back-to-image' ? 1 : 3
+    const progress = ev.target.id === 'back-to-image' ? 1 : 3
     context.tempSaveText(sellingTexts)
     setState({ isError: false })
     if (!nodeEnvTest) {

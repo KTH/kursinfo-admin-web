@@ -48,7 +48,6 @@ async function getDescription(req, res, next) {
     webContext.koppsData = await filteredKoppsData(courseCode, lang)
     webContext.addSellingTextFromApi(respSellDesc.body)
     webContext.addPictureFromApi(respSellDesc.body)
-    webContext.addChangedByLastTime(respSellDesc.body)
 
     const compressedData = getCompressedData(webContext) // this has to be AFTER all webContext is ready
 

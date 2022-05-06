@@ -45,10 +45,6 @@ function setUserRolesForThisCourse(roles = {}) {
   this.userRoles = roles
 }
 
-function addChangedByLastTime(data) {
-  this.sellingTextAuthor = safeGet(() => data.sellingTextAuthor, '')
-}
-
 function addPictureFromApi(data) {
   this.imageNameFromApi = safeGet(() => data.imageInfo, '')
   this.isApiPicAvailable = this.imageNameFromApi !== ''
@@ -82,8 +78,6 @@ function createServerSideContext() {
     isApiPicAvailable: true, // true-false
     apiImageUrl: '', // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
 
-    // info for saving who change text
-    sellingTextAuthor: '',
     user: '',
     // hasDoneSubmit: false
     apiError: '',
@@ -92,7 +86,6 @@ function createServerSideContext() {
     setUser,
     setUserRolesForThisCourse,
     addSellingTextFromApi,
-    addChangedByLastTime,
     addPictureFromApi,
     setBrowserConfig,
   }
