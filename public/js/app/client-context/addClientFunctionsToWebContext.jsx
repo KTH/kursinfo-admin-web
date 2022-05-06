@@ -38,12 +38,6 @@ function tempSaveText(data) {
   }
 }
 
-function tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
-  this.newImageFile = imageFile
-  this.tempImagePath = tempImagePath
-  this.isDefaultChosen = isDefaultChosen
-}
-
 function doUpsertItem(text, courseCode, imageName) {
   return axios
     .post(this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }), {
@@ -58,7 +52,6 @@ function doUpsertItem(text, courseCode, imageName) {
         throw new Error(res.data.body.message)
       } else {
         this.sellingText = text
-        this.sellingTextAuthor = this.user
       }
       return msg
     })
@@ -81,7 +74,6 @@ function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
     tempSaveText,
-    tempSaveNewImage,
     doUpsertItem,
     setBrowserConfig,
   }

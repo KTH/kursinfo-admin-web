@@ -24,8 +24,7 @@ function _validFileType(file) {
 }
 
 function PictureUpload(props) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setContext] = useWebContext()
 
   const [state, setState] = React.useReducer(paramsReducer, {
     errMsg: undefined,
@@ -39,7 +38,7 @@ function PictureUpload(props) {
   const { koppsData, isApiPicAvailable, browserConfig, imageNameFromApi } = context
 
   const courseCode = koppsData.courseTitleData.course_code
-  const lang = koppsData.lang
+  const { lang } = koppsData
   const apiImageUrl = `${browserConfig.storageUri}${imageNameFromApi}`
   const { introLabel, defaultImageUrl } = props
 
@@ -145,6 +144,10 @@ function PictureUpload(props) {
     setState({ errMsg: errorIndex, infoMsg })
   }
 
+  function tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
+    setContext({ ...context, imageFile, tempImagePath, isDefaultChosen })
+  }
+
   function doNextStep(event) {
     event.preventDefault()
     const { isDefault, tempFilePath } = state
@@ -156,7 +159,7 @@ function PictureUpload(props) {
       setState({ isError: true, errMsg: 'no_file_chosen' })
     }
     if (!errorMayNotProceed) {
-      context.tempSaveNewImage(state.newImage, tempFilePath, isDefault)
+      tempSaveNewImage(state.newImage, tempFilePath, isDefault)
       props.updateParent({
         progress: 2,
       })
