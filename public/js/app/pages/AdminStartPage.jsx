@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import React from 'react'
 import { Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
@@ -14,7 +14,7 @@ function AdminStartPage(props) {
   const context = React.useMemo(() => webContext, [webContext])
 
   const { courseTitleData, lang } = context.koppsData
-  const courseCode = courseTitleData.course_code
+  const { course_code: courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isSuperUser } = context.userRoles
   const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
