@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react'
-import { useWebContext } from '../context/WebContext'
 import { CSVLink } from 'react-csv'
+import { useWebContext } from '../context/WebContext'
 
 const analysisPerSchoolRows = combinedAnalysesDataPerSchool => {
   // SCHOOL: HTML Rows of a table Per SCHOOL data
@@ -279,7 +279,7 @@ function CourseStatisticsPage(props) {
   // DEPARTMENT: HTML Rows for all course offerings for a table Per DEPARTMENT data
   const perDepartmentCourseOfferingRowsWithAnalyses = []
   withAnalyses.forEach(courseOffering => {
-    const cO = toJS(courseOffering)
+    const cO = courseOffering
 
     perDepartmentCourseOfferingRowsWithAnalyses.push(
       <tr>
@@ -301,7 +301,7 @@ function CourseStatisticsPage(props) {
 
   const perDepartmentCourseOfferingRowsWithMemos = []
   withMemos.forEach(courseOffering => {
-    const cO = toJS(courseOffering)
+    const cO = courseOffering
     const m = cO.courseMemoInfo || {}
     const p = m.publishedData || {}
 
@@ -342,7 +342,7 @@ function CourseStatisticsPage(props) {
     'Course Analysis',
   ])
   withAnalyses.forEach(courseOffering => {
-    const cO = toJS(courseOffering)
+    const cO = courseOffering
     csvPerDepartmentDataWithAnalyses.push([
       cO.semester,
       cO.schoolMainCode,
@@ -368,7 +368,7 @@ function CourseStatisticsPage(props) {
     'Publishing Date',
   ])
   withMemos.forEach(courseOffering => {
-    const cO = toJS(courseOffering)
+    const cO = courseOffering
     const m = cO.courseMemoInfo || {}
     const p = m.publishedData || {}
     csvPerDepartmentDataWithMemos.push([
