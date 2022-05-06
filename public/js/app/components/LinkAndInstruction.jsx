@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react'
-import { CollapseDetails } from '@kth/kth-kip-style-react-components'
+import { CollapseDetails } from '@kth/kth-reactstrap/dist/components/utbildningsinfo'
 import { COURSE_INFO_URL, USER_MANUAL_URL, RETRIEVED_COURSE_INFORMATION } from '../util/constants'
 
 const LinkToAboutCourseInformation = ({ courseCode, translate, lang }) => {

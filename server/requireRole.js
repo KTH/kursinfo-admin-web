@@ -1,6 +1,6 @@
 'use strict'
 
-const language = require('kth-node-web-common/lib/language')
+const language = require('@kth/kth-node-web-common/lib/language')
 const { hasGroup } = require('@kth/kth-node-passport-oidc')
 
 const i18n = require('../i18n')

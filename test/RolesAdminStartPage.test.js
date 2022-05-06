@@ -1,5 +1,4 @@
 import React from 'react'
-import { Provider } from 'mobx-react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
@@ -71,9 +70,7 @@ const TEACHER_AND_RESPONSIBLE = {
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
   return render(
-    <Provider adminStore={adminStoreToUse}>
-      <AdminStartPage />
-    </Provider>
+      <AdminStartPage adminStore={adminStoreToUse}/>
   )
 }
 

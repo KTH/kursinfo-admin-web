@@ -1,42 +1,22 @@
 'use strict'
 
-const log = require('kth-node-log')
-const language = require('kth-node-web-common/lib/language')
+const log = require('@kth/log')
+const language = require('@kth/kth-node-web-common/lib/language')
 const ReactDOMServer = require('react-dom/server')
-const { toJS } = require('mobx')
 const { fetchStatistic } = require('../statisticTransformer')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const serverPaths = require('../server').getPaths()
 const i18n = require('../../i18n')
-
-function _staticRender(context, location) {
-  if (process.env.NODE_ENV === 'development') {
-    delete require.cache[require.resolve('../../dist/app.js')]
-  }
-
-  const { staticRender } = require('../../dist/app.js')
-
-  return staticRender(context, location)
-}
-
-function hydrateStores(renderProps) {
-  // This assumes that all stores are specified in a root element called Provider
-
-  const { props } = renderProps.props.children
-  const outp = {}
-  for (const key in props) {
-    if (typeof props[key].initializeStore === 'function') {
-      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
-    }
-  }
-  return outp
-}
+const { getServerSideFunctions } = require('../utils/serverSideRendering')
+const { createServerSideContext } = require('../ssr-context/createServerSideContext')
 
 async function getData(req, res, next) {
   const lang = language.getLanguage(res)
   const { semester = '0' } = req.params
   try {
+    const { getCompressedData, renderStaticPage } = getServerSideFunctions()
+    const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
     const validSemester = /^(19|20)\d{2}[1|2]$/
     if (!semester.match(validSemester)) {
       const error = new Error(i18n.message('error_invalid_semester', lang))
@@ -49,19 +29,28 @@ async function getData(req, res, next) {
       error.status = 400
       throw error
     }
-    const renderProps = _staticRender()
-    // setBrowserConfig should be first because of setting paths for other next functions
-    // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
-    renderProps.props.children.props.adminStore.statisticData = await fetchStatistic(semester)
-    const statistic = ReactDOMServer.renderToString(renderProps)
+
+    webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    webContext.statisticData = await fetchStatistic(semester)
+
+    const compressedData = getCompressedData(webContext)
+
+    const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
+
+    const html = renderStaticPage({
+      applicationStore: {},
+      location: req.url,
+      basename: proxyPrefix,
+      context: webContext,
+    })
 
     res.render('course/index', {
+      compressedData,
       debug: 'debug' in req.query,
-      html: statistic,
-      paths: JSON.stringify(serverPaths),
-      initialState: JSON.stringify(hydrateStores(renderProps)),
+      html: html,
+      //paths: JSON.stringify(serverPaths),
       title: 'Course Information Statistics ' + semester,
+      proxyPrefix,
     })
   } catch (err) {
     log.error('Error in statisticPageCtrl.js -> in getData', { error: err })

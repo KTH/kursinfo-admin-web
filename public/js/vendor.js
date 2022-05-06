@@ -1,3 +1,3 @@
-// window.jQuery = window.$ = require('jquery')
-// window.ko = require('knockout')
-// require('bootstrap')
+require('bootstrap')
+window.jQuery = window.$ = require('jquery')
+require('jquery-hoverintent')

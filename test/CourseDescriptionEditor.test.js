@@ -1,5 +1,4 @@
 import React from 'react'
-import { Provider } from 'mobx-react'
 import { fireEvent, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
@@ -8,9 +7,7 @@ import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptio
 
 const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
   return render(
-    <Provider adminStore={adminStoreToUse}>
-      <CourseDescriptionEditorPage progress={pageNumber} />
-    </Provider>
+    <CourseDescriptionEditorPage progress={pageNumber} adminStore={adminStoreToUse} />
   )
 }
 

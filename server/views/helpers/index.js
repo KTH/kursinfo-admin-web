@@ -1,11 +1,10 @@
 'use strict'
-
-const registerHeaderContentHelper = require('kth-node-web-common/lib/handlebars/helpers/headerContent')
+const registerHeaderContentHelper = require('@kth/kth-node-web-common/lib/handlebars/helpers/headerContent')
 const config = require('../../configuration').server
 const packageFile = require('../../../package.json')
-const log = require('kth-node-log')
+const log = require('@kth/log')
 
-let { version } = packageFile
+let version = packageFile.version
 
 try {
   const buildVersion = require('../../../config/version')
@@ -26,7 +25,7 @@ try {
 */
 registerHeaderContentHelper({
   proxyPrefixPath: config.proxyPrefixPath.uri,
-  version
+  version,
 })
 
 /**
@@ -34,15 +33,14 @@ registerHeaderContentHelper({
  * packaged helpers in https://github.com/KTH/kth-node-web-common/tree/master/lib/handlebars/helpers
  * Those only need to be required. Docs embedded in source.
  */
-require('kth-node-web-common/lib/handlebars/helpers/breadcrumbs')(
+require('@kth/kth-node-web-common/lib/handlebars/helpers/breadcrumbs')(
   config.hostUrl,
   'host_name',
   '/node',
   'site_name'
 )
-require('kth-node-web-common/lib/handlebars/helpers/contentedit')
+require('@kth/kth-node-web-common/lib/handlebars/helpers/contentedit')
 
 const i18n = require('../../../i18n')
-require('kth-node-web-common/lib/handlebars/helpers/createI18nHelper')(i18n)
-require('kth-node-web-common/lib/handlebars/helpers/safe')
-
+require('@kth/kth-node-web-common/lib/handlebars/helpers/createI18nHelper')(i18n)
+require('@kth/kth-node-web-common/lib/handlebars/helpers/safe')

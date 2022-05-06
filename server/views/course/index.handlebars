@@ -1,16 +1,12 @@
-<script>
-  window.__initialState__ = {{{initialState}}}
-</script>
-{{!-- <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script> --}}
-{{prefixScript '/static/app.js' 'scripts'}}
+<script>{{{compressedData}}}</script>
+
 {{prefixScript '/static/js/ckeditor/ckeditor.js'}}
 
 {{#if error}}
   <p>Error: {{error}}</p>
 {{else}}
-  <div id="api-data">{{data}}</div>
+  <div id='api-data'>{{data}}</div>
 {{/if}}
 
-
-
-<div id="kth-kursinfo">{{{html}}}</div>
+<div id='app'>{{{html}}}</div>
+{{prefixScript '/static/app.js' 'scripts'}}<!---->

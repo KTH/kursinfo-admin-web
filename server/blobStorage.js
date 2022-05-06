@@ -1,6 +1,6 @@
 const { BlobServiceClient } = require('@azure/storage-blob')
 
-const log = require('kth-node-log')
+const log = require('@kth/log')
 
 const { server: serverConfig } = require('./configuration')
 

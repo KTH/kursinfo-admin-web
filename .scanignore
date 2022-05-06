@@ -1,2 +1,4 @@
-/package-lock.json
+/config/version.js
 /public/js/lib/firebug-lite/
+/server/server.js
+/package-lock.json

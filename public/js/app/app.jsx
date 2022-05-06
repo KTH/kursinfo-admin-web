@@ -2,51 +2,45 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'mobx-react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom' // matchPath
-import { StaticRouter } from 'react-router'
-import AdminStore from './stores/AdminStore'
+import { BrowserRouter, Route, Routes } from 'react-router-dom' // matchPath
+import { WebContextProvider } from './context/WebContext'
+import { uncompressData } from './context/compress'
 import AdminStartPage from './pages/AdminStartPage'
 import CourseDescriptionEditorPage from './pages/CourseDescriptionEditorPage'
 import CourseStatisticsPage from './pages/CourseStatisticsPage'
 import '../../css/kursinfo-admin-web.scss'
 
-function appFactory() {
-  const adminStore = new AdminStore()
-  if (typeof window !== 'undefined') {
-    adminStore.initializeStore('adminStore')
+function _renderOnClientSide() {
+  const isClientSide = typeof window !== 'undefined'
+
+  if (!isClientSide) {
+    return
   }
 
+  const webContext = {}
+  uncompressData(webContext)
+
+  const basename = webContext.proxyPrefixPath.uri
+
+  const app = <BrowserRouter basename={basename}>{appFactory({}, webContext)}</BrowserRouter>
+
+  // Removed basename because it is causing empty string basename={basename}
+  const domElement = document.getElementById('app')
+  ReactDOM.hydrate(app, domElement)
+}
+
+_renderOnClientSide()
+
+function appFactory(applicationStore, context) {
   return (
-    <Provider adminStore={adminStore}>
-      <Switch>
-        <Route
-          path="/kursinfoadmin/kurser/kurs/statistik/:semester"
-          component={CourseStatisticsPage}
-        />
-        <Route
-          path="/kursinfoadmin/kurser/kurs/edit/:courseCode"
-          component={CourseDescriptionEditorPage}
-        />
-        <Route path="/kursinfoadmin/kurser/kurs/:courseCode" component={AdminStartPage} />
-      </Switch>
-    </Provider>
+    <WebContextProvider configIn={context}>
+      <Routes>
+        <Route exact path="/statistik/:semester" element={<CourseStatisticsPage />} />
+        <Route exact path="/edit/:courseCode" element={<CourseDescriptionEditorPage />} />
+        <Route exact path="/:courseCode" element={<AdminStartPage />} />
+      </Routes>
+    </WebContextProvider>
   )
 }
 
-function staticRender(context, location) {
-  return (
-    <StaticRouter location={location} context={context}>
-      {appFactory()}
-    </StaticRouter>
-  )
-}
-
-if (typeof window !== 'undefined') {
-  ReactDOM.render(
-    <BrowserRouter>{appFactory()}</BrowserRouter>,
-    document.getElementById('kth-kursinfo')
-  )
-}
-
-export { appFactory, staticRender }
+export default appFactory
