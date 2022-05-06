@@ -31,13 +31,6 @@ function buildApiUrl(path, params) {
   return [host, newPath].join('')
 }
 
-function tempSaveText(data) {
-  this.sellingText = {
-    en: data.en,
-    sv: data.sv,
-  }
-}
-
 function doUpsertItem(text, courseCode, imageName) {
   return axios
     .post(this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }), {
@@ -73,7 +66,6 @@ function setBrowserConfig(config, paths, apiHost, hostUrl) {
 function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
-    tempSaveText,
     doUpsertItem,
     setBrowserConfig,
   }

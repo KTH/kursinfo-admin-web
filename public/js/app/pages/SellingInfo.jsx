@@ -25,8 +25,7 @@ const editorConf = {
 const paramsReducer = (state, action) => ({ ...state, ...action })
 
 function SellingInfo() {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setContext] = useWebContext()
 
   const [state, setState] = React.useReducer(paramsReducer, {
     sv: context.sellingText.sv || '',
@@ -46,8 +45,10 @@ function SellingInfo() {
   }, [])
 
   const { koppsData } = context
-  const courseCode = koppsData.courseTitleData.course_code
-  const langIndex = koppsData.lang === 'en' ? 0 : 1
+  const { courseTitleData, koppsText, lang } = koppsData
+
+  const { course_code: courseCode } = courseTitleData
+  const langIndex = lang === 'en' ? 0 : 1
 
   function _countTextLen(ev, editorId) {
     const text = ev.editor.document.getBody().getText().replace(/\n/g, '')
@@ -108,11 +109,19 @@ function SellingInfo() {
     }
   }
 
+  function _tempSaveText(data) {
+    const newSellingText = {
+      en: data.en,
+      sv: data.sv,
+    }
+    setContext({ ...context, sellingText: newSellingText })
+  }
+
   function quitEditor(ev) {
     ev.preventDefault()
     const sellingTexts = _shapeText()
     const progress = ev.target.id === 'back-to-image' ? 1 : 3
-    context.tempSaveText(sellingTexts)
+    _tempSaveText(sellingTexts)
     setState({ isError: false })
     if (!nodeEnvTest) {
       // eslint-disable-next-line no-undef
@@ -138,7 +147,7 @@ function SellingInfo() {
       </span>
       <span className="Editors--Area" key="editorsArea" role="tablist">
         <span className="left" key="leftEditorForSwedish">
-          <KoppsTextCollapse instructions={introLabel} koppsText={koppsData.koppsText.sv} lang="sv" />
+          <KoppsTextCollapse instructions={introLabel} koppsText={koppsText.sv} lang="sv" />
           <p>
             {introLabel.label_left_number_letters}
             <span className="badge badge-warning badge-pill">{state.leftTextSign_sv}</span>
@@ -146,7 +155,7 @@ function SellingInfo() {
           <textarea name="sv" id="sv" className="editor" defaultValue={state.sv} />
         </span>
         <span className="right" key="rightEditorForEnglish">
-          <KoppsTextCollapse instructions={introLabel} koppsText={koppsData.koppsText.en} lang="en" />
+          <KoppsTextCollapse instructions={introLabel} koppsText={koppsText.en} lang="en" />
           <p>
             {introLabel.label_left_number_letters}
             <span className="badge badge-warning badge-pill">{state.leftTextSign_en}</span>
