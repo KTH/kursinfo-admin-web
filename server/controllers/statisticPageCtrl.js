@@ -2,7 +2,6 @@
 
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
-const ReactDOMServer = require('react-dom/server')
 const { fetchStatistic } = require('../statisticTransformer')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -37,7 +36,7 @@ async function getData(req, res, next) {
 
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
 
-    const html = renderStaticPage({
+    const view = renderStaticPage({
       applicationStore: {},
       location: req.url,
       basename: proxyPrefix,
@@ -47,8 +46,8 @@ async function getData(req, res, next) {
     res.render('course/index', {
       compressedData,
       debug: 'debug' in req.query,
-      html: html,
-      //paths: JSON.stringify(serverPaths),
+      html: view,
+      paths: JSON.stringify(serverPaths), // don't remove it, it's needed for handlebars
       title: 'Course Information Statistics ' + semester,
       proxyPrefix,
     })
