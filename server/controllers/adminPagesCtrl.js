@@ -3,7 +3,6 @@
 // const sanitize = require('sanitize-html')
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
-const ReactDOMServer = require('react-dom/server')
 const { filteredKoppsData } = require('../koppsApi')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
@@ -32,7 +31,7 @@ async function getAdminStart(req, res, next) {
 
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
 
-    const html = renderStaticPage({
+    const view = renderStaticPage({
       applicationStore: {},
       location: req.url,
       basename: proxyPrefix,
@@ -45,9 +44,9 @@ async function getAdminStart(req, res, next) {
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
       title: courseCode + ' | ' + i18n.messages[lang === 'en' ? 0 : 1].messages.title,
       description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
-      html,
+      html: view,
       lang,
-      //paths: JSON.stringify(serverPaths),
+      paths: JSON.stringify(serverPaths), // don't remove it, it's needed for handlebars
       proxyPrefix,
     })
   } catch (error) {
@@ -72,14 +71,6 @@ async function _getImagesNamesFromKursinfoApi() {
 }
 
 async function monitorImages(req, res, next) {
-  const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
-  const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
-  renderStaticPage({
-    applicationStore: {},
-    location: req.url,
-    basename: proxyPrefix,
-    context: webContext,
-  })
   try {
     const allImagesInContainer = await getAllImagesBlobNames()
     const { body: allImagesNamesInApiDb } = await _getImagesNamesFromKursinfoApi()
