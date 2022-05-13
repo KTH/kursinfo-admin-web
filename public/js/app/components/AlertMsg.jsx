@@ -18,8 +18,8 @@ const mapAdminUrl = {
   },
 }
 
-const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
-  const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
+const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en', hostUrl }) => {
+  //const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
   const params = fetchParameters(props)
   const {
     event: doneAction,

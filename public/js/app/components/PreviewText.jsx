@@ -20,8 +20,9 @@ function Preview(props) {
     fileProgress: 0,
   })
 
-  const { isDefaultChosen, newImage, tempFilePath, apiImageUrl, koppsData, courseCode, userLang } = context
-
+  const { isDefaultChosen, newImage, tempFilePath, apiImageUrl, koppsData, userLang, sellingText } = context
+  const { courseTitleData } = koppsData
+  const courseCode = courseTitleData.course_code
   const langIndex = context.koppsData.lang === 'en' ? 0 : 1
 
   function handleUploadImage() {
@@ -34,7 +35,7 @@ function Preview(props) {
       req.upload.addEventListener('progress', event => {
         if (event.lengthComputable) {
           fileProgress = (event.loaded / event.total) * 100
-          setState({ fileProgress })
+          setState({ ...state, fileProgress })
         }
       })
       req.onreadystatechange = function () {
@@ -42,19 +43,19 @@ function Preview(props) {
           resolve({ imageName: this.response })
         }
         if (this.readyState === 4 && this.status !== 200) {
-          this.setState({ fileProgress: 0 })
+          setState({ ...state, fileProgress: 0 })
           reject({ error: this })
         }
       }
-      req.open('POST', `${hostUrl}${saveImageUrl}${this.courseCode}/published`)
+      req.open('POST', `${hostUrl}${saveImageUrl}${courseCode}/published`)
       req.send(formData)
     })
   }
 
   function _shapeText() {
     return {
-      sv: context.sellingTexts.sv,
-      en: context.sellingTexts.en,
+      sv: sellingText.sv,
+      en: sellingText.en,
     }
   }
 
@@ -66,6 +67,7 @@ function Preview(props) {
       .then(savedText => {
         setContext({ ...context, sellingText: savedText })
         setState({
+          ...state,
           hasDoneSubmit: true,
           redirectAfterSubmit: true,
           fileProgress: 100,
@@ -75,6 +77,7 @@ function Preview(props) {
       })
       .catch(err => {
         setState({
+          ...state,
           hasDoneSubmit: false,
           isError: true,
           errMsg: i18n.messages[langIndex].pageTitles.alertMessages.api_error,
@@ -85,6 +88,7 @@ function Preview(props) {
 
   function handlePublish() {
     setState({
+      ...state,
       hasDoneSubmit: true,
       isError: false,
     })
@@ -97,6 +101,7 @@ function Preview(props) {
 
           if (!imageName) {
             setState({
+              ...state,
               hasDoneSubmit: false,
               isError: true,
               errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
@@ -105,6 +110,7 @@ function Preview(props) {
         })
         .catch(err => {
           setState({
+            ...state,
             hasDoneSubmit: false,
             isError: true,
             errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
@@ -148,7 +154,7 @@ function Preview(props) {
                   className="textBlock"
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
-                    __html: state[lang].length > 0 ? state[lang] : koppsText[lang],
+                    __html: sellingText[lang].length > 0 ? sellingText[lang] : koppsText[lang],
                   }}
                 />
               </Col>
@@ -165,7 +171,7 @@ function Preview(props) {
                 id="cancelStep3"
                 type="cancel"
                 btnLabel={introLabel.button.cancel}
-                returnToUrl={`${ADMIN_OM_COURSE}${this.courseCode}${CANCEL_PARAMETER}`}
+                returnToUrl={`${ADMIN_OM_COURSE}${courseCode}${CANCEL_PARAMETER}`}
                 modalLabels={introLabel.info_cancel}
                 course={courseCode}
               />

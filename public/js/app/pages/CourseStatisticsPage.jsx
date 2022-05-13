@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react'
-import { CSVLink } from 'react-csv'
+import { CSVLink, CSVDownload } from 'react-csv'
+import { v4 as uuidv4 } from 'uuid'
 import { useWebContext } from '../context/WebContext'
 
 const analysisPerSchoolRows = combinedAnalysesDataPerSchool => {
@@ -99,6 +100,7 @@ const analysisPerSchoolCSV = combinedAnalysesDataPerSchool => {
     csvPerSchoolData.push([sC, schools[sC].numberOfCourses, schools[sC].numberOfUniqAnalyses])
   })
   csvPerSchoolData.push(['Total', totalNumberOfCourses, totalNumberOfAnalyses])
+  console.log(csvPerSchoolData)
   return csvPerSchoolData
 }
 
@@ -255,8 +257,14 @@ const englishTexts = {
 }
 
 function CourseStatisticsPage(props) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(webContext, [webContext])
+  /* const testCsvData = [
+    ["firstname", "lastname", "email"],
+    ["Sam", "Tal", "samtal@kth.se"],
+    ["Raed", "Labes", "rl@kth.se"],
+    ["Yezzi", "Min", "ymin@kth.se"]
+  ] */
+
+  const [context, setContext] = useWebContext()
 
   const {
     semester,
@@ -282,7 +290,7 @@ function CourseStatisticsPage(props) {
     const cO = courseOffering
 
     perDepartmentCourseOfferingRowsWithAnalyses.push(
-      <tr>
+      <tr key={uuidv4()}>
         <td>{cO.semester}</td>
         <td>{cO.schoolMainCode}</td>
         <td>{cO.departmentName}</td>
@@ -306,7 +314,7 @@ function CourseStatisticsPage(props) {
     const p = m.publishedData || {}
 
     perDepartmentCourseOfferingRowsWithMemos.push(
-      <tr>
+      <tr key={uuidv4()}>
         <td>{cO.semester}</td>
         <td>{cO.schoolMainCode}</td>
         <td>{cO.departmentName}</td>
@@ -414,6 +422,8 @@ function CourseStatisticsPage(props) {
             >
               {englishTexts.exportCourseAnalysesData}
             </CSVLink>
+            {/* <CSVDownload  data={analysisPerSchoolCSV(combinedAnalysesDataPerSchool)}/> */}
+
             <table className="table">
               <thead>
                 <tr>

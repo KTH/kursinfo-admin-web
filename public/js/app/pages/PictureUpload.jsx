@@ -71,6 +71,7 @@ function PictureUpload(props) {
 
   function _choosenNewPicture(isError, fileUrl) {
     setState({
+      ...state,
       isError,
       tempFilePath: fileUrl,
     })
@@ -79,6 +80,7 @@ function PictureUpload(props) {
   function checkTerms() {
     const termsAgreement = document.getElementById('termsAgreement')
     setState({
+      ...state,
       isError: !termsAgreement.checked,
       errMsg: termsAgreement.checked ? '' : 'approve_term',
     })
@@ -95,6 +97,7 @@ function PictureUpload(props) {
     let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     setState({
+      ...state,
       isDefault: isDefaultPic,
       isError: false,
       errMsg: undefined,
@@ -104,7 +107,10 @@ function PictureUpload(props) {
       // if user choose to override api picture with default
       if (isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
-    setState({ infoMsg })
+    setState({
+      ...state,
+      infoMsg,
+    })
   }
 
   async function displayValidatedPic(event) {
@@ -121,7 +127,10 @@ function PictureUpload(props) {
         } else {
           const fileData = await _appendFileData(compressedFile)
           _choosenNewPicture(!errTrue, imageFilePath)
-          setState({ newImage: fileData })
+          setState({
+            ...state,
+            newImage: fileData,
+          })
         }
       } else {
         if (!isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
@@ -141,7 +150,11 @@ function PictureUpload(props) {
       _choosenNewPicture(!errTrue, state.tempFilePath)
     }
 
-    setState({ errMsg: errorIndex, infoMsg })
+    setState({
+      ...state,
+      errMsg: errorIndex,
+      infoMsg,
+    })
   }
 
   function tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
@@ -150,14 +163,20 @@ function PictureUpload(props) {
 
   function doNextStep(event) {
     event.preventDefault()
+
     const { isDefault, tempFilePath } = state
     let { isError: errorMayNotProceed } = state
     if (tempFilePath && !isDefault) {
       errorMayNotProceed |= !checkTerms()
     } else if (!isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
-      setState({ isError: true, errMsg: 'no_file_chosen' })
+      setState({
+        ...state,
+        isError: true,
+        errMsg: 'no_file_chosen',
+      })
     }
+
     if (!errorMayNotProceed) {
       tempSaveNewImage(state.newImage, tempFilePath, isDefault)
       props.updateParent({

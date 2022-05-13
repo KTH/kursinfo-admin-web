@@ -9,8 +9,7 @@ import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
 
 function CourseDescriptionEditorPage(props) {
-  const [webContext] = useWebContext()
-  const context = useMemo(() => webContext, [webContext])
+  const [context, setContext] = useWebContext()
 
   const [state, setState] = useState({ progress: props.progress ? Number(props.progress) : 1 })
 
@@ -25,7 +24,7 @@ function CourseDescriptionEditorPage(props) {
   const introText = introLabel[`step_${state.progress}_desc`]
 
   function doUpdateStates(states) {
-    if (states) setState({ ...state, states })
+    if (states) setState({ ...state, ...states })
   }
 
   return (

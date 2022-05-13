@@ -55,7 +55,7 @@ function ButtonModal(props) {
           <p dangerouslySetInnerHTML={{ __html: body }} />
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={this.toggle}>
+          <Button color="secondary" onClick={toggle}>
             {btnCancel}
           </Button>
           {type === 'submit' || type === 'remove' || type === 'cancel' ? (

@@ -10,18 +10,28 @@ import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 
 function AdminStartPage(props) {
-  const [webContext] = useWebContext()
-  const context = React.useMemo(() => webContext, [webContext])
+  const [context, setContext] = useWebContext()
 
-  const { courseTitleData, lang } = context.koppsData
+  let hostUrl = ''
+
+  const { koppsData, userRoles, browserConfig } = context
+  const { courseTitleData, lang } = koppsData
   const { course_code: courseCode } = courseTitleData
-  const { isCourseResponsible, isExaminator, isSuperUser } = context.userRoles
+  const { isCourseResponsible, isExaminator, isSuperUser } = userRoles
   const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
+  const { env } = browserConfig
+
+  if (env === 'dev') {
+    hostUrl = 'http://localhost:3000'
+  } else {
+    // kursinfoadmin is on app.kth.se but student is www.kth.se
+    hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
+  }
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page start-page col">
-      <LinkToAboutCourseInformation courseCode={courseCode} lang={lang} translate={pageTitles} />
+      <LinkToAboutCourseInformation courseCode={courseCode} lang={lang} translate={pageTitles} hostUrl={hostUrl} />
 
       {/* ---COURSE TITEL--- */}
       <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={pageTitles.administrate} language={lang} />
@@ -29,7 +39,7 @@ function AdminStartPage(props) {
       <TextAboutRights lang={lang} translate={pageTitles} />
 
       <div className="AdminPage--Alert">
-        <AlertMsg courseCode={courseCode} props={props} lang={lang} translate={pageTitles} />
+        <AlertMsg courseCode={courseCode} props={props} lang={lang} translate={pageTitles} hostUrl={hostUrl} />
       </div>
       <div className="AdminPage--Alert">
         <AlertReminderMsg props={props} lang={lang} />
