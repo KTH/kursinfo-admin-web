@@ -20,10 +20,10 @@ function Preview(props) {
     fileProgress: 0,
   })
 
-  const { isDefaultChosen, newImage, tempFilePath, apiImageUrl, koppsData, userLang, sellingText } = context
-  const { courseTitleData } = koppsData
+  const { isDefaultChosen, newImage, tempFilePath, apiImageUrl, koppsData, sellingText } = context
+  const { courseTitleData, lang: userLang } = koppsData
   const courseCode = courseTitleData.course_code
-  const langIndex = context.koppsData.lang === 'en' ? 0 : 1
+  const langIndex = userLang === 'en' ? 0 : 1
 
   function handleUploadImage() {
     const formData = newImage
@@ -32,10 +32,10 @@ function Preview(props) {
     let { fileProgress } = state
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
-      req.upload.addEventListener('progress', event => {
-        if (event.lengthComputable) {
-          fileProgress = (event.loaded / event.total) * 100
-          setState({ ...state, fileProgress })
+      req.upload.addEventListener('progress', uploadEvent => {
+        if (uploadEvent.lengthComputable) {
+          fileProgress = (uploadEvent.loaded / uploadEvent.total) * 100
+          setState({ fileProgress })
         }
       })
       req.onreadystatechange = function () {
@@ -43,7 +43,7 @@ function Preview(props) {
           resolve({ imageName: this.response })
         }
         if (this.readyState === 4 && this.status !== 200) {
-          setState({ ...state, fileProgress: 0 })
+          setState({ fileProgress: 0 })
           reject({ error: this })
         }
       }
@@ -67,7 +67,6 @@ function Preview(props) {
       .then(savedText => {
         setContext({ ...context, sellingText: savedText })
         setState({
-          ...state,
           hasDoneSubmit: true,
           redirectAfterSubmit: true,
           fileProgress: 100,
@@ -77,7 +76,6 @@ function Preview(props) {
       })
       .catch(err => {
         setState({
-          ...state,
           hasDoneSubmit: false,
           isError: true,
           errMsg: i18n.messages[langIndex].pageTitles.alertMessages.api_error,
@@ -88,7 +86,6 @@ function Preview(props) {
 
   function handlePublish() {
     setState({
-      ...state,
       hasDoneSubmit: true,
       isError: false,
     })
@@ -101,7 +98,6 @@ function Preview(props) {
 
           if (!imageName) {
             setState({
-              ...state,
               hasDoneSubmit: false,
               isError: true,
               errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
@@ -110,7 +106,6 @@ function Preview(props) {
         })
         .catch(err => {
           setState({
-            ...state,
             hasDoneSubmit: false,
             isError: true,
             errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
