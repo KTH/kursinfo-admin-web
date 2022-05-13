@@ -71,7 +71,6 @@ function PictureUpload(props) {
 
   function _choosenNewPicture(isError, fileUrl) {
     setState({
-      ...state,
       isError,
       tempFilePath: fileUrl,
     })
@@ -80,7 +79,6 @@ function PictureUpload(props) {
   function checkTerms() {
     const termsAgreement = document.getElementById('termsAgreement')
     setState({
-      ...state,
       isError: !termsAgreement.checked,
       errMsg: termsAgreement.checked ? '' : 'approve_term',
     })
@@ -97,7 +95,6 @@ function PictureUpload(props) {
     let infoMsg
     const isDefaultPic = event.target.value === 'defaultPicture'
     setState({
-      ...state,
       isDefault: isDefaultPic,
       isError: false,
       errMsg: undefined,
@@ -108,7 +105,6 @@ function PictureUpload(props) {
       if (isApiPicAvailable) infoMsg = 'replace_api_with_default'
     }
     setState({
-      ...state,
       infoMsg,
     })
   }
@@ -128,7 +124,6 @@ function PictureUpload(props) {
           const fileData = await _appendFileData(compressedFile)
           _choosenNewPicture(!errTrue, imageFilePath)
           setState({
-            ...state,
             newImage: fileData,
           })
         }
@@ -151,7 +146,6 @@ function PictureUpload(props) {
     }
 
     setState({
-      ...state,
       errMsg: errorIndex,
       infoMsg,
     })
@@ -171,7 +165,6 @@ function PictureUpload(props) {
     } else if (!isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
       setState({
-        ...state,
         isError: true,
         errMsg: 'no_file_chosen',
       })

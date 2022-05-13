@@ -54,7 +54,6 @@ function SellingInfo({ updateParent }) {
     const text = ev.editor.document.getBody().getText().replace(/\n/g, '')
     const { length: textLength } = text
     setState({
-      ...state,
       [`leftTextSign_${editorId}`]: 1500 - textLength,
       isError: false,
       errMsg: '',
@@ -69,25 +68,21 @@ function SellingInfo({ updateParent }) {
     if (htmlText.length > 10000) {
       // this is max in api
       setState({
-        ...state,
         isError: true,
         errMsg: translation.over_html_limit,
       })
     } else if (cleanTextLen > 1500) {
       // this is an abstract max
       setState({
-        ...state,
         isError: true,
         errMsg: translation.over_text_limit,
       })
     } else if (cleanText.trim().length === 0) {
       setState({
-        ...state,
         [l]: '',
       })
     } else {
       setState({
-        ...state,
         [l]: htmlText,
       })
     }
@@ -128,7 +123,6 @@ function SellingInfo({ updateParent }) {
     const progress = ev.target.id === 'back-to-image' ? 1 : 3
     _tempSaveText(sellingTexts)
     setState({
-      ...state,
       isError: false,
     })
     if (!nodeEnvTest) {
