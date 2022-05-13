@@ -1,19 +1,17 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable class-methods-use-this */
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from 'reactstrap'
 
 function FileInput(props) {
-  const [state, setState] = useState({})
-
-  function clickFileInput(event) {
+  function clickFileInput(ev) {
     // This function is for chrome browser, because in safari it works fine without it
-    event.preventDefault()
+    ev.preventDefault()
     document.querySelector('.pic-upload').click()
   }
 
-  function handleChange(event) {
-    props.onChange(event)
+  function handleChange(ev) {
+    props.onChange(ev)
   }
 
   /* accept = 'image/jpg,image/jpeg,image/png'
@@ -22,7 +20,7 @@ function FileInput(props) {
 
   return (
     <span className="btn-upload-file">
-      <label htmlFor={id} onClick={clickFileInput}>
+      <label role="presentation" htmlFor={id} onClick={clickFileInput}>
         <Button color="secondary" block>
           <span>{btnLabel}</span>
         </Button>

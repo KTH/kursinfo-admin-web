@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
 import ProgressBar from '../components/ProgressBar'
@@ -9,7 +9,7 @@ import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
 
 function CourseDescriptionEditorPage(props) {
-  const [context, setContext] = useWebContext()
+  const [context] = useWebContext()
 
   const [state, setState] = useState({ progress: props.progress ? Number(props.progress) : 1 })
 

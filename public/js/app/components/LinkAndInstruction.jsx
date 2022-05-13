@@ -3,10 +3,8 @@ import React from 'react'
 import { CollapseDetails } from '@kth/kth-reactstrap/dist/components/utbildningsinfo'
 import { COURSE_INFO_URL, USER_MANUAL_URL, RETRIEVED_COURSE_INFORMATION } from '../util/constants'
 
-const LinkToAboutCourseInformation = ({ courseCode, translate, lang, hostUrl }) => {
-  // kursinfoadmin is on app.kth.se but student is www.kth.se
-  //const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
-  const aboutCourseLink = `${hostUrl}${COURSE_INFO_URL}${courseCode}?l=${lang}`
+const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPagesHref }) => {
+  const aboutCourseLink = `${publicPagesHref}${COURSE_INFO_URL}${courseCode}?l=${lang}`
 
   return (
     <div className="navigation row">

@@ -15,8 +15,8 @@ function ButtonModal(props) {
       isOpen: !isOpen,
     })
   }
-  function handleConfirm(event) {
-    event.preventDefault()
+  function handleConfirm(ev) {
+    ev.preventDefault()
     const { type, returnToUrl } = props
     if (type === 'cancel') goBackToStartPage(returnToUrl)
     else {
