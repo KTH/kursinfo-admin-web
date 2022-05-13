@@ -1,10 +1,8 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
-import { fetchParameters } from '../util/fetchUrlParams'
 
-const AlertReminderMsg = ({ props, lang = 'en' }) => {
-  const params = fetchParameters(props)
-  const { event: doneAction, serv: serviceAbbr } = params
+const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
+  const { event: doneAction, serv: serviceAbbr } = querySearchParams
 
   return (
     (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&

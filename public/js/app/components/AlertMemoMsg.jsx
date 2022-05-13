@@ -1,10 +1,13 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
-import { fetchParameters } from '../util/fetchUrlParams'
 
 // &noMemo=CSAMH%20(%20Startdatum%202012-08-24,%20Svenska%20)
-const AlertMemoMsg = ({ props, translate = { alertMessages: {}, course_short_semester: {} }, lang = 'en' }) => {
-  const { event: doneAction, noMemo: roundNames = '', term: semester } = fetchParameters(props)
+const AlertMemoMsg = ({
+  querySearchParams,
+  translate = { alertMessages: {}, course_short_semester: {} },
+  lang = 'en',
+}) => {
+  const { event: doneAction, noMemo: roundNames = '', term: semester } = querySearchParams
   const { alertMessages, course_short_semester: shortSemester } = translate
 
   const { noMemoHeader } = alertMessages

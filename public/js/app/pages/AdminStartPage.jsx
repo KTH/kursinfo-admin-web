@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
@@ -8,30 +9,41 @@ import AlertMemoMsg from '../components/AlertMemoMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
+import { fetchParameters } from '../util/fetchUrlParams'
 
-function AdminStartPage(props) {
-  const [context, setContext] = useWebContext()
+function resolvePublicPagesHref() {
+  if (typeof window === 'undefined') return ''
+  // kursinfoadmin is on app.kth.se but student is www.kth.se
+  const { href: thisPagesUrl } = window.location
+  const hasAppInHref = thisPagesUrl.includes('app')
+  const [, , thisHost] = thisPagesUrl.split('/')
+  const publicPagesHref = hasAppInHref ? `https://${thisHost.replace('app', 'www')}` : ''
+  return publicPagesHref
+}
 
-  let hostUrl = ''
+function AdminStartPage() {
+  const [context] = useWebContext()
+  const [querySearchParams] = useSearchParams()
+  // console.log('searchParams', searchParams)
+  // const querySearchParams = [...searchParams]
 
-  const { koppsData, userRoles, browserConfig } = context
+  const { koppsData, userRoles } = context
   const { courseTitleData, lang } = koppsData
   const { course_code: courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isSuperUser } = userRoles
   const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
-  const { env } = browserConfig
 
-  if (env === 'dev') {
-    hostUrl = 'http://localhost:3000'
-  } else {
-    // kursinfoadmin is on app.kth.se but student is www.kth.se
-    hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
-  }
+  const publicPagesHref = resolvePublicPagesHref()
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page start-page col">
-      <LinkToAboutCourseInformation courseCode={courseCode} lang={lang} translate={pageTitles} hostUrl={hostUrl} />
+      <LinkToAboutCourseInformation
+        courseCode={courseCode}
+        lang={lang}
+        translate={pageTitles}
+        publicPagesHref={publicPagesHref}
+      />
 
       {/* ---COURSE TITEL--- */}
       <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={pageTitles.administrate} language={lang} />
@@ -39,13 +51,19 @@ function AdminStartPage(props) {
       <TextAboutRights lang={lang} translate={pageTitles} />
 
       <div className="AdminPage--Alert">
-        <AlertMsg courseCode={courseCode} props={props} lang={lang} translate={pageTitles} hostUrl={hostUrl} />
+        <AlertMsg
+          courseCode={courseCode}
+          querySearchParams={fetchParameters(querySearchParams)}
+          lang={lang}
+          translate={pageTitles}
+          publicPagesHref={publicPagesHref}
+        />
       </div>
       <div className="AdminPage--Alert">
-        <AlertReminderMsg props={props} lang={lang} />
+        <AlertReminderMsg querySearchParams={querySearchParams} lang={lang} />
       </div>
       <div className="AdminPage--Alert">
-        <AlertMemoMsg props={props} lang={lang} translate={pageTitles} />
+        <AlertMemoMsg querySearchParams={querySearchParams} lang={lang} translate={pageTitles} />
       </div>
       <div className="col">
         <span className="AdminPage--ShowDescription">
