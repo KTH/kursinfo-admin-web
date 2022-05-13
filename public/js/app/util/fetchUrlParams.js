@@ -1,11 +1,10 @@
-function fetchParameters(props) {
-  let params = {}
-  if (props && props.location && props.location.sellingDescription !== 'success') {
-    params = props.location.search
-      .substring(1)
-      .split('&')
-      .map(param => param.split('='))
-      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+function fetchParameters(searchParams) {
+  if (!searchParams) return {}
+  const params = {}
+
+  for (const entry of searchParams.entries()) {
+    const [key, value] = entry
+    params[key] = value
   }
   return params
 }
