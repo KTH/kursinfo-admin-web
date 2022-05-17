@@ -58,10 +58,10 @@ function AdminStartPage() {
         />
       </div>
       <div className="AdminPage--Alert">
-        <AlertReminderMsg querySearchParams={querySearchParams} lang={lang} />
+        <AlertReminderMsg querySearchParams={fetchParameters(querySearchParams)} lang={lang} />
       </div>
       <div className="AdminPage--Alert">
-        <AlertMemoMsg querySearchParams={querySearchParams} lang={lang} translate={pageTitles} />
+        <AlertMemoMsg querySearchParams={fetchParameters(querySearchParams)} lang={lang} translate={pageTitles} />
       </div>
       <div className="col">
         <span className="AdminPage--ShowDescription">

@@ -6,6 +6,9 @@ function fetchParameters(searchParams) {
     const [key, value] = entry
     params[key] = value
   }
+
+  if (Object.keys(params).length === 0) return null
+
   return params
 }
 

@@ -2,6 +2,8 @@ import React from 'react'
 import { Alert } from 'reactstrap'
 
 const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
+  if (!querySearchParams) return null
+
   const { event: doneAction, serv: serviceAbbr } = querySearchParams
 
   return (

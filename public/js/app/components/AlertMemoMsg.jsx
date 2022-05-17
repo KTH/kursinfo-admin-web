@@ -7,6 +7,8 @@ const AlertMemoMsg = ({
   translate = { alertMessages: {}, course_short_semester: {} },
   lang = 'en',
 }) => {
+  if (!querySearchParams) return null
+
   const { event: doneAction, noMemo: roundNames = '', term: semester } = querySearchParams
   const { alertMessages, course_short_semester: shortSemester } = translate
 

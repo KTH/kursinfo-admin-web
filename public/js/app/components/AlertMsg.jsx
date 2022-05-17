@@ -22,6 +22,8 @@ const services = ['kinfo', 'kutv', 'pm', 'pmdata']
 const actions = ['delete', 'save', 'removedPublished', ...publishedActions]
 
 const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', publicPagesHref }) => {
+  if (!querySearchParams) return null
+
   const {
     event: doneAction,
     name: courseRoundName,
@@ -31,6 +33,7 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
     memoendpoint: memoEndPoint,
     ladokRound,
   } = querySearchParams
+
   if (!services.includes(serviceAbbr)) return null
   if (!actions.includes(doneAction)) return null
   const publicService =
