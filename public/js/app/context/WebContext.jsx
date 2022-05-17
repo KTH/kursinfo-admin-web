@@ -27,7 +27,7 @@ export const WebContextProvider = props => {
     }
   }
 
-  //OBS! deviation from NODE-WEB to make functions working
+  // OBS! deviation from NODE-WEB to make functions working
   const [currentConfig, setConfig] = React.useState({ ...config, ...addClientFunctionsToWebContext() })
   const value = [currentConfig, setConfig]
   // eslint-disable-next-line react/jsx-props-no-spreading

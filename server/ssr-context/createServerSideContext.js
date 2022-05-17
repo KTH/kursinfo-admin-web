@@ -71,7 +71,6 @@ function createServerSideContext() {
     tempImagePath: '',
     // Default image according to school
     isDefaultChosen: true, // true-false
-    // @observable defaultImageUrl
 
     // Kursinfo-api, published image info
     imageNameFromApi: '', // name.jpg
