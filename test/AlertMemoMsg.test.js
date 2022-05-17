@@ -5,23 +5,21 @@ import AlertMemoMsg from '../public/js/app/components/AlertMemoMsg'
 import i18n from '../i18n'
 
 const TEST_PUBLISH = {
-  location: {
-    pathname: '/kursutveckling/SF1624',
-    search:
-      '?serv=kutv&event=pub&id=SF1624HT2019_9&term=20192&name=CMATD1%20m.fl.%20(%20Startdatum%202019-10-28,%20Svenska%20)&noMemo=CMATD1%20m.fl.%20(%20Startdatum%202019-10-28,%20Svenska%20)',
-    hash: '',
-    state: undefined,
-  },
+  serv: 'kutv',
+  event: 'pub',
+  id: 'SF1624HT2019_9',
+  term: '20192',
+  name: 'CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )',
+  noMemo: 'CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )',
 }
 
 const TEST_SAVE = {
-  location: {
-    pathname: '/kursutveckling/SF1624',
-    search:
-      '?serv=kutv&event=save&id=SF1624HT2019_9&term=20192&name=CMATD1%20m.fl.%20(%20Startdatum%202019-10-28,%20Svenska%20)&noMemo=CMATD1%20m.fl.%20(%20Startdatum%202019-10-28,%20Svenska%20)',
-    hash: '',
-    state: undefined,
-  },
+  serv: 'kutv',
+  event: 'save',
+  id: 'SF1624HT2019_9',
+  term: '20192',
+  name: 'CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )',
+  noMemo: 'CMATD1 m.fl. ( Startdatum 2019-10-28, Svenska )',
 }
 
 const { getByRole, getByText } = screen
@@ -34,14 +32,14 @@ describe('English. Component <AlertMemoMsg> renders with different messages if a
   })
 
   test('renders alert message if a user went to admin and published data again', done => {
-    render(<AlertMemoMsg props={TEST_PUBLISH} lang="en" translate={pageTitles('en')} />)
+    render(<AlertMemoMsg querySearchParams={TEST_PUBLISH} lang="en" translate={pageTitles('en')} />)
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(/^... but it is missing a published course memo/)
     done()
   })
 
   test('does not render alert message if a user went to admin and saved data without publishing it', done => {
-    render(<AlertMemoMsg props={TEST_SAVE} lang="en" translate={pageTitles('en')} />)
+    render(<AlertMemoMsg querySearchParams={TEST_SAVE} lang="en" translate={pageTitles('en')} />)
     const alertHeader = screen.queryByRole('heading', { level: 4 })
     expect(alertHeader).not.toBeInTheDocument()
     const alertText = screen.queryByText(/^... but it is missing a published course memo/)
@@ -57,14 +55,14 @@ describe('Swedish. Component <AlertMemoMsg> renders with different messages if a
   })
 
   test('renders alert message if a user went to admin and published data again', done => {
-    render(<AlertMemoMsg props={TEST_PUBLISH} lang="sv" translate={pageTitles('sv')} />)
+    render(<AlertMemoMsg querySearchParams={TEST_PUBLISH} lang="sv" translate={pageTitles('sv')} />)
     const alertHeader = getByRole('heading', { level: 4 })
     expect(alertHeader).toHaveTextContent(/^... men det saknas ett publicerat kurs-PM/)
     done()
   })
 
   test('does not render alert message if a user went to admin and saved data without publishing it', done => {
-    render(<AlertMemoMsg props={TEST_SAVE} lang="sv" translate={pageTitles('sv')} />)
+    render(<AlertMemoMsg querySearchParams={TEST_SAVE} lang="sv" translate={pageTitles('sv')} />)
     const alertHeader = screen.queryByRole('heading', { level: 4 })
     expect(alertHeader).not.toBeInTheDocument()
     const alertText = screen.queryByText(/^... but it is missing a published course memo/)

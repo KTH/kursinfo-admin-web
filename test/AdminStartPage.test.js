@@ -2,21 +2,26 @@ import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
-import mockAdminStore from './mocks/adminStore'
+import mockWebContext from './mocks/mockWebContext'
 import AdminStartPage from '../public/js/app/pages/AdminStartPage'
-
-const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
-  return render(
-      <AdminStartPage adminStore={adminStoreToUse}/>
-  )
-}
-
-const renderWithState = (stateToSet = {}, pageNumber) => {
-  const newAdminStore = Object.assign(Object.assign({}, mockAdminStore), stateToSet)
-  return renderEditPage(newAdminStore, pageNumber)
+import { useWebContext } from '../public/js/app/context/WebContext'
+jest.mock('../public/js/app/context/WebContext')
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  useSearchParams: () => [{ 0: ['l', 'sv'], 1: ['serv', 'kinfo'], 2: ['event', 'pub'] }], //'?l=sv&serv=kinfo&event=pub'
+}))
+const renderEditPage = pageNumber => {
+  return render(<AdminStartPage />)
 }
 
 describe('<AdminStartPage> (and subordinates)', () => {
+  beforeAll(() => {
+    useWebContext.mockReturnValue(mockWebContext)
+  })
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
   test('Has correct main heading', done => {
     const { getAllByRole } = renderEditPage()
     const allH1Headers = getAllByRole('heading', { level: 1 })
