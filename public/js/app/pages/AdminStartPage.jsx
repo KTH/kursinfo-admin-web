@@ -24,8 +24,6 @@ function resolvePublicPagesHref() {
 function AdminStartPage() {
   const [context] = useWebContext()
   const [querySearchParams] = useSearchParams()
-  // console.log('searchParams', searchParams)
-  // const querySearchParams = [...searchParams]
 
   const { koppsData, userRoles } = context
   const { courseTitleData, lang } = koppsData

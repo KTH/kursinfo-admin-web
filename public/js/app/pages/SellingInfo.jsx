@@ -37,10 +37,10 @@ function SellingInfo({ updateParent }) {
   })
 
   React.useEffect(() => {
-    startEditor()
-    window.addEventListener('load', startEditor)
+    _startEditor()
+    window.addEventListener('load', _startEditor)
     return () => {
-      window.removeEventListener('load', startEditor)
+      window.removeEventListener('load', _startEditor)
     }
   }, [])
 
@@ -96,7 +96,7 @@ function SellingInfo({ updateParent }) {
     }
   }
 
-  function startEditor() {
+  function _startEditor() {
     if (!nodeEnvTest) {
       ;['sv', 'en'].forEach(editorId => {
         // eslint-disable-next-line no-undef

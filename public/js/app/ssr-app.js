@@ -14,9 +14,9 @@ function _getServerSideFunctions() {
       const code = compressData(data, dataId)
       return code
     },
-    renderStaticPage({ applicationStore, location, basename, context }) {
+    renderStaticPage({ applicationStore, location: pageLocation, basename, context }) {
       const app = (
-        <StaticRouter basename={basename} location={location}>
+        <StaticRouter basename={basename} location={pageLocation}>
           {appFactory(applicationStore, context)}
         </StaticRouter>
       )
