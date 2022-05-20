@@ -1,21 +1,17 @@
 import React from 'react'
-import { EMPTY } from '../util/constants'
 import { Alert } from 'reactstrap'
+
+import { EMPTY } from '../util/constants'
 import i18n from '../../../../i18n'
 
 const PageTitle = ({ courseTitleData: title, language, pageTitle }) => {
   const langIndex = language === 'en' ? 0 : 1
-  const {
-    course_code: courseCode,
-    course_credits: courseCredits,
-    course_title: courseTitle
-  } = title
+  const { course_code: courseCode, course_credits: courseCredits, course_title: courseTitle } = title
   const credits =
     courseCredits !== EMPTY[langIndex] && courseCredits.toString().indexOf('.') < 0
       ? courseCredits + '.0'
       : courseCredits || ''
-  const creditUnit =
-    language === 'en' ? `${credits} credits` : `${credits.toString().replace('.', ',')} hp`
+  const creditUnit = language === 'en' ? `${credits} credits` : `${credits.toString().replace('.', ',')} hp`
 
   const courseName = `${courseCode} ${courseTitle} ${creditUnit}`
 
