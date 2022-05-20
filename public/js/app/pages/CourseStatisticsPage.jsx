@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react'
 import { CSVLink } from 'react-csv'
-import { v4 as uuidv4 } from 'uuid'
 import { useWebContext } from '../context/WebContext'
 import { englishTexts } from '../components/statistic/StatisticsTexts'
 
@@ -160,9 +159,9 @@ function CourseStatisticsPage() {
   const perDepartmentCourseOfferingRowsWithAnalyses = []
   withAnalyses.forEach(courseOffering => {
     const cO = courseOffering
-
+    const _key = `${cO.courseCode}-${cO.semester}-${cO.offeringId}-${cO.startDate}`
     perDepartmentCourseOfferingRowsWithAnalyses.push(
-      <tr key={uuidv4()}>
+      <tr key={_key}>
         <td>{cO.semester}</td>
         <td>{cO.schoolMainCode}</td>
         <td>{cO.departmentName}</td>
@@ -182,11 +181,12 @@ function CourseStatisticsPage() {
   const perDepartmentCourseOfferingRowsWithMemos = []
   withMemos.forEach(courseOffering => {
     const cO = courseOffering
-    const m = cO.courseMemoInfo || {}
-    const p = m.publishedData || {}
+    const { courseMemoInfo: m = {} } = cO
+    const { publishedData: p = {} } = m
+    const _key = `${cO.courseCode}-${cO.semester}-${cO.offeringId}-${cO.startDate}`
 
     perDepartmentCourseOfferingRowsWithMemos.push(
-      <tr key={uuidv4()}>
+      <tr key={_key}>
         <td>{cO.semester}</td>
         <td>{cO.schoolMainCode}</td>
         <td>{cO.departmentName}</td>
