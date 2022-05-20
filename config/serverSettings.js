@@ -65,7 +65,10 @@ module.exports = {
 
   // Authentication
   auth: {
-    superuserGroup: 'app.kursinfo.kursinfo-admins',
+    // app.kursinfo.superuser = personer tillagda där ska kunna lägga till folk som adminanvändare
+    // app.kursinfo.kursinfo-admins = personer som är tillagda där ska kunna logga in i Om kursen via länken "Administera Om kursen" för alla skolor och alla kurser.
+    superuserGroup: 'app.kursinfo.superuser',
+    kursinfoAdmins: 'app.kursinfo.kursinfo-admins',
   },
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
   kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
