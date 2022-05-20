@@ -164,7 +164,7 @@ passport.deserializeUser((user, done) => {
   }
 })
 
-const { OpenIDConnect, hasGroup } = require('@kth/kth-node-passport-oidc')
+const { OpenIDConnect } = require('@kth/kth-node-passport-oidc')
 
 const oidc = new OpenIDConnect(server, passport, {
   ...config.oidc,
@@ -178,11 +178,13 @@ const oidc = new OpenIDConnect(server, passport, {
     const { kthid, memberOf } = claims
 
     // eslint-disable-next-line no-param-reassign
-    user.isSuperUser = hasGroup(config.auth.superuserGroup, user)
+    user.isSuperUser = memberOf.includes(config.auth.superuserGroup)
+    user.isKursinfoAdmin = memberOf.includes(config.auth.kursinfoAdmins)
+
     // eslint-disable-next-line no-param-reassign
     user.ugKthid = kthid
     // eslint-disable-next-line no-param-reassign
-    user.memberOf = memberOf
+    user.memberOf = typeof memberOf === 'string' ? [memberOf] : memberOf
   },
 })
 
@@ -257,21 +259,28 @@ appRoute.get(
   'course.getAdminStart',
   _addProxy('/:courseCode'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isCourseTeacher', 'isSuperUser'),
+  requireRole(
+    'isCourseResponsible',
+    'isExaminator',
+    'isCourseTeacher',
+    'isSuperUser',
+    'isKursinfoAdmin',
+    'isSchoolAdmin'
+  ),
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
   'course.editDescription',
   _addProxy('/edit/:courseCode'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.getDescription
 )
 appRoute.post(
   'course.updateDescription',
   _addProxy('/api/:courseCode/'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.updateDescription
 )
 // File upload for a course picture
@@ -284,7 +293,7 @@ appRoute.get(
   'system.gateway',
   _addProxy('/silent'),
   oidc.silentLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser'),
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.getDescription
 )
 

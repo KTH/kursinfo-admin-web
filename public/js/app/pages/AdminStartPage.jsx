@@ -28,8 +28,9 @@ function AdminStartPage() {
   const { koppsData, userRoles } = context
   const { courseTitleData, lang } = koppsData
   const { course_code: courseCode } = courseTitleData
-  const { isCourseResponsible, isExaminator, isSuperUser } = userRoles
-  const visibilityLevel = isCourseResponsible || isExaminator || isSuperUser ? 'all' : 'onlyMemo'
+  const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
+  const visibilityLevel =
+    isCourseResponsible || isExaminator || isKursinfoAdmin || isSuperUser || isSchoolAdmin ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
   const publicPagesHref = resolvePublicPagesHref()

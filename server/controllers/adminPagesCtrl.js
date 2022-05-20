@@ -16,14 +16,14 @@ const { createServerSideContext } = require('../ssr-context/createServerSideCont
 async function getAdminStart(req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   const lang = language.getLanguage(res) || 'sv'
-  const { thisCourseUserRoles } = req.session
+  const { roles: userRoles } = req.session.passport.user
 
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
     const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
     /* ------- Settings ------- */
     webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
-    webContext.setUserRolesForThisCourse(thisCourseUserRoles)
+    webContext.setUserRolesForThisCourse(userRoles)
     // Load koppsData
     webContext.koppsData = await filteredKoppsData(courseCode, lang)
 
