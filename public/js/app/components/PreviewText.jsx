@@ -110,9 +110,6 @@ function Preview(props) {
               isError: true,
               errMsg: alertMessages.storage_api_error,
             })
-            console.log(' alertMessages.storage_api_error', alertMessages.storage_api_error)
-
-            console.log('state.errMsg', state.errMsg)
           } else handleSellingText(response)
         })
         .catch(err => {

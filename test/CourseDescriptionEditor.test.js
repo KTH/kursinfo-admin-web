@@ -312,7 +312,6 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       await fireEvent.click(getByText('Ja, fortsätt publicera'))
       await waitFor(() => {
         const alert = getByRole('alert')
-        console.log('alertalertalert', alert)
 
         expect(alert).toHaveTextContent(
           'Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.'
