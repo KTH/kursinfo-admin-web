@@ -11,8 +11,11 @@ const paramsReducer = (state, action) => ({ ...state, ...action })
 
 function Preview(props) {
   const [context, setContext] = useWebContext()
+  const { isDefaultChosen, newImageFile, tempImagePath, apiImageUrl, koppsData, sellingText } = context
 
   const [state, setState] = useReducer(paramsReducer, {
+    sv: sellingText.sv,
+    en: sellingText.en,
     hasDoneSubmit: false,
     redirectAfterSubmit: false,
     isError: false,
@@ -20,15 +23,18 @@ function Preview(props) {
     fileProgress: 0,
   })
 
-  const { isDefaultChosen, newImage, tempFilePath, apiImageUrl, koppsData, sellingText } = context
-  const { courseTitleData, lang: userLang } = koppsData
-  const courseCode = courseTitleData.course_code
+  const { courseTitleData, koppsText, lang: userLang } = koppsData
+  const { course_code: courseCode } = courseTitleData
   const langIndex = userLang === 'en' ? 0 : 1
 
+  const { introLabel, defaultImageUrl } = props
+  const pictureUrl = isDefaultChosen ? defaultImageUrl : tempImagePath || apiImageUrl
+
   function handleUploadImage() {
-    const formData = newImage
+    const formData = newImageFile
     const { hostUrl } = context.browserConfig
     const [saveImageUrl] = context.paths.storage.saveImage.uri.split(':')
+
     let { fileProgress } = state
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest()
@@ -47,6 +53,7 @@ function Preview(props) {
           reject({ error: this })
         }
       }
+
       req.open('POST', `${hostUrl}${saveImageUrl}${courseCode}/published`)
       req.send(formData)
     })
@@ -85,13 +92,14 @@ function Preview(props) {
   }
 
   function handlePublish() {
+    const { alertMessages } = i18n.messages[langIndex].pageTitles
     setState({
       hasDoneSubmit: true,
       isError: false,
     })
     if (isDefaultChosen) {
       handleSellingText({ imageName: '' })
-    } else if (tempFilePath) {
+    } else if (tempImagePath) {
       handleUploadImage()
         .then(response => {
           const { imageName } = response
@@ -100,15 +108,18 @@ function Preview(props) {
             setState({
               hasDoneSubmit: false,
               isError: true,
-              errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
+              errMsg: alertMessages.storage_api_error,
             })
+            console.log(' alertMessages.storage_api_error', alertMessages.storage_api_error)
+
+            console.log('state.errMsg', state.errMsg)
           } else handleSellingText(response)
         })
         .catch(err => {
           setState({
             hasDoneSubmit: false,
             isError: true,
-            errMsg: i18n.messages[langIndex].pageTitles.alertMessages.storage_api_error,
+            errMsg: alertMessages.storage_api_error,
             errDebug: err,
           })
         })
@@ -117,14 +128,10 @@ function Preview(props) {
     }
   }
 
-  function returnToEditor(event) {
-    event.preventDefault()
+  function returnToEditor(ev) {
+    ev.preventDefault()
     props.updateParent({ progress: 2 })
   }
-
-  const { koppsText } = koppsData
-  const { introLabel, defaultImageUrl } = props
-  const pictureUrl = isDefaultChosen ? defaultImageUrl : tempFilePath || apiImageUrl
 
   return (
     <div className="Preview--Changes col">
