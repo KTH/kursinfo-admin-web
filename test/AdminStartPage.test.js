@@ -3,22 +3,34 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
 import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
+
 import AdminStartPage from '../public/js/app/pages/AdminStartPage'
-import { useWebContext } from '../public/js/app/context/WebContext'
-jest.mock('../public/js/app/context/WebContext')
+import { WebContextProvider } from '../public/js/app/context/WebContext'
+
+jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
+
 jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
-  useSearchParams: () => [{ 0: ['l', 'sv'], 1: ['serv', 'kinfo'], 2: ['event', 'pub'] }], //'?l=sv&serv=kinfo&event=pub'
+  useSearchParams: () => [null],
 }))
-const renderEditPage = pageNumber => {
-  return render(<AdminStartPage />)
+
+const renderEditPage = () => {
+  return render(
+    <WebContextProvider
+      configIn={{
+        ...mockWebContext,
+      }}
+    >
+      <AdminStartPage />
+    </WebContextProvider>
+  )
 }
 
 describe('<AdminStartPage> (and subordinates)', () => {
-  beforeAll(() => {
-    useWebContext.mockReturnValue(mockWebContext)
-  })
+  beforeAll(() => mockClientFunctionsToWebContext())
+
   afterAll(() => {
     jest.clearAllMocks()
   })
@@ -45,7 +57,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     const allLinks = getAllByRole('link')
     expect(allLinks.length).toBe(9)
     expect(allLinks[0]).toHaveTextContent(/^Om kursen/)
-    expect(allLinks[0].href).toBe('https://localhost/student/kurser/kurs/SF1624?l=sv')
+    expect(allLinks[0].href).toBe('http://localhost/student/kurser/kurs/SF1624?l=sv')
 
     expect(allLinks[1]).toHaveTextContent(/^Hämtad information/)
     expect(allLinks[1].href).toBe(

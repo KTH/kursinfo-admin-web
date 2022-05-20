@@ -1,13 +1,25 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
 import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage'
-import { useWebContext } from '../public/js/app/context/WebContext'
+import { WebContextProvider } from '../public/js/app/context/WebContext'
 
-const renderEditPage = pageNumber => {
-  return render(<CourseDescriptionEditorPage progress={pageNumber} />)
+jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
+
+const renderEditPage = (newWebContext = {}, pageNumber) => {
+  return render(
+    <WebContextProvider
+      configIn={{
+        ...mockWebContext,
+        ...newWebContext,
+      }}
+    >
+      <CourseDescriptionEditorPage progress={pageNumber} />
+    </WebContextProvider>
+  )
 }
 
 const renderWithState = (stateToSet = {}, pageNumber) => {
@@ -16,21 +28,24 @@ const renderWithState = (stateToSet = {}, pageNumber) => {
 }
 
 describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
-  beforeAll(() => {
-    useWebContext.mockReturnValue(mockWebContext)
-  })
+  beforeAll(() => mockClientFunctionsToWebContext())
   afterAll(() => {
     jest.clearAllMocks()
   })
 
   test('Has correct main heading', () => {
-    const { getAllByRole } = renderEditPage()
-    const allH1Headers = getAllByRole('heading', { level: 1 })
+    renderEditPage()
+    const allH1Headers = screen.getAllByRole('heading', { level: 1 })
     expect(allH1Headers.length).toBe(1)
     expect(allH1Headers[0]).toHaveTextContent(/^Redigera introduktion till kursenSF1624 Algebra och geometri 7,5 hp/)
   })
 
   describe('Page 1A Välj Bild', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     test('Has correct name in progress bar', () => {
       renderEditPage().getByText('1. Välj bild')
     })
@@ -69,9 +84,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   }
 
   describe('Page 1C Bildval felaktigt', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
@@ -129,9 +142,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   describe('Page 1F Valt om till, ytterligare ny egen bild', () => {})
 
   describe('Page 1G Valt om, ämnesbild', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
@@ -167,9 +178,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 1H Godkänna villkor', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
@@ -211,17 +220,14 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 2 Redigera introduktion till kursen', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
-
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
 
     test('Has correct introductory text', () => {
       const pageNumber = 2
-      const { getByTestId } = renderEditPage(pageNumber)
+      const { getByTestId } = renderEditPage({}, pageNumber)
       const introText = getByTestId('intro-text')
       expect(introText).toHaveTextContent(
         'Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS.'
@@ -236,9 +242,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 3 Granska', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
 
     afterAll(() => {
       jest.clearAllMocks()
@@ -247,7 +251,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     const pageNumber = 3
 
     test('Has correct introductory text', () => {
-      const introText = renderEditPage(pageNumber).getByTestId('intro-text')
+      const introText = renderEditPage({}, pageNumber).getByTestId('intro-text')
       expect(introText).toHaveTextContent(
         'I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”'
       )
@@ -257,16 +261,14 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     })
 
     test('Has correct headings', () => {
-      const { getByText } = renderEditPage(pageNumber)
+      const { getByText } = renderEditPage({}, pageNumber)
       getByText('Svensk introduktion till kursen')
       getByText('Engelsk introduktion till kursen')
     })
   })
 
   describe('Page 3B Att tänka på innan du publicerar', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
 
     afterAll(() => {
       jest.clearAllMocks()
@@ -286,9 +288,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 3C Publicering fel', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
@@ -307,28 +307,31 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
         }
       })
 
-      const { getByText, findByRole, getByRole } = renderWithState(IMAGE_SELECTED_FOR_UPLOAD, pageNumber)
-      getByText('Publicera').click()
-      getByText('Ja, fortsätt publicera').click()
+      const { getByText, findByRole, getByRole } = await renderWithState(IMAGE_SELECTED_FOR_UPLOAD, pageNumber)
+      fireEvent.click(getByText('Publicera'))
+      await fireEvent.click(getByText('Ja, fortsätt publicera'))
+      await waitFor(() => {
+        const alert = getByRole('alert')
+        console.log('alertalertalert', alert)
 
-      expect(await findByRole('alert')).toHaveTextContent(
-        'Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.'
-      )
+        expect(alert).toHaveTextContent(
+          'Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.'
+        )
+      })
+
       window.XMLHttpRequest = oldXMLHttpRequest
     })
   })
 
   describe('Page 3 Publish Progress Bar', () => {
-    beforeAll(() => {
-      useWebContext.mockReturnValue(mockWebContext)
-    })
+    beforeAll(() => mockClientFunctionsToWebContext())
     afterAll(() => {
       jest.clearAllMocks()
     })
 
     test('Progress bar should not be visible before publish action', () => {
       const pageNumber = 3
-      const { queryByRole, getByText, findByRole } = renderEditPage(pageNumber)
+      const { queryByRole, getByText, findByRole } = renderEditPage({}, pageNumber)
       expect(queryByRole('status')).toBeNull()
 
       getByText('Publicera').click()

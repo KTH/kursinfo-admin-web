@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import AlertMemoMsg from '../public/js/app/components/AlertMemoMsg'
 import i18n from '../i18n'
