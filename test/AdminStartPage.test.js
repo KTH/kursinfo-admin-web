@@ -1,25 +1,39 @@
 import React from 'react'
-import { Provider } from 'mobx-react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
-import mockAdminStore from './mocks/adminStore'
-import AdminStartPage from '../public/js/app/pages/AdminStartPage'
+import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
 
-const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
+import AdminStartPage from '../public/js/app/pages/AdminStartPage'
+import { WebContextProvider } from '../public/js/app/context/WebContext'
+
+jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
+
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  useSearchParams: () => [null],
+}))
+
+const renderEditPage = () => {
   return render(
-    <Provider adminStore={adminStoreToUse}>
+    <WebContextProvider
+      configIn={{
+        ...mockWebContext,
+      }}
+    >
       <AdminStartPage />
-    </Provider>
+    </WebContextProvider>
   )
 }
 
-const renderWithState = (stateToSet = {}, pageNumber) => {
-  const newAdminStore = Object.assign(Object.assign({}, mockAdminStore), stateToSet)
-  return renderEditPage(newAdminStore, pageNumber)
-}
-
 describe('<AdminStartPage> (and subordinates)', () => {
+  beforeAll(() => mockClientFunctionsToWebContext())
+
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
   test('Has correct main heading', done => {
     const { getAllByRole } = renderEditPage()
     const allH1Headers = getAllByRole('heading', { level: 1 })
@@ -43,7 +57,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     const allLinks = getAllByRole('link')
     expect(allLinks.length).toBe(9)
     expect(allLinks[0]).toHaveTextContent(/^Om kursen/)
-    expect(allLinks[0].href).toBe('https://localhost/student/kurser/kurs/SF1624?l=sv')
+    expect(allLinks[0].href).toBe('http://localhost/student/kurser/kurs/SF1624?l=sv')
 
     expect(allLinks[1]).toHaveTextContent(/^Hämtad information/)
     expect(allLinks[1].href).toBe(

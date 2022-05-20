@@ -1,39 +1,51 @@
 import React from 'react'
-import { Provider } from 'mobx-react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
-import mockAdminStore from './mocks/adminStore'
+import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
 import CourseDescriptionEditorPage from '../public/js/app/pages/CourseDescriptionEditorPage'
+import { WebContextProvider } from '../public/js/app/context/WebContext'
 
-const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
+jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
+
+const renderEditPage = (newWebContext = {}, pageNumber) => {
   return render(
-    <Provider adminStore={adminStoreToUse}>
+    <WebContextProvider
+      configIn={{
+        ...mockWebContext,
+        ...newWebContext,
+      }}
+    >
       <CourseDescriptionEditorPage progress={pageNumber} />
-    </Provider>
+    </WebContextProvider>
   )
 }
 
 const renderWithState = (stateToSet = {}, pageNumber) => {
-  const newAdminStore = Object.assign(Object.assign({}, mockAdminStore), stateToSet)
-  return renderEditPage(newAdminStore, pageNumber)
+  const newWebContext = Object.assign(Object.assign({}, mockWebContext), stateToSet)
+  return renderEditPage(newWebContext, pageNumber)
 }
 
 describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
-  xtest('Renders without errors (incl. snapshot)', () => {
-    expect(renderEditPage().asFragment()).toMatchSnapshot() //TODO:
+  beforeAll(() => mockClientFunctionsToWebContext())
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   test('Has correct main heading', () => {
-    const { getAllByRole } = renderEditPage()
-    const allH1Headers = getAllByRole('heading', { level: 1 })
+    renderEditPage()
+    const allH1Headers = screen.getAllByRole('heading', { level: 1 })
     expect(allH1Headers.length).toBe(1)
-    expect(allH1Headers[0]).toHaveTextContent(
-      /^Redigera introduktion till kursenSF1624 Algebra och geometri 7,5 hp/
-    )
+    expect(allH1Headers[0]).toHaveTextContent(/^Redigera introduktion till kursenSF1624 Algebra och geometri 7,5 hp/)
   })
 
   describe('Page 1A Välj Bild', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     test('Has correct name in progress bar', () => {
       renderEditPage().getByText('1. Välj bild')
     })
@@ -56,22 +68,26 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   const PUBLISHED_IMAGE_EXISTS = {
     isDefaultChosen: false,
     isApiPicAvailable: true,
-    tempImagePath: undefined
+    tempImagePath: undefined,
   }
 
   const IMAGE_SELECTED_FOR_UPLOAD = {
     isDefaultChosen: false,
     isApiPicAvailable: false,
-    tempImagePath: 'ImageThatWasSelectedForUpload.png'
+    tempImagePath: 'ImageThatWasSelectedForUpload.png',
   }
 
   const OVERWRITE_PUBLISHED_IMAGE = {
     isDefaultChosen: false,
     isApiPicAvailable: true,
-    tempImagePath: 'ImageThatWasSelectedForUpload.png'
+    tempImagePath: 'ImageThatWasSelectedForUpload.png',
   }
 
   describe('Page 1C Bildval felaktigt', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
     const expectedAlert =
       'Du behöver välja en bild med rätt format (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.'
     const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)'
@@ -108,8 +124,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       const imageInput = getByTestId('fileUpload')
       fireEvent.change(imageInput, {
         target: {
-          files: [new File(['(⌐□_□)'], 'empty.txt', { type: 'text' })]
-        }
+          files: [new File(['(⌐□_□)'], 'empty.txt', { type: 'text' })],
+        },
       })
 
       //Alert and Error Message assertion
@@ -126,6 +142,11 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   describe('Page 1F Valt om till, ytterligare ny egen bild', () => {})
 
   describe('Page 1G Valt om, ämnesbild', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     const useDefaultImage = 'Bild vald utifrån kursens huvudområde'
     const expected =
       'Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.'
@@ -157,6 +178,11 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 1H Godkänna villkor', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     const expected =
       'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.'
 
@@ -168,14 +194,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     })
 
     test('Must tick box to continue if image was uploaded', () => {
-      const {
-        getByLabelText,
-        getByTestId,
-        getByText,
-        getByRole,
-        queryByRole,
-        queryByTestId
-      } = renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
+      const { getByLabelText, getByTestId, getByText, getByRole, queryByRole, queryByTestId } =
+        renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
       expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeFalsy()
       expect(getByLabelText('Egen vald bild').checked).toBeTruthy()
 
@@ -200,9 +220,14 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 2 Redigera introduktion till kursen', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     test('Has correct introductory text', () => {
       const pageNumber = 2
-      const { getByTestId } = renderEditPage(mockAdminStore, pageNumber)
+      const { getByTestId } = renderEditPage({}, pageNumber)
       const introText = getByTestId('intro-text')
       expect(introText).toHaveTextContent(
         'Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS.'
@@ -217,10 +242,16 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   })
 
   describe('Page 3 Granska', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     const pageNumber = 3
 
     test('Has correct introductory text', () => {
-      const introText = renderEditPage(mockAdminStore, pageNumber).getByTestId('intro-text')
+      const introText = renderEditPage({}, pageNumber).getByTestId('intro-text')
       expect(introText).toHaveTextContent(
         'I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”'
       )
@@ -230,26 +261,38 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     })
 
     test('Has correct headings', () => {
-      const { getByText } = renderEditPage(mockAdminStore, pageNumber)
+      const { getByText } = renderEditPage({}, pageNumber)
       getByText('Svensk introduktion till kursen')
       getByText('Engelsk introduktion till kursen')
     })
   })
 
   describe('Page 3B Att tänka på innan du publicerar', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     const pageNumber = 3
 
     test('Has correct modal text', async () => {
       const { getByText } = renderWithState({}, pageNumber)
       getByText('Publicera').click()
       expect(getByText(/Kurs: SF1624/)).toBeTruthy()
-      const regExpected = /Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion \(bild och text\) till kursen\./
+      const regExpected =
+        /Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion \(bild och text\) till kursen\./
       expect(getByText(regExpected)).toBeTruthy()
       expect(getByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
     })
   })
 
   describe('Page 3C Publicering fel', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     const pageNumber = 3
 
     test('Has correct alert text', async () => {
@@ -259,29 +302,35 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
           upload: {
             addEventListener: jest.fn(() => {
               throw 'trigger error state, for test purposes'
-            })
-          }
+            }),
+          },
         }
       })
 
-      const { getByText, findByRole, getByRole } = renderWithState(
-        IMAGE_SELECTED_FOR_UPLOAD,
-        pageNumber
-      )
-      getByText('Publicera').click()
-      getByText('Ja, fortsätt publicera').click()
+      const { getByText, findByRole, getByRole } = await renderWithState(IMAGE_SELECTED_FOR_UPLOAD, pageNumber)
+      fireEvent.click(getByText('Publicera'))
+      await fireEvent.click(getByText('Ja, fortsätt publicera'))
+      await waitFor(() => {
+        const alert = getByRole('alert')
 
-      expect(await findByRole('alert')).toHaveTextContent(
-        'Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.'
-      )
+        expect(alert).toHaveTextContent(
+          'Det gick inte att publicera den bild du valt. Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.'
+        )
+      })
+
       window.XMLHttpRequest = oldXMLHttpRequest
     })
   })
 
   describe('Page 3 Publish Progress Bar', () => {
+    beforeAll(() => mockClientFunctionsToWebContext())
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     test('Progress bar should not be visible before publish action', () => {
       const pageNumber = 3
-      const { queryByRole, getByText, findByRole } = renderEditPage(mockAdminStore, pageNumber)
+      const { queryByRole, getByText, findByRole } = renderEditPage({}, pageNumber)
       expect(queryByRole('status')).toBeNull()
 
       getByText('Publicera').click()

@@ -1,33 +1,31 @@
-<script>
-  window.__initialState__ = {{{initialState}}}
-</script>
-{{!-- <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script> --}}
-{{prefixScript '/static/js/app.js' 'scripts'}}
+<script>{{{compressedData}}}</script>
 
+{{prefixScript '/static/app.js' 'scripts'}}<!---->
+{{! <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script> }}
 
 <!--h1>Kurinformation - Sprint 1</h1-->
-<div id="kth-kursinfo">
-    <div key='kursinfo-container' className='kursinfo-main-page col' >
+<div id='app'>
+  <div key='kursinfo-container' className='kursinfo-main-page col'>
 
-        <h1>Alla mina kurser</h1>
-        <div>
-        <span className='Header--Button'>
-            <a href='/kursinfoadmin/kurser/kurs/{{courseCode}}' class='link-back'>Tillbaka till admin</a>
-        </span>
-        </div>
+    <h1>Alla mina kurser</h1>
+    <div>
+      <span className='Header--Button'>
+        <a href='/kursinfoadmin/kurser/kurs/{{courseCode}}' class='link-back'>Tillbaka till admin</a>
+      </span>
+    </div>
 
     {{#if error}}
-    <p>Error: {{error}}</p>
+      <p>Error: {{error}}</p>
     {{else}}
-    <div id="api-data">
-        
+      <div id='api-data'>
+
         <ul>
-            {{#each html}}
-                <li>{{this}}</li>
-            {{/each}}
+          {{#each html}}
+            <li>{{this}}</li>
+          {{/each}}
         </ul>
-        
-        </div>
+
+      </div>
     {{/if}}
-    </div>
+  </div>
 </div>

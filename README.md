@@ -86,7 +86,7 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 12.0.0
+- node 16.0.0
   Because OICD library is compatible only with node 12.0.0 or > 14.2.0
   And editor is compatible with node 12.0.0
 
@@ -147,15 +147,18 @@ These settings are also available in an `env.in` file.
 ### Install
 
 First time you might need to use options `--ignore-scripts` because of npm resolutions:
+
 ```sh
 npm install --ignore-scripts
 ```
-or 
+
+or
 
 ```sh
 npm install
 
 ```
+
 You might need to install as well:
 
 ```sh
@@ -172,42 +175,47 @@ npm run start-dev
 ```
 
 ### Debug in Visual Studio Code
+
 It's possible to use debugging options available in Visual Studio Code
 Add to .vscode file launch.json:
-- *Microsoft*
+
+- _Microsoft_
+
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",           
-            "request": "launch",
-            "name": "Debug kursinfo-admin-web",
-            "program": "${workspaceFolder}\\app.js",
-            "envFile": "${workspaceFolder}\\.env",
-            "env": {
-              "NODE_ENV": "development"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug kursinfo-admin-web",
+      "program": "${workspaceFolder}\\app.js",
+      "envFile": "${workspaceFolder}\\.env",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
 }
 ```
+
 - _Mac, Unix and so on_
+
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",           
-            "request": "launch",
-            "name": "Debug kursinfo-admin-web",
-            "program": "${workspaceFolder}/app.js",
-            "envFile": "${workspaceFolder}/.env",
-            "env": {
-              "NODE_ENV": "development"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug kursinfo-admin-web",
+      "program": "${workspaceFolder}/app.js",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
 }
 ```
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
 import { COURSE_INFO_URL, COURSE_PMDATA_URL, COURSE_UTVECKLING, ADMIN_COURSE_PM_DATA } from '../util/constants'
-import { fetchParameters } from '../util/fetchUrlParams'
 
 const publicUrls = {
   pm: COURSE_PMDATA_URL,
@@ -17,10 +16,14 @@ const mapAdminUrl = {
     removedPublished: ADMIN_COURSE_PM_DATA + 'published/',
   },
 }
+const publishedActions = ['pub', 'pub_changed']
 
-const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
-  const hostUrl = `https://${window.location.href.replace('app', 'www').split('/')[2]}`
-  const params = fetchParameters(props)
+const services = ['kinfo', 'kutv', 'pm', 'pmdata']
+const actions = ['delete', 'save', 'removedPublished', ...publishedActions]
+
+const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', publicPagesHref }) => {
+  if (!querySearchParams) return null
+
   const {
     event: doneAction,
     name: courseRoundName,
@@ -29,9 +32,14 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
     ver,
     memoendpoint: memoEndPoint,
     ladokRound,
-  } = params
+  } = querySearchParams
 
-  const publicService = params && serviceAbbr ? `${hostUrl}${publicUrls[serviceAbbr]}` : `${hostUrl}${COURSE_INFO_URL}`
+  if (!services.includes(serviceAbbr)) return null
+  if (!actions.includes(doneAction)) return null
+  const publicService =
+    querySearchParams && serviceAbbr
+      ? `${publicPagesHref}${publicUrls[serviceAbbr]}`
+      : `${publicPagesHref}${COURSE_INFO_URL}`
   // eslint-disable-next-line camelcase
   const { alertMessages, course_short_semester: shortSemester } = translate
   const semesterLabel = semester
@@ -39,49 +47,42 @@ const AlertMsg = ({ props, courseCode, translate = {}, lang = 'en' }) => {
     : null
 
   return (
-    (serviceAbbr === 'kutv' || serviceAbbr === 'pm' || serviceAbbr === 'pmdata' || serviceAbbr === 'kinfo') &&
-    (doneAction === 'save' ||
-      doneAction === 'pub' ||
-      doneAction === 'pub_changed' ||
-      doneAction === 'delete' ||
-      doneAction === 'removedPublished') && (
-      <Alert color="success" aria-live="polite">
-        <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
-        {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
-        {courseRoundName && <p>{`${alertMessages.course_offering}: ${decodeURIComponent(courseRoundName)}`}</p>}
-        {doneAction === 'pub' || doneAction === 'pub_changed' ? (
-          <>
-            <p>{ver && `Version: ${decodeURIComponent(ver)} `}</p>
-            <p>
-              {`${alertMessages.see_more} `}
+    <Alert color="success" aria-live="polite">
+      <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
+      {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
+      {courseRoundName && <p>{`${alertMessages.course_offering}: ${decodeURIComponent(courseRoundName)}`}</p>}
+      {publishedActions.includes(doneAction) ? (
+        <>
+          <p>{ver && `Version: ${decodeURIComponent(ver)} `}</p>
+          <p>
+            {`${alertMessages.see_more} `}
+            <a
+              href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
+              aria-label={translate.links_to[serviceAbbr].ariaLabel}
+            >
+              {`${translate.links_to[serviceAbbr].aTitle} `}
+              {semester && serviceAbbr !== 'pm'
+                ? ` ${semesterLabel}${serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}`
+                : ''}
+            </a>
+          </p>
+        </>
+      ) : (
+        (doneAction === 'save' || doneAction === 'removedPublished') && (
+          <p>
+            {doneAction === 'save' ? alertMessages[serviceAbbr].s_msg : alertMessages[serviceAbbr].r_msg}
+            {mapAdminUrl[serviceAbbr] && (
               <a
-                href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
-                aria-label={translate.links_to[serviceAbbr].ariaLabel}
+                href={`${mapAdminUrl[serviceAbbr][doneAction]}${courseCode}?l=${lang}`}
+                aria-label={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
               >
-                {`${translate.links_to[serviceAbbr].aTitle} `}
-                {semester && serviceAbbr !== 'pm'
-                  ? ` ${semesterLabel}${serviceAbbr === 'pmdata' ? `-${ladokRound}` : ''}`
-                  : ''}
+                {alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
               </a>
-            </p>
-          </>
-        ) : (
-          (doneAction === 'save' || doneAction === 'removedPublished') && (
-            <p>
-              {doneAction === 'save' ? alertMessages[serviceAbbr].s_msg : alertMessages[serviceAbbr].r_msg}
-              {mapAdminUrl[serviceAbbr] && (
-                <a
-                  href={`${mapAdminUrl[serviceAbbr][doneAction]}${courseCode}?l=${lang}`}
-                  aria-label={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
-                >
-                  {alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
-                </a>
-              )}
-            </p>
-          )
-        )}
-      </Alert>
-    )
+            )}
+          </p>
+        )
+      )}
+    </Alert>
   )
 }
 

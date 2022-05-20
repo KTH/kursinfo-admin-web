@@ -1,12 +1,9 @@
 'use strict'
 
-const log = require('kth-node-log')
-const language = require('kth-node-web-common/lib/language')
+const log = require('@kth/log')
+const language = require('@kth/kth-node-web-common/lib/language')
 const { safeGet } = require('safe-utils')
-const ReactDOMServer = require('react-dom/server')
-const { toJS } = require('mobx')
-const httpResponse = require('kth-node-response')
-
+const httpResponse = require('@kth/kth-node-response')
 const api = require('../api')
 const { runBlobStorage } = require('../blobStorage.js')
 const { filteredKoppsData } = require('../koppsApi')
@@ -14,19 +11,8 @@ const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')
 const serverPaths = require('../server').getPaths()
-
-function hydrateStores(renderProps) {
-  // This assumes that all stores are specified in a root element called Provider
-
-  const { props } = renderProps.props.children
-  const outp = {}
-  for (let key in props) {
-    if (typeof props[key].initializeStore === 'function') {
-      outp[key] = encodeURIComponent(JSON.stringify(toJS(props[key], true)))
-    }
-  }
-  return outp
-}
+const { getServerSideFunctions } = require('../utils/serverSideRendering')
+const { createServerSideContext } = require('../ssr-context/createServerSideContext')
 
 async function _getSellingTextFromKursinfoApi(courseCode) {
   try {
@@ -43,40 +29,41 @@ async function _getSellingTextFromKursinfoApi(courseCode) {
   }
 }
 
-function _staticRender(context, location) {
-  if (process.env.NODE_ENV === 'development') {
-    delete require.cache[require.resolve('../../dist/app.js')]
-  }
-
-  const { staticRender } = require('../../dist/app.js')
-
-  return staticRender(context, location)
-}
-
 async function getDescription(req, res, next) {
   const { courseCode } = req.params
   const lang = language.getLanguage(res) || 'sv'
   const langIndex = lang === 'en' ? 0 : 1
 
   try {
-    const renderProps = _staticRender()
+    const { getCompressedData, renderStaticPage } = getServerSideFunctions()
+    const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
+    const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
+
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
     const userKthId = req.session.passport.user.ugKthid
-    renderProps.props.children.props.adminStore.setUser(userKthId)
+    webContext.setUser(userKthId)
     // Load browserConfig and server paths for internal api
-    renderProps.props.children.props.adminStore.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
+    webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     // Load koppsData and kurinfo-api data
-    renderProps.props.children.props.adminStore.koppsData = await filteredKoppsData(courseCode, lang)
-    renderProps.props.children.props.adminStore.addSellingTextFromApi(respSellDesc.body)
-    renderProps.props.children.props.adminStore.addPictureFromApi(respSellDesc.body)
-    renderProps.props.children.props.adminStore.addChangedByLastTime(respSellDesc.body)
-    const html = ReactDOMServer.renderToString(renderProps)
+    webContext.koppsData = await filteredKoppsData(courseCode, lang)
+    webContext.addSellingTextFromApi(respSellDesc.body)
+    webContext.addPictureFromApi(respSellDesc.body)
+
+    const compressedData = getCompressedData(webContext) // this has to be AFTER all webContext is ready
+
+    const view = renderStaticPage({
+      applicationStore: {},
+      location: req.url,
+      basename: proxyPrefix,
+      context: webContext,
+    })
+
     res.render('course/index', {
       // debug: 'debug' in req.query,
+      compressedData,
       description: i18n.messages[langIndex].messages.description,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      html,
-      initialState: JSON.stringify(hydrateStores(renderProps)),
+      html: view,
       title: i18n.messages[langIndex].messages.title + ' | ' + courseCode,
     })
   } catch (err) {
@@ -87,7 +74,6 @@ async function getDescription(req, res, next) {
 
 // This function to see which groups user is in
 async function myCourses(req, res, next) {
-  _staticRender()
   try {
     const user = req.session.passport.user.memberOf
     res.render('course/my_course', {
@@ -132,11 +118,17 @@ async function updateDescription(req, res, next) {
 
 // ------- FILES IN BLOB STORAGE: CREATE A NEW FILE OR REPLACE EXISTED ONE ------- /
 async function saveImageToStorage(req, res, next) {
-  log.info('Saving uploaded file to storage ', req.body) // + req.files.file
-  const { file } = req.files
-  log.info('file', file, req.params.courseCode, req.body)
+  const { body, files } = req
+  log.info('files ', { files, body }) // + req.files.file
+
+  const { courseCode } = req.params
+  const { file } = files
+  log.info('Saving uploaded file to storage ', { courseCode, file, body }) // + req.files.file
+
   try {
-    const savedImageNameObj = await runBlobStorage(file, req.params.courseCode, req.body)
+    const savedImageNameObj = await runBlobStorage(file, courseCode, body)
+    log.debug(' Saving of uploaded finished ', { savedImageNameObj }) // + req.files.file
+
     return httpResponse.json(res, savedImageNameObj)
   } catch (error) {
     log.error('Exception from saveImageToStorage ', { error })

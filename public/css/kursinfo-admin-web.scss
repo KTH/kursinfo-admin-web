@@ -35,7 +35,7 @@ $red: #e01f28;
   }
 }
 
-#kth-kursinfo {
+#app {
   width: 100%;
 }
 .kursinfo-main-page {
@@ -202,19 +202,21 @@ span.title_and_info {
 
 .input-label-row {
   @extend %row;
-  label {
-    font-size: 1.1rem;
-    margin-bottom: 0.7em;
-    font-weight: normal;
+  .form-group {
+    label:last-of-type {
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+    input[type='radio'],
+    input[type='checkbox'] {
+      margin-right: 0.5em;
+      margin-left: 0.5em;
+    }
   }
-  label:last-of-type {
-    margin-bottom: 0;
-  }
-  input[type='radio'],
-  input[type='checkbox'] {
-    margin-right: 0.5em;
-    margin-left: 0.5em;
-  }
+}
+#label-termsAgreement {
+  font-size: 1.1rem;
+  font-weight: normal;
 }
 
 //====UPLOAD PICTURE====
@@ -235,9 +237,11 @@ span.title_and_info {
 
   #own-picture {
     flex-direction: column;
+    margin-bottom: 30px;
     @media (min-width: 768px) {
       display: flex;
       flex-direction: row;
+      margin-bottom: 30px;
     }
     align-items: flex-start;
     width: 100%;

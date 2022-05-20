@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const log = require('kth-node-log')
+const log = require('@kth/log')
 
 const statisticApis = require('./koppsApi')
 const config = require('./configuration').server

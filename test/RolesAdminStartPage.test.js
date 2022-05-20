@@ -1,10 +1,20 @@
 import React from 'react'
-import { Provider } from 'mobx-react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import '@babel/runtime/regenerator'
-import mockAdminStore from './mocks/adminStore'
+import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
+
 import AdminStartPage from '../public/js/app/pages/AdminStartPage'
+import { WebContextProvider } from '../public/js/app/context/WebContext'
+
+jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
+
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  useSearchParams: () => [null],
+}))
 
 const ONLY_TEACHER = {
   userRoles: {
@@ -69,22 +79,34 @@ const TEACHER_AND_RESPONSIBLE = {
   },
 }
 
-const renderEditPage = (adminStoreToUse = mockAdminStore, pageNumber) => {
+const renderEditPage = (newWebContext = {}, pageNumber) => {
   return render(
-    <Provider adminStore={adminStoreToUse}>
+    <WebContextProvider
+      configIn={{
+        ...mockWebContext,
+        ...newWebContext,
+      }}
+    >
       <AdminStartPage />
-    </Provider>
+    </WebContextProvider>
   )
 }
 
-const renderWithState = (stateToSet = {}, pageNumber) => {
-  const newAdminStore = Object.assign(Object.assign({}, mockAdminStore), stateToSet)
-  return renderEditPage(newAdminStore, pageNumber)
-}
+// const renderEditPage = (stateToSet = {}) => {
+//   useWebContext.mockReturnValue({...mockWebContext[0], ...mockWebContext[0])
+
+//   // const newAdminStore = Object.assign(Object.assign({}, mockWebContext), stateToSet)
+//   return renderEditPage()
+// }
 
 describe('User roles for this course <AdminStartPage>', () => {
+  beforeAll(() => mockClientFunctionsToWebContext())
+
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
   test('User: only teacher. Show only course memo card.', done => {
-    const { getAllByRole } = renderWithState(ONLY_TEACHER)
+    const { getAllByRole } = renderEditPage(ONLY_TEACHER)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(1)
     expect(allH4Headers[0]).toHaveTextContent(/^Kurs-PM/)
@@ -92,7 +114,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User: only responsible. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(ONLY_RESPONSIBLE)
+    const { getAllByRole } = renderEditPage(ONLY_RESPONSIBLE)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
@@ -102,7 +124,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User: only examinator. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(ONLY_EXAMINATOR)
+    const { getAllByRole } = renderEditPage(ONLY_EXAMINATOR)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
@@ -112,7 +134,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User: only superuser. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(ONLY_SUPERUSER)
+    const { getAllByRole } = renderEditPage(ONLY_SUPERUSER)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
@@ -122,7 +144,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User has two roles: teacher and superuser. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(TEACHER_AND_SUPERUSER)
+    const { getAllByRole } = renderEditPage(TEACHER_AND_SUPERUSER)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
@@ -132,7 +154,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User has two roles: teacher and examinator. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(TEACHER_AND_EXAMINATOR)
+    const { getAllByRole } = renderEditPage(TEACHER_AND_EXAMINATOR)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
@@ -142,7 +164,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   })
 
   test('User has two roles: teacher and resonsible. Show all cards: course memo, course description and course analysis', done => {
-    const { getAllByRole } = renderWithState(TEACHER_AND_RESPONSIBLE)
+    const { getAllByRole } = renderEditPage(TEACHER_AND_RESPONSIBLE)
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
     expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)

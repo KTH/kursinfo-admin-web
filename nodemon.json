@@ -1,8 +1,14 @@
 {
-  "verbose": true,
   "ignore": [
-  	"public/**/*.*", 
-  	"test/**/*.*", 
-  	"bundles/**/*.*",
-	  "server/views**/*.*"]
+    "server/views/system/error.handlebars",
+    "server/views/layouts/errorLayout.handlebars",
+    "dist/*",
+    "*/__tests__/*",
+    "*/__mocks__/*",
+    "*/__snapshots__/*",
+    "*.test.js",
+    "./*.svg"
+  ],
+  "ext": "js,jsx,handlebars,scss,svg,png",
+  "delay": 3000
 }

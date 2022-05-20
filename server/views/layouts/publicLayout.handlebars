@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="https://www.kth.se/polopoly_fs/1.871948.1550155901!/favicon.ico">
 
   {{#if canonicalUrl}}
-  <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
+    <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
   {{/if}}
   {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
   {{prefixStyle '/static/app.css' 'styles' 'screen'}}
@@ -19,11 +19,7 @@
 
   {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
-  <script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>
-
-  {{#if debug}}
-  {{prefixScript '/static/js/lib/firebug-lite/build/firebug-lite.js' 'head-scripts'}}
-  {{/if}}
+  <!--<script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>-->
 
   {{{render 'head-scripts'}}}
   {{#if instrumentationKey}}

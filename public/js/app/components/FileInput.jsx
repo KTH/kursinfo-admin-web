@@ -1,55 +1,45 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable class-methods-use-this */
-import React, { Component } from 'react'
+import React from 'react'
 import { Button } from 'reactstrap'
 
-class FileInput extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {}
-    this.clickFileInput = this.clickFileInput.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  clickFileInput(event) {
+function FileInput(props) {
+  function clickFileInput(ev) {
     // This function is for chrome browser, because in safari it works fine without it
-    event.preventDefault()
+    ev.preventDefault()
     document.querySelector('.pic-upload').click()
   }
 
-  handleChange(event) {
-    this.props.onChange(event)
+  function handleChange(ev) {
+    props.onChange(ev)
   }
 
-  render() {
-    /* accept = 'image/jpg,image/jpeg,image/png'
-     */
-    const { accept, id, btnLabel } = this.props
+  /* accept = 'image/jpg,image/jpeg,image/png'
+   */
+  const { accept, id, btnLabel } = props
 
-    return (
-      <span className="btn-upload-file">
-        <label htmlFor={id} onClick={this.clickFileInput}>
-          <Button color="secondary" block>
-            <span>{btnLabel}</span>
-          </Button>
-        </label>
-        {/* className='pic-upload' is important because it will be used in function clickFileInput, resetToPrevApiPicture in upload picture class */}
-        <input
-          data-testid="fileUpload"
-          className="pic-upload"
-          type="file"
-          id={id}
-          name={id}
-          tabIndex="-1"
-          accept={accept}
-          onChange={this.handleChange}
-        />
+  return (
+    <span className="btn-upload-file">
+      <label role="presentation" htmlFor={id} onClick={clickFileInput}>
+        <Button color="secondary" block>
+          <span>{btnLabel}</span>
+        </Button>
+      </label>
+      {/* className='pic-upload' is important because it will be used in function clickFileInput, resetToPrevApiPicture in upload picture class */}
+      <input
+        data-testid="fileUpload"
+        className="pic-upload"
+        type="file"
+        id={id}
+        name={id}
+        tabIndex="-1"
+        accept={accept}
+        onChange={handleChange}
+      />
 
-        {this.props.children}
-      </span>
-    )
-  }
+      {props.children}
+    </span>
+  )
 }
 
 export default FileInput

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
-import { fetchParameters } from '../util/fetchUrlParams'
 
-const AlertReminderMsg = ({ props, lang = 'en' }) => {
-  const params = fetchParameters(props)
-  const { event: doneAction, name: courseRoundName, serv: serviceAbbr, term: semester } = params
+const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
+  if (!querySearchParams) return null
+
+  const { event: doneAction, serv: serviceAbbr } = querySearchParams
 
   return (
     (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&
