@@ -25,22 +25,22 @@ function _validFileType(file) {
 
 function PictureUpload(props) {
   const [context, setContext] = useWebContext()
+  const { koppsData, isApiPicAvailable, browserConfig, imageNameFromApi } = context
+  const { introLabel, defaultImageUrl } = props
 
   const [state, setState] = React.useReducer(paramsReducer, {
-    errMsg: undefined,
+    errMsg: null,
     isError: false,
-    infoMsg: undefined,
+    infoMsg: null,
     newImage: context.newImageFile,
     isDefault: context.isDefaultChosen,
-    tempFilePath: context.tempImagePath, // not a boolean but file cache to proceed between steps
+    tempImagePath: context.tempImagePath, // not a boolean but file cache to proceed between steps
   })
 
-  const { koppsData, isApiPicAvailable, browserConfig, imageNameFromApi } = context
+  const { courseTitleData, lang } = koppsData
 
-  const courseCode = koppsData.courseTitleData.course_code
-  const { lang } = koppsData
+  const { course_code: courseCode } = courseTitleData
   const apiImageUrl = `${browserConfig.storageUri}${imageNameFromApi}`
-  const { introLabel, defaultImageUrl } = props
 
   // eslint-disable-next-line class-methods-use-this
   async function _compressFile(imageFile) {
@@ -54,6 +54,7 @@ function PictureUpload(props) {
     const compressedFile = new File([compressedBlob], `compressed-image-${compressedBlob.name}`, {
       type: compressedBlob.type,
     })
+
     const imageFilePath = compressedFile ? window.URL.createObjectURL(compressedFile) : ''
 
     return { compressedFile, imageFilePath }
@@ -61,18 +62,17 @@ function PictureUpload(props) {
 
   function _appendFileData(imageFile) {
     const formData = new FormData()
-
-    formData.append('file', imageFile)
     formData.append('courseCode', courseCode)
+    formData.append('file', imageFile)
     formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
     formData.append('pictureBy', 'Picture chosen by user')
     return formData
   }
 
-  function _choosenNewPicture(isError, fileUrl) {
+  function _choosenNewPicture(isError, imagePath) {
     setState({
       isError,
-      tempFilePath: fileUrl,
+      tempImagePath: imagePath,
     })
   }
 
@@ -85,15 +85,15 @@ function PictureUpload(props) {
     return termsAgreement.checked
   }
 
-  function resetToPrevApiPicture(event) {
+  function resetToPrevApiPicture(ev) {
     _choosenNewPicture(!errTrue, noFile)
     const fileInput = document.querySelector('.pic-upload')
     fileInput.value = ''
   }
 
-  function switchOption(event) {
+  function switchOption(radioEvent) {
     let infoMsg
-    const isDefaultPic = event.target.value === 'defaultPicture'
+    const isDefaultPic = radioEvent.target.value === 'defaultPicture'
     setState({
       isDefault: isDefaultPic,
       isError: false,
@@ -109,14 +109,15 @@ function PictureUpload(props) {
     })
   }
 
-  async function displayValidatedPic(event) {
-    const picFile = event.target.files[0]
-    const isTempFile = state.tempFilePath
+  async function displayValidatedPic(inputEvent) {
+    const [picFile] = inputEvent.target.files
+    const { tempImagePath: isTempFile } = state
     let errorIndex
     let infoMsg
     if (picFile) {
       if (_validFileType(picFile)) {
         const { compressedFile, imageFilePath } = await _compressFile(picFile)
+
         if (!imageFilePath) {
           _choosenNewPicture(errTrue, noFile)
           errorIndex = 'failed_compression_of_file'
@@ -136,31 +137,30 @@ function PictureUpload(props) {
       // no new picture and no api pic available and no default chosen
       // show error and empty picture
       errorIndex = isTempFile ? undefined : 'no_file_chosen'
-      const tempFilePath = isTempFile ? state.tempFilePath : noFile
+      const imagePath = isTempFile ? state.tempImagePath : noFile
 
-      _choosenNewPicture(!isTempFile, tempFilePath)
+      _choosenNewPicture(!isTempFile, imagePath)
     } else if (isApiPicAvailable) {
       // no new picture but still api pic available, no error
       // leave everything as it is
-      _choosenNewPicture(!errTrue, state.tempFilePath)
+      _choosenNewPicture(!errTrue, state.tempImagePath)
     }
-
     setState({
       errMsg: errorIndex,
       infoMsg,
     })
   }
 
-  function tempSaveNewImage(imageFile, tempImagePath, isDefaultChosen) {
-    setContext({ ...context, imageFile, tempImagePath, isDefaultChosen })
+  function tempSaveNewImageForNextStep(imageFile, tempImagePath, isDefaultChosen) {
+    setContext({ ...context, newImageFile: imageFile, tempImagePath, isDefaultChosen })
   }
 
-  function doNextStep(event) {
-    event.preventDefault()
+  function doNextStep(btnEvent) {
+    btnEvent.preventDefault()
 
-    const { isDefault, tempFilePath } = state
+    const { isDefault, tempImagePath } = state
     let { isError: errorMayNotProceed } = state
-    if (tempFilePath && !isDefault) {
+    if (tempImagePath && !isDefault) {
       errorMayNotProceed |= !checkTerms()
     } else if (!isApiPicAvailable && !isDefault) {
       errorMayNotProceed = true
@@ -171,7 +171,7 @@ function PictureUpload(props) {
     }
 
     if (!errorMayNotProceed) {
-      tempSaveNewImage(state.newImage, tempFilePath, isDefault)
+      tempSaveNewImageForNextStep(state.newImage, tempImagePath, isDefault)
       props.updateParent({
         progress: 2,
       })
@@ -193,8 +193,8 @@ function PictureUpload(props) {
       </span>
       <p>{introLabel.image.choiceInfo}</p>
       <form className="Picture--Options input-label-row">
-        <span role="radiogroup">
-          <label htmlFor="defaultPicture">
+        <div className="form-group" role="radiogroup">
+          <div className="form-check form-group">
             <input
               type="radio"
               id="defaultPicture"
@@ -203,10 +203,9 @@ function PictureUpload(props) {
               onClick={switchOption}
               defaultChecked={state.isDefault}
             />
-            {` ${introLabel.image.firstOption} `}
-          </label>
-          <br />
-          <label htmlFor="otherPicture">
+            <label htmlFor="defaultPicture">{` ${introLabel.image.firstOption} `}</label>{' '}
+          </div>
+          <div className="form-check form-group">
             <input
               type="radio"
               id="otherPicture"
@@ -215,10 +214,9 @@ function PictureUpload(props) {
               onClick={switchOption}
               defaultChecked={!state.isDefault}
             />
-            {` ${introLabel.image.secondOption} `}
-          </label>
-          <br />
-        </span>
+            <label htmlFor="otherPicture">{` ${introLabel.image.secondOption} `}</label>
+          </div>
+        </div>
       </form>
       {state.isDefault ? (
         <span className="" key="picture">
@@ -232,8 +230,8 @@ function PictureUpload(props) {
             key="uploader"
           >
             <span className="preview-pic">
-              {isApiPicAvailable || state.tempFilePath ? (
-                <img src={state.tempFilePath || apiImageUrl} height="auto" width="300px" alt={introLabel.alt.image} />
+              {isApiPicAvailable || state.tempImagePath ? (
+                <img src={state.tempImagePath || apiImageUrl} height="auto" width="300px" alt={introLabel.alt.image} />
               ) : (
                 <span className="empty-pic" aria-label={introLabel.alt.tempImage}>
                   <p>
@@ -248,30 +246,38 @@ function PictureUpload(props) {
               accept="image/jpg,image/jpeg,image/png"
               btnLabel={introLabel.image.choose}
             >
-              {state.tempFilePath && isApiPicAvailable && (
+              {state.tempImagePath && isApiPicAvailable && (
                 <Button color="secondary" onClick={resetToPrevApiPicture}>
                   {introLabel.image.reset}
                 </Button>
               )}
             </FileInput>
           </span>
-          {state.tempFilePath && (
-            <span className={`input-label-row ${state.isError && state.errMsg === 'approve_term' ? 'error-area' : ''}`}>
-              <input
-                type="checkbox"
-                onChange={checkTerms}
-                data-testid="termsAgreement"
-                id="termsAgreement"
-                name="agreeToTerms"
-                value="agree"
-              />
-              <label htmlFor="termsAgreement">
-                {`${introLabel.image.agreeCheck} `}
-                <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link" rel="noreferrer">
-                  {introLabel.image.imagesOnTheWeb}
-                </a>
-              </label>
-            </span>
+          {state.tempImagePath && (
+            <form>
+              <div className="form-group">
+                <div
+                  className={`form-check form-group input-label-row ${
+                    state.isError && state.errMsg === 'approve_term' ? 'error-area' : ''
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    onChange={checkTerms}
+                    data-testid="termsAgreement"
+                    id="termsAgreement"
+                    name="agreeToTerms"
+                    value="agree"
+                  />
+                  <label id="label-termsAgreement" htmlFor="termsAgreement">
+                    {`${introLabel.image.agreeCheck} `}
+                    <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link" rel="noreferrer">
+                      {introLabel.image.imagesOnTheWeb}
+                    </a>
+                  </label>
+                </div>
+              </div>
+            </form>
           )}
           {state.isError && (
             <span data-testid="error-text" className="error-label">
