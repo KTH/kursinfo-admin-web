@@ -35,11 +35,14 @@ function SellingInfo({ updateParent }) {
     isError: false,
     errMsg: '',
   })
-
   React.useEffect(() => {
-    _startEditor()
-    window.addEventListener('load', _startEditor)
+    let isMounted = true
+    if (isMounted) {
+      _startEditor()
+      window.addEventListener('load', _startEditor)
+    }
     return () => {
+      isMounted = false
       window.removeEventListener('load', _startEditor)
     }
   }, [])
