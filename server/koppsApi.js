@@ -46,6 +46,23 @@ const koppsCourseData = async courseCode => {
   }
 }
 
+async function getCourseSchool(courseCode) {
+  const { client } = api.koppsApi
+  const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}`
+  try {
+    const { body: course, statusCode } = await client.getAsync({ uri, useCache: true })
+    if (!course || statusCode !== 200) return 'kopps_get_fails'
+
+    const { school } = course
+    if (!school) return 'missing_school_code'
+    const { code } = school
+    if (!code) return 'missing_school_code'
+    return code
+  } catch (err) {
+    return err
+  }
+}
+
 function isValidData(dataObject, lang = 'sv') {
   const langIndex = lang === 'en' ? 0 : 1
 
@@ -100,4 +117,4 @@ const filteredKoppsData = async (courseCode, lang = 'sv') => {
   }
 }
 
-module.exports = { filteredKoppsData, koppsApi: api, kursutvecklingApi, kursPmDataApi }
+module.exports = { getCourseSchool, filteredKoppsData, koppsApi: api, kursutvecklingApi, kursPmDataApi }
