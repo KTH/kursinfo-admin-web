@@ -33,12 +33,12 @@ async function _uploadBlob(blobName, content, fileType, metadata = {}) {
 
     const uploadBlobResponse = await blockBlobClient.upload(content, content.length)
 
-    log.debug(` Blobstorage - file is uploaded. Updating metadata...`)
-
     await blockBlobClient.setHTTPHeaders({ blobContentType: fileType })
     metadata.date = getTodayDate(false)
+    log.debug(` Blobstorage - file is uploaded. Updating metadata...`, { metadata })
+
     await blockBlobClient.setMetadata(metadata)
-    log.info(' uploadBlobResponse', uploadBlobResponse)
+    log.info('Blobstorage - file is uploaded and metada is updated', uploadBlobResponse)
     return uploadBlobResponse
   } catch (error) {
     log.error(' Error when uploading file in blobStorage: ' + blobName, { error })
@@ -47,18 +47,18 @@ async function _uploadBlob(blobName, content, fileType, metadata = {}) {
 }
 
 async function runBlobStorage(file, courseCode, metadata) {
-  log.info('runBlobStorage: ', file, ', courseCode: ', courseCode, ', metadata: ', metadata)
+  log.info('runBlobStorage: ', { file, courseCode, metadata })
   // const containerName = 'kursinfo-image-container'
   const imageName = `Picture_by_own_choice_${courseCode}.${metadata.fileExtension}`
   const { data: content, mimetype: fileType } = file
 
   const uploadResponse = await _uploadBlob(imageName, content, fileType, metadata)
   if (uploadResponse && uploadResponse.errorMsg) {
-    log.error(' Blobstorage - FAILED uploaded file response ', file, ', courseCode: ', courseCode)
+    log.error(' Blobstorage - FAILED uploaded file response ', { imageName, file, courseCode })
 
     return null
   }
-  log.debug(' Blobstorage - uploaded file response ', uploadResponse)
+  log.debug(' Blobstorage - uploaded file response ', { uploadResponse })
 
   return imageName
 }
