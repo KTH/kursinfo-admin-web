@@ -14,6 +14,10 @@
   "scripts": {
     "build": "bash ./build.sh prod",
     "build-dev": "bash ./build.sh dev",
+    "docker:pack-dev": "bash ./build.sh docker",
+    "docker:build": "bash ./docker-build-image.sh dev",
+    "docker:run": "bash ./docker-run-image.sh dev",
+    "docker:start-dev": "npm run docker:build && npm run docker:run",
     "//": "Gulp installs css and javascript",
     "prepare": "husky install",
     "lint": "eslint . && prettier-eslint --list-different **/*.js",

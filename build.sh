@@ -49,3 +49,13 @@ if [ "$ENV" == "dev" ]; then
   echoYellow "  4. Running watch on client app. Check /dist for changes\n"
   WEBPACK_ENV=dev WEBPACK_MODE=watch webpack
 fi
+
+if [ "$ENV" == "docker" ]; then
+  echo
+  echoYellow "  2. Bundling the client app into the /dist folder to list results\n"
+  WEBPACK_ENV=dev WEBPACK_MODE=build webpack
+
+  echo
+  echoYellow "  3. Building Ckeditor with Gulp\n"
+  gulp build
+fi
