@@ -2,7 +2,6 @@
 
 require('dotenv').config()
 
-const fs = require('fs')
 const log = require('@kth/log')
 const config = require('./server/configuration').server
 const server = require('./server/server')
