@@ -28,13 +28,12 @@ module.exports = {
     contact_support: 'Contact',
     for_questions: 'if you have any questions.',
     friendly_message_have_not_rights: "You don't have permission to use About course's administration tool",
-    message_have_not_rights: `You don't have permission to use About the course's administration tool. Permission is automatically given to those who are added as an examiner, course coordinator or teacher for the course in Kopps.`,
+    message_have_not_rights: `You don't have permission to use About course's administration tool. Permission is automatically given to those who are added as an examiner, course coordinator or teacher for the course in Kopps.`,
     message_have_not_rights_link_pre_text: 'It is possible',
     message_have_not_rights_link_href:
       'https://intra.kth.se/en/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
     message_have_not_rights_link_text: 'to apply for administrator access to the About course administration tool',
-    message_have_not_rights_link_after_text:
-      "The application must be made by the school's UA, or by the immediate manager in consultation with UA.",
+    message_have_not_rights_link_after_text: "The application must be made by the school's UA.",
 
     /**
      * Message keys
