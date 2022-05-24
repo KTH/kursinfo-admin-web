@@ -10,15 +10,11 @@
   {{{blocks.image}}}
   <h1>{{status}}</h1>
   <h3>{{friendly}}</h3>
-  {{#if (isUnathorized status)}}
-    <p>{{message}}</p>
-    <p>{{i18n 'look_at_list_of_kopps_admin' lang}}</p>
-    <p><a
-        target='_blank'
-        rel='noreferrer'
-        href='https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459'
-      >https://intra.kth.se/utbildning/utbildningsadministr/kopps/koppsanvandare-1.33459</a>
-    </p>
+  {{#if (isUnauthorized status)}}
+    <p>{{i18n 'message_have_not_rights' lang}}</p>
+    <p>{{i18n 'message_have_not_rights_link_pre_text' lang}}
+      <a href={{i18n 'message_have_not_rights_link_href' lang}}>{{i18n 'message_have_not_rights_link_text' lang}}</a>.
+      {{i18n 'message_have_not_rights_link_after_text' lang}}</p>
     <p>
       {{i18n 'contact_support' lang}}
       <a href='mailto:it-support@kth.se'>it-support@kth.se</a>

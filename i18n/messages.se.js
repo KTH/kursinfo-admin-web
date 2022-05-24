@@ -26,11 +26,15 @@ module.exports = {
      */
 
     contact_support: 'Kontakta',
-    for_questions: 'vid frågor',
+    for_questions: 'vid frågor.',
     friendly_message_have_not_rights: 'Du saknar behörighet att använda Om kursens administrationsverktyg',
-    look_at_list_of_kopps_admin: 'Vill du veta vem som är Kopps-administratör på din skola, se förteckning här:',
-    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda i KOPPS som examinator, kursansvarig eller lärare för kursen. `,
-
+    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda som examinator, kursansvarig eller lärare för kursen i Kopps.`,
+    message_have_not_rights_link_pre_text: 'Det är möjligt att',
+    message_have_not_rights_link_href:
+      'https://intra.kth.se/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
+    message_have_not_rights_link_text: 'beställa administratörsbehörighet till Om kursens administrationsverktyg',
+    message_have_not_rights_link_after_text:
+      'Beställningen behöver göras av skolans UA, eller av närmsta chef i samråd med skolans UA.',
     /**
      * Message keys
      */
@@ -144,7 +148,6 @@ module.exports = {
       'Välj en egen dekorativ bild och/eller ersätt den korta kursbeskrivningen i Kopps med en mer informativ introduktion till kursen, för att hjälpa studenten att göra rätt kursval.',
     sellingText_desc_p2: 'Introduktion till kursen visas överst på sidan: Inför kursval.',
     sellingText_btn: 'Redigera',
-    sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
     coursePM_create_desc_p1:
       'Skapa och publicera ett kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
@@ -160,9 +163,6 @@ module.exports = {
     courseDev_decs_p2: 'Publicerade kursanalyser och kursdata visas på sidan: Kursens utveckling.',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
-    courseDev_link: 'Kursens utveckling - mer information och hjälp',
-    beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
-    beta_more_link: 'Vill du veta mer eller delta?',
   },
   introLabel: {
     alertMessages: {

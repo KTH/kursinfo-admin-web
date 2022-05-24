@@ -62,7 +62,7 @@ server.engine(
     layoutsDir: server.settings.layouts,
     partialsDir: server.settings.partials,
     // !!!! Extended so differ from node-web
-    helpers: { isUnathorized: statusCode => statusCode === 403 || statusCode === '403' },
+    helpers: { isUnauthorized: statusCode => statusCode === 403 || statusCode === '403' },
   })
 )
 server.set('view engine', 'handlebars')

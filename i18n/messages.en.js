@@ -26,11 +26,15 @@ module.exports = {
      */
 
     contact_support: 'Contact',
-    for_questions: 'for questions',
-    friendly_message_have_not_rights: 'Missing permission to use About the course administration tool.',
-    look_at_list_of_kopps_admin:
-      'If you want to know who is the Kopps administrator at your school, look at the list here:',
-    message_have_not_rights: `Missing permission to use About the course administration tool. Permission is automatically granted to those who are registered in KOPPS as an examiner, course coordinator or teacher for the course.`,
+    for_questions: 'if you have any questions.',
+    friendly_message_have_not_rights: "You don't have permission to use About course's administration tool",
+    message_have_not_rights: `You don't have permission to use About the course's administration tool. Permission is automatically given to those who are added as an examiner, course coordinator or teacher for the course in Kopps.`,
+    message_have_not_rights_link_pre_text: 'It is possible',
+    message_have_not_rights_link_href:
+      'https://intra.kth.se/en/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
+    message_have_not_rights_link_text: 'to apply for administrator access to the About course administration tool',
+    message_have_not_rights_link_after_text:
+      "The application must be made by the school's UA, or by the immediate manager in consultation with UA.",
 
     /**
      * Message keys
@@ -146,7 +150,6 @@ module.exports = {
       'Select your own decorative image and/or replace the short course description from Kopps to a more informative introduction to the course, to help students select a course that suits them.',
     sellingText_desc_p2: 'Course introduction is displayed at the page: Before course selection.',
     sellingText_btn: 'Edit',
-    sellingText_alt: 'Edit a course introduction',
     coursePM_hd: 'Course memo',
     coursePM_create_desc_p1:
       'Create and publish new course memo for forthcoming course offerings or edit a published course memo.',
@@ -162,9 +165,6 @@ module.exports = {
     courseDev_decs_p2: 'A published course analysis with course data is displayed on the page: Course development.',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
-    courseDev_link: 'Course development - more information and help',
-    beta_coursePm: 'Functionality to upload a course PM is under development now.',
-    beta_more_link: 'Are you interested to know more or participate in development?',
   },
   introLabel: {
     alertMessages: {
