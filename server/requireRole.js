@@ -55,7 +55,6 @@ async function _isAdminOfCourseSchool(courseCode, user) {
 
 const messageHaveNotRights = lang => ({
   status: 403,
-  showMessage: true,
   message: i18n.message('message_have_not_rights', lang),
 })
 
