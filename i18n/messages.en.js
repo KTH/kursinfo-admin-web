@@ -33,7 +33,8 @@ module.exports = {
     message_have_not_rights_link_href:
       'https://intra.kth.se/en/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
     message_have_not_rights_link_text: 'to apply for administrator access to the About course administration tool',
-    message_have_not_rights_link_after_text: "The application must be made by the school's UA.",
+    message_have_not_rights_link_after_text:
+      "The application must be made by the school's Educational Administration Manager.",
 
     /**
      * Message keys

@@ -34,7 +34,7 @@ module.exports = {
       'https://intra.kth.se/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
     message_have_not_rights_link_text: 'beställa administratörsbehörighet till Om kursens administrationsverktyg',
     message_have_not_rights_link_after_text:
-      'Beställningen behöver göras av skolans UA, eller av närmsta chef i samråd med skolans UA.',
+      'Beställningen behöver göras av Utbildningsadministrativt Ansvarig (UA) på skolan, eller av närmsta chef i samråd med UA.',
     /**
      * Message keys
      */
