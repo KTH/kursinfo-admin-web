@@ -68,15 +68,14 @@ module.exports = {
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
-    instruction_kopps_1:
-      'Sidorna som tillhör \u201DOm kursen\u201D består dels av information som hämtas från KOPPS och dels av information som redigeras här via Om kursens administrations\u00ADverktyg. Information som hämtats från KOPPS är kurs\u00ADplan, kurs\u00ADgemensam information och kurs\u00ADtillfälle, inklusive vem som är examinator, kurs\u00ADansvarig och lärare för kursen. Redigering av denna information görs i KOPPS.',
-    instruction_kopps_2: 'Instruktioner och hjälp för ',
-    instruction_kopps_detail_title: 'Behörigheter för att redigera information',
-    instruction_kopps_detail_1:
-      'Den som är upplagd som examinator, kurs\u00ADansvarig eller lärare på kursen i KOPPS får automatiskt behörighet att använda funktionerna i administrations\u00ADverktyget Om kursen, se nedan. Lärare kan dock endast administrera funktionen \u201DKurs-PM\u201D, medans examinator och kurs\u00ADansvarig även kan administrera funktionerna \u201DIntroduktion till kursen\u201D samt \u201DKurs\u00ADanalys och kurs\u00ADdata\u201D.',
-    instruction_kopps_detail_2: 'Behörighet att redigera kursinformation i KOPPS finns beskrivet på sidan ',
-    instruction_kopps_detail_2_link: 'Hämtad information',
-    link_user_manual: 'Om kursen',
+    instruction_p1:
+      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Informationen som går att redigera är: Introduktion till kursen, Kurs-PM samt Kursanalys och kursdata.',
+    instruction_p2:
+      'På Om kursens sidor finns även information som hämtats från Kopps. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Kopps.',
+    instruction_p3_start:
+      'Vilka funktioner man har tillgång till i Om kursens administrationsverktyg beror på vilken behörighet man har.',
+    instruction_p3_link_label: 'Instruktioner och information om behörighet för Om kursen hittar du på intranätet',
+    instruction_p3_conclusion: '.',
     links_to: {
       kutv: {
         aTitle: 'Kursens utveckling',
