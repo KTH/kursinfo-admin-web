@@ -52,7 +52,7 @@ module.exports = {
     lang_block_id: '1.77273',
     locale_text: 'This page in English',
 
-    site_name: 'Course information admin',
+    site_name: 'Administer About course',
     host_name: 'KTH',
     page_admin: 'COURSE INFO ADMIN',
     page_course_programme: 'COURSE AND PROGRAMME DIRECTORY',
