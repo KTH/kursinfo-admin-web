@@ -85,9 +85,6 @@ function _final(err, req, res, next) {
         lang,
         layout: 'errorLayout',
         message: err.message,
-        // !!!! Extended so differ from node-mallarna
-        showMessage: err.showMessage || false,
-        showKoppsLink: statusCode === 403,
         friendly: _getFriendlyErrorMessage(lang, statusCode),
         error: isProd ? {} : err,
         status: statusCode,

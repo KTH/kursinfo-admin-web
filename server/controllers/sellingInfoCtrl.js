@@ -40,7 +40,7 @@ async function getDescription(req, res, next) {
     const { uri: proxyPrefix } = serverConfig.proxyPrefixPath
 
     const respSellDesc = await _getSellingTextFromKursinfoApi(courseCode)
-    const userKthId = req.session.passport.user.ugKthid
+    const { ugKthid: userKthId } = req.session.passport.user
     webContext.setUser(userKthId)
     // Load browserConfig and server paths for internal api
     webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)

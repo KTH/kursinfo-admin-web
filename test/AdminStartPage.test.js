@@ -55,37 +55,34 @@ describe('<AdminStartPage> (and subordinates)', () => {
   test('Has correct buttons and links in correct order', done => {
     const { getAllByRole } = renderEditPage()
     const allLinks = getAllByRole('link')
-    expect(allLinks.length).toBe(9)
+    expect(allLinks.length).toBe(8)
     expect(allLinks[0]).toHaveTextContent(/^Om kursen/)
     expect(allLinks[0].href).toBe('http://localhost/student/kurser/kurs/SF1624?l=sv')
 
-    expect(allLinks[1]).toHaveTextContent(/^Hämtad information/)
-    expect(allLinks[1].href).toBe(
-      'https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/hamtad-kursinformation-1.1079646'
+    expect(allLinks[1]).toHaveTextContent(
+      /^Instruktioner och information om behörighet för Om kursen hittar du på intranätet/
     )
+    expect(allLinks[1].href).toBe('https://intra.kth.se/utbildning/systemstod/om-kursen/om-kursen-1.1020344')
 
-    expect(allLinks[2]).toHaveTextContent(/^Om kursen/)
-    expect(allLinks[2].href).toBe('https://intra.kth.se/utbildning/utbildningsadministr/om-kursen/om-kursen-1.1020344')
+    expect(allLinks[2]).toHaveTextContent(/^Redigera/)
+    expect(allLinks[2].href).toBe('http://localhost/kursinfoadmin/kurser/kurs/edit/SF1624?l=sv')
 
-    expect(allLinks[3]).toHaveTextContent(/^Redigera/)
-    expect(allLinks[3].href).toBe('http://localhost/kursinfoadmin/kurser/kurs/edit/SF1624?l=sv')
+    expect(allLinks[3]).toHaveTextContent(/^Skapa, publicera/)
+    expect(allLinks[3].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/SF1624?l=sv')
 
-    expect(allLinks[4]).toHaveTextContent(/^Skapa, publicera/)
-    expect(allLinks[4].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/SF1624?l=sv')
+    expect(allLinks[4]).toHaveTextContent(/^Ändra publicerad/)
+    expect(allLinks[4].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/published/SF1624?l=sv')
 
-    expect(allLinks[5]).toHaveTextContent(/^Ändra publicerad/)
-    expect(allLinks[5].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/published/SF1624?l=sv')
+    expect(allLinks[5]).toHaveTextContent(/^Ladda upp eller ändra kurs-PM som PDF/)
+    expect(allLinks[5].href).toBe('http://localhost/kursinfoadmin/pm/SF1624?l=sv')
 
-    expect(allLinks[6]).toHaveTextContent(/^Ladda upp eller ändra kurs-PM som PDF/)
-    expect(allLinks[6].href).toBe('http://localhost/kursinfoadmin/pm/SF1624?l=sv')
-
-    expect(allLinks[7]).toHaveTextContent(/^Publicera ny/)
-    expect(allLinks[7].href).toBe(
+    expect(allLinks[6]).toHaveTextContent(/^Publicera ny/)
+    expect(allLinks[6].href).toBe(
       'http://localhost/kursinfoadmin/kursutveckling/SF1624?l=sv&status=n&serv=admin&title=Algebra%20och%20geometri_7.5'
     )
 
-    expect(allLinks[8]).toHaveTextContent(/^Ändra publicerad/)
-    expect(allLinks[8].href).toBe(
+    expect(allLinks[7]).toHaveTextContent(/^Ändra publicerad/)
+    expect(allLinks[7].href).toBe(
       'http://localhost/kursinfoadmin/kursutveckling/SF1624?l=sv&status=p&serv=admin&title=Algebra%20och%20geometri_7.5'
     )
     done()

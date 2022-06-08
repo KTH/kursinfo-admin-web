@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react'
-import { CollapseDetails } from '@kth/kth-reactstrap/dist/components/utbildningsinfo'
-import { COURSE_INFO_URL, USER_MANUAL_URL, RETRIEVED_COURSE_INFORMATION } from '../util/constants'
+import { COURSE_INFO_URL, USER_MANUAL_URL } from '../util/constants'
 
 const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPagesHref }) => {
   const aboutCourseLink = `${publicPagesHref}${COURSE_INFO_URL}${courseCode}?l=${lang}`
@@ -23,25 +22,14 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPages
 
 export const TextAboutRights = ({ lang, translate }) => (
   <div className="paragraphs introduction col">
-    <p>{translate.instruction_kopps_1}</p>
-    <CollapseDetails title={translate.instruction_kopps_detail_title}>
-      <>
-        <p>{translate.instruction_kopps_detail_1}</p>
-        <p>
-          {translate.instruction_kopps_detail_2}
-          <a lang="sv" href={RETRIEVED_COURSE_INFORMATION[lang]}>
-            {translate.instruction_kopps_detail_2_link}
-          </a>
-          {'.'}
-        </p>
-      </>
-    </CollapseDetails>
+    <p>{translate.instruction_p1}</p>
+    <p>{translate.instruction_p2}</p>
     <p>
-      {translate.instruction_kopps_2}
+      {`${translate.instruction_p3_start} `}
       <a lang={lang} href={USER_MANUAL_URL[lang]}>
-        {translate.link_user_manual}
+        {translate.instruction_p3_link_label}
       </a>
-      {'.'}
+      {`${translate.instruction_p3_conclusion}`}
     </p>
   </div>
 )

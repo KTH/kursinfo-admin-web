@@ -26,11 +26,15 @@ module.exports = {
      */
 
     contact_support: 'Kontakta',
-    for_questions: 'vid frågor',
+    for_questions: 'vid frågor.',
     friendly_message_have_not_rights: 'Du saknar behörighet att använda Om kursens administrationsverktyg',
-    look_at_list_of_kopps_admin: 'Vill du veta vem som är Kopps-administratör på din skola, se förteckning här:',
-    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda i KOPPS som examinator, kursansvarig eller lärare för kursen. `,
-
+    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda som examinator, kursansvarig eller lärare för kursen i Kopps.`,
+    message_have_not_rights_link_pre_text: 'Det är möjligt att',
+    message_have_not_rights_link_href:
+      'https://intra.kth.se/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
+    message_have_not_rights_link_text: 'beställa administratörsbehörighet till Om kursens administrationsverktyg',
+    message_have_not_rights_link_after_text:
+      'Beställningen behöver göras av Utbildningsadministrativt Ansvarig (UA) på skolan, eller av närmsta chef i samråd med UA.',
     /**
      * Message keys
      */
@@ -64,15 +68,14 @@ module.exports = {
     administrate: 'Administrera Om kursen',
     editSelling: 'Redigera introduktion till kursen',
     previewSelling: 'Förhandsgranska introduktion till kursen',
-    instruction_kopps_1:
-      'Sidorna som tillhör \u201DOm kursen\u201D består dels av information som hämtas från KOPPS och dels av information som redigeras här via Om kursens administrations\u00ADverktyg. Information som hämtats från KOPPS är kurs\u00ADplan, kurs\u00ADgemensam information och kurs\u00ADtillfälle, inklusive vem som är examinator, kurs\u00ADansvarig och lärare för kursen. Redigering av denna information görs i KOPPS.',
-    instruction_kopps_2: 'Instruktioner och hjälp för ',
-    instruction_kopps_detail_title: 'Behörigheter för att redigera information',
-    instruction_kopps_detail_1:
-      'Den som är upplagd som examinator, kurs\u00ADansvarig eller lärare på kursen i KOPPS får automatiskt behörighet att använda funktionerna i administrations\u00ADverktyget Om kursen, se nedan. Lärare kan dock endast administrera funktionen \u201DKurs-PM\u201D, medans examinator och kurs\u00ADansvarig även kan administrera funktionerna \u201DIntroduktion till kursen\u201D samt \u201DKurs\u00ADanalys och kurs\u00ADdata\u201D.',
-    instruction_kopps_detail_2: 'Behörighet att redigera kursinformation i KOPPS finns beskrivet på sidan ',
-    instruction_kopps_detail_2_link: 'Hämtad information',
-    link_user_manual: 'Om kursen',
+    instruction_p1:
+      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Informationen som går att redigera är: Introduktion till kursen, Kurs-PM samt Kursanalys och kursdata.',
+    instruction_p2:
+      'På Om kursens sidor finns även information som hämtats från Kopps. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Kopps.',
+    instruction_p3_start:
+      'Vilka funktioner man har tillgång till i Om kursens administrationsverktyg beror på vilken behörighet man har.',
+    instruction_p3_link_label: 'Instruktioner och information om behörighet för Om kursen hittar du på intranätet',
+    instruction_p3_conclusion: '.',
     links_to: {
       kutv: {
         aTitle: 'Kursens utveckling',
@@ -144,7 +147,6 @@ module.exports = {
       'Välj en egen dekorativ bild och/eller ersätt den korta kursbeskrivningen i Kopps med en mer informativ introduktion till kursen, för att hjälpa studenten att göra rätt kursval.',
     sellingText_desc_p2: 'Introduktion till kursen visas överst på sidan: Inför kursval.',
     sellingText_btn: 'Redigera',
-    sellingText_alt: 'Redigera introduktion till kursen',
     coursePM_hd: 'Kurs-PM',
     coursePM_create_desc_p1:
       'Skapa och publicera ett kurs-PM för kommande kursomgångar eller ändra ett redan publicerat kurs-PM.',
@@ -160,9 +162,6 @@ module.exports = {
     courseDev_decs_p2: 'Publicerade kursanalyser och kursdata visas på sidan: Kursens utveckling.',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
-    courseDev_link: 'Kursens utveckling - mer information och hjälp',
-    beta_coursePm: 'Funktionalitet för att att ladda upp Kurs-PM är under utveckling.',
-    beta_more_link: 'Vill du veta mer eller delta?',
   },
   introLabel: {
     alertMessages: {
