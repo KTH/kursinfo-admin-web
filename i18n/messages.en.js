@@ -40,7 +40,7 @@ module.exports = {
      * Message keys
      */
     service_name: 'course information administration',
-    title: 'Administer About course information',
+    title: 'Administer About course',
     description:
       'Here a course coordinator or examinator for this course can administrate information for “About course” pages.',
 
