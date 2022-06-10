@@ -26,10 +26,12 @@ COPY ["webpack.config.js", "webpack.config.js"]
 RUN apk stats && \
     chmod a+rx build.sh && \
     apk add --no-cache bash && \
+    apk add --no-cache --virtual .gyp-dependencies python3 make g++ util-linux && \
     npm ci --unsafe-perm && \
     yarn install --no-lockfile && \
     npm run build && \
     npm prune --production && \
+    apk del .gyp-dependencies && \
     apk stats
 
 EXPOSE 3000
