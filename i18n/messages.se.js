@@ -39,7 +39,7 @@ module.exports = {
      * Message keys
      */
     service_name: 'Kursinfo-admin-web',
-    title: 'Kursinformationsadmin',
+    title: 'Administrera Om kursen',
     description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
     ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till kursen” som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
@@ -54,7 +54,7 @@ module.exports = {
     lang_block_id: '1.272446',
     locale_text: 'Denna sida på svenska',
 
-    site_name: 'Kursinformationsadmin',
+    site_name: 'Administrera Om kursen',
     host_name: 'KTH',
     page_admin: 'KURSINFO ADMIN',
     page_course_programme: 'KURS- OCH PROGRAMKATALOGEN',
