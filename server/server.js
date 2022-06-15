@@ -241,6 +241,7 @@ const { requireRole } = require('./requireRole')
 // System routes
 const systemRoute = AppRouter()
 systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
+systemRoute.get('system.home', _addProxy('/'), System.about)
 systemRoute.get('system.about', _addProxy('/_about'), System.about)
 systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
