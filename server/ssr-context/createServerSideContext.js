@@ -30,11 +30,12 @@ function buildApiUrl(path, params) {
   return [host, newPath].join('')
 }
 
-function setBrowserConfig(config, paths, apiHost, hostUrl) {
+function setBrowserConfig(config, paths, hostUrl) {
   this.browserConfig = config
   this.paths = paths
-  this.apiHost = apiHost
+  this.apiHost = hostUrl
   this.hostUrl = hostUrl
+  this.publicHostUrl = hostUrl.replace('//app', '//www')
 }
 
 function setUser(userKthId) {
@@ -78,9 +79,14 @@ function createServerSideContext() {
     apiImageUrl: '', // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
 
     user: '',
-    // hasDoneSubmit: false
     apiError: '',
     userRoles: {},
+    // hosts
+    apiHost: '',
+    hostUrl: '',
+    paths: [],
+    publicHostUrl: '',
+    // functions
     buildApiUrl,
     setUser,
     setUserRolesForThisCourse,
