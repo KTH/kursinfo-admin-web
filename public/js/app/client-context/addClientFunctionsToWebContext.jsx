@@ -53,18 +53,10 @@ function doUpsertItem(text, courseCode, imageName) {
     })
 }
 
-function setBrowserConfig(config, paths, apiHost, hostUrl) {
-  this.browserConfig = config
-  this.paths = paths
-  this.apiHost = apiHost
-  this.hostUrl = hostUrl
-}
-
 function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
     doUpsertItem,
-    setBrowserConfig,
   }
   return functions
 }
