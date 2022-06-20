@@ -29,6 +29,7 @@ const mockWebContext = {
       },
     },
   },
+  hostUrl: 'https://app.kth.se/',
   publicHostUrl: 'https://www.kth.se/',
   isDefaultChosen: true,
   userRoles: {

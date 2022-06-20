@@ -6,6 +6,7 @@ import ButtonModal from '../components/ButtonModal'
 import FileInput from '../components/FileInput'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER, INTRA_IMAGE_INFO } from '../util/constants'
 import { useWebContext } from '../context/WebContext'
+import { replaceAdminUrlWithPublicUrl } from '../util/links'
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png']
 
@@ -41,6 +42,12 @@ function PictureUpload(props) {
 
   const { course_code: courseCode } = courseTitleData
   const apiImageUrl = `${browserConfig.storageUri}${imageNameFromApi}`
+
+  React.useEffect(() => {
+    let isMounted = true
+    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    return () => (isMounted = false)
+  }, [])
 
   // eslint-disable-next-line class-methods-use-this
   async function _compressFile(imageFile) {

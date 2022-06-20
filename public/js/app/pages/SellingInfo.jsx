@@ -6,6 +6,7 @@ import KoppsTextCollapse from '../components/KoppsTextCollapse'
 import ButtonModal from '../components/ButtonModal'
 import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
 import { useWebContext } from '../context/WebContext'
+import { replaceAdminUrlWithPublicUrl } from '../util/links'
 
 const nodeEnvTest = process.env.NODE_ENV.toLowerCase() === 'test'
 const editorConf = {
@@ -35,6 +36,13 @@ function SellingInfo({ updateParent }) {
     isError: false,
     errMsg: '',
   })
+
+  React.useEffect(() => {
+    let isMounted = true
+    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    return () => (isMounted = false)
+  }, [])
+
   React.useEffect(() => {
     let isMounted = true
     if (isMounted) {
