@@ -10,22 +10,13 @@ import AlertReminderMsg from '../components/AlertReminderMsg'
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
-
-function resolvePublicPagesHref() {
-  if (typeof window === 'undefined') return ''
-  // kursinfoadmin is on app.kth.se but student is www.kth.se
-  const { href: thisPagesUrl } = window.location
-  const hasAppInHref = thisPagesUrl.includes('app')
-  const [, , thisHost] = thisPagesUrl.split('/')
-  const publicPagesHref = hasAppInHref ? `https://${thisHost.replace('app', 'www')}` : ''
-  return publicPagesHref
-}
+import { replaceAdminUrlWithPublicUrl } from '../util/links'
 
 function AdminStartPage() {
   const [context] = useWebContext()
   const [querySearchParams] = useSearchParams()
 
-  const { koppsData, userRoles } = context
+  const { koppsData, publicHostUrl, userRoles } = context
   const { courseTitleData, lang } = koppsData
   const { course_code: courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
@@ -33,7 +24,13 @@ function AdminStartPage() {
     isCourseResponsible || isExaminator || isKursinfoAdmin || isSuperUser || isSchoolAdmin ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
-  const publicPagesHref = resolvePublicPagesHref()
+  const publicPagesHref = publicHostUrl?.replace('.se/', '.se')
+
+  React.useEffect(() => {
+    let isMounted = true
+    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    return () => (isMounted = false)
+  }, [])
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page start-page col">
