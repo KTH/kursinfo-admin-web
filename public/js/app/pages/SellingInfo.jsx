@@ -57,7 +57,7 @@ function SellingInfo({ updateParent }) {
     const text = ev.editor.document.getBody().getText().replace(/\n/g, '')
     const { length: textLength } = text
     setState({
-      [`leftTextSign_${editorId}`]: 1500 - textLength,
+      [`leftTextSign_${editorId}`]: 0 - textLength,
       isError: false,
       errMsg: '',
     })
@@ -148,7 +148,10 @@ function SellingInfo({ updateParent }) {
         </Alert>
       )}
       <span className="title_and_info">
-        <h2>{introLabel.label_step_2}</h2>{' '}
+        <h2>
+          {introLabel.label_step_2}
+          <ButtonModal id="infoEditText" type="info-icon" modalLabels={introLabel.info_edit_text} course={courseCode} />
+        </h2>{' '}
       </span>
       <span className="Editors--Area" key="editorsArea" role="tablist">
         <span className="left" key="leftEditorForSwedish">

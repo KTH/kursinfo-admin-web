@@ -211,20 +211,23 @@ module.exports = {
       choiceInfo: 'Choose decorative image that will be displayed on the course',
       firstOption: 'Image based on the course main subject',
       secondOption: 'Choose your own picture',
-      agreeCheck:
+      agreeCheck_1:
         'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
       imagesOnTheWeb: 'Images on the web.',
+      agreeCheck_2: ' ',
+    },
+    info_edit_text: {
+      header: 'Edit text',
+      body: `Enter a short text describing the course. The text should not be longer than 2-3 sentences. The text should be in Swedish, but also in English for courses with English as the language of instruction. The text is displayed on the page Before course selection, in the course memo and in KTH's search tool for independent courses.`,
+      btnCancel: 'Close',
     },
     step_1_desc: `Choose a decorative image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
     Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.`,
-    step_2_desc: `You can create / edit a course introduction of course in form of text which will replace the short description from KOPPS. 
-    If you want to use KOPPS short description then remove a course introduction text`,
-    step_3_desc: `In this step (3 of 3) a preview of the decorative image and the text is presented as it will 
-    be published on the page Course information. It is possible to go back to change the image and edit text or move forward to 
-    publish the information on the page Course information.`,
-    label_left_number_letters: 'Number of characters left to use (of 1500 in total):',
+    step_2_desc: `Here you enter a text that describes the course. The text will be display on the page Before course selection. There may be a text entered earlier via Kopps/Ladok, but if you enter a text here, it will be the one shown on the page Before course selection.`,
+    step_3_desc: ' ',
+    label_left_number_letters: 'Enter a maximum of 2000 characters',
     label_step_1: 'Choose image',
-    label_step_2: 'Edit swedish and english text',
+    label_step_2: 'Edit text',
     label_step_3: 'Preview',
     langLabelKopps: {
       en: 'Short description from KOPPS (EN)',
@@ -248,6 +251,7 @@ module.exports = {
       step1: 'Choose image',
       step2: 'Edit text',
       step3: 'Preview',
+      step4: 'Preview',
     },
     alt: {
       step1: 'Go to previous step to choose image',

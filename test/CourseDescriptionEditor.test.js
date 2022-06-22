@@ -58,7 +58,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Has correct introductory text', () => {
       const introText = renderEditPage().getByTestId('intro-text')
       expect(introText).toHaveTextContent(
-        'Börja med att välja en dekorativ bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”'
+        'I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar den inledande texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.'
       )
     })
   })
@@ -95,9 +95,9 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Has correct alert text and error message (no image selected)', async () => {
       const { getByText, getByLabelText, getByRole, getByTestId, queryByTestId } = renderEditPage()
 
-      expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy()
-      expect(getByLabelText('Egen vald bild').checked).toBeFalsy()
-      getByLabelText('Egen vald bild').click()
+      expect(getByLabelText('Standardbild utifrån kursens huvudområde').checked).toBeTruthy()
+      expect(getByLabelText('Egen bild').checked).toBeFalsy()
+      getByLabelText('Egen bild').click()
 
       //No error message visible initially
       expect(queryByTestId('error-text')).toBeFalsy()
@@ -113,9 +113,9 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Has correct alert text and error message (wrong format chosen)', () => {
       const { getByLabelText, getByRole, getByTestId, queryByTestId } = renderEditPage()
 
-      expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeTruthy()
-      expect(getByLabelText('Egen vald bild').checked).toBeFalsy()
-      getByLabelText('Egen vald bild').click()
+      expect(getByLabelText('Standardbild utifrån kursens huvudområde').checked).toBeTruthy()
+      expect(getByLabelText('Egen bild').checked).toBeFalsy()
+      getByLabelText('Egen bild').click()
 
       //No error message visible initially
       expect(queryByTestId('error-text')).toBeFalsy()
@@ -147,7 +147,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       jest.clearAllMocks()
     })
 
-    const useDefaultImage = 'Bild vald utifrån kursens huvudområde'
+    const useDefaultImage = 'Standardbild utifrån kursens huvudområde'
     const expected =
       'Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.'
 
@@ -196,8 +196,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     test('Must tick box to continue if image was uploaded', () => {
       const { getByLabelText, getByTestId, getByText, getByRole, queryByRole, queryByTestId } =
         renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
-      expect(getByLabelText('Bild vald utifrån kursens huvudområde').checked).toBeFalsy()
-      expect(getByLabelText('Egen vald bild').checked).toBeTruthy()
+      expect(getByLabelText('Standardbild utifrån kursens huvudområde').checked).toBeFalsy()
+      expect(getByLabelText('Egen bild').checked).toBeTruthy()
 
       //No error message visible initially
       expect(queryByTestId('error-text')).toBeFalsy()
@@ -229,14 +229,10 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       const pageNumber = 2
       const { getByTestId } = renderEditPage({}, pageNumber)
       const introText = getByTestId('intro-text')
+      expect(introText).toHaveTextContent('Här lägger du in en text som beskriver kursen.')
+      expect(introText).toHaveTextContent('Texten kommer att visas för din kurs på sidan Inför kursval.')
       expect(introText).toHaveTextContent(
-        'Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS.'
-      )
-      expect(introText).toHaveTextContent(
-        'Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan.'
-      )
-      expect(introText).toHaveTextContent(
-        'I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”'
+        'Det kan finnas en beskrivande text inlagd sedan tidigare via Kopps/Ladok, men om du lägger in en text här är det den som visas på sidan Inför kursval.'
       )
     })
   })
@@ -252,12 +248,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
 
     test('Has correct introductory text', () => {
       const introText = renderEditPage({}, pageNumber).getByTestId('intro-text')
-      expect(introText).toHaveTextContent(
-        'I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”'
-      )
-      expect(introText).toHaveTextContent(
-        'Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.'
-      )
+      expect(introText).toHaveTextContent('')
     })
 
     test('Has correct headings', () => {
@@ -280,8 +271,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       const { getByText } = renderWithState({}, pageNumber)
       getByText('Publicera').click()
       expect(getByText(/Kurs: SF1624/)).toBeTruthy()
-      const regExpected =
-        /Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion \(bild och text\) till kursen\./
+      const regExpected = /Publicering kommer att ske på sidan ”Inför kursval”\./
       expect(getByText(regExpected)).toBeTruthy()
       expect(getByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
     })

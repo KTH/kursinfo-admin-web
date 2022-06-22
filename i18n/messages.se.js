@@ -90,7 +90,7 @@ module.exports = {
         ariaLabel: 'Till sidan Kurs-PM',
       },
       kinfo: {
-        aTitle: 'Kursinformation',
+        aTitle: 'Inför kursval.',
         ariaLabel: 'Till Kursinformation vy',
       },
     },
@@ -125,7 +125,7 @@ module.exports = {
       kinfo: {
         pub: 'Introduktion till kursen har publicerats ',
       },
-      see_more: 'Se',
+      see_more: 'Bild och text har publicerats på sidan',
       semester: 'Termin',
       course_offering: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
@@ -179,7 +179,7 @@ module.exports = {
     info_publish: {
       header: 'Att tänka på innan du publicerar!',
       body: `<br/>
-        Publicering kommer att ske på sidan ”Kursinformation” och ersätta befintlig introduktion (bild och text) till kursen.
+      Publicering kommer att ske på sidan ”Inför kursval”.
         <br/>
         <br/>
         Vill du fortsätta att publicera?`,
@@ -199,8 +199,10 @@ module.exports = {
     },
     info_image: {
       header: 'Välj bild',
-      body: `Välj dekorativ bild att visa på sidan Kursinformation och Kurs-PM. För att bilden ska uppfylla kraven för Tillgänglighet ska bilden inte vara informationsbärande. Du kan välja att visa en standardbild baserat på kursens huvudområde/ämne eller välja att ladda upp en egen bild. 
-      Bilden kommer att visas med formatet 400px i bredd och 300px i höjd. Filformatet måste vara .png eller .jpg.`,
+      body: `Välj en dekorativ bild att visa på Inför kursval och Kurs-PM. Du kan välja att visa en standardbild baserad på kursens huvudområde eller att ladda upp en egen bild. För att bilden ska uppfylla kraven för tillgänglighet ska den inte vara informationsbärande.
+      <br/>
+      <br/>
+      Bilden kommer att visas i storleken 400px i bredd och 300px i höjd. Tillåtna filformat är .png och .jpg. Du måste ha rättigheter att använda den bild du laddar upp.`,
       btnCancel: 'Stäng',
     },
     editCourseIntro: 'Redigera introduktion till kursen',
@@ -209,21 +211,22 @@ module.exports = {
       choose: 'Välj bild',
       name: 'Bildnamn:',
       noChosen: 'Ingen bild vald',
-      choiceInfo: 'Välj dekorativ bild som ska visas på kursinformationssidan:',
-      firstOption: 'Bild vald utifrån kursens huvudområde',
-      secondOption: 'Egen vald bild',
-      agreeCheck:
-        'Jag garanterar härmed att jag har rätt att använda och publicera uppladdat material och att jag vid brott mot detta är medveten om att jag har ett personligt ansvar. Läs mer om',
+      choiceInfo: 'Välj en bild att visa på sidan Inför kursval',
+      firstOption: 'Standardbild utifrån kursens huvudområde',
+      secondOption: 'Egen bild',
+      agreeCheck_1: 'Jag intygar att KTH äger rätten att använda bilden. Läs mer om',
       imagesOnTheWeb: 'Bilder på webben',
+      agreeCheck_2: 'och vilka bilder du kan använda.',
     },
-    step_1_desc: `Börja med att välja en dekorativ bild som ska visas på kursinformationssidan (steg 1 av 3). I nästa steg (2 av 3) kommer du att kunna redigera den inledande texten. 
-    I sista steget (3 av 3) ges möjlighet att först granska bild och text och sedan publicera det på sidan ”Kursinformation”.`,
-    step_2_desc: `Du kan här skapa / redigera en introduktion till kursen i form av text som ersätter kortbeskrivningen som finns i KOPPS. 
-    Vill man återgå till kortbeskrivningen tar man bort texten under ”Introduktion till kursen” nedan. 
-    I nästa steg kan du granska bild och text (på svenska och engelska) innan du publicerar på sidan ”Kursinformation”.`,
-    step_3_desc: `I detta steg (3 av 3) visas hur den dekorativa bilden med text kommer att se ut på sidan ”Kursinformation” (på svenska och engelska). 
-    Här finns möjlighet att gå tillbaka för att redigera text (och ett steg till för att välja ny bild) eller publicera introduktionen på sidan ”Kursinformation”.`,
-    label_left_number_letters: 'Antal tecken kvar att använda (av totalt 1500):',
+    info_edit_text: {
+      header: 'Redigera text',
+      body: `Ange en kort text som beskriver kursen. Texten bör inte vara längre än 2-3 meningar lång och bör alltid finnas på svenska, men även på engelska för kurser med engelska som undervisningsspråk. Texten visas på sidan Inför kursval, i kurs-PM samt i KTH:s sökverktyg för fristående kurser.`,
+      btnCancel: 'Stäng',
+    },
+    step_1_desc: `I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar den inledande texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.`,
+    step_2_desc: `Här lägger du in en text som beskriver kursen. Texten kommer att visas för din kurs på sidan Inför kursval. Det kan finnas en beskrivande text inlagd sedan tidigare via Kopps/Ladok, men om du lägger in en text här är det den som visas på sidan Inför kursval.`,
+    step_3_desc: ' ',
+    label_left_number_letters: 'Ange max 2000 tecken',
     label_step_1: 'Välj bild',
     label_step_2: 'Redigera text',
     label_step_3: 'Granska',
@@ -232,8 +235,8 @@ module.exports = {
       sv: 'Kortbeskrivning i KOPPS (SV)',
     },
     langLabelIntro: {
-      en: 'Introduktion till kursen (EN)',
-      sv: 'Introduktion till kursen (SV)',
+      en: 'Ange introduktion till kursen (EN)',
+      sv: 'Ange Introduktion till kursen (SV)',
     },
     langLabelText: {
       en: 'Engelsk text',
@@ -249,6 +252,7 @@ module.exports = {
       step1: 'Välj bild',
       step2: 'Redigera text',
       step3: 'Granska',
+      step4: 'Ladda upp',
     },
     alt: {
       step1: 'Till förra steg att välja bild',

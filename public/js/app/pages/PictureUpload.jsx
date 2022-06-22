@@ -270,10 +270,11 @@ function PictureUpload(props) {
                     value="agree"
                   />
                   <label id="label-termsAgreement" htmlFor="termsAgreement">
-                    {`${introLabel.image.agreeCheck} `}
+                    {`${introLabel.image.agreeCheck_1} `}
                     <a href={INTRA_IMAGE_INFO[lang]} target="_blank" className="external-link" rel="noreferrer">
                       {introLabel.image.imagesOnTheWeb}
                     </a>
+                    {`${introLabel.image.agreeCheck_2} `}
                   </label>
                 </div>
               </div>
