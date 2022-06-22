@@ -57,7 +57,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     const allLinks = getAllByRole('link')
     expect(allLinks.length).toBe(8)
     expect(allLinks[0]).toHaveTextContent(/^Om kursen/)
-    expect(allLinks[0].href).toBe('http://localhost/student/kurser/kurs/SF1624?l=sv')
+    expect(allLinks[0].href).toBe('https://www.kth.se/student/kurser/kurs/SF1624?l=sv')
 
     expect(allLinks[1]).toHaveTextContent(
       /^Instruktioner och information om behörighet för Om kursen hittar du på intranätet/

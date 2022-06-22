@@ -5,6 +5,7 @@ import PageTitle from '../components/PageTitle'
 import ProgressBar from '../components/ProgressBar'
 import Preview from '../components/PreviewText'
 import { useWebContext } from '../context/WebContext'
+import { replaceAdminUrlWithPublicUrl } from '../util/links'
 import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
 
@@ -26,6 +27,12 @@ function CourseDescriptionEditorPage(props) {
   function doUpdateStates(states) {
     if (states) setState({ ...state, ...states })
   }
+
+  React.useEffect(() => {
+    let isMounted = true
+    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    return () => (isMounted = false)
+  }, [])
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page col">

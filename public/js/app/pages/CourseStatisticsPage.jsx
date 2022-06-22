@@ -3,6 +3,7 @@ import React from 'react'
 import { CSVLink } from 'react-csv'
 import { useWebContext } from '../context/WebContext'
 import { englishTexts } from '../components/statistic/StatisticsTexts'
+import { replaceAdminUrlWithPublicUrl } from '../util/links'
 
 const analysisPerSchoolRows = combinedAnalysesDataPerSchool => {
   // SCHOOL: HTML Rows of a table Per SCHOOL data
@@ -267,6 +268,7 @@ function CourseStatisticsPage() {
   React.useEffect(() => {
     let isMounted = true
     if (isMounted) setFinishedServerSideRendering(true)
+    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
     return () => (isMounted = false)
   }, [])
 
