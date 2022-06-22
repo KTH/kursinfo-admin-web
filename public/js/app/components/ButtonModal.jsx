@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap'
 import classNames from 'classnames'
-
-const goBackToStartPage = returnToUrl => {
-  window.location = returnToUrl
-}
+import { goToStartPage } from '../util/links'
 
 function ButtonModal(props) {
   const [state, setState] = useState({ isOpen: false })
@@ -18,7 +15,7 @@ function ButtonModal(props) {
   function handleConfirm(ev) {
     ev.preventDefault()
     const { type, returnToUrl } = props
-    if (type === 'cancel') goBackToStartPage(returnToUrl)
+    if (type === 'cancel-with-modal' || type === 'cancel-without-modal') goToStartPage(returnToUrl)
     else {
       // return control to parent element function
       // eslint-disable-next-line react/destructuring-assignment
@@ -32,14 +29,20 @@ function ButtonModal(props) {
   const { header, body, btnCancel, btnConfirm } = modalLabels
   const btnStyle = classNames(
     { 'btn-info-modal': type === 'info-icon' },
-    { secondary: type === 'cancel' },
+    { secondary: type === 'cancel-with-modal' || type === 'cancel-without-modal' },
     { success: type === 'submit' },
     { danger: type === 'remove' }
   )
 
   return (
     <span>
-      <Button type="button" color={btnStyle} className={btnStyle} disabled={disabled} onClick={toggle}>
+      <Button
+        type="button"
+        color={btnStyle}
+        className={btnStyle}
+        disabled={disabled}
+        onClick={type === 'cancel-without-modal' ? handleConfirm : toggle}
+      >
         {btnLabel}
       </Button>
       <Modal isOpen={state.isOpen} toggle={toggle} id={id}>
