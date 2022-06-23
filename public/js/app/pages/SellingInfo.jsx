@@ -65,7 +65,7 @@ function SellingInfo({ updateParent }) {
     const text = ev.editor.document.getBody().getText().replace(/\n/g, '')
     const { length: textLength } = text
     setState({
-      [`leftTextSign_${editorId}`]: 0 - textLength,
+      [`leftTextSign_${editorId}`]: 2000 - textLength,
       isError: false,
       errMsg: '',
     })
@@ -82,7 +82,7 @@ function SellingInfo({ updateParent }) {
         isError: true,
         errMsg: translation.over_html_limit,
       })
-    } else if (cleanTextLen > 1500) {
+    } else if (cleanTextLen > 2000) {
       // this is an abstract max
       setState({
         isError: true,

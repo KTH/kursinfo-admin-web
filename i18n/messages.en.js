@@ -65,7 +65,7 @@ module.exports = {
     course_admin_title: 'Administer',
     header_progress_select_pic: '1. Choose image',
     header_progress_edit: '2. Edit text',
-    header_progress_review: '3. Review and publish',
+    header_progress_review: '3. Preview and publish',
     about_course: 'About course',
     administrate: 'Administer About course',
     editSelling: 'Edit a course introduction',
@@ -92,7 +92,7 @@ module.exports = {
         ariaLabel: 'To the Prepare and take course/Course memo page',
       },
       kinfo: {
-        aTitle: 'Course information',
+        aTitle: 'Before course selection.',
         ariaLabel: 'To Course information page',
       },
     },
@@ -125,9 +125,9 @@ module.exports = {
         delete: 'Draft for course memo has been removed',
       },
       kinfo: {
-        pub: 'New version of the course introduction has been published ',
+        pub: 'The course introduction has been published',
       },
-      see_more: 'Look at',
+      see_more: 'Image and text has been published on the page ',
       semester: 'Semester',
       course_offering: 'Course offering',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
@@ -179,8 +179,7 @@ module.exports = {
     info_publish: {
       header: 'To be aware of before publishing!',
       body: `<br/>  
-        <br/> 
-          The information will be published on the page Course information (image and text)
+          The information will be published on the page Before course selection.
         <br/> 
         <br/> 
         Do you want to publish?`,
@@ -197,9 +196,10 @@ module.exports = {
     },
     info_image: {
       header: 'Choose image',
-      body: `Choose a decorative image that will be displayed on the page Course information. The image should be decorative rather than informative, to fulfill accessibility requirements.
-      You can choose a default image based on the main subject of the course or choose to upload an image on your own choice. 
-      The image will be displayed with 400px width and 300px height. The file format must be .png or .jpg.`,
+      body: `Choose a decorative image to display on Before course selection and in your course memo. You can either use the default image based on the course main subject or upload an image of your own. In order for the image to meet the requirements for accessibility, the image should not convey necessary information. 
+      <br/> 
+      <br/> 
+      The image you select will be displayed in the format 400x300 pixels. The image must be in PNG or JPG file format.`,
       btnCancel: 'Close',
     },
     editCourseIntro: 'Edit course introduction',
@@ -208,7 +208,7 @@ module.exports = {
       choose: 'Choose image',
       name: 'Image name:',
       noChosen: 'No image chosen',
-      choiceInfo: 'Choose decorative image that will be displayed on the course',
+      choiceInfo: 'Choose an image to display on Before course selection',
       firstOption: 'Image based on the course main subject',
       secondOption: 'Choose your own picture',
       agreeCheck_1:
@@ -218,11 +218,10 @@ module.exports = {
     },
     info_edit_text: {
       header: 'Edit text',
-      body: `Enter a short text describing the course. The text should not be longer than 2-3 sentences. The text should be in Swedish, but also in English for courses with English as the language of instruction. The text is displayed on the page Before course selection, in the course memo and in KTH's search tool for independent courses.`,
+      body: `Enter a short text describing the course. The text should not be longer than 2-3 sentences. The text should be in Swedish, but also in English for courses with English as the language of instruction. The text is displayed on the page Before course selection, in the course memo and in KTH's search tool for freestanding courses.`,
       btnCancel: 'Close',
     },
-    step_1_desc: `Choose a decorative image to display on the Course information page (step 1 of 3). Edit the introducing text in the next step (2 of 3). 
-    Review the image and the text in the last step (3 of 3). The Introduction to the course will then be published on the page Course information.`,
+    step_1_desc: `In step 1 of 3, select an image. In step 2 of 3, edit the introductory text. In step 3 of 3, review the image and text before you publish.`,
     step_2_desc: `Here you enter a text that describes the course. The text will be display on the page Before course selection. There may be a text entered earlier via Kopps/Ladok, but if you enter a text here, it will be the one shown on the page Before course selection.`,
     step_3_desc: ' ',
     label_left_number_letters: 'Enter a maximum of 2000 characters',
