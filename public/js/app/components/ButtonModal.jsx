@@ -61,7 +61,7 @@ function ButtonModal(props) {
           <Button color="secondary" onClick={toggle}>
             {btnCancel}
           </Button>
-          {type === 'submit' || type === 'remove' || type === 'cancel' ? (
+          {type === 'submit' || type === 'remove' || type.includes('cancel') ? (
             <Button color="secondary" type={type} onClick={handleConfirm}>
               {btnConfirm}
             </Button>
