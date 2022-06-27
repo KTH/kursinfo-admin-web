@@ -102,7 +102,7 @@
     "jest-environment-jsdom": "^28.1.1",
     "jest-extended": "^2.0.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.18",
     "null-loader": "^4.0.1",
     "path": "^0.12.7",
     "prettier": "^2.7.0",
