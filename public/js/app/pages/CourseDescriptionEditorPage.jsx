@@ -6,13 +6,17 @@ import ProgressBar from '../components/ProgressBar'
 import Preview from '../components/PreviewText'
 import { useWebContext } from '../context/WebContext'
 import { replaceAdminUrlWithPublicUrl } from '../util/links'
+import { hasImageBeenChanged, hasTextBeenChanged } from '../util/compareChanges'
 import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
 
 function CourseDescriptionEditorPage(props) {
   const [context] = useWebContext()
 
-  const [state, setState] = useState({ progress: props.progress ? Number(props.progress) : 1 })
+  const [progress, setProgress] = useState(props.progress ? Number(props.progress) : 1)
+
+  const [initImage, setInitImage] = useState(null)
+  const [initTexts, setInitTexts] = useState(null)
 
   const { koppsData } = context
   const langIndex = koppsData.lang === 'en' ? 0 : 1
@@ -22,10 +26,51 @@ function CourseDescriptionEditorPage(props) {
   let courseImageID = courseImage[koppsData.mainSubject]
   if (courseImageID === undefined) courseImageID = courseImage.default
   const defaultImageUrl = `${storageUri}${courseImageID}`
-  const introText = introLabel[`step_${state.progress}_desc`]
+  const introText = introLabel[`step_${progress}_desc`]
 
-  function doUpdateStates(states) {
-    if (states) setState({ ...state, ...states })
+  function updateProgress(progressNumber) {
+    if (progressNumber) setProgress(progressNumber)
+  }
+
+  function setInitialImage(states) {
+    if (!initImage && states) setInitImage(states)
+  }
+
+  function setInitialTexts(states) {
+    if (!initTexts && states) setInitTexts(states)
+  }
+  // TEXT
+  function isTextChangedAfterEditorClosed() {
+    return hasTextBeenChanged(initTexts, context)
+  }
+
+  function isTextChangedWhileEditing(latestStateFromTextEditor) {
+    return hasTextBeenChanged(initTexts, latestStateFromTextEditor)
+  }
+
+  // IMAGE
+
+  function isImageChangedAfterEditorClosed() {
+    return hasImageBeenChanged(initImage, context)
+  }
+
+  function isImageChangedWhileEditing(latestStateFromImageEditor) {
+    return hasImageBeenChanged(initImage, latestStateFromImageEditor)
+  }
+
+  // BOTH: TEXT AND IMAGE
+
+  function hasChangedWhileEditingImage(latestStateFromImageEditor) {
+    return isTextChangedAfterEditorClosed() || isImageChangedWhileEditing(latestStateFromImageEditor)
+  }
+
+  function hasChangedWhileEditingText(latestStateFromTextEditor) {
+    const hasSmthChanged = isImageChangedAfterEditorClosed() || isTextChangedWhileEditing(latestStateFromTextEditor)
+    return hasSmthChanged
+  }
+
+  function hasSmthChangedAfterEditing() {
+    return isTextChangedAfterEditorClosed() || isImageChangedAfterEditorClosed()
   }
 
   React.useEffect(() => {
@@ -42,17 +87,30 @@ function CourseDescriptionEditorPage(props) {
         pageTitle={introLabel.editCourseIntro}
         language={koppsData.lang}
       />
-      <ProgressBar active={state.progress} language={langIndex} introText={introText} />
-      {(state.progress === 1 && (
+      <ProgressBar active={progress} language={langIndex} introText={introText} />
+      {(progress === 1 && (
         <PictureUpload
           defaultImageUrl={defaultImageUrl}
           introLabel={introLabel}
           koppsData={koppsData}
-          updateParent={doUpdateStates}
+          hasChanges={hasChangedWhileEditingImage}
+          updateProgress={updateProgress}
+          setInitialImage={setInitialImage}
         />
       )) ||
-        (state.progress === 2 && <SellingInfo updateParent={doUpdateStates} />) || (
-          <Preview introLabel={introLabel} defaultImageUrl={defaultImageUrl} updateParent={doUpdateStates} />
+        (progress === 2 && (
+          <SellingInfo
+            hasSmthChanged={hasChangedWhileEditingText}
+            setInitialTexts={setInitialTexts}
+            updateProgress={updateProgress}
+          />
+        )) || (
+          <Preview
+            introLabel={introLabel}
+            defaultImageUrl={defaultImageUrl}
+            hasSmthChanged={hasSmthChangedAfterEditing}
+            updateProgress={updateProgress}
+          />
         )}
     </div>
   )
