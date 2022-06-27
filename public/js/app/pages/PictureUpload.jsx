@@ -26,17 +26,19 @@ function _validFileType(file) {
 
 function PictureUpload(props) {
   const [context, setContext] = useWebContext()
-  const { koppsData, isApiPicAvailable, browserConfig, imageNameFromApi } = context
-  const { introLabel, defaultImageUrl } = props
+  const { koppsData, hasImageNameFromApi, browserConfig, imageNameFromApi } = context
+  const { introLabel, defaultImageUrl, hasChanges, setInitialImage, updateProgress } = props
 
   const [state, setState] = React.useReducer(paramsReducer, {
     errMsg: null,
     isError: false,
     infoMsg: null,
-    newImage: context.newImageFile,
-    isDefault: context.isDefaultChosen,
-    tempImagePath: context.tempImagePath, // not a boolean but file cache to proceed between steps
+    isStandardImageChosen: context.isStandardImageChosen,
+    newImageFile: context.newImageFile,
+    newImagePath: context.newImagePath, // not a boolean but file cache to proceed between steps
   })
+  const { isStandardImageChosen, newImagePath } = state
+  const isNewImageUploaded = !!newImagePath
 
   const { courseTitleData, lang } = koppsData
 
@@ -45,7 +47,10 @@ function PictureUpload(props) {
 
   React.useEffect(() => {
     let isMounted = true
-    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    if (isMounted && typeof window !== 'undefined') {
+      replaceAdminUrlWithPublicUrl()
+      setInitialImage({ isStandardImageChosen, hasImageNameFromApi })
+    }
     return () => (isMounted = false)
   }, [])
 
@@ -79,7 +84,7 @@ function PictureUpload(props) {
   function _choosenNewPicture(isError, imagePath) {
     setState({
       isError,
-      tempImagePath: imagePath,
+      newImagePath: imagePath,
     })
   }
 
@@ -100,30 +105,29 @@ function PictureUpload(props) {
 
   function switchOption(radioEvent) {
     let infoMsg
-    const isDefaultPic = radioEvent.target.value === 'defaultPicture'
+    const isSwitchedToStandardImage = radioEvent.target.value === 'defaultPicture'
     setState({
-      isDefault: isDefaultPic,
+      isStandardImageChosen: isSwitchedToStandardImage,
       isError: false,
       errMsg: undefined,
       infoMsg: undefined,
     })
-    if (isDefaultPic) {
+    if (isSwitchedToStandardImage) {
       // if user choose to override api picture with default
-      if (isApiPicAvailable) infoMsg = 'replace_api_with_default'
+      if (hasImageNameFromApi) infoMsg = 'replace_api_with_default'
     }
     setState({
       infoMsg,
     })
   }
 
-  async function displayValidatedPic(inputEvent) {
-    const [picFile] = inputEvent.target.files
-    const { tempImagePath: isTempFile } = state
+  async function displayValidatedImage(inputEvent) {
+    const [imageFile] = inputEvent.target.files
     let errorIndex
     let infoMsg
-    if (picFile) {
-      if (_validFileType(picFile)) {
-        const { compressedFile, imageFilePath } = await _compressFile(picFile)
+    if (imageFile) {
+      if (_validFileType(imageFile)) {
+        const { compressedFile, imageFilePath } = await _compressFile(imageFile)
 
         if (!imageFilePath) {
           _choosenNewPicture(errTrue, noFile)
@@ -132,25 +136,25 @@ function PictureUpload(props) {
           const fileData = await _appendFileData(compressedFile)
           _choosenNewPicture(!errTrue, imageFilePath)
           setState({
-            newImage: fileData,
+            newImageFile: fileData,
           })
         }
       } else {
-        if (!isApiPicAvailable) errorIndex = 'not_correct_format_choose_another'
+        if (!hasImageNameFromApi) errorIndex = 'not_correct_format_choose_another'
         else errorIndex = 'not_correct_format_return_to_api_pic'
         _choosenNewPicture(errTrue, noFile)
       }
-    } else if (!isApiPicAvailable) {
+    } else if (!hasImageNameFromApi) {
       // no new picture and no api pic available and no default chosen
       // show error and empty picture
-      errorIndex = isTempFile ? undefined : 'no_file_chosen'
-      const imagePath = isTempFile ? state.tempImagePath : noFile
+      errorIndex = isNewImageUploaded ? undefined : 'no_file_chosen'
+      const imagePath = isNewImageUploaded ? newImagePath : noFile
 
-      _choosenNewPicture(!isTempFile, imagePath)
-    } else if (isApiPicAvailable) {
+      _choosenNewPicture(!isNewImageUploaded, imagePath)
+    } else if (hasImageNameFromApi) {
       // no new picture but still api pic available, no error
       // leave everything as it is
-      _choosenNewPicture(!errTrue, state.tempImagePath)
+      _choosenNewPicture(!errTrue, newImagePath)
     }
     setState({
       errMsg: errorIndex,
@@ -158,18 +162,22 @@ function PictureUpload(props) {
     })
   }
 
-  function tempSaveNewImageForNextStep(imageFile, tempImagePath, isDefaultChosen) {
-    setContext({ ...context, newImageFile: imageFile, tempImagePath, isDefaultChosen })
+  function tempSaveNewImageForNextStep(imageFile, newImageBlobPath, isSwitchedToStandardImage) {
+    setContext({
+      ...context,
+      newImageFile: imageFile,
+      newImagePath: newImageBlobPath,
+      isStandardImageChosen: isSwitchedToStandardImage,
+    })
   }
 
   function doNextStep(btnEvent) {
     btnEvent.preventDefault()
 
-    const { isDefault, tempImagePath } = state
     let { isError: errorMayNotProceed } = state
-    if (tempImagePath && !isDefault) {
+    if (isNewImageUploaded && !isStandardImageChosen) {
       errorMayNotProceed |= !checkTerms()
-    } else if (!isApiPicAvailable && !isDefault) {
+    } else if (!hasImageNameFromApi && !isStandardImageChosen) {
       errorMayNotProceed = true
       setState({
         isError: true,
@@ -178,16 +186,14 @@ function PictureUpload(props) {
     }
 
     if (!errorMayNotProceed) {
-      tempSaveNewImageForNextStep(state.newImage, tempImagePath, isDefault)
-      props.updateParent({
-        progress: 2,
-      })
+      tempSaveNewImageForNextStep(state.newImageFile, newImagePath, isStandardImageChosen)
+      updateProgress(2)
     }
   }
 
   return (
     <span className="Upload--Area col" key="uploadArea">
-      {state.isDefault && state.infoMsg ? (
+      {isStandardImageChosen && state.infoMsg ? (
         <Alert color="info">{introLabel.alertMessages[state.infoMsg]}</Alert>
       ) : (
         state.isError && state.errMsg && <Alert color="danger">{introLabel.alertMessages[state.errMsg]}</Alert>
@@ -208,7 +214,7 @@ function PictureUpload(props) {
               name="choosePicture"
               value="defaultPicture"
               onClick={switchOption}
-              defaultChecked={state.isDefault}
+              defaultChecked={isStandardImageChosen}
             />
             <label htmlFor="defaultPicture">{` ${introLabel.image.firstOption} `}</label>{' '}
           </div>
@@ -219,13 +225,13 @@ function PictureUpload(props) {
               name="choosePicture"
               value="otherPicture"
               onClick={switchOption}
-              defaultChecked={!state.isDefault}
+              defaultChecked={!isStandardImageChosen}
             />
             <label htmlFor="otherPicture">{` ${introLabel.image.secondOption} `}</label>
           </div>
         </div>
       </form>
-      {state.isDefault ? (
+      {isStandardImageChosen ? (
         <span className="" key="picture">
           <img src={defaultImageUrl} alt={introLabel.alt.image} height="auto" width="300px" />
         </span>
@@ -237,8 +243,8 @@ function PictureUpload(props) {
             key="uploader"
           >
             <span className="preview-pic">
-              {isApiPicAvailable || state.tempImagePath ? (
-                <img src={state.tempImagePath || apiImageUrl} height="auto" width="300px" alt={introLabel.alt.image} />
+              {hasImageNameFromApi || isNewImageUploaded ? (
+                <img src={newImagePath || apiImageUrl} height="auto" width="300px" alt={introLabel.alt.image} />
               ) : (
                 <span className="empty-pic" aria-label={introLabel.alt.tempImage}>
                   <p>
@@ -249,18 +255,18 @@ function PictureUpload(props) {
             </span>
             <FileInput
               id="pic-upload"
-              onChange={displayValidatedPic}
+              onChange={displayValidatedImage}
               accept="image/jpg,image/jpeg,image/png"
               btnLabel={introLabel.image.choose}
             >
-              {state.tempImagePath && isApiPicAvailable && (
+              {isNewImageUploaded && hasImageNameFromApi && (
                 <Button color="secondary" onClick={resetToPrevApiPicture}>
                   {introLabel.image.reset}
                 </Button>
               )}
             </FileInput>
           </span>
-          {state.tempImagePath && (
+          {isNewImageUploaded && (
             <form>
               <div className="form-group">
                 <div
@@ -298,7 +304,11 @@ function PictureUpload(props) {
         <Col sm="4" className="btn-cancel">
           <ButtonModal
             id="cancelStep1"
-            type="cancel"
+            type={
+              hasChanges({ isStandardImageChosen: state.isStandardImageChosen, newImagePath: state.newImagePath })
+                ? 'cancel-with-modal'
+                : 'cancel-without-modal'
+            }
             course={courseCode}
             returnToUrl={`${ADMIN_OM_COURSE}${courseCode}${CANCEL_PARAMETER}`}
             btnLabel={introLabel.button.cancel}
