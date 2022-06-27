@@ -210,9 +210,8 @@ module.exports = {
       noChosen: 'No image chosen',
       choiceInfo: 'Choose an image to display on Before course selection',
       firstOption: 'Image based on the course main subject',
-      secondOption: 'Choose your own picture',
-      agreeCheck_1:
-        'I hereby declare that I have a right to use and publish the uploaded material, and I for breach of this am aware that I have a personal responsibility. For more information please read about',
+      secondOption: 'Own selected image',
+      agreeCheck_1: 'I declare that KTH is entitled to use the image. For more information, please read about',
       imagesOnTheWeb: 'Images on the web.',
       agreeCheck_2: ' ',
     },
