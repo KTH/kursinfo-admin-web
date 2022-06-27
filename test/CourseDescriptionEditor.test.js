@@ -66,21 +66,21 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
   describe('Page 1B Ingen bild vald', () => {})
 
   const PUBLISHED_IMAGE_EXISTS = {
-    isDefaultChosen: false,
-    isApiPicAvailable: true,
-    tempImagePath: undefined,
+    isStandardImageChosen: false,
+    hasImageNameFromApi: true,
+    newImagePath: undefined,
   }
 
   const IMAGE_SELECTED_FOR_UPLOAD = {
-    isDefaultChosen: false,
-    isApiPicAvailable: false,
-    tempImagePath: 'ImageThatWasSelectedForUpload.png',
+    isStandardImageChosen: false,
+    hasImageNameFromApi: false,
+    newImagePath: 'ImageThatWasSelectedForUpload.png',
   }
 
   const OVERWRITE_PUBLISHED_IMAGE = {
-    isDefaultChosen: false,
-    isApiPicAvailable: true,
-    tempImagePath: 'ImageThatWasSelectedForUpload.png',
+    isStandardImageChosen: false,
+    hasImageNameFromApi: true,
+    newImagePath: 'ImageThatWasSelectedForUpload.png',
   }
 
   describe('Page 1C Bildval felaktigt', () => {
