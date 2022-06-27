@@ -25,7 +25,7 @@ const editorConf = {
 
 const paramsReducer = (state, action) => ({ ...state, ...action })
 
-function SellingInfo({ updateParent }) {
+function SellingInfo({ hasSmthChanged, updateProgress, setInitialTexts }) {
   const [context, setContext] = useWebContext()
 
   const [state, setState] = React.useReducer(paramsReducer, {
@@ -39,7 +39,10 @@ function SellingInfo({ updateParent }) {
 
   React.useEffect(() => {
     let isMounted = true
-    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    if (isMounted && typeof window !== 'undefined') {
+      replaceAdminUrlWithPublicUrl()
+      setInitialTexts({ svInitText: state.sv, enInitText: state.en })
+    }
     return () => (isMounted = false)
   }, [])
 
@@ -142,7 +145,7 @@ function SellingInfo({ updateParent }) {
       // eslint-disable-next-line no-undef
       CKEDITOR.instances.en.destroy(true)
     }
-    updateParent({ progress })
+    updateProgress(progress)
   }
 
   const { introLabel } = i18n.messages[langIndex]
@@ -188,7 +191,7 @@ function SellingInfo({ updateParent }) {
         <Col sm="4" className="btn-cancel">
           <ButtonModal
             id="cancelStep2"
-            type="cancel"
+            type={hasSmthChanged(state) ? 'cancel-with-modal' : 'cancel-without-modal'}
             course={courseCode}
             returnToUrl={`${ADMIN_OM_COURSE}${courseCode}${CANCEL_PARAMETER}`}
             btnLabel={introLabel.button.cancel}

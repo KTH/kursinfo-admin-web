@@ -7,4 +7,7 @@ function replaceAdminUrlWithPublicUrl() {
   })
 }
 
-export { replaceAdminUrlWithPublicUrl }
+const goToStartPage = returnToUrl => {
+  window.location = returnToUrl
+}
+export { replaceAdminUrlWithPublicUrl, goToStartPage }

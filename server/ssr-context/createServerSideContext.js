@@ -47,10 +47,11 @@ function setUserRolesForThisCourse(roles = {}) {
 }
 
 function addPictureFromApi(data) {
-  this.imageNameFromApi = safeGet(() => data.imageInfo, '')
-  this.isApiPicAvailable = this.imageNameFromApi !== ''
-  this.apiImageUrl = `${this.browserConfig.storageUri}${this.imageNameFromApi}`
-  this.isDefaultChosen = !this.isApiPicAvailable
+  const { imageInfo: imageNameFromApi = '' } = data
+  this.imageNameFromApi = imageNameFromApi
+  this.hasImageNameFromApi = !!imageNameFromApi
+  this.apiImageUrl = `${this.browserConfig.storageUri}${imageNameFromApi}`
+  this.isStandardImageChosen = !this.hasImageNameFromApi
 }
 function addSellingTextFromApi(data) {
   this.sellingText = {
@@ -69,13 +70,13 @@ function createServerSideContext() {
     },
     // Saving temporary state for picture between classes
     newImageFile: '',
-    tempImagePath: '',
+    newImagePath: '',
     // Default image according to school
-    isDefaultChosen: true, // true-false
+    isStandardImageChosen: true, // true-false
 
     // Kursinfo-api, published image info
     imageNameFromApi: '', // name.jpg
-    isApiPicAvailable: true, // true-false
+    hasImageNameFromApi: true, // true-false
     apiImageUrl: '', // `${KURSINFO_IMAGE_BLOB_URL}${this.imageNameFromApi}`
 
     user: '',

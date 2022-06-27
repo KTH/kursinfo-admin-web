@@ -11,7 +11,7 @@ const paramsReducer = (state, action) => ({ ...state, ...action })
 
 function Preview(props) {
   const [context, setContext] = useWebContext()
-  const { isDefaultChosen, newImageFile, tempImagePath, apiImageUrl, koppsData, sellingText } = context
+  const { isStandardImageChosen, newImageFile, newImagePath, apiImageUrl, koppsData, sellingText } = context
 
   const [state, setState] = useReducer(paramsReducer, {
     sv: sellingText.sv,
@@ -27,8 +27,8 @@ function Preview(props) {
   const { course_code: courseCode } = courseTitleData
   const langIndex = userLang === 'en' ? 0 : 1
 
-  const { introLabel, defaultImageUrl } = props
-  const pictureUrl = isDefaultChosen ? defaultImageUrl : tempImagePath || apiImageUrl
+  const { introLabel, defaultImageUrl, hasSmthChanged } = props
+  const pictureUrl = isStandardImageChosen ? defaultImageUrl : newImagePath || apiImageUrl
 
   function handleUploadImage() {
     const formData = newImageFile
@@ -97,9 +97,9 @@ function Preview(props) {
       hasDoneSubmit: true,
       isError: false,
     })
-    if (isDefaultChosen) {
+    if (isStandardImageChosen) {
       handleSellingText({ imageName: '' })
-    } else if (tempImagePath) {
+    } else if (newImagePath) {
       handleUploadImage()
         .then(response => {
           const { imageName } = response
@@ -127,7 +127,7 @@ function Preview(props) {
 
   function returnToEditor(ev) {
     ev.preventDefault()
-    props.updateParent({ progress: 2 })
+    props.updateProgress(2)
   }
 
   return (
@@ -168,7 +168,7 @@ function Preview(props) {
             <Col sm="4" className="btn-cancel">
               <ButtonModal
                 id="cancelStep3"
-                type="cancel"
+                type={hasSmthChanged() ? 'cancel-with-modal' : 'cancel-without-modal'}
                 btnLabel={introLabel.button.cancel}
                 returnToUrl={`${ADMIN_OM_COURSE}${courseCode}${CANCEL_PARAMETER}`}
                 modalLabels={introLabel.info_cancel}
