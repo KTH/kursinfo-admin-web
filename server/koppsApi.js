@@ -1,8 +1,8 @@
 'use strict'
+
 const log = require('@kth/log')
 const redis = require('kth-node-redis')
 const connections = require('@kth/api-call').Connections
-const EMPTY = ['No information inserted', 'Ingen information tillagd']
 const config = require('./configuration').server
 
 const koppsOpts = {
@@ -38,8 +38,13 @@ const koppsCourseData = async courseCode => {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}`
   try {
-    const course = await client.getAsync({ uri, useCache: true })
-    return course.body
+    const { body: course, statusCode } = await client.getAsync({ uri, useCache: true })
+
+    if (!course || statusCode !== 200) {
+      log.debug(`Failed response ${statusCode} from KOPPS API calling ${uri}`)
+    }
+
+    return course
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
     throw err
@@ -63,32 +68,33 @@ async function getCourseSchool(courseCode) {
   }
 }
 
-function isValidData(dataObject, lang = 'sv') {
+function parseOrSetEmpty(value, lang = 'sv') {
   const langIndex = lang === 'en' ? 0 : 1
+  const EMPTY = ['No information inserted', 'Ingen information tillagd']
 
-  return !dataObject ? EMPTY[langIndex] : dataObject
+  return value ? value : EMPTY[langIndex]
 }
 
 const filteredKoppsData = async (courseCode, lang = 'sv') => {
-  const langIndex = lang === 'en' ? 0 : 1
   try {
-    const courseObj = await koppsCourseData(courseCode)
-    log.debug('Got kopps data for course', courseObj.code)
-    const { info } = courseObj
+    const course = await koppsCourseData(courseCode)
+    const { code, credits, info = {}, mainSubjects, title } = course
+    log.debug('Got kopps data for course', code)
+
     const courseTitleData = {
-      course_code: isValidData(courseObj.code, lang),
-      course_title: isValidData(courseObj.title[lang], lang),
-      course_credits: isValidData(courseObj.credits, lang),
+      course_code: parseOrSetEmpty(code, lang),
+      course_title: parseOrSetEmpty(title[lang], lang),
+      course_credits: parseOrSetEmpty(credits, lang),
       apiError: false,
     }
     const koppsText = {
       // kopps recruitmentText
-      sv: info && info.sv ? isValidData(courseObj.info.sv, lang) : EMPTY[langIndex],
-      en: info && info.en ? isValidData(courseObj.info.en, lang) : EMPTY[langIndex],
+      sv: parseOrSetEmpty(info.sv, lang),
+      en: parseOrSetEmpty(info.en, lang),
     }
 
-    const mainSubject = courseObj.mainSubjects
-      ? courseObj.mainSubjects.map(s => (s.name ? s.name.sv || ' ' : ' ')).sort()[0] // course AK204V
+    const mainSubject = mainSubjects
+      ? mainSubjects.map(({ name: subjectName }) => (subjectName ? subjectName.sv || ' ' : ' ')).sort()[0] // course AK204V
       : ' '
     return {
       koppsText,
