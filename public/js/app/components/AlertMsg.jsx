@@ -36,7 +36,7 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
 
   if (!services.includes(serviceAbbr)) return null
   if (!actions.includes(doneAction)) return null
-  const publicService =
+  const publicServiceHostUrl =
     querySearchParams && serviceAbbr
       ? `${publicPagesHref}${publicUrls[serviceAbbr]}`
       : `${publicPagesHref}${COURSE_INFO_URL}`
@@ -55,9 +55,11 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
         <>
           <p>{ver && `Version: ${decodeURIComponent(ver)} `}</p>
           <p>
-            {`${alertMessages.see_more} `}
+            {`${alertMessages[serviceAbbr].see_more} `}
             <a
-              href={`${publicService}${courseCode}${serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''}?l=${lang}`}
+              href={`${publicServiceHostUrl}${courseCode}${
+                serviceAbbr === 'pmdata' ? `/${memoEndPoint}` : ''
+              }?l=${lang}`}
               aria-label={translate.links_to[serviceAbbr].ariaLabel}
             >
               {`${translate.links_to[serviceAbbr].aTitle} `}

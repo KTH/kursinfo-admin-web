@@ -103,6 +103,7 @@ module.exports = {
         s_msg: 'You can find saved drafts under Course analysis and course data / Publish new',
         pub: 'Course analysis and course data have been published',
         delete: 'Draft for course analysis and course data has been removed',
+        see_more: 'Look at',
       },
       pm: {
         save: 'Draft for course memo has been saved',
@@ -110,6 +111,7 @@ module.exports = {
         pub: 'Course memo has been published',
         pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
+        see_more: 'Look at',
       },
       pmdata: {
         save: 'Draft for course memo has been saved',
@@ -123,11 +125,12 @@ module.exports = {
         pub: 'Course memo has been published',
         pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
+        see_more: 'Look at',
       },
       kinfo: {
         pub: 'The course introduction has been published',
+        see_more: 'Image and text has been published on the page ',
       },
-      see_more: 'Image and text has been published on the page ',
       semester: 'Semester',
       course_offering: 'Course offering',
       over_text_limit: 'The text can consist of no more than 1 500 chars',
@@ -249,7 +252,6 @@ module.exports = {
       step1: 'Choose image',
       step2: 'Edit text',
       step3: 'Preview',
-      step4: 'Preview',
     },
     alt: {
       step1: 'Go to previous step to choose image',

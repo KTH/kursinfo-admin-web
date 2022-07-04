@@ -101,6 +101,7 @@ module.exports = {
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
         pub: 'Kursanalys och kursdata har publicerats',
         delete: 'Utkast för kursanalys och kursdata har raderats',
+        see_more: 'Se ',
       },
       pm: {
         save: 'Utkast för kurs-PM har sparats',
@@ -108,6 +109,7 @@ module.exports = {
         pub: 'Kurs-PM har publicerats',
         pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
+        see_more: 'Se ',
       },
       pmdata: {
         save: 'Utkast för kurs-PM har sparats',
@@ -121,11 +123,12 @@ module.exports = {
         pub: 'Kurs-PM har publicerats',
         pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
+        see_more: 'Se ',
       },
       kinfo: {
         pub: 'Introduktion till kursen har publicerats ',
+        see_more: 'Bild och text har publicerats på sidan',
       },
-      see_more: 'Bild och text har publicerats på sidan',
       semester: 'Termin',
       course_offering: 'Kursomgång',
       over_text_limit: 'Texten får bara bestå av 1 500 tecken',
@@ -252,7 +255,6 @@ module.exports = {
       step1: 'Välj bild',
       step2: 'Redigera text',
       step3: 'Granska',
-      step4: 'Ladda upp',
     },
     alt: {
       step1: 'Till förra steg att välja bild',
