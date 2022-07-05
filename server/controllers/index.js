@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+  NoCourseCodeCtrl: require('./noCourseCodeCtrl'),
   System: require('./systemCtrl'),
   SellingInfo: require('./sellingInfoCtrl'),
   AdminPagesCtrl: require('./adminPagesCtrl'),
