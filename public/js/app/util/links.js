@@ -1,3 +1,12 @@
+const goToStartPage = returnToUrl => {
+  window.location = returnToUrl
+}
+
+const courseAdminLink = (courseCode, language) => {
+  const languageParameter = language === 'en' ? '?l=en' : ''
+  return `/kursinfoadmin/kurser/kurs/${courseCode}${languageParameter}`
+}
+
 function replaceAdminUrlWithPublicUrl() {
   const links = document.querySelectorAll('a')
   links.forEach(link => {
@@ -7,7 +16,11 @@ function replaceAdminUrlWithPublicUrl() {
   })
 }
 
-const goToStartPage = returnToUrl => {
-  window.location = returnToUrl
+function replaceSiteUrl(courseCode, language) {
+  const siteNameElement = document.querySelector('.block.siteName a')
+  if (siteNameElement) {
+    siteNameElement.href = courseAdminLink(courseCode, language)
+  }
 }
-export { replaceAdminUrlWithPublicUrl, goToStartPage }
+
+export { courseAdminLink, goToStartPage, replaceAdminUrlWithPublicUrl, replaceSiteUrl }

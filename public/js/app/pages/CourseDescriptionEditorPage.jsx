@@ -5,7 +5,7 @@ import PageTitle from '../components/PageTitle'
 import ProgressBar from '../components/ProgressBar'
 import Preview from '../components/PreviewText'
 import { useWebContext } from '../context/WebContext'
-import { replaceAdminUrlWithPublicUrl } from '../util/links'
+import { replaceAdminUrlWithPublicUrl, replaceSiteUrl } from '../util/links'
 import { hasImageBeenChanged, hasTextBeenChanged } from '../util/compareChanges'
 import PictureUpload from './PictureUpload'
 import SellingInfo from './SellingInfo'
@@ -18,8 +18,11 @@ function CourseDescriptionEditorPage(props) {
   const [initImage, setInitImage] = useState(null)
   const [initTexts, setInitTexts] = useState(null)
 
-  const { koppsData } = context
-  const langIndex = koppsData.lang === 'en' ? 0 : 1
+  const { koppsData = {} } = context
+  const { courseTitleData = {}, lang } = koppsData
+  const { course_code: courseCode } = courseTitleData
+
+  const langIndex = lang === 'en' ? 0 : 1
   const { storageUri } = context.browserConfig
   const { introLabel } = i18n.messages[langIndex]
   const [, { courseImage }] = i18n.messages
@@ -75,18 +78,16 @@ function CourseDescriptionEditorPage(props) {
 
   React.useEffect(() => {
     let isMounted = true
-    if (isMounted && typeof window !== 'undefined') replaceAdminUrlWithPublicUrl()
+    if (isMounted && typeof window !== 'undefined') {
+      replaceAdminUrlWithPublicUrl()
+      replaceSiteUrl(courseCode, lang)
+    }
     return () => (isMounted = false)
   }, [])
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page col">
-      <PageTitle
-        key="title"
-        courseTitleData={koppsData.courseTitleData}
-        pageTitle={introLabel.editCourseIntro}
-        language={koppsData.lang}
-      />
+      <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={introLabel.editCourseIntro} language={lang} />
       <ProgressBar active={progress} language={langIndex} introText={introText} />
       {(progress === 1 && (
         <PictureUpload
