@@ -36,7 +36,7 @@
     "@babel/runtime": "^7.18.9",
     "@kth/api-call": "^4.0.38",
     "@kth/kth-node-passport-oidc": "^4.1.7",
-    "@kth/kth-node-response": "^1.0.6",
+    "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^7.0.11",
     "@kth/kth-reactstrap": "^0.4.54",
     "@kth/log": "^4.0.4",
