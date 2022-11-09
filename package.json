@@ -73,7 +73,7 @@
     "react-icons": "^4.4.0",
     "react-router": "^6.4.3",
     "react-router-dom": "^6.3.0",
-    "reactstrap": "^9.0.3",
+    "reactstrap": "^9.1.5",
     "safe-utils": "^1.0.1"
   },
   "devDependencies": {
