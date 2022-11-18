@@ -34,7 +34,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.11.0",
     "@babel/runtime": "^7.18.9",
-    "@kth/api-call": "^4.0.38",
+    "@kth/api-call": "^4.0.40",
     "@kth/kth-node-passport-oidc": "^4.1.7",
     "@kth/kth-node-response": "^1.0.7",
     "@kth/kth-node-web-common": "^7.0.15",
