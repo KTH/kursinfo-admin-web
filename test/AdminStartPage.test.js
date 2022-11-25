@@ -73,7 +73,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     expect(allLinks[4]).toHaveTextContent(/^Ändra publicerad/)
     expect(allLinks[4].href).toBe('http://localhost/kursinfoadmin/kurs-pm-data/published/SF1624?l=sv')
 
-    expect(allLinks[5]).toHaveTextContent(/^Ladda upp eller ändra kurs-PM som PDF/)
+    expect(allLinks[5]).toHaveTextContent(/^Ladda upp kurs-PM som PDF/)
     expect(allLinks[5].href).toBe('http://localhost/kursinfoadmin/pm/SF1624?l=sv')
 
     expect(allLinks[6]).toHaveTextContent(/^Publicera ny/)

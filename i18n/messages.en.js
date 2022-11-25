@@ -157,8 +157,8 @@ module.exports = {
       'Create and publish new course memo for forthcoming course offerings or edit a published course memo.',
     coursePM_create_desc_p2: 'A published course memo will be available on the subpage: Prepare and take course.',
     coursePM_create_desc_p3:
-      'It is also possible to use the function: Upload or change course memo as a PDF, to upload and publish a course memo created outside the tool at About course. The file you publish must be in PDF format and meet web accessibility guidelines.',
-    coursePM_link_upload_memo: 'Upload or change course memo as a PDF',
+      'It is also possible to use the function: Upload course memo as a PDF, to upload and publish a course memo created outside the tool at About course. The file you publish must be in PDF format and meet web accessibility guidelines.',
+    coursePM_link_upload_memo: 'Upload course memo as a PDF',
     coursePM_btn_edit: 'Change published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
