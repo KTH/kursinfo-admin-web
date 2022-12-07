@@ -42,7 +42,7 @@
     "@kth/log": "^4.0.4",
     "@kth/monitor": "^3.0.29",
     "@kth/server": "^4.0.2",
-    "@kth/session": "^3.0.4",
+    "@kth/session": "^3.0.7",
     "applicationinsights": "^2.3.3",
     "axios": "^0.27.2",
     "body-parser": "^1.20.0",
