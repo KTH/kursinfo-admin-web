@@ -249,7 +249,19 @@ server.use('/', systemRoute.getRouter())
 
 // Statistic routes
 const statisticRoute = AppRouter()
-statisticRoute.get('statistic.getData', _addProxy('/statistik/:semester'), oidc.silentLogin, StatisticPageCtrl.getData)
+statisticRoute.get(
+  'deprecated.statistic.getData',
+  _addProxy('/deprecated/statistik/:semester'),
+  oidc.silentLogin,
+  StatisticPageCtrl.getData
+)
+
+statisticRoute.get('redirect.statistics', _addProxy('/statistik/:semester'), (req, res) => {
+  const { hostUrl = '' } = config
+  const publicHostUrl = hostUrl.replace('app', 'www')
+  res.redirect(301, `${publicHostUrl}/student/kurser/kurs/statistik`)
+})
+
 server.use('/', statisticRoute.getRouter())
 
 // App routes

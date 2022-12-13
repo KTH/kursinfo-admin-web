@@ -35,7 +35,7 @@ function appFactory(applicationStore, context) {
   return (
     <WebContextProvider configIn={context}>
       <Routes>
-        <Route exact path="/statistik/:semester" element={<CourseStatisticsPage />} />
+        <Route exact path="/deprecated/statistik/:semester" element={<CourseStatisticsPage />} />
         <Route exact path="/edit/:courseCode" element={<CourseDescriptionEditorPage />} />
         <Route exact path="/:courseCode" element={<AdminStartPage />} />
       </Routes>
