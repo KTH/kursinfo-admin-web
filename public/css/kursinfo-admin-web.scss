@@ -406,3 +406,7 @@ span.title_and_info {
 .btn-cancel {
   text-align: end;
 }
+
+.btn-upload-file span::after {
+  height: 1.3em;
+}
