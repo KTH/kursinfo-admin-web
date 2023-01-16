@@ -94,7 +94,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.2",
     "decache": "^4.6.1",
-    "eslint": "^8.27.0",
+    "eslint": "^8.32.0",
     "file-loader": "^6.2.0",
     "gulp": "^4.0.2",
     "husky": "^8.0.1",
