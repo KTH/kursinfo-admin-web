@@ -87,7 +87,7 @@
     "@kth/kth-ckeditor-build": "^4.0.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.4",
-    "@types/jest": "^29.2.2",
+    "@types/jest": "^29.2.6",
     "babel-jest": "^29.0.3",
     "babel-loader": "^9.1.0",
     "concurrently": "^7.4.0",
