@@ -72,7 +72,7 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
     "react-router": "^6.4.3",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.8.0",
     "reactstrap": "^9.1.5",
     "safe-utils": "^1.0.1"
   },
