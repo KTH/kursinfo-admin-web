@@ -70,8 +70,8 @@ const _kursPmDataApiData = async semester => {
     const memos = {}
     if (response.body) {
       response.body.forEach(
-        ({ courseCode, courseMemoFileName, ladokRoundIds, memoEndPoint, isPdf, lastChangeDate }) => {
-          if (ladokRoundIds) {
+        ({ courseCode, courseMemoFileName, applicationCodes, memoEndPoint, isPdf, lastChangeDate }) => {
+          if (applicationCodes) {
             memos[courseCode] = memos[courseCode] || {
               [isPdf ? 'numberOfUniqPdfMemos' : 'numberOfUniqMemos']: 0,
             }
@@ -79,8 +79,8 @@ const _kursPmDataApiData = async semester => {
             else memos[courseCode].numberOfUniqMemos++
 
             memos[courseCode][semester] = memos[courseCode][semester] || {}
-            ladokRoundIds.forEach(roundId => {
-              memos[courseCode][semester][roundId] = {
+            applicationCodes.forEach(applicationCode => {
+              memos[courseCode][semester][applicationCode] = {
                 memoId: courseMemoFileName || memoEndPoint,
                 lastChangeDate,
                 isPdf,
@@ -98,7 +98,7 @@ const _kursPmDataApiData = async semester => {
   }
 }
 function formatTimeToLocaleDateSV(parsedTime) {
-  if (!parsedTime || parsedTime === NaN) return ''
+  if (!parsedTime || Number.isNaN(parsedTime)) return ''
   const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
   const formattedTime = new Date(parsedTime).toLocaleDateString('sv-SE', options)
   return formattedTime
