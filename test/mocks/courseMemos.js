@@ -28,14 +28,12 @@ const _mockKursPmDataApiDataResponse = {
   20192: [
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [1],
       applicationCodes: [1],
       courseMemoFileName: 'memo-DD139020192-xxx.pdf',
       isPdf: true,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [2],
       applicationCodes: [2],
       courseMemoFileName: 'memo-DD139020192-yyy.pdf',
       isPdf: true,
@@ -44,14 +42,12 @@ const _mockKursPmDataApiDataResponse = {
   20201: [
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [1],
       applicationCodes: [1],
       courseMemoFileName: 'memo-DD139020201-xxx.pdf',
       isPdf: true,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [2],
       applicationCodes: [2],
       courseMemoFileName: 'memo-DD139020201-yyy.pdf',
       isPdf: true,
@@ -60,21 +56,18 @@ const _mockKursPmDataApiDataResponse = {
   20202: [
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [1],
       applicationCodes: [1],
       memoEndPoint: 'DD139020202-1',
       isPdf: false,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [2],
       applicationCodes: [2],
       memoEndPoint: 'DD139020202-2',
       isPdf: false,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [3, 4],
       applicationCodes: [3, 4],
       memoEndPoint: 'DD139020202-3-4',
       isPdf: false,
@@ -83,21 +76,18 @@ const _mockKursPmDataApiDataResponse = {
   20211: [
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [1],
       applicationCodes: [1],
       memoEndPoint: 'DD139020211-1',
       isPdf: false,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [2],
       applicationCodes: [2],
       memoEndPoint: 'DD139020211-2',
       isPdf: false,
     },
     {
       courseCode: 'DD1390',
-      ladokRoundIds: [3],
       applicationCodes: [3],
       memoEndPoint: 'DD139020211-3',
       isPdf: false,

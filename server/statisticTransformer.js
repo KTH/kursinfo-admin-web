@@ -42,8 +42,8 @@ const _kursutvecklingData = async semester => {
         courseAnalyses[ca.courseCode] = courseAnalyses[ca.courseCode] || { numberOfUniqAnalyses: 0 }
         courseAnalyses[ca.courseCode].numberOfUniqAnalyses++
         courseAnalyses[ca.courseCode][semester] = courseAnalyses[ca.courseCode][semester] || {}
-        ca.roundIdList.split(',').forEach(roundId => {
-          courseAnalyses[ca.courseCode][semester][roundId] = ca.analysisFileName
+        ca.applicationCodes.split(',').forEach(applicationCode => {
+          courseAnalyses[ca.courseCode][semester][applicationCode] = ca.analysisFileName
         })
       })
     }
