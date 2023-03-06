@@ -5,15 +5,15 @@ const mockExpectedCourseAnalyses = {
       1: 'analysis-20172-1.pdf',
       2: 'analysis-20172-2.pdf',
       3: 'analysis-20172-3-4.pdf',
-      4: 'analysis-20172-3-4.pdf'
+      4: 'analysis-20172-3-4.pdf',
     },
     20182: {
       1: 'analysis-20182-1.pdf',
       2: 'analysis-20182-2.pdf',
-      3: 'analysis-20182-3.pdf'
+      3: 'analysis-20182-3.pdf',
     },
-    numberOfUniqAnalyses: 6
-  }
+    numberOfUniqAnalyses: 6,
+  },
 }
 const _mockKursutvecklingDataResponse = {
   20172: [
@@ -21,44 +21,44 @@ const _mockKursutvecklingDataResponse = {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20172-1.pdf',
       semester: '20172',
-      roundIdList: '1'
+      applicationCodes: '1',
     },
     {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20172-2.pdf',
       semester: '20172',
-      roundIdList: '2'
+      applicationCodes: '2',
     },
     {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20172-3-4.pdf',
       semester: '20172',
-      roundIdList: '3,4'
-    }
+      applicationCodes: '3,4',
+    },
   ],
   20182: [
     {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20182-1.pdf',
       semester: '20182',
-      roundIdList: '1'
+      applicationCodes: '1',
     },
     {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20182-2.pdf',
       semester: '20182',
-      roundIdList: '2'
+      applicationCodes: '2',
     },
     {
       courseCode: 'DD1390',
       analysisFileName: 'analysis-20182-3.pdf',
       semester: '20182',
-      roundIdList: '3'
-    }
+      applicationCodes: '3',
+    },
   ],
-  default: []
+  default: [],
 }
-const mockKursutvecklingData = (semester) =>
+const mockKursutvecklingData = semester =>
   _mockKursutvecklingDataResponse[semester]
     ? _mockKursutvecklingDataResponse[semester]
     : _mockKursutvecklingDataResponse.default
