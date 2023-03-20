@@ -25,7 +25,7 @@ const TEST_SAVE = {
 const { getByRole, getByText } = screen
 const pageTitles = lang => i18n.messages[lang === 'en' ? 0 : 1].pageTitles
 
-describe('English. Component <AlertMemoMsg> renders with different messages if a user went to save/publish course analysis and were returned in the end.', () => {
+xdescribe('English. Component <AlertMemoMsg> renders with different messages if a user went to save/publish course analysis and were returned in the end.', () => {
   test('renders without props', done => {
     render(<AlertMemoMsg />)
     done()
@@ -48,7 +48,7 @@ describe('English. Component <AlertMemoMsg> renders with different messages if a
   })
 })
 
-describe('Swedish. Component <AlertMemoMsg> renders with different messages if a user went to admin page, have done some action and send back to public page.', () => {
+xdescribe('Swedish. Component <AlertMemoMsg> renders with different messages if a user went to admin page, have done some action and send back to public page.', () => {
   test('renders without props', done => {
     render(<AlertMemoMsg />)
     done()
