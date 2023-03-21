@@ -159,7 +159,7 @@ module.exports = {
     coursePM_create_desc_p3:
       'It is also possible to use the function: Upload course memo as a PDF, to upload and publish a course memo created outside the tool at About course. The file you publish must be in PDF format and meet web accessibility guidelines.',
     coursePM_link_upload_memo: 'Upload course memo as PDF',
-    coursePM_btn_edit: 'Change published',
+    coursePM_btn_edit: 'Edit published',
     coursePM_btn_new: 'Create, publish',
     courseDev_hd: 'Course analysis and course data',
     courseDev_decs_p1:
