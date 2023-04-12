@@ -302,6 +302,8 @@ appRoute.post(
 appRoute.post(
   'storage.saveImage',
   _addProxy('/storage/saveImage/:courseCode/:published'),
+  oidc.silentLogin,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.saveImageToStorage
 )
 appRoute.get(
