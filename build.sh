@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ENV=$1
+set -e
 
 function echoYellow() {
   MSG=$1
