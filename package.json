@@ -53,7 +53,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
-    "express-handlebars": "^6.0.7",
+    "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
     "kth-node-access-log": "^0.2.9",
     "kth-node-configuration": "^2.0.13",
