@@ -115,6 +115,9 @@
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   },
+  "overrides": {
+    "glob-parent": "6.0.2"
+  },
   "engines": {
     "node": "16"
   },
