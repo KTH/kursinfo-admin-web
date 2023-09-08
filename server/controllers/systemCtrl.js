@@ -13,7 +13,7 @@ const { getPaths } = require('kth-node-express-routing')
 const language = require('@kth/kth-node-web-common/lib/language')
 const i18n = require('../../i18n')
 const api = require('../api')
-const monitorSystems = require('@kth/monitor')
+const { monitorRequest } = require('@kth/monitor')
 const redis = require('kth-node-redis')
 
 /*
@@ -138,7 +138,7 @@ function _about(req, res) {
 async function _monitor(req, res) {
   try {
     const apiConfig = config.nodeApi
-    await monitorSystems(req, res, [
+    await monitorRequest(req, res, [
       ...(api
         ? Object.keys(api).map(apiKey => ({
             key: apiKey,
@@ -151,16 +151,6 @@ async function _monitor(req, res) {
         required: true,
         redis,
         options: config.session.redisOptions,
-      },
-      // If we need local system checks, such as memory or disk, we would add it here.
-      // Make sure it returns an object containing:
-      // {key: 'local', isResolved: true, statusCode: ###, message: '...'}
-      // The property statusCode should be standard HTTP status codes.
-      {
-        key: 'local',
-        isResolved: true,
-        message: '- local system checks: OK',
-        statusCode: 200,
       },
     ])
   } catch (error) {

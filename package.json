@@ -40,7 +40,7 @@
     "@kth/kth-node-web-common": "^8.1.1",
     "@kth/kth-reactstrap": "^0.4.66",
     "@kth/log": "^4.0.7",
-    "@kth/monitor": "^3.0.31",
+    "@kth/monitor": "^4.1.1",
     "@kth/server": "^4.0.4",
     "@kth/session": "^3.0.8",
     "applicationinsights": "^2.7.3",
