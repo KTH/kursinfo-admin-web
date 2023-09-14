@@ -86,9 +86,7 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 18.0.0
-  Because OICD library is compatible only with node 12.0.0 or > 14.2.0
-  And editor is compatible with node 12.0.0
+- node 18
 
 ### Blob storage. Generate Shared access signature
 
