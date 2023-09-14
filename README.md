@@ -1,7 +1,7 @@
 # Welcome to kursinfo-admin-web 👋
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
-![Prerequisite](https://img.shields.io/badge/node-12.0.0-blue.svg)
+![Prerequisite](https://img.shields.io/badge/node-18-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Introduction
@@ -86,9 +86,7 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 16.0.0
-  Because OICD library is compatible only with node 12.0.0 or > 14.2.0
-  And editor is compatible with node 12.0.0
+- node 18
 
 ### Blob storage. Generate Shared access signature
 
