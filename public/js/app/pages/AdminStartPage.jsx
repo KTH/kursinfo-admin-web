@@ -6,6 +6,7 @@ import PageTitle from '../components/PageTitle'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
+import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo'
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
@@ -59,6 +60,9 @@ function AdminStartPage() {
       </div>
       <div className="AdminPage--Alert">
         <AlertReminderMsg querySearchParams={fetchParameters(querySearchParams)} lang={lang} />
+      </div>
+      <div className="AdminPage--Alert">
+        <AlertReminderMsgNewPubMemo querySearchParams={fetchParameters(querySearchParams)} lang={lang} />
       </div>
       <div className="col">
         <span className="AdminPage--ShowDescription">
