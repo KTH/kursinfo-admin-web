@@ -93,6 +93,10 @@ module.exports = {
         aTitle: 'Inför kursval.',
         ariaLabel: 'Till Kursinformation vy',
       },
+      canvas: {
+        aTitle: 'Funktionen Kursöversikt i Canvas',
+        ariaLabel: 'Funktionen Kursöversikt i Canvas',
+      },
     },
     alertMessages: {
       noMemoHeader: '... men det saknas ett publicerat kurs-PM',
@@ -110,6 +114,9 @@ module.exports = {
         pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
         see_more: 'Se ',
+        pub_info: 'Kom ihåg att länka till ditt kurs-PM från kursrummet i Canvas. Läs mer på intranätet om ',
+        pub_changed_info:
+          'Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.',
       },
       pmdata: {
         save: 'Utkast för kurs-PM har sparats',
@@ -124,10 +131,18 @@ module.exports = {
         pub_changed: 'En ny version av kurs-PM har publicerats',
         delete: 'Utkast för kurs-PM har raderats',
         see_more: 'Se ',
+        pub_info: 'Kom ihåg att länka till ditt kurs-PM från kursrummet i Canvas. Läs mer på intranätet om ',
+        pub_changed_info:
+          'Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.',
       },
       kinfo: {
         pub: 'Introduktion till kursen har publicerats ',
         see_more: 'Bild och text har publicerats på sidan',
+      },
+      alertinfo: {
+        pub_info: 'Kom ihåg att länka till ditt kurs-PM från kursrummet i Canvas. Läs mer på intranätet om ',
+        pub_changed_info:
+          'Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.',
       },
       semester: 'Termin',
       course_offering: 'Kursomgång',
