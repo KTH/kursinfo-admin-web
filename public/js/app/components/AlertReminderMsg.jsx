@@ -10,7 +10,7 @@ const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
   const { pub_changed_info } = i18n.messages[langIndex].pageTitles.alertMessages.alertinfo
 
   return (
-    (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&
+    serviceAbbr === 'pmdata' &&
     doneAction === 'pub_changed' && (
       <Alert color="info" aria-live="polite">
         <p>{pub_changed_info}</p>

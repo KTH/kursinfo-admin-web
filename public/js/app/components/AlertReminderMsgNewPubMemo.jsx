@@ -13,7 +13,7 @@ const AlertReminderMsgNewPubMemo = ({ querySearchParams, lang = 'en' }) => {
   const { event: doneAction, serv: serviceAbbr } = querySearchParams
 
   return (
-    (serviceAbbr === 'pm' || serviceAbbr === 'pmdata') &&
+    serviceAbbr === 'pmdata' &&
     doneAction === 'pub' && (
       <Alert color="info" aria-live="polite">
         <p>
