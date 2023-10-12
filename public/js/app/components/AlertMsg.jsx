@@ -12,7 +12,10 @@ const mapAdminUrl = {
   // kutv: ADMIN_COURSE_UTV,
   // kinfo: ADMIN_OM_COURSE,
   pmdata: {
-    save: ADMIN_COURSE_PM_DATA,
+    save: {
+      create: ADMIN_COURSE_PM_DATA,
+      change: ADMIN_COURSE_PM_DATA + 'published/',
+    },
     removedPublished: ADMIN_COURSE_PM_DATA + 'published/',
   },
 }
@@ -29,11 +32,11 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
     name: courseRoundName,
     serv: serviceAbbr,
     term: semester,
+    from: origin,
     ver,
     memoendpoint: memoEndPoint,
     ladokRound,
   } = querySearchParams
-
   if (!services.includes(serviceAbbr)) return null
   if (!actions.includes(doneAction)) return null
   const publicServiceHostUrl =
@@ -75,10 +78,10 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
             {doneAction === 'save' ? alertMessages[serviceAbbr].s_msg : alertMessages[serviceAbbr].r_msg}
             {mapAdminUrl[serviceAbbr] && (
               <a
-                href={`${mapAdminUrl[serviceAbbr][doneAction]}${courseCode}?l=${lang}`}
-                aria-label={alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
+                href={`${mapAdminUrl[serviceAbbr][doneAction][origin]}${courseCode}?l=${lang}`}
+                aria-label={alertMessages[serviceAbbr].fast_admin_link_label[doneAction][origin]}
               >
-                {alertMessages[serviceAbbr].fast_admin_link_label[doneAction]}
+                {alertMessages[serviceAbbr].fast_admin_link_label[doneAction][origin]}
               </a>
             )}
           </p>

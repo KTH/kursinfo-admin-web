@@ -119,7 +119,10 @@ module.exports = {
         s_msg: 'You can find saved drafts under ',
         r_msg: 'Draft for course memo has been removed after cancelation you can go back to ',
         fast_admin_link_label: {
-          save: 'Create and publish course memo',
+          save: {
+            create: 'Create and publish course memo',
+            change: 'Edit published course memo',
+          },
           removedPublished: 'Edit published',
         },
         pub: 'Course memo has been published',

@@ -117,7 +117,10 @@ module.exports = {
         s_msg: 'Du hittar det sparade utkastet under ',
         r_msg: 'Utkast för kurs-PM har togs bort från ',
         fast_admin_link_label: {
-          save: 'Skapa och publicera kurs-PM',
+          save: {
+            create: 'Skapa och publicera kurs-PM',
+            change: 'Ändra publicerat kurs-PM',
+          },
           removedPublished: 'Ändra publicerad',
         },
         pub: 'Kurs-PM har publicerats',
