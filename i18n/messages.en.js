@@ -95,6 +95,10 @@ module.exports = {
         aTitle: 'Before course selection.',
         ariaLabel: 'To Course information page',
       },
+      canvas: {
+        aTitle: 'The Syllabus function in Canvas',
+        ariaLabel: 'The Syllabus function in Canvas',
+      },
     },
     alertMessages: {
       noMemoHeader: '... but it is missing a published course memo',
@@ -112,6 +116,10 @@ module.exports = {
         pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
         see_more: 'Look at',
+        pub_info:
+          'Remember to link to your course memo from the course room in Canvas. Read more on the intranet about ',
+        pub_changed_info:
+          'Remember to inform your students that there is a new version of the course memo. Also inform about what changes that have been made in the last version.',
       },
       pmdata: {
         save: 'Draft for course memo has been saved',
@@ -129,10 +137,20 @@ module.exports = {
         pub_changed: 'A new version of the course memo has been published',
         delete: 'Draft for course memo has been removed',
         see_more: 'Look at',
+        pub_info:
+          'Remember to link to your course memo from the course room in Canvas. Read more on the intranet about ',
+        pub_changed_info:
+          'Remember to inform your students that there is a new version of the course memo. Also inform about what changes that have been made in the last version.',
       },
       kinfo: {
         pub: 'The course introduction has been published',
         see_more: 'Image and text has been published on the page ',
+      },
+      alertinfo: {
+        pub_info:
+          'Remember to link to your course memo from the course room in Canvas. Read more on the intranet about ',
+        pub_changed_info:
+          'Remember to inform your students that there is a new version of the course memo. Also inform about what changes that have been made in the last version.',
       },
       semester: 'Semester',
       course_offering: 'Course offering',
