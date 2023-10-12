@@ -85,7 +85,7 @@
     "@babel/preset-react": "^7.22.5",
     "@kth/eslint-config-kth": "^3.0.14",
     "@kth/kth-ckeditor-build": "^4.0.13",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^12.1.5",
     "@types/jest": "^29.5.4",
     "babel-jest": "^29.6.3",
