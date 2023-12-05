@@ -101,7 +101,7 @@
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "jest-extended": "^2.0.0",
+    "jest-extended": "^4.0.2",
     "mini-css-extract-plugin": "^2.7.6",
     "nodemon": "^3.0.2",
     "null-loader": "^4.0.1",
