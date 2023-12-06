@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import '@babel/runtime/regenerator'
 import mockWebContext from './mocks/mockWebContext'
 import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'

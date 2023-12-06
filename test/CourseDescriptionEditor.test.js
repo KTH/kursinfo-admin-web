@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import '@babel/runtime/regenerator'
 import mockWebContext from './mocks/mockWebContext'
 import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
@@ -93,7 +93,7 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     const expectedErrorMessage = 'Obligatoriskt (format: .png eller .jpg)'
 
     test('Has correct alert text and error message (no image selected)', async () => {
-      const { getByText, getByLabelText, getByRole, getByTestId, queryByTestId } = renderEditPage()
+      const { getByText, getByLabelText, findByRole, getByTestId, queryByTestId } = renderEditPage()
 
       expect(getByLabelText('Standardbild utifrån kursens huvudområde').checked).toBeTruthy()
       expect(getByLabelText('Egen bild').checked).toBeFalsy()
@@ -105,7 +105,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       getByText('Redigera text').click()
 
       //Alert and Error Message assertion
-      expect(getByRole('alert')).toHaveTextContent(expectedAlert)
+      const actualAlert = await findByRole('alert')
+      expect(actualAlert).toHaveTextContent(expectedAlert)
       const errorMessageSpan = getByTestId('error-text')
       expect(errorMessageSpan).toHaveTextContent(expectedErrorMessage)
     })
@@ -163,11 +164,12 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       expect(queryByRole('alert')).toBeFalsy()
     })
 
-    test('Can go to next page (upload image, switch to default) - used to be a bug', () => {
-      const { getByText, getByLabelText } = renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
+    test('Can go to next page (upload image, switch to default) - used to be a bug', async () => {
+      const { getByText, findByText, getByLabelText } = renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
       getByLabelText(useDefaultImage).click()
       getByText('Redigera text').click()
-      expect(getByText('Granska')).toBeInTheDocument()
+      const previewText = await findByText('Granska')
+      expect(previewText).toBeInTheDocument()
     })
 
     test('Has correct alert text (published image, upload image, switch to default)', () => {
@@ -193,8 +195,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       expect(getByRole('alert')).toHaveTextContent(expected)
     })
 
-    test('Must tick box to continue if image was uploaded', () => {
-      const { getByLabelText, getByTestId, getByText, getByRole, queryByRole, queryByTestId } =
+    test('Must tick box to continue if image was uploaded', async () => {
+      const { getByLabelText, getByTestId, getByText, findByRole, queryByRole, queryByTestId } =
         renderWithState(IMAGE_SELECTED_FOR_UPLOAD)
       expect(getByLabelText('Standardbild utifrån kursens huvudområde').checked).toBeFalsy()
       expect(getByLabelText('Egen bild').checked).toBeTruthy()
@@ -205,7 +207,8 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       getByText('Redigera text').click()
 
       // Expect alert, error message and a disabled button
-      expect(getByRole('alert')).toHaveTextContent(expected)
+      const alert = await findByRole('alert')
+      expect(alert).toHaveTextContent(expected)
       const errorText = getByTestId('error-text')
       expect(errorText).toHaveClass('error-label')
       expect(getByText('Redigera text').disabled).toBeTruthy()
@@ -268,12 +271,12 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
     const pageNumber = 3
 
     test('Has correct modal text', async () => {
-      const { getByText } = renderWithState({}, pageNumber)
+      const { getByText, findByText } = renderWithState({}, pageNumber)
       getByText('Publicera').click()
-      expect(getByText(/Kurs: SF1624/)).toBeTruthy()
+      expect(findByText(/Kurs: SF1624/)).toBeTruthy()
       const regExpected = /Publicering kommer att ske på sidan ”Inför kursval”\./
-      expect(getByText(regExpected)).toBeTruthy()
-      expect(getByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
+      expect(findByText(regExpected)).toBeTruthy()
+      expect(findByText(/Vill du fortsätta att publicera?/)).toBeTruthy()
     })
   })
 
@@ -318,13 +321,15 @@ describe('<CourseDescriptionEditorPage> (and subordinates)', () => {
       jest.clearAllMocks()
     })
 
-    test('Progress bar should not be visible before publish action', () => {
+    test('Progress bar should not be visible before publish action', async () => {
       const pageNumber = 3
-      const { queryByRole, getByText, findByRole } = renderEditPage({}, pageNumber)
+      const { queryByRole, getByText, findByText, findByRole } = renderEditPage({}, pageNumber)
       expect(queryByRole('status')).toBeNull()
 
       getByText('Publicera').click()
-      getByText('Ja, fortsätt publicera').click()
+      const publishButton = await findByText('Ja, fortsätt publicera')
+      expect(publishButton).not.toBeNull()
+      publishButton.click()
       expect(findByRole('status')).toBeTruthy()
     })
   })
