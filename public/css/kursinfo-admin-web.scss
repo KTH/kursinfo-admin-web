@@ -1,6 +1,7 @@
 //====Common style for both pages====
 $light-grey: #d4d4d4;
 $red: #e01f28;
+$bs-body-bg: #fff;
 
 %row {
   display: flex;
@@ -37,6 +38,9 @@ $red: #e01f28;
 
 #app {
   width: 100%;
+  --bs-body-bg: #fff;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 .kursinfo-main-page {
   padding-bottom: 50px;
@@ -159,6 +163,7 @@ $red: #e01f28;
   }
   .card-footer.text-right {
     min-height: 8.2em;
+    text-align: right;
     span {
       display: block;
     }
