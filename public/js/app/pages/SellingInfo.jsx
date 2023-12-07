@@ -21,6 +21,7 @@ const editorConf = {
   removeButtons: 'CopyFormatting,Underline,Strike,Subscript,Superscript,Anchor',
   language: i18n.isSwedish() ? 'sv' : 'en',
   width: ['98%'],
+  mathJaxLib: '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML',
 }
 
 const paramsReducer = (state, action) => ({ ...state, ...action })
