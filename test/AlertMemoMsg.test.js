@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import AlertReminderMsg from '../public/js/app/components/AlertReminderMsg'
 
 const TEST_PUBLISH = {

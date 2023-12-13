@@ -79,7 +79,7 @@ const filteredKoppsData = async (courseCode, lang = 'sv') => {
   try {
     const course = await koppsCourseData(courseCode)
     const { code, credits, info = {}, mainSubjects, title } = course
-    log.debug('Got kopps data for course', code)
+    log.debug('Got kopps data for course', courseCode, code)
 
     const courseTitleData = {
       course_code: parseOrSetEmpty(code, lang),

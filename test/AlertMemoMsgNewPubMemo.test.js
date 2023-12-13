@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 import i18n from '../i18n'
 import AlertReminderMsgNewPubMemo from '../public/js/app/components/AlertReminderMsgNewPubMemo'
