@@ -13,8 +13,8 @@ export const USER_MANUAL_URL = {
 
 export const CANCEL_PARAMETER = '?serv=kinfo&event=cancel'
 export const INTRA_IMAGE_INFO = {
-  en: 'https://intra.kth.se/en/administration/kommunikation/webbpublicering/skapa-innehall/bilder-pa-webben',
-  sv: 'https://intra.kth.se/administration/kommunikation/webbpublicering/skapa-innehall/bilder-pa-webben',
+  en: 'https://intra.kth.se/en/administration/kommunikation/webb/skapa-innehall/bilder/bilder-pa-webben',
+  sv: 'https://intra.kth.se/administration/kommunikation/webb/skapa-innehall/bilder/bilder-pa-webben',
 }
 export const COURSE_INFO_IN_CANVAS = {
   en: 'https://intra.kth.se/en/utbildning/systemstod/canvas/guider/kursoversikt-1.1059436 ',
