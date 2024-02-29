@@ -298,10 +298,6 @@ span.title_and_info {
   form + span {
     margin-top: 30px;
   }
-  .control-buttons {
-    margin-top: 50px;
-    padding: 15px 0;
-  }
 }
 
 //====SELLING COURSE DESCRIPTION, EDITING PAGE====
@@ -385,44 +381,38 @@ span.title_and_info {
   margin-bottom: 28px;
 }
 
-//BUTTONS STYLES
+// BUTTONS STYLES
+
 .control-buttons {
-  @extend %column;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  padding: 20px 0;
+  row-gap: 20px;
   border-top: 1px solid #dee2e6;
-  padding-top: 1.5em;
+
+  div {
+    text-align: start;
+  }
 
   @media (min-width: 768px) {
     flex-direction: row;
-    margin: 0;
     width: 100%;
-    .btn-cancel {
+
+    div:nth-child(1) {
+      text-align: start;
+    }
+    div:nth-child(2) {
       text-align: center;
+    }
+    div:nth-child(3) {
+      text-align: end;
     }
   }
 }
 
 .btn-secondary {
   background-color: #f6f6f6;
-}
-
-.step-back {
-  //Rebuild
-  &.col-sm-4 {
-    padding-left: 0;
-  }
-}
-
-.step-forward,
-.btn-last {
-  &.col-sm-4 {
-    padding-right: 0;
-  }
-}
-
-.step-forward,
-.btn-last,
-.btn-cancel {
-  text-align: end;
 }
 
 .btn-info-modal {

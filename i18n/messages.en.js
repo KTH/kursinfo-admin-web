@@ -200,24 +200,6 @@ module.exports = {
         to be able to continue to “Edit text”.`,
       replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`,
     },
-    info_publish: {
-      header: 'To be aware of before publishing!',
-      body: `<br/>  
-          The information will be published on the page Before course selection.
-        <br/> 
-        <br/> 
-        Do you want to publish?`,
-      btnCancel: 'No, go back',
-      btnConfirm: 'Yes, publish',
-      infoCourse: 'Course: ',
-    },
-    info_cancel: {
-      header: 'To be aware of before cancelling!',
-      body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
-      btnCancel: 'No, go back',
-      btnConfirm: 'Yes, cancel',
-      infoCourse: 'Course: ',
-    },
     info_image: {
       header: 'Choose image',
       body: `Choose a decorative image to display on Before course selection and in your course memo. You can either use the default image based on the course main subject or upload an image of your own. In order for the image to meet the requirements for accessibility, the image should not convey necessary information. 
@@ -300,6 +282,32 @@ module.exports = {
     editorSection: {
       close: 'Stäng',
       noText: 'Ingen text tillgad',
+    },
+
+    controlButtons: {
+      back: 'Back',
+      cancel: 'Cancel',
+      next: 'Next',
+      confirmModals: {
+        publish: {
+          header: 'To be aware of before publishing!',
+          body: `<br/>  
+              The information will be published on the page Before course selection.
+            <br/> 
+            <br/> 
+            Do you want to publish?`,
+          btnCancel: 'No, go back',
+          btnConfirm: 'Yes, publish',
+          infoCourse: 'Course: ',
+        },
+        cancel: {
+          header: 'To be aware of before cancelling!',
+          body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
+          btnCancel: 'No, go back',
+          btnConfirm: 'Yes, cancel',
+          infoCourse: 'Course: ',
+        },
+      },
     },
   },
 

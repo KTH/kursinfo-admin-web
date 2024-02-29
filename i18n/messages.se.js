@@ -197,27 +197,6 @@ module.exports = {
         för att kunna gå vidare till ”Redigera text”.`,
       replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
     },
-    info_publish: {
-      header: 'Att tänka på innan du publicerar!',
-      body: `<br/>
-      Publicering kommer att ske på sidan ”Inför kursval”.
-        <br/>
-        <br/>
-        Vill du fortsätta att publicera?`,
-      btnCancel: 'Nej, gå tillbaka',
-      btnConfirm: 'Ja, fortsätt publicera',
-      infoCourse: 'Kurs: ',
-    },
-    info_cancel: {
-      header: 'Att tänka på innan du avbryter!',
-      body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
-      <br/>  
-      <br/> 
-            Vill du fortsätta att avbryta?`,
-      btnCancel: 'Nej, gå tillbaka',
-      btnConfirm: 'Ja, fortsätt avbryta',
-      infoCourse: 'Kurs: ',
-    },
     info_image: {
       header: 'Välj bild',
       body: `Välj en dekorativ bild att visa på Inför kursval och Kurs-PM. Du kan välja att visa en standardbild baserad på kursens huvudområde eller att ladda upp en egen bild. För att bilden ska uppfylla kraven för tillgänglighet ska den inte vara informationsbärande.
@@ -300,6 +279,35 @@ module.exports = {
     editorSection: {
       close: 'Stäng',
       noText: 'Ingen text tillgad',
+    },
+
+    controlButtons: {
+      back: 'Tillbaka',
+      cancel: 'Avbryt',
+      next: 'Nästa',
+      confirmModals: {
+        publish: {
+          header: 'Att tänka på innan du publicerar!',
+          body: `<br/>
+          Publicering kommer att ske på sidan ”Inför kursval”.
+            <br/>
+            <br/>
+            Vill du fortsätta att publicera?`,
+          btnCancel: 'Nej, gå tillbaka',
+          btnConfirm: 'Ja, fortsätt publicera',
+          infoCourse: 'Kurs: ',
+        },
+        cancel: {
+          header: 'Att tänka på innan du avbryter!',
+          body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
+          <br/>  
+          <br/> 
+                Vill du fortsätta att avbryta?`,
+          btnCancel: 'Nej, gå tillbaka',
+          btnConfirm: 'Ja, fortsätt avbryta',
+          infoCourse: 'Kurs: ',
+        },
+      },
     },
   },
 
