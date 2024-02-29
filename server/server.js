@@ -240,9 +240,10 @@ server.use(fileUpload())
 const {
   NoCourseCodeCtrl,
   System,
-  SellingInfo,
   AdminPagesCtrl,
   StatisticPageCtrl,
+  ImageCtrl,
+  MyCoursesCtrl,
   EditCourseStartCtrl,
   DescriptionCtrl,
   OtherInformationCtrl,
@@ -279,7 +280,7 @@ server.use('/', statisticRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 
-appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, SellingInfo.myCourses)
+appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, MyCoursesCtrl.myCourses)
 appRoute.get('course.allImagesCheck', _addProxy('/_monitor_images'), AdminPagesCtrl.monitorImages)
 
 appRoute.get(
@@ -295,20 +296,6 @@ appRoute.get(
     'isSchoolAdmin'
   ),
   AdminPagesCtrl.getAdminStart
-)
-appRoute.get(
-  'remove.course.editDescription',
-  _addProxy('/edit/:courseCode'),
-  oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
-  SellingInfo.getDescription
-)
-appRoute.post(
-  'remove.course.updateDescription',
-  _addProxy('/api/:courseCode/'),
-  oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
-  SellingInfo.updateDescription
 )
 
 // Start of course editing

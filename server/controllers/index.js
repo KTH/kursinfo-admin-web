@@ -8,10 +8,11 @@
 module.exports = {
   NoCourseCodeCtrl: require('./noCourseCodeCtrl'),
   System: require('./systemCtrl'),
-  SellingInfo: require('./sellingInfoCtrl'),
   AdminPagesCtrl: require('./adminPagesCtrl'),
   StatisticPageCtrl: require('./statisticPageCtrl'),
   EditCourseStartCtrl: require('./editCourseStartCtrl'),
   DescriptionCtrl: require('./descriptionCtrl'),
   OtherInformationCtrl: require('./otherInformationCtrl'),
+  ImageCtrl: require('./imageCtrl'),
+  MyCoursesCtrl: require('./myCoursesCtrl'),
 }

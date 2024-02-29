@@ -55,7 +55,7 @@ jest.mock('../server/configuration', () => {
   }
 })
 
-jest.mock('../server/koppsApi', () => {
+jest.mock('../server/apiCalls/koppsApi', () => {
   return {
     kursutvecklingApi: {
       kursutvecklingApi: {
