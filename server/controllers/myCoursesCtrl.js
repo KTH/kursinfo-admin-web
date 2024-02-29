@@ -4,7 +4,6 @@ const log = require('@kth/log')
 
 // This function to see which groups user is in
 async function myCourses(req, res, next) {
-  // TODO: KARL: Fråga Nina.
   try {
     const user = req.session.passport.user.memberOf
     res.render('course/my_course', {

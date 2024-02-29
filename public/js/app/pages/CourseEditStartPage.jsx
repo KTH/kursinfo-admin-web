@@ -1,0 +1,57 @@
+import React from 'react'
+
+import i18n from '../../../../i18n'
+import ControlButtons from '../components/ControlButtons'
+import PageTitle from '../components/PageTitle'
+import { useWebContext } from '../context/WebContext'
+
+const options = ['description', 'otherInformation']
+
+function CourseEditStartPage() {
+  const [selectedOption, setSelectedOption] = React.useState(options[0])
+  const [context] = useWebContext()
+  const labels = i18n.messages[context.langIndex].editCourseStart
+  const { courseData, editOptions } = context.routeData
+
+  const targetLink = editOptions[selectedOption]
+
+  return (
+    <div className="kursinfo-main-page CourseEditStartPage">
+      <PageTitle pageTitle={labels.pageTitle} courseTitleData={courseData} />
+
+      <p>{labels.intro}</p>
+
+      <span className="title_and_info">
+        <h2>{labels.header}</h2>
+      </span>
+
+      <div className="input-label-row">
+        <div className="form-group">
+          {options.map(name => (
+            <div key={name} className="form-check form-group">
+              <input
+                type="radio"
+                id={name}
+                name="editOption"
+                value={name}
+                checked={selectedOption === name}
+                onChange={e => setSelectedOption(e.target.value)}
+              />
+              <label htmlFor={name}> {labels.options[name]}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <ControlButtons
+        pageState={{ courseCode: courseData.courseCode }}
+        next={{
+          label: labels.nextButton,
+          href: targetLink,
+        }}
+      />
+    </div>
+  )
+}
+
+export default CourseEditStartPage

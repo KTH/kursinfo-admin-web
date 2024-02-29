@@ -45,6 +45,10 @@ $bs-body-bg: #fff;
   padding-top: 2em;
   width: 100%;
 
+  .alert {
+    margin: 0;
+  }
+
   &.start-page {
     padding-top: 15px;
     nav > a {
@@ -60,11 +64,14 @@ $bs-body-bg: #fff;
       max-width: 100%;
     }
   }
+}
 
-  .btn-primary,
-  .btn-success,
-  .btn-secondary {
-    margin: 1em 0;
+.CourseEditStartPage {
+  .pageTitle {
+    margin-bottom: 0px;
+  }
+  p {
+    margin-bottom: 72px;
   }
 }
 
@@ -166,6 +173,9 @@ $bs-body-bg: #fff;
   .card {
     width: 100%;
     margin: 15px 0.5em 1em 0;
+    .btn {
+      margin: 1em 0;
+    }
     .btn:last-of-type {
       margin-top: 1em;
       margin-left: 1em;
@@ -245,6 +255,10 @@ span.title_and_info {
   align-items: baseline;
   margin: 0;
 
+  .alert {
+    margin-bottom: 50px;
+  }
+
   .error-area {
     border: solid 1px $red !important;
     border-radius: 0.25rem;
@@ -253,17 +267,15 @@ span.title_and_info {
     color: $red;
   }
 
-  #own-picture {
-    flex-direction: column;
-    margin-bottom: 30px;
-    @media (min-width: 768px) {
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 30px;
+  .image-area {
+    display: flex;
+    gap: 80px;
+
+    .preview-pic {
+      min-height: 225px;
     }
-    align-items: flex-start;
-    width: 100%;
-    span.empty-pic {
+
+    .empty-pic {
       display: flex;
       background-color: $light-grey;
       height: 225px;
@@ -272,18 +284,6 @@ span.title_and_info {
       p {
         align-self: center;
       }
-    }
-    .preview-pic {
-      @extend %column;
-      margin-right: 5em;
-    }
-    & + span.input-label-row {
-      margin-top: 20px;
-      border: 1px solid transparent;
-    }
-    .btn {
-      margin: 0;
-      width: 75%;
     }
   }
   @media (min-width: 768px) {
@@ -300,80 +300,34 @@ span.title_and_info {
   }
 }
 
-//====SELLING COURSE DESCRIPTION, EDITING PAGE====
-.TextEditor--SellingInfo,
-.Preview--Changes {
-  margin: 50px 0 0 0;
-  h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-  }
-  h4 {
-    margin-top: 30px;
-    margin-bottom: 3px;
-  }
-  .control-buttons {
-    margin-top: 50px;
-    padding: 15px 0;
-  }
-}
+//==== Preview Section ====
 
-.Editors--Area {
-  @extend %column;
-  justify-content: space-between;
-  margin-bottom: 0;
-  span.left,
-  span.right {
-    width: 100%;
-  }
-  textarea.editor {
-    visibility: hidden;
-    display: none;
-  }
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    .badge {
-      margin-left: 0.5em;
-    }
-    span.right {
-      margin-left: 30px;
-    }
-  }
-  .courseIntroTextCollapse {
-    div {
-      padding-left: 1em;
-    }
-    p {
+.PreviewSection {
+  margin-bottom: 130px;
+
+  .PreviewSection__textBlock {
+    list-style-position: inside;
+    p:last-of-type {
       margin-bottom: 0;
     }
-    & + p {
-      margin-bottom: 15px;
+  }
+
+  .PreviewSection__imageSection {
+    display: flex;
+    gap: 30px;
+
+    .PreviewSection__image {
+      width: 400px;
+      height: auto;
+      margin-bottom: 50px;
     }
   }
-}
 
-//Preview mode style
-
-.courseIntroText {
-  word-wrap: break-word;
-  .sellingText {
-    padding-right: 12px;
-    .textBlock {
-      list-style-position: inside;
-    }
+  h1 {
+    margin: 0;
   }
-  .textBlock > p:last-of-type {
-    margin-bottom: 0;
-  }
-  h3 {
-    margin-bottom: 15px;
-  }
-  img {
-    float: left;
-    margin: 0 30px 0 0;
-    width: 100%;
-    max-width: 400px;
+  h2 {
+    margin-top: 0;
   }
 }
 
@@ -382,7 +336,6 @@ span.title_and_info {
 }
 
 // BUTTONS STYLES
-
 .control-buttons {
   display: flex;
   flex-direction: column;
