@@ -3,11 +3,23 @@
 import React from 'react'
 import { Button } from 'reactstrap'
 
-function FileInput(props) {
+const FileInput = React.forwardRef(function FileInput(props, ref) {
+  const inputRef = React.useRef(null)
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      clearInput: () => {
+        inputRef.current.value = ''
+      },
+    }),
+    []
+  )
+
   function clickFileInput(ev) {
     // This function is for chrome browser, because in safari it works fine without it
     ev.preventDefault()
-    document.querySelector('.pic-upload').click()
+    inputRef.current.click()
   }
 
   function handleChange(ev) {
@@ -25,10 +37,9 @@ function FileInput(props) {
           <span>{btnLabel}</span>
         </Button>
       </label>
-      {/* className='pic-upload' is important because it will be used in function clickFileInput, resetToPrevApiPicture in upload picture class */}
       <input
+        ref={inputRef}
         data-testid="fileUpload"
-        className="pic-upload"
         type="file"
         id={id}
         name={id}
@@ -40,6 +51,6 @@ function FileInput(props) {
       {props.children}
     </span>
   )
-}
+})
 
 export default FileInput

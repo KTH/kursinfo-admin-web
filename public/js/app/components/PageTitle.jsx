@@ -1,8 +1,10 @@
 import React from 'react'
 import { Alert } from 'reactstrap'
 
-import { EMPTY } from '../util/constants'
 import i18n from '../../../../i18n'
+
+import { useWebContext } from '../context/WebContext'
+import { EMPTY } from '../util/constants'
 
 const ApiError = ({ langIndex }) => (
   <Alert color="info" aria-live="polite">
@@ -11,7 +13,9 @@ const ApiError = ({ langIndex }) => (
 )
 
 function parseCourseName(title, langIndex, language) {
-  const { course_code: courseCode, course_credits: courseCredits, course_title: courseTitle } = title
+  const courseCode = title?.courseCode ?? title.course_code
+  const courseCredits = title?.courseCredits ?? title.course_credits
+  const courseTitle = title?.courseTitle ?? title.course_title
   if (!courseCredits && !courseCode && !courseTitle) return ''
   if (courseCode && !courseCredits && !courseTitle) return courseCode
 
@@ -22,17 +26,17 @@ function parseCourseName(title, langIndex, language) {
   const creditUnit = language === 'en' ? `${credits} credits` : `${credits.toString().replace('.', ',')} hp`
 
   const courseName = `${courseCode} ${courseTitle} ${creditUnit}`
-
   return courseName
 }
 
-const PageTitle = ({ courseTitleData: title, language, pageTitle }) => {
-  const langIndex = language === 'en' ? 0 : 1
+const PageTitle = ({ courseTitleData, pageTitle }) => {
+  const [context] = useWebContext()
+  const language = context.lang
+  const langIndex = context.langIndex
+  const courseCode = courseTitleData.courseCode ?? courseTitleData.course_code
+  const { apiError } = courseTitleData
 
-  const { apiError, course_code: courseCode } = title
-
-  const courseName = parseCourseName(title, langIndex, language)
-
+  const courseName = parseCourseName(courseTitleData, langIndex, language)
   return (
     <header id="course-title" className="pageTitle col">
       <span id="page-course-title" role="heading" aria-level="1">
@@ -44,4 +48,5 @@ const PageTitle = ({ courseTitleData: title, language, pageTitle }) => {
   )
 }
 
+export { parseCourseName }
 export default PageTitle
