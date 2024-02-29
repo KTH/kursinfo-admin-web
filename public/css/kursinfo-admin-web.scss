@@ -418,3 +418,29 @@ span.title_and_info {
 .btn-upload-file span::after {
   height: 1.3em;
 }
+
+//==== EditButton ====
+
+.EditButton {
+  background-color: transparent;
+  border: none;
+  padding: 8px;
+
+  .EditButton__icon {
+    background-repeat: no-repeat;
+    display: block;
+    height: 16px;
+    width: 16px;
+  }
+
+  &.EditButton--open {
+    .EditButton__icon {
+      background-image: url('https://app.kth.se/style/static/kth-style/img/kth-style/icons/close-black.svg');
+    }
+  }
+  &.EditButton--closed {
+    .EditButton__icon {
+      background-image: url('https://app.kth.se/style/static/kth-style/img/kth-style/icons/edit-blue.svg');
+    }
+  }
+}

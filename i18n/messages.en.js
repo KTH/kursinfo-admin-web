@@ -290,6 +290,12 @@ module.exports = {
     },
     redirectToStart: 'Success, redirecting to start page...',
   },
+  compontents: {
+    editButton: {
+      open: 'Open edit',
+      close: 'Close edit',
+    },
+  },
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
     Biotechnology: 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg',

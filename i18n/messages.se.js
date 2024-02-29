@@ -290,6 +290,12 @@ module.exports = {
     },
     redirectToStart: 'Framgång, omdirigerar till startsidan...',
   },
+  compontents: {
+    editButton: {
+      open: 'Öppna redigering',
+      close: 'Stäng redigering',
+    },
+  },
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
     Bioteknik: 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg',
