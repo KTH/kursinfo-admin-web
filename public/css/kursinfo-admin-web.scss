@@ -444,3 +444,48 @@ span.title_and_info {
     }
   }
 }
+
+//==== EditorSection ====
+
+.EditorSection {
+  background: #f6f6f6;
+  padding: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  .EditorSection__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .EditorSection__body {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    textarea {
+      display: none;
+    }
+
+    .EditorSection__preview {
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .EditorSection__validationErrorLabel {
+      color: $red;
+    }
+
+    .EditorSection__buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
