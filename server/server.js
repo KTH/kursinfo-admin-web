@@ -237,7 +237,16 @@ server.use(fileUpload())
  * ******* APPLICATION ROUTES *******
  * **********************************
  */
-const { NoCourseCodeCtrl, System, SellingInfo, AdminPagesCtrl, StatisticPageCtrl } = require('./controllers')
+const {
+  NoCourseCodeCtrl,
+  System,
+  SellingInfo,
+  AdminPagesCtrl,
+  StatisticPageCtrl,
+  EditCourseStartCtrl,
+  DescriptionCtrl,
+  OtherInformationCtrl,
+} = require('./controllers')
 // use own requireRole because it has better error and role management
 const { requireRole } = require('./requireRole')
 
@@ -288,33 +297,68 @@ appRoute.get(
   AdminPagesCtrl.getAdminStart
 )
 appRoute.get(
-  'course.editDescription',
+  'remove.course.editDescription',
   _addProxy('/edit/:courseCode'),
   oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.getDescription
 )
 appRoute.post(
-  'course.updateDescription',
+  'remove.course.updateDescription',
   _addProxy('/api/:courseCode/'),
   oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   SellingInfo.updateDescription
 )
+
+// Start of course editing
+appRoute.get(
+  'course.editStartPage',
+  _addProxy('/edit/:courseCode'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  EditCourseStartCtrl.getEditCourseStart
+)
+
+// Description
+appRoute.get(
+  'course.editDescription',
+  _addProxy('/edit/:courseCode/description'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  DescriptionCtrl.getDescription
+)
+appRoute.post(
+  'course.updateDescription',
+  _addProxy('/edit/:courseCode/description'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  DescriptionCtrl.updateDescription
+)
+
 // File upload for a course picture
 appRoute.post(
   'storage.saveImage',
   _addProxy('/storage/saveImage/:courseCode/:published'),
   oidc.silentLogin,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
-  SellingInfo.saveImageToStorage
+  ImageCtrl.saveImageToStorage
 )
+
+// Other information
 appRoute.get(
-  'system.gateway',
-  _addProxy('/silent'),
-  oidc.silentLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin'),
-  SellingInfo.getDescription
+  'course.editOtherInformation',
+  _addProxy('/edit/:courseCode/otherInformation'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  OtherInformationCtrl.getOtherInformation
+)
+appRoute.post(
+  'course.updateOtherInformation',
+  _addProxy('/api/:courseCode/otherInformation'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  OtherInformationCtrl.updateOtherInformation
 )
 
 server.use('/', appRoute.getRouter())

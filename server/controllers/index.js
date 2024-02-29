@@ -11,4 +11,7 @@ module.exports = {
   SellingInfo: require('./sellingInfoCtrl'),
   AdminPagesCtrl: require('./adminPagesCtrl'),
   StatisticPageCtrl: require('./statisticPageCtrl'),
+  EditCourseStartCtrl: require('./editCourseStartCtrl'),
+  DescriptionCtrl: require('./descriptionCtrl'),
+  OtherInformationCtrl: require('./otherInformationCtrl'),
 }
