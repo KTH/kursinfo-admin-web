@@ -5,7 +5,7 @@ const { hasGroup } = require('@kth/kth-node-passport-oidc')
 const log = require('@kth/log')
 
 const i18n = require('../i18n')
-const koppsCourseData = require('./koppsApi')
+const koppsCourseData = require('./apiCalls/koppsApi')
 
 function _hasThisTypeGroup(courseCode, courseInitials, user, employeeType) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'

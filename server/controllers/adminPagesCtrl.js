@@ -3,7 +3,7 @@
 // const sanitize = require('sanitize-html')
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
-const { filteredKoppsData } = require('../koppsApi')
+const { filteredKoppsData } = require('../apiCalls/koppsApi')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')

@@ -3,7 +3,7 @@
 const _ = require('lodash')
 const log = require('@kth/log')
 
-const statisticApis = require('./koppsApi')
+const statisticApis = require('./apiCalls/koppsApi')
 const config = require('./configuration').server
 
 const SCHOOL_MAP = {
