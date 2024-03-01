@@ -13,15 +13,6 @@ const courseAdminLink = (courseCode, language) => {
   return `/kursinfoadmin/kurser/kurs/${courseCode}${languageParameter}`
 }
 
-function replaceAdminUrlWithPublicUrl() {
-  const links = document.querySelectorAll('a')
-  links.forEach(link => {
-    const { href } = link
-    if (!href || href.includes('/kursinfoadmin/')) return
-    link.href = href.replace('//app', '//www')
-  })
-}
-
 function replaceSiteUrl(courseCode, language) {
   const siteNameElement = document.querySelector('.block.siteName a')
   if (siteNameElement) {
@@ -29,4 +20,4 @@ function replaceSiteUrl(courseCode, language) {
   }
 }
 
-export { courseAdminLink, goToStartPage, goToAdminStartPage, replaceAdminUrlWithPublicUrl, replaceSiteUrl }
+export { courseAdminLink, goToStartPage, goToAdminStartPage, replaceSiteUrl }

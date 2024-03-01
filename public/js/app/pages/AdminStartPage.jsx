@@ -10,7 +10,7 @@ import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
-import { replaceAdminUrlWithPublicUrl, replaceSiteUrl } from '../util/links'
+import { replaceSiteUrl } from '../util/links'
 
 function AdminStartPage() {
   const [context] = useWebContext()
@@ -29,7 +29,6 @@ function AdminStartPage() {
   React.useEffect(() => {
     let isMounted = true
     if (isMounted && typeof window !== 'undefined') {
-      replaceAdminUrlWithPublicUrl()
       replaceSiteUrl(courseCode, lang)
     }
     return () => (isMounted = false)
