@@ -22,6 +22,9 @@ function addCourseData(context, koppsData) {
     courseTitle: koppsData?.courseTitleData?.course_title,
     courseCredits: koppsData?.courseTitleData?.course_credits,
   }
+
+  // setting courseCode to context root for easier access in frontend than context.routeData.courseData
+  context.courseCode = koppsData?.courseTitleData?.course_code
 }
 
 function createEditCourseStartWebContext(args) {

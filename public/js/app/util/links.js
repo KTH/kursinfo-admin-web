@@ -13,11 +13,4 @@ const courseAdminLink = (courseCode, language) => {
   return `/kursinfoadmin/kurser/kurs/${courseCode}${languageParameter}`
 }
 
-function replaceSiteUrl(courseCode, language) {
-  const siteNameElement = document.querySelector('.block.siteName a')
-  if (siteNameElement) {
-    siteNameElement.href = courseAdminLink(courseCode, language)
-  }
-}
-
-export { courseAdminLink, goToStartPage, goToAdminStartPage, replaceSiteUrl }
+export { courseAdminLink, goToStartPage, goToAdminStartPage }

@@ -168,4 +168,9 @@ describe.each([
       courseCredits: mockKoppsData.courseTitleData.course_credits,
     })
   })
+
+  it('should set course code', () => {
+    const context = func(args)
+    expect(context.courseCode).toBe(mockKoppsData.courseTitleData.course_code)
+  })
 })

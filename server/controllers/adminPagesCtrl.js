@@ -26,6 +26,7 @@ async function getAdminStart(req, res, next) {
     webContext.setUserRolesForThisCourse(userRoles)
     // Load koppsData
     webContext.koppsData = await filteredKoppsData(courseCode, lang)
+    webContext.courseCode = courseCode
 
     const compressedData = getCompressedData(webContext)
 

@@ -10,7 +10,6 @@ import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
-import { replaceSiteUrl } from '../util/links'
 
 function AdminStartPage() {
   const [context] = useWebContext()
@@ -25,14 +24,6 @@ function AdminStartPage() {
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
   const publicPagesHref = publicHostUrl?.replace('.se/', '.se')
-
-  React.useEffect(() => {
-    let isMounted = true
-    if (isMounted && typeof window !== 'undefined') {
-      replaceSiteUrl(courseCode, lang)
-    }
-    return () => (isMounted = false)
-  }, [])
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page start-page col">

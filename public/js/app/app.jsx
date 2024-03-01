@@ -5,6 +5,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom' // matchPath
 import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
+import SiteHeaderUrlWrapper from './components/SiteHeaderUrlWrapper'
 import AdminStartPage from './pages/AdminStartPage'
 import DescriptionPage from './pages/DescriptionPage'
 import CourseEditStartPage from './pages/CourseEditStartPage'
@@ -36,13 +37,15 @@ _renderOnClientSide()
 function appFactory(applicationStore, context) {
   return (
     <WebContextProvider configIn={context}>
-      <Routes>
-        <Route exact path="/deprecated/statistik/:semester" element={<CourseStatisticsPage />} />
-        <Route exact path="/edit/:courseCode/otherInformation" element={<OtherInformationPage />} />
-        <Route exact path="/edit/:courseCode/description" element={<DescriptionPage />} />
-        <Route exact path="/edit/:courseCode" element={<CourseEditStartPage />} />
-        <Route exact path="/:courseCode" element={<AdminStartPage />} />
-      </Routes>
+      <SiteHeaderUrlWrapper>
+        <Routes>
+          <Route exact path="/deprecated/statistik/:semester" element={<CourseStatisticsPage />} />
+          <Route exact path="/edit/:courseCode/otherInformation" element={<OtherInformationPage />} />
+          <Route exact path="/edit/:courseCode/description" element={<DescriptionPage />} />
+          <Route exact path="/edit/:courseCode" element={<CourseEditStartPage />} />
+          <Route exact path="/:courseCode" element={<AdminStartPage />} />
+        </Routes>
+      </SiteHeaderUrlWrapper>
     </WebContextProvider>
   )
 }
