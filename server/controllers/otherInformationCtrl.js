@@ -7,7 +7,7 @@ const i18n = require('../../i18n')
 const { getLangIndex } = require('../utils/langUtil')
 const { HttpError } = require('../HttpError')
 const { filteredKoppsData } = require('../apiCalls/koppsApi')
-const { getCourseInfo, patchCourseInfo } = require('../apiCalls/kursInfoApi')
+const { getCourseInfo, patchCourseInfo, postCourseInfo } = require('../apiCalls/kursInfoApi')
 
 const { renderCoursePage } = require('../utils/renderPageUtil')
 const { createOtherInformationWebContext } = require('../utils/webContextUtil')
@@ -48,12 +48,22 @@ async function getOtherInformation(req, res, next) {
 async function updateOtherInformation(req, res, next) {
   try {
     const courseCode = extractCourseCodeOrThrow(req)
-    await patchCourseInfo(courseCode, {
+    const courseInfo = await getCourseInfo(courseCode)
+
+    const data = {
       supplementaryInfo: {
         sv: req.body.supplementaryInfoSv,
         en: req.body.supplementaryInfoEn,
       },
-    })
+      lastChangedBy: req.session.passport.user.ugKthid,
+    }
+
+    if (courseInfo.notFound) {
+      await postCourseInfo(courseCode, data)
+    } else {
+      await patchCourseInfo(courseCode, data)
+    }
+
     return res.sendStatus(200)
   } catch (error) {
     log.error('Error in otherInformationCtrl -> updateOtherInformation', { error })

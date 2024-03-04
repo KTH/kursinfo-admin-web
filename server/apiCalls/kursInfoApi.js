@@ -12,9 +12,17 @@ async function getCourseInfo(courseCode) {
     const { client, paths } = api.kursinfoApi
     const uri = client.resolve(paths.getCourseInfoByCourseCode.uri, { courseCode })
     const res = await client.getAsync({ uri })
+
+    if (res.response.statusCode === 404) {
+      return {
+        notFound: true,
+      }
+    }
+
     if (!res.response.ok) {
       throwGenericError()
     }
+
     if (res.body) {
       return res.body
     }
@@ -40,7 +48,25 @@ async function patchCourseInfo(courseCode, data) {
   }
 }
 
+async function postCourseInfo(courseCode, data) {
+  try {
+    const { client, paths } = api.kursinfoApi
+    const uri = client.resolve(paths.postCourseInfo.uri, { courseCode })
+    const res = await client.postAsync({
+      uri: uri,
+      body: { courseCode, ...data },
+    })
+
+    if (!res.response.ok) {
+      throwGenericError()
+    }
+  } catch (err) {
+    throwGenericError()
+  }
+}
+
 module.exports = {
   getCourseInfo,
   patchCourseInfo,
+  postCourseInfo,
 }

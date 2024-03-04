@@ -7,7 +7,7 @@ const i18n = require('../../i18n')
 const { getLangIndex } = require('../utils/langUtil')
 const { HttpError } = require('../HttpError')
 const { filteredKoppsData } = require('../apiCalls/koppsApi')
-const { getCourseInfo, patchCourseInfo } = require('../apiCalls/kursInfoApi')
+const { getCourseInfo, patchCourseInfo, postCourseInfo } = require('../apiCalls/kursInfoApi')
 
 const { createDescriptionWebContext } = require('../utils/webContextUtil')
 const { renderCoursePage } = require('../utils/renderPageUtil')
@@ -47,7 +47,9 @@ async function getDescription(req, res, next) {
 async function updateDescription(req, res, next) {
   try {
     const courseCode = extractCourseCodeOrThrow(req)
-    await patchCourseInfo(courseCode, {
+    const courseInfo = await getCourseInfo(courseCode)
+
+    const data = {
       sellingText: {
         sv: req.body.sellingTextSv,
         en: req.body.sellingTextEn,
@@ -57,7 +59,15 @@ async function updateDescription(req, res, next) {
         en: req.body.courseDispositionEn,
       },
       imageInfo: req.body.imageName,
-    })
+      lastChangedBy: req.session.passport.user.ugKthid,
+    }
+
+    if (courseInfo.notFound) {
+      await postCourseInfo(courseCode, data)
+    } else {
+      await patchCourseInfo(courseCode, data)
+    }
+
     return res.sendStatus(200)
   } catch (error) {
     log.error('Error in descriptionCtrl -> updateDescription', { error })

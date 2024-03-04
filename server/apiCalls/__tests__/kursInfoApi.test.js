@@ -31,6 +31,17 @@ describe('kursinfo-api', () => {
     expect(result).toStrictEqual(mockCourseInfo)
   })
 
+  test('getCourseInfo should return empty object with notFound flag in status code is 404', async () => {
+    const courseCode = 'abc123'
+    mockGetAsync.mockResolvedValueOnce({ response: { statusCode: 404, ok: false } })
+
+    const result = await getCourseInfo(courseCode)
+
+    expect(result).toStrictEqual({
+      notFound: true,
+    })
+  })
+
   test('patchCourseInfo should call patchAsync', async () => {
     const courseCode = 'abc123'
 

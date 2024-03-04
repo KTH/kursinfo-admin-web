@@ -121,6 +121,7 @@ describe.each([
 
   it('should call next for any thorwn error', async () => {
     const error = new Error('an error')
+    getCourseInfo.mockResolvedValueOnce({})
     patchCourseInfo.mockImplementationOnce(() => {
       throw error
     })
