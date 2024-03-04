@@ -164,9 +164,9 @@ module.exports = {
     },
   },
   startCards: {
-    sellingText_hd: 'Course introduction',
+    sellingText_hd: 'The page Before course selection',
     sellingText_desc_p1:
-      'Select your own image and write a course introduction to help students select a course that suits them. Course introduction displayed on the page Before course selection',
+      'Select your own image and write a course introduction to the help students select a course that suits them. The course introduction is displayed on the page Before course selection.',
     sellingText_desc_p2:
       'You can also choose to write information about the course disposition and add supplementary information.',
     sellingText_btn: 'Edit',

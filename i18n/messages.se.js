@@ -159,9 +159,9 @@ module.exports = {
     },
   },
   startCards: {
-    sellingText_hd: 'Introduktion till kursen',
+    sellingText_hd: 'Sidan inför kursval',
     sellingText_desc_p1:
-      'Välj en bild samt skriv en introduktion till kursen för att hjälpa studenten att göra rättkursval. Introduktionen till kursen visas överst på sidan Inför kursval.',
+      'Välj en bild samt skriv en introduktion till kursen för att hjälpa studenten att göra sitt kursval. Introduktionen till kursen visas överst på sidan Inför kursval.',
     sellingText_desc_p2: 'Du kan även välja att skriva information om kursupplägg samt lägga till övrig information.',
     sellingText_btn: 'Redigera',
     coursePM_hd: 'Kurs-PM',
