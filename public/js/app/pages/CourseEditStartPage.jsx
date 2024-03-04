@@ -13,7 +13,7 @@ function CourseEditStartPage() {
   const [context] = useWebContext()
   const labels = i18n.messages[context.langIndex].editCourseStart
   const { courseData, editOptions } = context.routeData
-  const pageTitleProps = { courseTitleData: courseData, pageTitle: labels.pageTitle }
+  const pageTitleProps = { courseTitleData: courseData, pageTitle: labels.pageHeader }
 
   if (context.koppsApiError) {
     return <KoppsErrorPage pageTitleProps={pageTitleProps} />

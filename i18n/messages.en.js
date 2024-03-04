@@ -65,7 +65,6 @@ module.exports = {
     course_admin_title: 'Administer',
     about_course: 'About course',
     administrate: 'Administer About course',
-    editSelling: 'Edit a course introduction',
     instruction_p1:
       'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. You can edit some information on the page Before course selection, create and publish Course memo and publish Course analysis and course data.',
     instruction_p2:
@@ -139,7 +138,7 @@ module.exports = {
           'Remember to inform your students that there is a new version of the course memo. Also inform about what changes that have been made in the last version.',
       },
       kinfo: {
-        pub: 'The course introduction has been published',
+        pub: 'The page Before course selection has been published',
         see_more: 'Image and text has been published on the page ',
       },
       alertinfo: {
@@ -166,7 +165,7 @@ module.exports = {
   startCards: {
     sellingText_hd: 'The page Before course selection',
     sellingText_desc_p1:
-      'Select your own image and write a course introduction to the help students select a course that suits them. The course introduction is displayed on the page Before course selection.',
+      'Select your own image and write a course introduction to the help the students select a course that suits them. The course introduction is displayed on the page Before course selection.',
     sellingText_desc_p2:
       'You can also choose to write information about the course disposition and add supplementary information.',
     sellingText_btn: 'Edit',
@@ -187,11 +186,11 @@ module.exports = {
     courseDev_btn_new: 'Publish new',
   },
   editCourseStart: {
-    pageTitle: 'Before course selection',
+    pageHeader: 'Before course selection',
     intro: 'Start by choosing which part of the page you want to edit. In the next step, you can edit your content.',
     header: 'Choose part to edit',
     options: {
-      description: 'Image, course introduction and disposition',
+      description: 'Image, course introduction and course disposition',
       otherInformation: 'Supplementary information',
     },
     nextButton: 'Edit',
@@ -201,7 +200,7 @@ module.exports = {
     step1: {
       label: 'Edit text',
       intro: `Here you add any additional information that may be important for the student to know. The text will be displayed at the bottom of the page Before course selection.`,
-      alert: `Please note that the texts are displayed for all course instances. If you have the same course with different course instances in the same semester, you may need to adjust the text accordingly. Specify a maximum of 2000 characters per text.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       fields: {
         supplementaryInfoSv: 'Supplementary information (SW)',
@@ -221,10 +220,10 @@ module.exports = {
   },
 
   editDescription: {
-    pageHeader: 'Course introduction and disposition',
+    pageHeader: 'Course introduction and course disposition',
     step1: {
       label: 'Choose image',
-      intro: `In step 1 of 3, select an image. In step 2 of 3, edit the introductory text. In step 3 of 3, review the image and text before you publish.`,
+      intro: `In step 1 of 3, select an image. In step 2 of 3, edit text. In step 3 of 3, review the image and text before you publish.`,
       nextButton: 'Edit text',
       headerModal: {
         header: 'Choose image',
@@ -255,8 +254,8 @@ module.exports = {
     },
     step2: {
       label: 'Edit text',
-      intro: `Here you enter a text that describes the course. The text will be display on the page Before course selection. There may be a text entered earlier via Kopps/Ladok, but if you enter a text here, it will be the one shown on the page Before course selection.`,
-      alert: `Please note that the texts are displayed for all course instances. If you have the same course with different course instances in the same semester, you may need to adjust the text accordingly. Specify a maximum of 2000 characters per text.`,
+      intro: `Here you enter a text that describes the course. The text will be display on the page Before course selection.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       backButton: 'Choose image',
       fields: {

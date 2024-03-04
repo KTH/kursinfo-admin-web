@@ -63,7 +63,6 @@ module.exports = {
     course_admin_title: 'Administrera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
-    editSelling: 'Redigera introduktion till kursen',
     instruction_p1:
       'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval, skapa och publicera kurs-PM samt ladda upp och publicera Kursanalys och kursdata.',
     instruction_p2:
@@ -135,7 +134,7 @@ module.exports = {
           'Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.',
       },
       kinfo: {
-        pub: 'Introduktion till kursen har publicerats ',
+        pub: 'Sidan Inför kursval har publicerats',
         see_more: 'Bild och text har publicerats på sidan',
       },
       alertinfo: {
@@ -182,7 +181,7 @@ module.exports = {
   },
 
   editCourseStart: {
-    pageTitle: 'Sidan Inför kursval',
+    pageHeader: 'Sidan Inför kursval',
     intro: 'Börja med att välja vilken del av sidan du vill redigera. I nästa steg kan du redigera ditt innehåll.',
     header: 'Välj del att redigera',
     options: {
@@ -197,7 +196,7 @@ module.exports = {
     step1: {
       label: 'Redigera text',
       intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på Sidan inför kursval.`,
-      alert: `Observera att texterna visas för samtliga kurstillfällen. Om du har samma kurs vid två olika tillfällen samma termin kan du därför behöva anpassa texten. Ange max 2000 tecken per text.`,
+      alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       fields: {
         supplementaryInfoSv: 'Övrig information (SV)',
@@ -221,7 +220,7 @@ module.exports = {
 
     step1: {
       label: 'Välj bild',
-      intro: `I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar den inledande texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.`,
+      intro: `I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.`,
       nextButton: 'Redigera text',
       headerModal: {
         header: 'Välj bild',
@@ -254,8 +253,8 @@ module.exports = {
     },
     step2: {
       label: 'Redigera text',
-      intro: `Här lägger du in en text som beskriver kursen. Texten kommer att visas för din kurs på sidan Inför kursval. Det kan finnas en beskrivande text inlagd sedan tidigare via Kopps/Ladok, men om du lägger in en text här är det den som visas på sidan Inför kursval.`,
-      alert: `Observera att texterna visas för samtliga kurstillfällen. Om du har samma kurs vid två olika tillfällen samma termin kan du därför behöva anpassa texten. Ange max 2000 tecken per text.`,
+      intro: `Här lägger du in en text som beskriver kursen. Texten kommer att visas för din kurs på sidan Inför kursval.`,
+      alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       backButton: 'Välj bild',
       fields: {

@@ -30,7 +30,7 @@ function DescriptionPage() {
   const [context] = useWebContext()
   const labels = i18n.messages[context.langIndex].editDescription
   const pageState = useDescriptionPageState([labels.step1, labels.step2, labels.step3])
-  const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageTitle }
+  const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageHeader }
 
   if (context.koppsApiError) {
     return <KoppsErrorPage pageTitleProps={pageTitleProps} />
