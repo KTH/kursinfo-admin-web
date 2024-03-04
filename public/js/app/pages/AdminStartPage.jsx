@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Card, CardBody, CardLink, CardTitle, CardText, CardFooter } from 'reactstrap'
 import i18n from '../../../../i18n'
 import PageTitle from '../components/PageTitle'
+import KoppsErrorPage from '../components/KoppsErrorPage'
 import LinkToAboutCourseInformation, { TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
@@ -15,15 +16,21 @@ function AdminStartPage() {
   const [context] = useWebContext()
   const [querySearchParams] = useSearchParams()
 
-  const { koppsData, publicHostUrl, userRoles } = context
-  const { courseTitleData, lang } = koppsData
-  const { course_code: courseCode } = courseTitleData
+  const { koppsData, publicHostUrl, userRoles, lang } = context
+  const { courseTitleData } = koppsData
+  const { courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
   const visibilityLevel =
     isCourseResponsible || isExaminator || isKursinfoAdmin || isSuperUser || isSchoolAdmin ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
   const publicPagesHref = publicHostUrl?.replace('.se/', '.se')
+
+  const pageTitleProps = { courseTitleData, pageTitle: pageTitles.administrate }
+
+  if (context.koppsApiError) {
+    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  }
 
   return (
     <div key="kursinfo-container" className="kursinfo-main-page start-page col">
@@ -35,7 +42,7 @@ function AdminStartPage() {
       />
 
       {/* ---COURSE TITEL--- */}
-      <PageTitle key="title" courseTitleData={courseTitleData} pageTitle={pageTitles.administrate} language={lang} />
+      <PageTitle {...pageTitleProps} />
 
       <TextAboutRights lang={lang} translate={pageTitles} />
 
@@ -126,14 +133,14 @@ function AdminStartPage() {
               </CardBody>
               <CardFooter className="text-right">
                 <a
-                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
+                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.courseTitle}_${courseTitleData.courseCredits}`}
                   className="btn btn-primary"
                   aria-label={startCards.courseDev_btn_new}
                 >
                   {startCards.courseDev_btn_new}
                 </a>
                 <a
-                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.course_title}_${courseTitleData.course_credits}`}
+                  href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.courseTitle}_${courseTitleData.courseCredits}`}
                   className="btn btn-primary"
                   aria-label={startCards.courseDev_btn_edit}
                 >

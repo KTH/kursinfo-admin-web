@@ -11,7 +11,9 @@ const api = require('../api')
 const { getAllImagesBlobNames } = require('../blobStorage.js')
 const serverPaths = require('../server').getPaths()
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
+const { getLangIndex } = require('../utils/langUtil')
 const { createServerSideContext } = require('../ssr-context/createServerSideContext')
+const { HttpError } = require('../HttpError')
 
 async function getAdminStart(req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
@@ -20,12 +22,24 @@ async function getAdminStart(req, res, next) {
 
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
-    const webContext = { lang, proxyPrefixPath: serverConfig.proxyPrefixPath, ...createServerSideContext() }
+    const langIndex = getLangIndex(lang)
+    const messages = i18n.messages[langIndex].messages
+    const webContext = {
+      lang,
+      langIndex,
+      proxyPrefixPath: serverConfig.proxyPrefixPath,
+      ...createServerSideContext(),
+    }
     /* ------- Settings ------- */
     webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     webContext.setUserRolesForThisCourse(userRoles)
     // Load koppsData
-    webContext.koppsData = await filteredKoppsData(courseCode, lang)
+    const koppsData = await filteredKoppsData(courseCode, lang)
+    if (koppsData.apiError && koppsData.statusCode === 404) {
+      throw new HttpError(404, messages.error_not_found)
+    }
+    webContext.koppsApiError = koppsData.apiError
+    webContext.koppsData = koppsData
     webContext.courseCode = courseCode
 
     const compressedData = getCompressedData(webContext)
@@ -43,8 +57,8 @@ async function getAdminStart(req, res, next) {
       compressedData,
       debug: 'debug' in req.query,
       instrumentationKey: serverConfig.appInsights.instrumentationKey,
-      title: courseCode + ' | ' + i18n.messages[lang === 'en' ? 0 : 1].messages.title,
-      description: i18n.messages[lang === 'en' ? 0 : 1].messages.description,
+      title: `${courseCode} | ${messages.title}`,
+      description: messages.description,
       html: view,
       lang,
       paths: JSON.stringify(serverPaths), // don't remove it, it's needed for handlebars

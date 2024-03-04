@@ -51,6 +51,7 @@ describe.each([
   if (!skipKursinfoTests) {
     it('should call kursinfoApi with courseCode', async () => {
       const courseCode = 'ABC123'
+      filteredKoppsData.mockResolvedValueOnce({})
       await reqHandler(endpoint, { params: { courseCode } })
       expect(getCourseInfo).toHaveBeenCalledWith(courseCode)
     })
@@ -65,6 +66,7 @@ describe.each([
 
   it('should call renderCoursePage', async () => {
     const mockWebContext = { mockProp: 'WebContext123' }
+    filteredKoppsData.mockResolvedValueOnce({})
     createWebContext.mockReturnValueOnce(mockWebContext)
 
     const { req, res } = await reqHandler(endpoint, { params: { courseCode: 'abc123' } })
@@ -91,6 +93,20 @@ describe.each([
       koppsData: koppsInfo,
       courseInfo: !skipKursinfoTests ? courseInfo : undefined,
     })
+  })
+
+  it('should call next with HttpError if course code it not found in kopps', async () => {
+    filteredKoppsData.mockResolvedValueOnce({
+      apiError: true,
+      statusCode: 404,
+    })
+    const { next } = await reqHandler(endpoint, { params: { courseCode: 'ABC123' } })
+    expect(next).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: 404,
+        isHttpError: true,
+      })
+    )
   })
 })
 

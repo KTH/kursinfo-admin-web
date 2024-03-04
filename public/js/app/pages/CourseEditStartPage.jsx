@@ -2,6 +2,7 @@ import React from 'react'
 
 import i18n from '../../../../i18n'
 import ControlButtons from '../components/ControlButtons'
+import KoppsErrorPage from '../components/KoppsErrorPage'
 import PageTitle from '../components/PageTitle'
 import { useWebContext } from '../context/WebContext'
 
@@ -12,12 +13,17 @@ function CourseEditStartPage() {
   const [context] = useWebContext()
   const labels = i18n.messages[context.langIndex].editCourseStart
   const { courseData, editOptions } = context.routeData
+  const pageTitleProps = { courseTitleData: courseData, pageTitle: labels.pageTitle }
+
+  if (context.koppsApiError) {
+    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  }
 
   const targetLink = editOptions[selectedOption]
 
   return (
     <div className="kursinfo-main-page CourseEditStartPage">
-      <PageTitle pageTitle={labels.pageTitle} courseTitleData={courseData} />
+      <PageTitle {...pageTitleProps} />
 
       <p>{labels.intro}</p>
 

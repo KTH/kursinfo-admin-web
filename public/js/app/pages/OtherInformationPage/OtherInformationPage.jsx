@@ -2,6 +2,7 @@ import React from 'react'
 
 import i18n from '../../../../../i18n'
 import PageTitle from '../../components/PageTitle'
+import KoppsErrorPage from '../../components/KoppsErrorPage'
 import ProgressBar, { useProgressBar } from '../../components/ProgressBar'
 import { useWebContextTextInput } from '../../components/WebContextTextInput/useWebContextTextInput'
 import { useWebContext } from '../../context/WebContext'
@@ -27,10 +28,15 @@ function OtherInformationPage() {
   const [context] = useWebContext()
   const labels = i18n.messages[context.langIndex].editOtherInformation
   const pageState = useOtherInformationPageState([labels.step1, labels.step2])
+  const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageTitle }
+
+  if (context.koppsApiError) {
+    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  }
 
   return (
     <div className="kursinfo-main-page">
-      <PageTitle pageTitle={labels.pageHeader} courseTitleData={context.routeData.courseData} />
+      <PageTitle {...pageTitleProps} />
       <ProgressBar {...pageState.progress} />
 
       {pageState.progress.current === 0 && <OtherInformationTextEdit pageState={pageState} />}

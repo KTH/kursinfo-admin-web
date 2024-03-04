@@ -2,6 +2,7 @@ import React from 'react'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import PageTitle from '../../components/PageTitle'
+import KoppsErrorPage from '../../components/KoppsErrorPage'
 import ProgressBar, { useProgressBar } from '../../components/ProgressBar'
 import { useWebContextTextInput } from '../../components/WebContextTextInput/useWebContextTextInput'
 
@@ -29,10 +30,15 @@ function DescriptionPage() {
   const [context] = useWebContext()
   const labels = i18n.messages[context.langIndex].editDescription
   const pageState = useDescriptionPageState([labels.step1, labels.step2, labels.step3])
+  const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageTitle }
+
+  if (context.koppsApiError) {
+    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  }
 
   return (
     <div className="kursinfo-main-page">
-      <PageTitle pageTitle={labels.pageHeader} courseTitleData={context.routeData.courseData} />
+      <PageTitle {...pageTitleProps} />
       <ProgressBar {...pageState.progress} />
 
       {pageState.progress.current === 0 && <DescriptionImageEdit pageState={pageState} />}

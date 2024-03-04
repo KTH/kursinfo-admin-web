@@ -11,9 +11,9 @@ jest.mock('../../server')
 const mockUserId = 'userId'
 const mockKoppsData = {
   courseTitleData: {
-    course_code: 'ABC321',
-    course_title: 'TestCourseTitle',
-    course_credits: 123,
+    courseCode: 'ABC321',
+    courseTitle: 'TestCourseTitle',
+    courseCredits: 123,
   },
 }
 
@@ -128,7 +128,7 @@ describe('webContextUtil - otherInformation', () => {
 
 describe.each([
   { name: 'editCourseStart', func: createEditCourseStartWebContext, args: testArgsStart },
-  { name: 'description', func: createDescriptionWebContext, args: testArgsOtherInformation },
+  { name: 'description', func: createDescriptionWebContext, args: testArgsDescription },
   { name: 'otherInformation', func: createOtherInformationWebContext, args: testArgsOtherInformation },
 ])('webContextUtil - $name - shared values', ({ func, args }) => {
   it('should set user', () => {
@@ -163,14 +163,26 @@ describe.each([
     const context = func(args)
     expect(context.routeData).toBeDefined()
     expect(context.routeData.courseData).toMatchObject({
-      courseCode: mockKoppsData.courseTitleData.course_code,
-      courseTitle: mockKoppsData.courseTitleData.course_title,
-      courseCredits: mockKoppsData.courseTitleData.course_credits,
+      courseCode: mockKoppsData.courseTitleData.courseCode,
+      courseTitle: mockKoppsData.courseTitleData.courseTitle,
+      courseCredits: mockKoppsData.courseTitleData.courseCredits,
     })
+    expect(context.koppsApiError).toBeFalsy()
   })
 
   it('should set course code', () => {
     const context = func(args)
     expect(context.courseCode).toBe(mockKoppsData.courseTitleData.course_code)
+  })
+
+  it('should set kopps api error flag', () => {
+    const context = func({
+      ...args,
+      koppsData: {
+        apiError: true,
+        statusCode: 500,
+      },
+    })
+    expect(context.koppsApiError).toBeTrue()
   })
 })

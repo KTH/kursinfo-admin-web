@@ -1,21 +1,12 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
-
-import i18n from '../../../../i18n'
 
 import { useWebContext } from '../context/WebContext'
 import { EMPTY } from '../util/constants'
 
-const ApiError = ({ langIndex }) => (
-  <Alert color="info" aria-live="polite">
-    {i18n.messages[langIndex].pageTitles.alertMessages.kopps_api_down}
-  </Alert>
-)
-
 function parseCourseName(title, langIndex, language) {
-  const courseCode = title?.courseCode ?? title.course_code
-  const courseCredits = title?.courseCredits ?? title.course_credits
-  const courseTitle = title?.courseTitle ?? title.course_title
+  const courseCode = title?.courseCode
+  const courseCredits = title?.courseCredits
+  const courseTitle = title?.courseTitle
   if (!courseCredits && !courseCode && !courseTitle) return ''
   if (courseCode && !courseCredits && !courseTitle) return courseCode
 
@@ -33,8 +24,7 @@ const PageTitle = ({ courseTitleData, pageTitle }) => {
   const [context] = useWebContext()
   const language = context.lang
   const langIndex = context.langIndex
-  const courseCode = courseTitleData.courseCode ?? courseTitleData.course_code
-  const { apiError } = courseTitleData
+  const courseCode = courseTitleData.courseCode
 
   const courseName = parseCourseName(courseTitleData, langIndex, language)
   return (
@@ -43,7 +33,6 @@ const PageTitle = ({ courseTitleData, pageTitle }) => {
         <span className="t1">{pageTitle}</span>
         <span className="t4">{courseCode && courseName}</span>
       </span>
-      {apiError && <ApiError langIndex={langIndex} />}
     </header>
   )
 }

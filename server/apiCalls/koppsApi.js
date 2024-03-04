@@ -34,17 +34,18 @@ const kursPmDataApiConfig = {
 }
 const kursPmDataApi = connections.setup(kursPmDataApiConfig, config.apiKey)
 
-const koppsCourseData = async courseCode => {
+const getKoppsCourseData = async courseCode => {
   const { client } = api.koppsApi
   const uri = `${config.koppsApi.basePath}course/${encodeURIComponent(courseCode)}`
   try {
-    const { body: course, statusCode } = await client.getAsync({ uri, useCache: true })
+    const resp = await client.getAsync({ uri, useCache: true })
 
-    if (!course || statusCode !== 200) {
+    const { body, statusCode } = resp
+    if (!body || statusCode !== 200) {
       log.debug(`Failed response ${statusCode} from KOPPS API calling ${uri}`)
     }
 
-    return course
+    return { body, statusCode }
   } catch (err) {
     log.error('Exception calling from koppsAPI in koppsApi.koppsCourseData', { error: err })
     throw err
@@ -77,48 +78,46 @@ function parseOrSetEmpty(value, lang = 'sv') {
 
 const filteredKoppsData = async (courseCode, lang = 'sv') => {
   try {
-    const course = await koppsCourseData(courseCode)
-    const { code, credits, info = {}, mainSubjects, title } = course
+    const { body: course, statusCode } = await getKoppsCourseData(courseCode)
+
+    if (statusCode !== 200) {
+      return {
+        apiError: true,
+        statusCode,
+        courseTitleData: {
+          course_code: courseCode.toUpperCase(),
+        },
+      }
+    }
+
+    const { code, credits, mainSubjects, title } = course
     log.debug('Got kopps data for course', courseCode, code)
 
     const courseTitleData = {
-      course_code: parseOrSetEmpty(code, lang),
-      course_title: parseOrSetEmpty(title[lang], lang),
-      course_credits: parseOrSetEmpty(credits, lang),
-      apiError: false,
-    }
-    const koppsText = {
-      // kopps recruitmentText
-      sv: parseOrSetEmpty(info.sv, lang),
-      en: parseOrSetEmpty(info.en, lang),
+      courseCode: parseOrSetEmpty(code, lang),
+      courseTitle: parseOrSetEmpty(title[lang], lang),
+      courseCredits: parseOrSetEmpty(credits, lang),
     }
 
     const mainSubject = mainSubjects
       ? mainSubjects.map(({ name: subjectName }) => (subjectName ? subjectName.sv || ' ' : ' ')).sort()[0] // course AK204V
       : ' '
+
     return {
-      koppsText,
+      apiError: false,
       mainSubject,
       courseTitleData,
-      lang,
-      langIndex: lang === 'en' ? 0 : 1,
+      statusCode,
     }
   } catch (error) {
     log.error('Error in filteredKoppsData while trying to filter data from KOPPS', { error })
-    const courseTitleData = {
-      course_code: courseCode.toUpperCase(),
-      apiError: true,
-    }
-    const koppsText = {
-      // kopps recruitmentText
-      sv: ' ',
-      en: ' ',
-    }
+
     return {
-      courseTitleData,
-      koppsText,
+      apiError: true,
       mainSubject: ' ',
-      lang,
+      courseTitleData: {
+        courseCode: courseCode.toUpperCase(),
+      },
     }
   }
 }
