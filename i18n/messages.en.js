@@ -254,7 +254,7 @@ module.exports = {
     },
     step2: {
       label: 'Edit text',
-      intro: `Here you enter a text that describes the course. The text will be display on the page Before course selection.`,
+      intro: `In the Course introduction section, you briefly describe the content of the course. In the Course disposition section, you provide an overview of how the teaching is organized to facilitate the student in choosing the course. The text will be displayed on the page Before course selection. The page is shown in both Swedish and English, so please include text in both languages. The text under Course introduction section will also be displayed in KTH's search tool for freestanding courses.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       backButton: 'Choose image',

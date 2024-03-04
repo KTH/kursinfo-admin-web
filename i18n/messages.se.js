@@ -253,7 +253,7 @@ module.exports = {
     },
     step2: {
       label: 'Redigera text',
-      intro: `Här lägger du in en text som beskriver kursen. Texten kommer att visas för din kurs på sidan Inför kursval.`,
+      intro: `Under Introduktion till kursen beskriver du kortfattat kursens innehåll, under Kursupplägg beskriver du på ett övergripande sätt hur undervisningen är upplagd, för att underlätta för studenten vid val av kurs. Texten kommer att visas för din kurs på sidan Inför kursval. Sidan visas både på svenska och engelska, lägg därför gärna in text på båda språken. Texten under Introduktion till kursen kommer även att visas i KTH:s sökverktyg för fristående kurser.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       backButton: 'Välj bild',
