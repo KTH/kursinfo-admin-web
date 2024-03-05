@@ -24,11 +24,25 @@ const useImageInput = () => {
     })
   }
 
-  const onCheckTermsChanged = checked => setState({ ...state, termsChecked: checked })
+  const onCheckTermsChanged = checked => setState({ ...state, termsChecked: checked, error: null })
 
-  const setImage = newImage => setState({ ...state, newImage })
+  const setImage = newImage => setState({ ...state, newImage, termsChecked: false, error: null })
 
-  const setError = () => {}
+  const setError = error => setState({ ...state, error: error })
+
+  const doSubmitValidation = () => {
+    if (state.hasCustomImage) {
+      if (state.newImage && !state.termsChecked) {
+        setError('approve_term')
+        return false
+      }
+      if (!state.newImage && !imageFromApi.url) {
+        setError('no_file_chosen')
+        return false
+      }
+    }
+    return true
+  }
 
   const hasChanged = React.useMemo(() => {
     if (imageFromApi.hasCustomImage !== state.hasCustomImage) return true
@@ -55,6 +69,7 @@ const useImageInput = () => {
     onCheckTermsChanged,
     setImage,
     setError,
+    doSubmitValidation,
   }
 }
 

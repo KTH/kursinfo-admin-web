@@ -25,10 +25,6 @@ export default function DescriptionImageEdit({ pageState }) {
 
   const isDefaultImageSelected = !imageInputState.hasCustomImage
 
-  const disableNextButton = imageInputState.isDefaultImageSelected
-    ? false
-    : imageInputState.error || (!!imageInputState.newImage && !imageInputState.termsChecked)
-
   async function onFileInputChanged(inputEvent) {
     const [imageFile] = inputEvent.target.files
     const { imageFilePath, imageFormData } = await compressFile(imageFile)
@@ -44,15 +40,19 @@ export default function DescriptionImageEdit({ pageState }) {
     imageInputState.onInputTypeChanged(event.target.value === IMAGE_TYPE_CUSTOM_IMAGE)
   }
   const onNext = () => {
-    if (!disableNextButton) pageState.progress.goToNext()
+    if (imageInputState.doSubmitValidation()) {
+      pageState.progress.goToNext()
+    }
   }
 
   return (
     <>
       <span className="Upload--Area col">
         {isDefaultImageSelected && imageFromApi.hasCustomImage && (
-          <Alert color="info">{texts.alertMessages['replace_api_with_default']}</Alert>
+          <Alert color="info">{texts.alertMessages.replace_api_with_default}</Alert>
         )}
+
+        {imageInputState.error && <Alert color="danger">{texts.alertMessages[imageInputState.error]}</Alert>}
 
         <span className="title_and_info">
           <h2 data-testid="intro-heading">
@@ -89,7 +89,7 @@ export default function DescriptionImageEdit({ pageState }) {
           </div>
         </form>
 
-        <div className="image-area">
+        <div className={`image-area ${imageInputState.error === 'no_file_chosen' ? 'error-area' : ''}`}>
           <span className="preview-pic">
             {imageInputState.previewImageUrl ? (
               <img src={imageInputState.previewImageUrl} alt={texts.image.alt} height="auto" width="300px" />
@@ -110,7 +110,7 @@ export default function DescriptionImageEdit({ pageState }) {
               accept={VALID_FILE_TYPES.join(',')}
               btnLabel={texts.image.choose}
             >
-              {imageInputState.newImage && (
+              {imageInputState.newImage && imageFromApi.hasCustomImage && (
                 <Button
                   color="secondary"
                   onClick={() => {
@@ -127,7 +127,11 @@ export default function DescriptionImageEdit({ pageState }) {
         {imageInputState.newImage && (
           <form>
             <div className="form-group">
-              <div className={'form-check form-group input-label-row'}>
+              <div
+                className={`form-check form-group input-label-row ${
+                  imageInputState.error === 'approve_term' ? 'error-area' : ''
+                }`}
+              >
                 <input
                   type="checkbox"
                   onChange={event => imageInputState.onCheckTermsChanged(event.target.checked)}
@@ -148,15 +152,13 @@ export default function DescriptionImageEdit({ pageState }) {
             </div>
           </form>
         )}
-
-        {imageInputState.error && <Alert color="danger">{texts.alertMessages[imageInputState.error]}</Alert>}
       </span>
 
       <ControlButtons
         pageState={pageState}
         next={{
           onClick: onNext,
-          disabled: disableNextButton,
+          disabled: !!imageInputState.error,
           label: texts.nextButton,
         }}
       />
