@@ -85,7 +85,7 @@ const filteredKoppsData = async (courseCode, lang = 'sv') => {
         apiError: true,
         statusCode,
         courseTitleData: {
-          course_code: courseCode.toUpperCase(),
+          courseCode: courseCode.toUpperCase(),
         },
       }
     }

@@ -24,7 +24,7 @@ function addCourseData(context, koppsData) {
   }
 
   // setting courseCode to context root for easier access in frontend than context.routeData.courseData
-  context.courseCode = koppsData?.courseTitleData?.course_code
+  context.courseCode = koppsData?.courseTitleData?.courseCode
   context.koppsApiError = koppsData?.apiError
 }
 

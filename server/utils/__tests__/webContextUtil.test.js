@@ -172,7 +172,7 @@ describe.each([
 
   it('should set course code', () => {
     const context = func(args)
-    expect(context.courseCode).toBe(mockKoppsData.courseTitleData.course_code)
+    expect(context.courseCode).toBe(mockKoppsData.courseTitleData.courseCode)
   })
 
   it('should set kopps api error flag', () => {
