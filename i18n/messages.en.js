@@ -187,7 +187,8 @@ module.exports = {
   },
   editCourseStart: {
     pageHeader: 'Before course selection',
-    intro: 'Start by choosing which part of the page you want to edit. In the next step, you can edit your content.',
+    intro:
+      'Start by choosing which part of the page you want to edit. In the next step, you can edit your content. Image and text will be published on the page Before course selection.',
     header: 'Choose part to edit',
     options: {
       description: 'Image, course introduction and course disposition',
@@ -223,7 +224,7 @@ module.exports = {
     pageHeader: 'Course introduction and course disposition',
     step1: {
       label: 'Choose image',
-      intro: `In step 1 of 3, select an image. In step 2 of 3, edit text. In step 3 of 3, review the image and text before you publish.`,
+      intro: 'In this step, you can choose between a standard image or upload your own.',
       nextButton: 'Edit text',
       headerModal: {
         header: 'Choose image',
@@ -254,7 +255,7 @@ module.exports = {
     },
     step2: {
       label: 'Edit text',
-      intro: `In the Course introduction section, you briefly describe the content of the course. In the Course disposition section, you provide an overview of how the teaching is organized to facilitate the student in choosing the course. The text will be displayed on the page Before course selection. The page is shown in both Swedish and English, so please include text in both languages. The text under Course introduction section will also be displayed in KTH's search tool for freestanding courses.`,
+      intro: `Describe briefly the course content under “Introduction to the Course” and provide a brief overview of how the teaching is structured under “Course disposition.” The page is displayed in both Swedish and English, so include text in both languages.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       backButton: 'Choose image',

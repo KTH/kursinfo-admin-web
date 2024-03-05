@@ -182,7 +182,8 @@ module.exports = {
 
   editCourseStart: {
     pageHeader: 'Sidan Inför kursval',
-    intro: 'Börja med att välja vilken del av sidan du vill redigera. I nästa steg kan du redigera ditt innehåll.',
+    intro:
+      'Börja med att välja vilken del av sidan du vill redigera. I nästa steg kan du redigera ditt innehåll. Bild och text kommer att publiceras på sidan Inför kursval',
     header: 'Välj del att redigera',
     options: {
       description: 'Bild, introduktion till kursen och kursupplägg',
@@ -220,7 +221,7 @@ module.exports = {
 
     step1: {
       label: 'Välj bild',
-      intro: `I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.`,
+      intro: 'I detta steg kan du välja mellan en standardbild eller ladda upp en egen.',
       nextButton: 'Redigera text',
       headerModal: {
         header: 'Välj bild',
@@ -253,7 +254,7 @@ module.exports = {
     },
     step2: {
       label: 'Redigera text',
-      intro: `Under Introduktion till kursen beskriver du kortfattat kursens innehåll, under Kursupplägg beskriver du på ett övergripande sätt hur undervisningen är upplagd, för att underlätta för studenten vid val av kurs. Texten kommer att visas för din kurs på sidan Inför kursval. Sidan visas både på svenska och engelska, lägg därför gärna in text på båda språken. Texten under Introduktion till kursen kommer även att visas i KTH:s sökverktyg för fristående kurser.`,
+      intro: `Beskriv kortfattat kursinnehållet under ”Introduktion till kursen” och ge en översiktlig beskrivningen av hur undervisningen är upplagd under ”Kursupplägg”. Sidan visas på både svenska och engelska, så inkludera text på båda språken.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       backButton: 'Välj bild',
