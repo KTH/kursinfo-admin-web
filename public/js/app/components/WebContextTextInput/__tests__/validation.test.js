@@ -32,4 +32,12 @@ describe('Text input validation', () => {
     const res = validateCkEditorLength(htmlText, cleanText, langIndex)
     expect(res.errorMessage).toBe('HTML texten får bara bestå av 10 000 tecken')
   })
+
+  it('should return errorMessage for "clean text" when both "clean" and "html" are too long', () => {
+    const cleanText = 'A'.repeat(2001)
+    const htmlText = 'A'.repeat(10001)
+    const langIndex = 1
+    const res = validateCkEditorLength(htmlText, cleanText, langIndex)
+    expect(res.errorMessage).toBe('Texten får bara bestå av 2 000 tecken')
+  })
 })
