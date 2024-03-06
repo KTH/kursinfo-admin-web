@@ -255,7 +255,7 @@ module.exports = {
     },
     step2: {
       label: 'Edit text',
-      intro: `Describe briefly the course content under “Introduction to the Course” and provide a brief overview of how the teaching is structured under “Course disposition.” The page is displayed in both Swedish and English, so include text in both languages.`,
+      intro: `Describe briefly the course content under “Introduction to the course” and provide a brief overview of how the teaching is structured under “Course disposition.” The page is displayed in both Swedish and English, so include text in both languages.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       backButton: 'Choose image',
