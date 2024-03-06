@@ -55,7 +55,7 @@ function doUpsertItem(courseCode, values) {
   return doPostApiCall(url, data)
 }
 
-function doUpdateOtherInformation(courseCode, values) {
+function doUpsertOtherInformation(courseCode, values) {
   const url = this.buildApiUrl(this.paths.course.updateOtherInformation.uri, { courseCode })
   const data = { ...values, user: this.user }
   return doPostApiCall(url, data)
@@ -65,7 +65,7 @@ function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
     doUpsertItem,
-    doUpdateOtherInformation,
+    doUpsertOtherInformation,
   }
   return functions
 }

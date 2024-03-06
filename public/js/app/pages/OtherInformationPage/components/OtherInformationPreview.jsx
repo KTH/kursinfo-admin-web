@@ -26,7 +26,7 @@ export default function OtherInformationPreview({ pageState }) {
       isError: false,
     })
     try {
-      await context.doUpdateOtherInformation(courseCode, textInputValues)
+      await context.doUpsertOtherInformation(courseCode, textInputValues)
       goToAdminStartPage(courseCode, context.lang, 'pub')
     } catch (err) {
       setSubmitState({

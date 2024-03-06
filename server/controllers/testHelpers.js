@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 async function reqHandler(
   endpoint,
   req,

@@ -9,7 +9,7 @@ import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
 import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo'
 import { useWebContext } from '../context/WebContext'
-import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_OM_COURSE } from '../util/constants'
+import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_ABOUT_COURSE } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
 
 function AdminStartPage() {
@@ -76,7 +76,7 @@ function AdminStartPage() {
               </CardBody>
               <CardFooter className="text-right">
                 <a
-                  href={`${ADMIN_OM_COURSE}edit/${courseCode}?l=${lang}`}
+                  href={`${ADMIN_ABOUT_COURSE}edit/${courseCode}?l=${lang}`}
                   aria-label={startCards.sellingText_btn}
                   className="btn btn-primary"
                 >

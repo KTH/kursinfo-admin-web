@@ -3,7 +3,7 @@ import { Button, Col } from 'reactstrap'
 
 import i18n from '../../../../i18n'
 import { useWebContext } from '../context/WebContext'
-import { ADMIN_OM_COURSE, CANCEL_PARAMETER } from '../util/constants'
+import { ADMIN_ABOUT_COURSE, CANCEL_PARAMETER } from '../util/constants'
 import ButtonModal from './ButtonModal'
 
 export default function ControlButtons({ pageState, back, next }) {
@@ -31,7 +31,7 @@ export default function ControlButtons({ pageState, back, next }) {
           course={pageState?.courseCode}
           btnLabel={cancelLabel}
           modalLabels={confirmModalsLabels.cancel}
-          returnToUrl={`${ADMIN_OM_COURSE}${pageState?.courseCode}${CANCEL_PARAMETER}`}
+          returnToUrl={`${ADMIN_ABOUT_COURSE}${pageState?.courseCode}${CANCEL_PARAMETER}`}
         />
       </Col>
       <Col sm="4">

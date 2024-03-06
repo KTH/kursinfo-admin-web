@@ -7,7 +7,7 @@ const mockGetAsync = jest.fn().mockResolvedValue({
 
 const mockPatchAsync = jest.fn().mockResolvedValue({
   response: {
-    statusCode: 200,
+    statusCode: 201,
     ok: true,
   },
 })

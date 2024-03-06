@@ -4,7 +4,7 @@ export const COURSE_PMDATA_URL = '/kurs-pm/'
 export const COURSE_UTVECKLING = '/kursutveckling/'
 export const ADMIN_COURSE_PM = '/kursinfoadmin/pm/'
 export const ADMIN_COURSE_PM_DATA = '/kursinfoadmin/kurs-pm-data/'
-export const ADMIN_OM_COURSE = '/kursinfoadmin/kurser/kurs/'
+export const ADMIN_ABOUT_COURSE = '/kursinfoadmin/kurser/kurs/'
 export const ADMIN_COURSE_UTV = '/kursinfoadmin/kursutveckling/'
 export const USER_MANUAL_URL = {
   en: 'https://intra.kth.se/en/utbildning/systemstod/om-kursen/om-kursen-1.1020344',
