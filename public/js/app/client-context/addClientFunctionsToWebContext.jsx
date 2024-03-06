@@ -31,19 +31,15 @@ function buildApiUrl(path, params) {
   return [host, newPath].join('')
 }
 
-function doUpsertItem(text, courseCode, imageName) {
+function doPostApiCall(url, data) {
   return axios
-    .post(this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode }), {
-      sellingText: text,
-      imageName,
-      user: this.user,
-    })
+    .post(url, data)
     .then(res => {
       if (safeGet(() => res.data.body.message)) {
         const { message: msg } = res.data.body
         throw new Error(msg)
       }
-      return text
+      return {}
     })
     .catch(err => {
       if (err.response) {
@@ -53,10 +49,23 @@ function doUpsertItem(text, courseCode, imageName) {
     })
 }
 
+function doUpsertItem(courseCode, values) {
+  const url = this.buildApiUrl(this.paths.course.updateDescription.uri, { courseCode })
+  const data = { ...values, user: this.user }
+  return doPostApiCall(url, data)
+}
+
+function doUpsertOtherInformation(courseCode, values) {
+  const url = this.buildApiUrl(this.paths.course.updateOtherInformation.uri, { courseCode })
+  const data = { ...values, user: this.user }
+  return doPostApiCall(url, data)
+}
+
 function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
     doUpsertItem,
+    doUpsertOtherInformation,
   }
   return functions
 }

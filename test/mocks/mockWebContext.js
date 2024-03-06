@@ -6,9 +6,9 @@ const mockWebContext = {
     },
     mainSubject: 'Matematik',
     courseTitleData: {
-      course_code: 'SF1624',
-      course_title: 'Algebra och geometri',
-      course_credits: 7.5,
+      courseCode: 'SF1624',
+      courseTitle: 'Algebra och geometri',
+      courseCredits: 7.5,
       apiError: false,
     },
     lang: 'sv',

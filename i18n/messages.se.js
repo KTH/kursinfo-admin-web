@@ -61,15 +61,10 @@ module.exports = {
   },
   pageTitles: {
     course_admin_title: 'Administrera',
-    header_progress_select_pic: '1. Välj bild',
-    header_progress_edit: '2. Redigera text',
-    header_progress_review: '3. Granska och publicera',
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
-    editSelling: 'Redigera introduktion till kursen',
-    previewSelling: 'Förhandsgranska introduktion till kursen',
     instruction_p1:
-      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Informationen som går att redigera är: Introduktion till kursen, Kurs-PM samt Kursanalys och kursdata.',
+      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval, skapa och publicera kurs-PM samt ladda upp och publicera Kursanalys och kursdata.',
     instruction_p2:
       'På Om kursens sidor finns även information som hämtats från Kopps. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Kopps.',
     instruction_p3_start:
@@ -139,7 +134,7 @@ module.exports = {
           'Kom ihåg att informera dina studenter om att det finns en ny version av kurs-PM. Tänk även på att informera om vilka ändringar som gjorts.',
       },
       kinfo: {
-        pub: 'Introduktion till kursen har publicerats ',
+        pub: 'Sidan Inför kursval har publicerats',
         see_more: 'Bild och text har publicerats på sidan',
       },
       alertinfo: {
@@ -163,10 +158,10 @@ module.exports = {
     },
   },
   startCards: {
-    sellingText_hd: 'Introduktion till kursen',
+    sellingText_hd: 'Sidan inför kursval',
     sellingText_desc_p1:
-      'Välj en egen dekorativ bild och/eller ersätt den korta kursbeskrivningen i Kopps med en mer informativ introduktion till kursen, för att hjälpa studenten att göra rätt kursval.',
-    sellingText_desc_p2: 'Introduktion till kursen visas överst på sidan: Inför kursval.',
+      'Välj en bild samt skriv en introduktion till kursen för att hjälpa studenten att göra sitt kursval. Introduktionen till kursen visas överst på sidan Inför kursval.',
+    sellingText_desc_p2: 'Du kan även välja att skriva information om kursupplägg samt lägga till övrig information.',
     sellingText_btn: 'Redigera',
     coursePM_hd: 'Kurs-PM',
     coursePM_create_desc_p1:
@@ -184,112 +179,150 @@ module.exports = {
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
   },
-  introLabel: {
-    alertMessages: {
-      approve_term:
-        'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
-      failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
-      no_file_chosen: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till ”Redigera text”.`,
-      not_correct_format_choose_another: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till ”Redigera text”.`,
-      not_correct_format_return_to_api_pic: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
-        för att kunna gå vidare till ”Redigera text”.`,
-      replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
+
+  editCourseStart: {
+    pageHeader: 'Sidan Inför kursval',
+    intro:
+      'Börja med att välja vilken del av sidan du vill redigera. I nästa steg kan du redigera ditt innehåll. Bild och text kommer att publiceras på sidan Inför kursval',
+    header: 'Välj del att redigera',
+    options: {
+      description: 'Bild, introduktion till kursen och kursupplägg',
+      otherInformation: 'Övrig information',
     },
-    info_publish: {
-      header: 'Att tänka på innan du publicerar!',
-      body: `<br/>
-      Publicering kommer att ske på sidan ”Inför kursval”.
-        <br/>
-        <br/>
-        Vill du fortsätta att publicera?`,
-      btnCancel: 'Nej, gå tillbaka',
-      btnConfirm: 'Ja, fortsätt publicera',
-      infoCourse: 'Kurs: ',
-    },
-    info_cancel: {
-      header: 'Att tänka på innan du avbryter!',
-      body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
-      <br/>  
-      <br/> 
-            Vill du fortsätta att avbryta?`,
-      btnCancel: 'Nej, gå tillbaka',
-      btnConfirm: 'Ja, fortsätt avbryta',
-      infoCourse: 'Kurs: ',
-    },
-    info_image: {
-      header: 'Välj bild',
-      body: `Välj en dekorativ bild att visa på Inför kursval och Kurs-PM. Du kan välja att visa en standardbild baserad på kursens huvudområde eller att ladda upp en egen bild. För att bilden ska uppfylla kraven för tillgänglighet ska den inte vara informationsbärande.
-      <br/>
-      <br/>
-      Bilden kommer att visas i storleken 400px i bredd och 300px i höjd. Tillåtna filformat är .png och .jpg. Du måste ha rättigheter att använda den bild du laddar upp.`,
-      btnCancel: 'Stäng',
-    },
-    editCourseIntro: 'Redigera introduktion till kursen',
-    image: {
-      reset: 'Återställ till sparad bild',
-      choose: 'Välj bild',
-      name: 'Bildnamn:',
-      noChosen: 'Ingen bild vald',
-      choiceInfo: 'Välj en bild att visa på sidan Inför kursval',
-      firstOption: 'Standardbild utifrån kursens huvudområde',
-      secondOption: 'Egen bild',
-      agreeCheck_1: 'Jag intygar att KTH äger rätten att använda bilden. Läs mer om',
-      imagesOnTheWeb: 'Bilder på webben',
-      agreeCheck_2: 'och vilka bilder du kan använda.',
-    },
-    info_edit_text: {
-      header: 'Redigera text',
-      body: `Ange en kort text som beskriver kursen. Texten bör inte vara längre än 2-3 meningar lång och bör alltid finnas på svenska, men även på engelska för kurser med engelska som undervisningsspråk. Texten visas på sidan Inför kursval, i kurs-PM samt i KTH:s sökverktyg för fristående kurser.`,
-      btnCancel: 'Stäng',
-    },
-    step_1_desc: `I steg 1 av 3 väljer du en bild att visa på sidan Inför kursval. I steg 2 av 3 lägger du in eller redigerar den inledande texten. I steg 3 av 3 granskar du bild och text för att sedan publicera.`,
-    step_2_desc: `Här lägger du in en text som beskriver kursen. Texten kommer att visas för din kurs på sidan Inför kursval. Det kan finnas en beskrivande text inlagd sedan tidigare via Kopps/Ladok, men om du lägger in en text här är det den som visas på sidan Inför kursval.`,
-    step_3_desc: ' ',
-    label_left_number_letters: 'Ange max 2000 tecken',
-    label_step_1: 'Välj bild',
-    label_step_2: 'Redigera text',
-    label_step_3: 'Granska',
-    langLabelKopps: {
-      en: 'Kortbeskrivning i KOPPS (EN)',
-      sv: 'Kortbeskrivning i KOPPS (SV)',
-    },
-    langLabelIntro: {
-      en: 'Ange introduktion till kursen (EN)',
-      sv: 'Ange Introduktion till kursen (SV)',
-    },
-    langLabelText: {
-      en: 'Engelsk text',
-      sv: 'Svensk text',
-    },
-    langLabelPreview: {
-      en: 'Engelsk introduktion till kursen',
-      sv: 'Svensk introduktion till kursen',
-    },
-    button: {
-      cancel: 'Avbryt',
-      publish: 'Publicera',
-      step1: 'Välj bild',
-      step2: 'Redigera text',
-      step3: 'Granska',
-    },
-    alt: {
-      step1: 'Till förra steg att välja bild',
-      step2Next: 'Till nästa steg att redigera text',
-      step2Back: 'Till förra steg att redigera text',
-      step3: 'Till nästa steg att Förhandsgranska introduktion till kursen',
-      cancel: 'Avbryt och gå till admin startsida',
-      publish: 'Spara och publicera introduktion till kursen',
-      image: 'Bild för kurssidasdekoration',
-      tempImage: 'Tomt plats för att visa väld bilden',
-    },
-    required: {
-      image: 'Obligatoriskt (format: .png eller .jpg)',
-      agreement: 'Obligatoriskt',
-    },
-    redirectToStart: 'Framgång, omdirigerar till startsidan...',
+    nextButton: 'Redigera',
   },
+
+  editOtherInformation: {
+    pageHeader: 'Övrig information',
+    step1: {
+      label: 'Redigera text',
+      intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på Sidan inför kursval.`,
+      alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
+      nextButton: 'Granska',
+      fields: {
+        supplementaryInfoSv: 'Övrig information (SV)',
+        supplementaryInfoEn: 'Övrig information (EN)',
+      },
+    },
+    step2: {
+      label: 'Granska och publicera',
+      header: 'Granska',
+      nextButton: 'Publicera',
+      backButton: 'Redigera text',
+      fields: {
+        supplementaryInfoSv: 'Övrig information',
+        supplementaryInfoEn: 'Supplementary information',
+      },
+    },
+  },
+
+  editDescription: {
+    pageHeader: 'Introduktion till kursen och kursupplägg',
+
+    step1: {
+      label: 'Välj bild',
+      intro: 'I detta steg kan du välja mellan en standardbild eller ladda upp en egen.',
+      nextButton: 'Redigera text',
+      headerModal: {
+        header: 'Välj bild',
+        body: `Välj en bild att visa på Inför kursval och Kurs-PM. Du kan välja att visa en standardbild baserad på kursens huvudområde eller att ladda upp en egen bild. För att bilden ska uppfylla kraven för tillgänglighet ska den inte vara informationsbärande.
+          <br/>
+          <br/>
+          Bilden kommer att visas i storleken 400px i bredd och 300px i höjd. Tillåtna filformat är .png och .jpg. Du måste ha rättigheter att använda den bild du laddar upp.`,
+        btnCancel: 'Stäng',
+      },
+      image: {
+        reset: 'Återställ till sparad bild',
+        choose: 'Välj bild',
+        noChosen: 'Ingen bild vald',
+        choiceInfo: 'Välj en bild att visa på sidan Inför kursval',
+        firstOption: 'Standardbild utifrån kursens huvudområde',
+        secondOption: 'Egen bild',
+        agreeCheck_1: 'Jag intygar att KTH äger rätten att använda bilden. Läs mer om',
+        imagesOnTheWeb: 'Bilder på webben',
+        agreeCheck_2: 'och vilka bilder du kan använda.',
+        alt: 'Bild för kurssidasdekoration',
+      },
+      alertMessages: {
+        approve_term:
+          'Du behöver godkänna villkoren (se markering i rött nedan) för att kunna gå vidare till ”Redigera text”.',
+        failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
+        no_file_chosen: `Du behöver välja en bild med rätt format (se markering i rött nedan) 
+            för att kunna gå vidare till ”Redigera text”.`,
+        replace_api_with_default: `Observera att den egna valda bilden som nu är publicerad kommer att raderas när du publicerar i steg 3.`,
+      },
+    },
+    step2: {
+      label: 'Redigera text',
+      intro: `Beskriv kortfattat kursinnehållet under ”Introduktion till kursen” och ge en översiktlig beskrivningen av hur undervisningen är upplagd under ”Kursupplägg”. Sidan visas på både svenska och engelska, så inkludera text på båda språken.`,
+      alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
+      nextButton: 'Granska',
+      backButton: 'Välj bild',
+      fields: {
+        sellingTextSv: 'Introduktion till kursen (SV)',
+        sellingTextEn: 'Introduktion till kursen (EN)',
+        courseDispositionSv: 'Kursupplägg (SV)',
+        courseDispositionEn: 'Kursupplägg (EN)',
+      },
+    },
+    step3: {
+      label: 'Granska och publicera',
+      nextButton: 'Publicera',
+      backButton: 'Redigera text',
+      headersSv: {
+        page: 'Inför kursval',
+        content: 'Innehåll och lärandemål',
+        courseDisposition: 'Kursupplägg',
+      },
+      headersEn: {
+        page: 'Before course selection',
+        content: 'Content and learning outcomes',
+        courseDisposition: 'Course disposition',
+      },
+    },
+  },
+
+  compontents: {
+    editButton: {
+      open: 'Öppna redigering',
+      close: 'Stäng redigering',
+    },
+
+    editorSection: {
+      close: 'Stäng',
+      noText: 'Ingen text tillgad',
+    },
+
+    controlButtons: {
+      back: 'Tillbaka',
+      cancel: 'Avbryt',
+      next: 'Nästa',
+      confirmModals: {
+        publish: {
+          header: 'Att tänka på innan du publicerar!',
+          body: `<br/>
+          Publicering kommer att ske på sidan ”Inför kursval”.
+            <br/>
+            <br/>
+            Vill du fortsätta att publicera?`,
+          btnCancel: 'Nej, gå tillbaka',
+          btnConfirm: 'Ja, fortsätt publicera',
+          infoCourse: 'Kurs: ',
+        },
+        cancel: {
+          header: 'Att tänka på innan du avbryter!',
+          body: `Ändringar för text och bild kommer att försvinna om du avbryter. 
+          <br/>  
+          <br/> 
+                Vill du fortsätta att avbryta?`,
+          btnCancel: 'Nej, gå tillbaka',
+          btnConfirm: 'Ja, fortsätt avbryta',
+          infoCourse: 'Kurs: ',
+        },
+      },
+    },
+  },
+
   courseImage: {
     Arkitektur: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
     Bioteknik: 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg',

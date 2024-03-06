@@ -46,7 +46,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
     const { getAllByRole } = renderEditPage()
     const allH4Headers = getAllByRole('heading', { level: 4 })
     expect(allH4Headers.length).toBe(3)
-    expect(allH4Headers[0]).toHaveTextContent(/^Introduktion till kursen/)
+    expect(allH4Headers[0]).toHaveTextContent(/^Sidan inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
     done()

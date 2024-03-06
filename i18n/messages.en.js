@@ -63,15 +63,10 @@ module.exports = {
   },
   pageTitles: {
     course_admin_title: 'Administer',
-    header_progress_select_pic: '1. Choose image',
-    header_progress_edit: '2. Edit text',
-    header_progress_review: '3. Preview and publish',
     about_course: 'About course',
     administrate: 'Administer About course',
-    editSelling: 'Edit a course introduction',
-    previewSelling: 'Preview a course introduction',
     instruction_p1:
-      'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. The information that can be edited is Course introduction, Course memo and Course analysis and course data.',
+      'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. You can edit some information on the page Before course selection, create and publish Course memo and publish Course analysis and course data.',
     instruction_p2:
       'About course also contains information retrieved from Kopps. It is the course syllabus, the course common information and the administrative course instances/course offerings, including examiner, course coordinator, teacher and teacher assistants. This information is edited in Kopps.',
     instruction_p3_start:
@@ -143,7 +138,7 @@ module.exports = {
           'Remember to inform your students that there is a new version of the course memo. Also inform about what changes that have been made in the last version.',
       },
       kinfo: {
-        pub: 'The course introduction has been published',
+        pub: 'The page Before course selection has been published',
         see_more: 'Image and text has been published on the page ',
       },
       alertinfo: {
@@ -168,10 +163,11 @@ module.exports = {
     },
   },
   startCards: {
-    sellingText_hd: 'Course introduction',
+    sellingText_hd: 'The page Before course selection',
     sellingText_desc_p1:
-      'Select your own decorative image and/or replace the short course description from Kopps to a more informative introduction to the course, to help students select a course that suits them.',
-    sellingText_desc_p2: 'Course introduction is displayed at the page: Before course selection.',
+      'Select your own image and write a course introduction to the help the students select a course that suits them. The course introduction is displayed on the page Before course selection.',
+    sellingText_desc_p2:
+      'You can also choose to write information about the course disposition and add supplementary information.',
     sellingText_btn: 'Edit',
     coursePM_hd: 'Course memo',
     coursePM_create_desc_p1:
@@ -189,107 +185,142 @@ module.exports = {
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
   },
-  introLabel: {
-    alertMessages: {
-      approve_term: 'You must approve the terms (see red markings below)',
-      failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
-      no_file_chosen: 'You must first choose an image to continue to “Edit text”.',
-      not_correct_format_choose_another: `You need to choose an image in the correct format (see red markings below)
-        to be able to continue to “Edit text”.`,
-      not_correct_format_return_to_api_pic: `You need to choose an image in the correct format (see red markings below) 
-        to be able to continue to “Edit text”.`,
-      replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`,
+  editCourseStart: {
+    pageHeader: 'Before course selection',
+    intro:
+      'Start by choosing which part of the page you want to edit. In the next step, you can edit your content. Image and text will be published on the page Before course selection.',
+    header: 'Choose part to edit',
+    options: {
+      description: 'Image, course introduction and course disposition',
+      otherInformation: 'Supplementary information',
     },
-    info_publish: {
-      header: 'To be aware of before publishing!',
-      body: `<br/>  
-          The information will be published on the page Before course selection.
-        <br/> 
-        <br/> 
-        Do you want to publish?`,
-      btnCancel: 'No, go back',
-      btnConfirm: 'Yes, publish',
-      infoCourse: 'Course: ',
-    },
-    info_cancel: {
-      header: 'To be aware of before cancelling!',
-      body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
-      btnCancel: 'No, go back',
-      btnConfirm: 'Yes, cancel',
-      infoCourse: 'Course: ',
-    },
-    info_image: {
-      header: 'Choose image',
-      body: `Choose a decorative image to display on Before course selection and in your course memo. You can either use the default image based on the course main subject or upload an image of your own. In order for the image to meet the requirements for accessibility, the image should not convey necessary information. 
-      <br/> 
-      <br/> 
-      The image you select will be displayed in the format 400x300 pixels. The image must be in PNG or JPG file format.`,
-      btnCancel: 'Close',
-    },
-    editCourseIntro: 'Edit course introduction',
-    image: {
-      reset: 'Restore to previous published image',
-      choose: 'Choose image',
-      name: 'Image name:',
-      noChosen: 'No image chosen',
-      choiceInfo: 'Choose an image to display on Before course selection',
-      firstOption: 'Image based on the course main subject',
-      secondOption: 'Own selected image',
-      agreeCheck_1: 'I declare that KTH is entitled to use the image. For more information, please read about',
-      imagesOnTheWeb: 'Images on the web.',
-      agreeCheck_2: ' ',
-    },
-    info_edit_text: {
-      header: 'Edit text',
-      body: `Enter a short text describing the course. The text should not be longer than 2-3 sentences. The text should be in Swedish, but also in English for courses with English as the language of instruction. The text is displayed on the page Before course selection, in the course memo and in KTH's search tool for freestanding courses.`,
-      btnCancel: 'Close',
-    },
-    step_1_desc: `In step 1 of 3, select an image. In step 2 of 3, edit the introductory text. In step 3 of 3, review the image and text before you publish.`,
-    step_2_desc: `Here you enter a text that describes the course. The text will be display on the page Before course selection. There may be a text entered earlier via Kopps/Ladok, but if you enter a text here, it will be the one shown on the page Before course selection.`,
-    step_3_desc: ' ',
-    label_left_number_letters: 'Enter a maximum of 2000 characters',
-    label_step_1: 'Choose image',
-    label_step_2: 'Edit text',
-    label_step_3: 'Preview',
-    langLabelKopps: {
-      en: 'Short description from KOPPS (EN)',
-      sv: 'Short description from KOPPS (SW)',
-    },
-    langLabelIntro: {
-      en: 'Course introduction (EN)',
-      sv: 'Course introduction (SW)',
-    },
-    langLabelText: {
-      en: 'English text',
-      sv: 'Swedish text',
-    },
-    langLabelPreview: {
-      en: 'English introduction to the course',
-      sv: 'Swedish introduction to the course',
-    },
-    button: {
-      cancel: 'Cancel',
-      publish: 'Publish',
-      step1: 'Choose image',
-      step2: 'Edit text',
-      step3: 'Preview',
-    },
-    alt: {
-      step1: 'Go to previous step to choose image',
-      step2Next: 'Go to next step to edit introduction text',
-      step2Back: 'Go back to edit introduction text',
-      step3: 'Preview a course introduction',
-      cancel: 'Cancel and go back to admin start page',
-      publish: 'Save and publish course introduction',
-      image: 'Picture for a course description decoration',
-      tempImage: 'Placeholder to show up a chosen picture',
-    },
-    required: {
-      image: 'Required (format: .png or .jpg)',
-      agreement: 'Required',
-    },
-    redirectToStart: 'Success, redirecting to start page...',
+    nextButton: 'Edit',
   },
+  editOtherInformation: {
+    pageHeader: 'Supplementary information',
+    step1: {
+      label: 'Edit text',
+      intro: `Here you add any additional information that may be important for the student to know. The text will be displayed at the bottom of the page Before course selection.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
+      nextButton: 'Preview',
+      fields: {
+        supplementaryInfoSv: 'Supplementary information (SW)',
+        supplementaryInfoEn: 'Supplementary information (EN)',
+      },
+    },
+    step2: {
+      label: 'Preview and publish',
+      header: 'Preview',
+      nextButton: 'Publish',
+      backButton: 'Edit text',
+      fields: {
+        supplementaryInfoSv: 'Övrig information',
+        supplementaryInfoEn: 'Supplementary information',
+      },
+    },
+  },
+
+  editDescription: {
+    pageHeader: 'Course introduction and course disposition',
+    step1: {
+      label: 'Choose image',
+      intro: 'In this step, you can choose between a standard image or upload your own.',
+      nextButton: 'Edit text',
+      headerModal: {
+        header: 'Choose image',
+        body: `Choose a image to display on Before course selection and in your course memo. You can either use the default image based on the course main subject or upload an image of your own. In order for the image to meet the requirements for accessibility, the image should not convey necessary information. 
+        <br/> 
+        <br/> 
+        The image you select will be displayed in the format 400x300 pixels. The image must be in PNG or JPG file format.`,
+        btnCancel: 'Close',
+      },
+      image: {
+        reset: 'Restore to previous published image',
+        choose: 'Choose image',
+        noChosen: 'No image chosen',
+        choiceInfo: 'Choose an image to display on Before course selection',
+        firstOption: 'Image based on the course main subject',
+        secondOption: 'Own selected image',
+        agreeCheck_1: 'I declare that KTH is entitled to use the image. For more information, please read about',
+        imagesOnTheWeb: 'Images on the web.',
+        agreeCheck_2: ' ',
+        alt: 'Picture for a course description decoration',
+      },
+      alertMessages: {
+        approve_term: 'You must approve the terms (see red markings below)',
+        failed_compression_of_file: 'Något gick fel vid laddning eller komprimering av en bild',
+        no_file_chosen: 'You must first choose an image to continue to “Edit text”.',
+        replace_api_with_default: `Notice: your previously published image will be deleted when you publish in step 3.`,
+      },
+    },
+    step2: {
+      label: 'Edit text',
+      intro: `Describe briefly the course content under “Introduction to the course” and provide a brief overview of how the teaching is structured under “Course disposition.” The page is displayed in both Swedish and English, so include text in both languages.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
+      nextButton: 'Preview',
+      backButton: 'Choose image',
+      fields: {
+        sellingTextSv: 'Introduction to the course (SW)',
+        sellingTextEn: 'Introduction to the course (EN)',
+        courseDispositionSv: 'Course disposition (SW)',
+        courseDispositionEn: 'Course disposition (EN)',
+      },
+    },
+    step3: {
+      label: 'Preview and publish',
+      nextButton: 'Publish',
+      backButton: 'Edit text',
+      headersSv: {
+        page: 'Inför kursval',
+        content: 'Innehåll och lärandemål',
+        courseDisposition: 'Kursupplägg',
+      },
+      headersEn: {
+        page: 'Before course selection',
+        content: 'Content and learning outcomes',
+        courseDisposition: 'Course disposition',
+      },
+    },
+  },
+
+  compontents: {
+    editButton: {
+      open: 'Open edit',
+      close: 'Close edit',
+    },
+
+    editorSection: {
+      close: 'Stäng',
+      noText: 'Ingen text tillgad',
+    },
+
+    controlButtons: {
+      back: 'Back',
+      cancel: 'Cancel',
+      next: 'Next',
+      confirmModals: {
+        publish: {
+          header: 'To be aware of before publishing!',
+          body: `<br/>  
+              The information will be published on the page Before course selection.
+            <br/> 
+            <br/> 
+            Do you want to publish?`,
+          btnCancel: 'No, go back',
+          btnConfirm: 'Yes, publish',
+          infoCourse: 'Course: ',
+        },
+        cancel: {
+          header: 'To be aware of before cancelling!',
+          body: 'Unsaved changes will be lost if you cancel the publishing of course information (image and text) <br/>  <br/> Do you want to cancel?',
+          btnCancel: 'No, go back',
+          btnConfirm: 'Yes, cancel',
+          infoCourse: 'Course: ',
+        },
+      },
+    },
+  },
+
   courseImage: {
     Architecture: 'Picture_by_MainFieldOfStudy_01_Architecture.jpg',
     Biotechnology: 'Picture_by_MainFieldOfStudy_02_Biotechnology.jpg',
