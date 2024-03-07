@@ -158,7 +158,7 @@ module.exports = {
     },
   },
   startCards: {
-    sellingText_hd: 'Sidan inför kursval',
+    sellingText_hd: 'Sidan Inför kursval',
     sellingText_desc_p1:
       'Välj en bild samt skriv en introduktion till kursen för att hjälpa studenten att göra sitt kursval. Introduktionen till kursen visas överst på sidan Inför kursval.',
     sellingText_desc_p2: 'Du kan även välja att skriva information om kursupplägg samt lägga till övrig information.',
@@ -196,7 +196,7 @@ module.exports = {
     pageHeader: 'Övrig information',
     step1: {
       label: 'Redigera text',
-      intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på Sidan inför kursval.`,
+      intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på sidan Inför kursval.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       fields: {
