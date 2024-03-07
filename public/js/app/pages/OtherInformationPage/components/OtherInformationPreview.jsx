@@ -59,7 +59,7 @@ export default function OtherInformationPreview({ pageState }) {
 
       <ControlButtons
         pageState={pageState}
-        back={true}
+        back={{ label: texts.backButton }}
         next={{
           confirmPublish: true,
           onClick: onConfirm,
