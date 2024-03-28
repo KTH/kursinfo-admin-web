@@ -209,6 +209,7 @@ server.use(
     globalLink: config.blockApi.globalLink,
     addBlocks: config.blockApi.addBlocks,
     redisKey: config.cache.cortinaBlock.redisKey,
+    useStyle10: false,
   })
 )
 
