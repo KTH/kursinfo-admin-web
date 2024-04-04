@@ -19,7 +19,7 @@ export default function DescriptionPreview({ pageState }) {
     fileProgress: 0,
   })
 
-  const { newImage } = pageState.imageInput
+  const { newImage, hasCustomImage } = pageState.imageInput
   const textInputValues = pageState.textInput.values
   const courseCode = pageState.courseCode
   const texts = i18n.messages[context.langIndex].editDescription.step3
@@ -31,8 +31,13 @@ export default function DescriptionPreview({ pageState }) {
   }
 
   async function handleImageFileUpload(newImage) {
-    if (!newImage) {
+    if (!hasCustomImage) {
+      // empyt string = standard image
       return { isError: false, imageName: '' }
+    }
+    if (!newImage) {
+      // undefined = current custom image will be kept
+      return { isError: false, imageName: undefined }
     }
     try {
       const result = await uploadImage(context, courseCode, newImage.formData, onFileUploadProgress)
