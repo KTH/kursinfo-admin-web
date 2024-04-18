@@ -33,13 +33,6 @@ localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
 
 ```
 
-- page displays which groups user has access to
-
-```
-localhost:3000/kursinfoadmin/kurser/kurs/:courseCode/myCourses
-
-```
-
 - page to monitor images, if there are any missing files in blob storage or some unused files. _BLOB_SERVICE_SAS_URL_ should include list rights, section "Generate Shared access signature"
 
 ```

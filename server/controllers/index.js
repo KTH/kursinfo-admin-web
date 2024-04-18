@@ -13,5 +13,4 @@ module.exports = {
   DescriptionCtrl: require('./descriptionCtrl'),
   OtherInformationCtrl: require('./otherInformationCtrl'),
   ImageCtrl: require('./imageCtrl'),
-  MyCoursesCtrl: require('./myCoursesCtrl'),
 }

@@ -243,7 +243,6 @@ const {
   System,
   AdminPagesCtrl,
   ImageCtrl,
-  MyCoursesCtrl,
   EditCourseStartCtrl,
   DescriptionCtrl,
   OtherInformationCtrl,
@@ -263,7 +262,6 @@ server.use('/', systemRoute.getRouter())
 // App routes
 const appRoute = AppRouter()
 
-appRoute.get('course.myCourses', _addProxy('/:courseCode/myCourses'), oidc.silentLogin, MyCoursesCtrl.myCourses)
 appRoute.get('course.allImagesCheck', _addProxy('/_monitor_images'), AdminPagesCtrl.monitorImages)
 
 appRoute.get(
