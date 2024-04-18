@@ -242,7 +242,6 @@ const {
   NoCourseCodeCtrl,
   System,
   AdminPagesCtrl,
-  StatisticPageCtrl,
   ImageCtrl,
   MyCoursesCtrl,
   EditCourseStartCtrl,
@@ -260,23 +259,6 @@ systemRoute.get('system.about', _addProxy('/_about'), System.about)
 systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
-
-// Statistic routes
-const statisticRoute = AppRouter()
-statisticRoute.get(
-  'deprecated.statistic.getData',
-  _addProxy('/deprecated/statistik/:semester'),
-  oidc.silentLogin,
-  StatisticPageCtrl.getData
-)
-
-statisticRoute.get('redirect.statistics', _addProxy('/statistik/:semester'), (req, res) => {
-  const { hostUrl = '' } = config
-  const publicHostUrl = hostUrl.replace('app', 'www')
-  res.redirect(301, `${publicHostUrl}/student/kurser/kurs/statistik`)
-})
-
-server.use('/', statisticRoute.getRouter())
 
 // App routes
 const appRoute = AppRouter()

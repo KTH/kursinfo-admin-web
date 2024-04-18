@@ -2,7 +2,6 @@ import React from 'react'
 import { Alert } from 'reactstrap'
 import { COURSE_INFO_IN_CANVAS } from '../util/constants'
 import i18n from '../../../../i18n'
-import { at } from 'lodash'
 
 const AlertReminderMsgNewPubMemo = ({ querySearchParams, lang = 'en' }) => {
   const langIndex = lang === 'en' ? 0 : 1
