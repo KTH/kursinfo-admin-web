@@ -21,8 +21,6 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('http://localhost:3001/api/kursinfo?defaultTimeout=10000') // required=true&
-const devKursutvecklingApi = devDefaults('http://localhost:3002/api/kursutveckling?defaultTimeout=10000') // required=true&
-const devKursPmDataApi = devDefaults('http://localhost:3002/api/kurs-pm-data?defaultTimeout=10000') // required=true&
 const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000') // required=true&
 const devSessionKey = devDefaults('kursinfo-admin-web.sid')
 const devSessionUseRedis = devDefaults(true)
@@ -59,8 +57,6 @@ module.exports = {
   // API keys
   apiKey: {
     kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
-    kursutvecklingApi: getEnv('KURSUTVECKLING_API_KEY', devDefaults('1234')),
-    kursPmDataApi: getEnv('KURS_PM_DATA_API_KEY', devDefaults('1234')),
   },
 
   // Authentication
@@ -71,8 +67,6 @@ module.exports = {
     kursinfoAdmins: 'app.kursinfo.kursinfo-admins',
   },
   koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
-  kursutvecklingApi: unpackNodeApiConfig('KURSUTVECKLING_API_URI', devKursutvecklingApi),
-  kursPmDataApi: unpackNodeApiConfig('KURS_PM_DATA_API_URI', devKursPmDataApi),
 
   // Service API's
   nodeApi: {
@@ -113,10 +107,6 @@ module.exports = {
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
       redisKey: 'CortinaBlock_kursinfo-admin-web_',
-    },
-    kursutvecklingApi: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KURSUTVECKLING_API_CACHE_EXPIRE_TIME', 3 * 60), // 3 * 60 s = 3 MINUTES
     },
   },
 

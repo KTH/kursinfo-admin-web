@@ -9,7 +9,6 @@ module.exports = {
   NoCourseCodeCtrl: require('./noCourseCodeCtrl'),
   System: require('./systemCtrl'),
   AdminPagesCtrl: require('./adminPagesCtrl'),
-  StatisticPageCtrl: require('./statisticPageCtrl'),
   EditCourseStartCtrl: require('./editCourseStartCtrl'),
   DescriptionCtrl: require('./descriptionCtrl'),
   OtherInformationCtrl: require('./otherInformationCtrl'),
