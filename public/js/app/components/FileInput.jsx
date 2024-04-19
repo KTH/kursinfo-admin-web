@@ -1,9 +1,7 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable class-methods-use-this */
 import React from 'react'
 import { Button } from 'reactstrap'
 
-const FileInput = React.forwardRef(function FileInput(props, ref) {
+const FileInput = React.forwardRef((props, ref) => {
   const inputRef = React.useRef(null)
 
   React.useImperativeHandle(
@@ -32,6 +30,7 @@ const FileInput = React.forwardRef(function FileInput(props, ref) {
 
   return (
     <span className="btn-upload-file">
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label role="presentation" htmlFor={id} onClick={clickFileInput}>
         <Button color="secondary" block>
           <span>{btnLabel}</span>
@@ -52,5 +51,6 @@ const FileInput = React.forwardRef(function FileInput(props, ref) {
     </span>
   )
 })
+FileInput.displayName = 'FileInput'
 
 export default FileInput

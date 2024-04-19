@@ -33,7 +33,7 @@ function createEditCourseStartWebContext(args) {
   addBaseData(context, args)
   addCourseData(context, args.koppsData)
 
-  const courseCode = context.routeData.courseData.courseCode
+  const { courseCode } = context.routeData.courseData
   context.routeData.editOptions = {
     description: serverPaths.course.editDescription.uri.replace(':courseCode', courseCode),
     otherInformation: serverPaths.course.editOtherInformation.uri.replace(':courseCode', courseCode),
@@ -47,7 +47,7 @@ function createOtherInformationWebContext(args) {
   addBaseData(context, args)
   addCourseData(context, args.koppsData)
 
-  const courseInfo = args.courseInfo
+  const { courseInfo } = args
   context.routeData.values = {
     supplementaryInfoSv: courseInfo.supplementaryInfo?.sv ?? '',
     supplementaryInfoEn: courseInfo.supplementaryInfo?.en ?? '',
@@ -62,7 +62,7 @@ function createDescriptionWebContext(args) {
   addBaseData(context, args)
   addCourseData(context, args.koppsData)
 
-  const courseInfo = args.courseInfo
+  const { courseInfo } = args
   context.routeData.values = {
     sellingTextSv: courseInfo.sellingText?.sv ?? '',
     sellingTextEn: courseInfo.sellingText?.en ?? '',

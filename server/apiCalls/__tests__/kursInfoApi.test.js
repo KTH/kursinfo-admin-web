@@ -1,6 +1,6 @@
+const { mockGetAsync, mockPatchAsync, mockPaths } = require('@kth/api-call')
 const { getCourseInfo, patchCourseInfo } = require('../kursInfoApi')
 
-const { mockGetAsync, mockPatchAsync, mockPaths } = require('@kth/api-call')
 jest.mock('../../configuration')
 jest.mock('@kth/api-call')
 

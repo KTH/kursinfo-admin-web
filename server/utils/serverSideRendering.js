@@ -13,7 +13,6 @@ const ENSURE_THAT_BUILDDEV_RECEIVES_UPDATED_SSR_PACKAGES = true
 function getServerSideFunctions() {
   if (process.env.NODE_ENV === 'production') {
     // @ts-ignore
-    // eslint-disable-next-line import/no-unresolved,global-require
     const parcelBuildForSSR = require('../../dist/ssr-app').default
     return parcelBuildForSSR
   }
@@ -24,7 +23,6 @@ function getServerSideFunctions() {
     }
 
     // @ts-ignore
-    // eslint-disable-next-line import/no-unresolved,global-require
     const parcelBuildDevForSSR = require('../../dist/ssr-app').default
     return parcelBuildDevForSSR
   } catch (error) {

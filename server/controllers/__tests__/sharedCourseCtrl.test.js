@@ -89,7 +89,7 @@ describe.each([
 
     expect(createWebContext).toHaveBeenCalledWith({
       language: lang,
-      userId: userId,
+      userId,
       koppsData: koppsInfo,
       courseInfo: !skipKursinfoTests ? courseInfo : undefined,
     })

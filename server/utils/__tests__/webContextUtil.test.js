@@ -5,6 +5,7 @@ const {
 } = require('../webContextUtil')
 
 const configuration = require('../../configuration')
+
 jest.mock('../../configuration')
 jest.mock('../../server')
 
@@ -29,6 +30,17 @@ const testArgsStart = {
   koppsData: mockKoppsData,
 }
 
+const testArgsDescription = {
+  userId: mockUserId,
+  koppsData: mockKoppsData,
+  courseInfo: mockCourseInfo,
+}
+const testArgsOtherInformation = {
+  userId: mockUserId,
+  koppsData: mockKoppsData,
+  courseInfo: mockCourseInfo,
+}
+
 describe('webContextUtil - editStart', () => {
   it('should set urls to edit options', async () => {
     const context = createEditCourseStartWebContext(testArgsStart)
@@ -39,12 +51,6 @@ describe('webContextUtil - editStart', () => {
     })
   })
 })
-
-const testArgsDescription = {
-  userId: mockUserId,
-  koppsData: mockKoppsData,
-  courseInfo: mockCourseInfo,
-}
 
 describe('webContextUtil - description', () => {
   it('should set text values from courseInfo', async () => {
@@ -58,7 +64,7 @@ describe('webContextUtil - description', () => {
     })
   })
 
-  it('should set text values values to empty string if not set in courseInfo ', async () => {
+  it('should set text values values to empty string if not set in courseInfo', async () => {
     const context = createDescriptionWebContext({ testArgsOtherInformation, courseInfo: {} })
 
     expect(context.routeData.values).toMatchObject({
@@ -101,11 +107,6 @@ describe('webContextUtil - description', () => {
   })
 })
 
-const testArgsOtherInformation = {
-  userId: mockUserId,
-  koppsData: mockKoppsData,
-  courseInfo: mockCourseInfo,
-}
 describe('webContextUtil - otherInformation', () => {
   it('should set supplementaryInfo values from courseInfo', async () => {
     const context = createOtherInformationWebContext(testArgsOtherInformation)
@@ -116,7 +117,7 @@ describe('webContextUtil - otherInformation', () => {
     })
   })
 
-  it('should set supplementaryInfo values to empty string if not set in courseInfo ', async () => {
+  it('should set supplementaryInfo values to empty string if not set in courseInfo', async () => {
     const context = createOtherInformationWebContext({ testArgsOtherInformation, courseInfo: {} })
 
     expect(context.routeData.values).toMatchObject({

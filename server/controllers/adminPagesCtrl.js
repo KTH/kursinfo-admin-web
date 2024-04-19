@@ -1,6 +1,5 @@
 'use strict'
 
-// const sanitize = require('sanitize-html')
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
 const { filteredKoppsData } = require('../apiCalls/koppsApi')
@@ -23,7 +22,7 @@ async function getAdminStart(req, res, next) {
   try {
     const { getCompressedData, renderStaticPage } = getServerSideFunctions()
     const langIndex = getLangIndex(lang)
-    const messages = i18n.messages[langIndex].messages
+    const { messages } = i18n.messages[langIndex]
     const webContext = {
       lang,
       langIndex,
@@ -103,7 +102,7 @@ async function monitorImages(req, res, next) {
           )
         : []
 
-    res.render('course/monitor_images', {
+    return res.render('course/monitor_images', {
       debug: 'debug' in req.query,
       missingImagesHeader: missingImagesInBlob.length > 0,
       missingImagesInBlob,
@@ -112,7 +111,7 @@ async function monitorImages(req, res, next) {
     })
   } catch (err) {
     log.error('Error in monitorImages', { error: err })
-    next(err)
+    return next(err)
   }
 }
 

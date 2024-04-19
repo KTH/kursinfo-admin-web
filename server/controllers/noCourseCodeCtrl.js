@@ -2,7 +2,7 @@
 
 const languageUtils = require('@kth/kth-node-web-common/lib/language')
 
-function getIndex(req, res, next) {
+function getIndex(req, res) {
   res.set('Cache-control', 'public, max-age=300')
 
   const lang = languageUtils.getLanguage(res) || 'sv'

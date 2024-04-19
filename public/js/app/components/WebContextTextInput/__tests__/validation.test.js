@@ -1,7 +1,7 @@
 import { validateCkEditorLength } from '../validation'
 
 describe('Text input validation', () => {
-  it('should not return errorMessage for cleanText within limit ', () => {
+  it('should not return errorMessage for cleanText within limit', () => {
     const cleanText = 'A'.repeat(2000)
     const htmlText = ``
     const langIndex = 1
@@ -9,7 +9,7 @@ describe('Text input validation', () => {
     expect(res.errorMessage).toBeUndefined()
   })
 
-  it('should not return errorMessage for html within limit ', () => {
+  it('should not return errorMessage for html within limit', () => {
     const cleanText = ''
     const htmlText = 'A'.repeat(10000)
     const langIndex = 1
@@ -17,7 +17,7 @@ describe('Text input validation', () => {
     expect(res.errorMessage).toBeUndefined()
   })
 
-  it('should return errorMessage for long cleanText ', () => {
+  it('should return errorMessage for long cleanText', () => {
     const cleanText = 'A'.repeat(2001)
     const htmlText = ``
     const langIndex = 1

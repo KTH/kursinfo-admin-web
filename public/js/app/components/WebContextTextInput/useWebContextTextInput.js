@@ -23,11 +23,11 @@ function useWebContextTextInput() {
 
   const onChange = (field, editor) => {
     const htmlText = editor.getData()
-    setValues(values => ({ ...values, [field]: htmlText }))
+    setValues(currentValues => ({ ...currentValues, [field]: htmlText }))
 
     const cleanText = editor.document.getBody().getText().replace(/\n/g, '')
     const { errorMessage } = validateCkEditorLength(htmlText, cleanText, context.langIndex)
-    setErrors(errors => ({ ...errors, [field]: errorMessage }))
+    setErrors(currentErrors => ({ ...currentErrors, [field]: errorMessage }))
   }
 
   const getEditorSectionProps = name => ({

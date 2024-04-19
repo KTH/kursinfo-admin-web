@@ -2,8 +2,8 @@ import React from 'react'
 import { Alert } from 'reactstrap'
 
 import i18n from '../../../../i18n'
-import PageTitle from './PageTitle'
 import { useWebContext } from '../context/WebContext'
+import PageTitle from './PageTitle'
 
 export default function KoppsErrorPage({ pageTitleProps }) {
   const [context] = useWebContext()

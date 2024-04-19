@@ -16,21 +16,6 @@ const api = require('../api')
 const { monitorRequest } = require('@kth/monitor')
 const redis = require('kth-node-redis')
 
-/*
- * ----------------------------------------------------------------
- * Publicly exported functions.
- * ----------------------------------------------------------------
- */
-
-module.exports = {
-  monitor: _monitor,
-  about: _about,
-  robotsTxt: _robotsTxt,
-  paths: _paths,
-  notFound: _notFound,
-  final: _final,
-}
-
 /**
  * Get request on not found (404)
  * Renders the view 'notFound' with the layout 'exampleLayout'.
@@ -171,4 +156,19 @@ function _robotsTxt(req, res) {
  */
 function _paths(req, res) {
   res.json(getPaths())
+}
+
+/*
+ * ----------------------------------------------------------------
+ * Publicly exported functions.
+ * ----------------------------------------------------------------
+ */
+
+module.exports = {
+  monitor: _monitor,
+  about: _about,
+  robotsTxt: _robotsTxt,
+  paths: _paths,
+  notFound: _notFound,
+  final: _final,
 }

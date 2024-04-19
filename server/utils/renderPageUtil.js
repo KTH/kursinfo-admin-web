@@ -6,9 +6,9 @@ const { getLangIndex } = require('./langUtil')
 function renderCoursePage(req, res, context) {
   const courseCode = context?.routeData?.courseData?.courseCode
   const langIndex = getLangIndex(context.lang)
-  const messages = i18n.messages[langIndex].messages
+  const { messages } = i18n.messages[langIndex]
   const { getCompressedData, renderStaticPage } = getServerSideFunctions()
-  const html = renderStaticPage({
+  const view = renderStaticPage({
     applicationStore: {},
     location: req.url,
     basename: context.proxyPrefixPath.uri,
@@ -16,7 +16,7 @@ function renderCoursePage(req, res, context) {
   })
   const compressedData = getCompressedData(context)
   res.render('course/index', {
-    html,
+    html: view,
     compressedData,
     title: `${messages.title} | ${courseCode}`,
     description: messages.description,

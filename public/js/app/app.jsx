@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router-dom' // matchPath
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { WebContextProvider } from './context/WebContext'
 import { uncompressData } from './context/compress'
 import SiteHeaderUrlWrapper from './components/SiteHeaderUrlWrapper'
@@ -11,6 +11,21 @@ import DescriptionPage from './pages/DescriptionPage'
 import CourseEditStartPage from './pages/CourseEditStartPage'
 import OtherInformationPage from './pages/OtherInformationPage'
 import '../../css/kursinfo-admin-web.scss'
+
+function appFactory(applicationStore, context) {
+  return (
+    <WebContextProvider configIn={context}>
+      <SiteHeaderUrlWrapper>
+        <Routes>
+          <Route exact path="/edit/:courseCode/otherInformation" element={<OtherInformationPage />} />
+          <Route exact path="/edit/:courseCode/description" element={<DescriptionPage />} />
+          <Route exact path="/edit/:courseCode" element={<CourseEditStartPage />} />
+          <Route exact path="/:courseCode" element={<AdminStartPage />} />
+        </Routes>
+      </SiteHeaderUrlWrapper>
+    </WebContextProvider>
+  )
+}
 
 function _renderOnClientSide() {
   const isClientSide = typeof window !== 'undefined'
@@ -32,20 +47,5 @@ function _renderOnClientSide() {
 }
 
 _renderOnClientSide()
-
-function appFactory(applicationStore, context) {
-  return (
-    <WebContextProvider configIn={context}>
-      <SiteHeaderUrlWrapper>
-        <Routes>
-          <Route exact path="/edit/:courseCode/otherInformation" element={<OtherInformationPage />} />
-          <Route exact path="/edit/:courseCode/description" element={<DescriptionPage />} />
-          <Route exact path="/edit/:courseCode" element={<CourseEditStartPage />} />
-          <Route exact path="/:courseCode" element={<AdminStartPage />} />
-        </Routes>
-      </SiteHeaderUrlWrapper>
-    </WebContextProvider>
-  )
-}
 
 export default appFactory

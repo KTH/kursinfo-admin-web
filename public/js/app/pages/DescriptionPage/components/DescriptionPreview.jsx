@@ -21,26 +21,24 @@ export default function DescriptionPreview({ pageState }) {
 
   const { newImage, hasCustomImage } = pageState.imageInput
   const textInputValues = pageState.textInput.values
-  const courseCode = pageState.courseCode
+  const { courseCode } = pageState
   const texts = i18n.messages[context.langIndex].editDescription.step3
   const apiImageErrorMsg = i18n.messages[context.langIndex].pageTitles.storage_api_error
   const apiTextErrorMsg = i18n.messages[context.langIndex].pageTitles.api_error
 
-  const onFileUploadProgress = fileProgress => {
-    return setSubmitState({ ...submitState, hasDoneSubmit: true, fileProgress })
-  }
+  const onFileUploadProgress = fileProgress => setSubmitState({ ...submitState, hasDoneSubmit: true, fileProgress })
 
-  async function handleImageFileUpload(newImage) {
+  async function handleImageFileUpload(image) {
     if (!hasCustomImage) {
       // empyt string = standard image
       return { isError: false, imageName: '' }
     }
-    if (!newImage) {
+    if (!image) {
       // undefined = current custom image will be kept
       return { isError: false, imageName: undefined }
     }
     try {
-      const result = await uploadImage(context, courseCode, newImage.formData, onFileUploadProgress)
+      const result = await uploadImage(context, courseCode, image.formData, onFileUploadProgress)
       return { isError: false, imageName: result.imageName }
     } catch (err) {
       setSubmitState({ hasDoneSubmit: false, isError: true, errorMessage: apiImageErrorMsg, fileProgress: 0 })
@@ -87,7 +85,7 @@ export default function DescriptionPreview({ pageState }) {
 
       {submitState.isError && (
         <Alert color="danger">
-          <p>{errorMessage}</p>
+          <p>{submitState.errorMessage}</p>
         </Alert>
       )}
 

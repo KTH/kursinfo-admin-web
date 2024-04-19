@@ -33,8 +33,8 @@ async function getDescription(req, res, next) {
     const context = createDescriptionWebContext({
       language: lang,
       userId: req.session.passport.user.ugKthid,
-      koppsData: koppsData,
-      courseInfo: courseInfo,
+      koppsData,
+      courseInfo,
     })
 
     renderCoursePage(req, res, context)
@@ -71,7 +71,7 @@ async function updateDescription(req, res, next) {
     return res.sendStatus(200)
   } catch (error) {
     log.error('Error in descriptionCtrl -> updateDescription', { error })
-    next(error)
+    return next(error)
   }
 }
 

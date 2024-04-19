@@ -21,7 +21,7 @@ describe('otherInformationCtrl - updateOtherInformation', () => {
   it('should call kursinfoApi with PATCH when courseinfo exists', async () => {
     getCourseInfo.mockResolvedValueOnce({ supplementaryInfo: { sv: '', en: '' } })
 
-    await reqHandler(updateOtherInformation, { params: { courseCode }, body: data }, { userId: userId })
+    await reqHandler(updateOtherInformation, { params: { courseCode }, body: data }, { userId })
 
     expect(postCourseInfo).not.toHaveBeenCalled()
     expect(patchCourseInfo).toHaveBeenCalledWith(courseCode, {
@@ -36,7 +36,7 @@ describe('otherInformationCtrl - updateOtherInformation', () => {
   it('should call kursinfoApi with POST when no courseinfo exists', async () => {
     getCourseInfo.mockResolvedValueOnce({ notFound: true })
 
-    await reqHandler(updateOtherInformation, { params: { courseCode }, body: data }, { userId: userId })
+    await reqHandler(updateOtherInformation, { params: { courseCode }, body: data }, { userId })
 
     expect(patchCourseInfo).not.toHaveBeenCalled()
     expect(postCourseInfo).toHaveBeenCalledWith(courseCode, {

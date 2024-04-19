@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { safeGet } from 'safe-utils'
 
-const paramRegex = /\/(:[^\/\s]*)/g
+const paramRegex = /\/(:[^/\s]*)/g
 
 function _paramReplace(path, params) {
   let tmpPath = path

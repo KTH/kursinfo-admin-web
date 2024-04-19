@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react'
 import { COURSE_INFO_URL, USER_MANUAL_URL } from '../util/constants'
 

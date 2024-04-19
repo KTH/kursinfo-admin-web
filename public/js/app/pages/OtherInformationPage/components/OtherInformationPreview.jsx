@@ -11,7 +11,7 @@ import OtherInformationPreviewSection from './OtherInformationPreviewSection'
 export default function OtherInformationPreview({ pageState }) {
   const [context] = useWebContext()
   const textInputValues = pageState.textInput.values
-  const courseCode = pageState.courseCode
+  const { courseCode } = pageState
   const texts = i18n.messages[context.langIndex].editOtherInformation.step2
   const apiErrorMsg = i18n.messages[context.langIndex].pageTitles.alertMessages.api_error
 

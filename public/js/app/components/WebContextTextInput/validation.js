@@ -14,7 +14,7 @@ function validateCkEditorLength(htmlText, cleanText, langIndex) {
   }
 
   return {
-    errorMessage: errorMessage,
+    errorMessage,
   }
 }
 
