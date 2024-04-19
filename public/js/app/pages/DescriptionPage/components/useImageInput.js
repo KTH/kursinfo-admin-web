@@ -17,7 +17,7 @@ const useImageInput = () => {
 
   const onInputTypeChanged = hasCustomImage => {
     setState({
-      hasCustomImage: hasCustomImage,
+      hasCustomImage,
       termsChecked: false,
       newImage: null,
       error: null,
@@ -28,7 +28,7 @@ const useImageInput = () => {
 
   const setImage = newImage => setState({ ...state, newImage, termsChecked: false, error: null })
 
-  const setError = error => setState({ ...state, error: error })
+  const setError = error => setState({ ...state, error })
 
   const doSubmitValidation = () => {
     if (state.hasCustomImage) {
@@ -46,9 +46,8 @@ const useImageInput = () => {
 
   const hasChanged = React.useMemo(() => {
     if (imageFromApi.hasCustomImage !== state.hasCustomImage) return true
-    if (state.hasCustomImage && state.newImage) {
-      return true
-    }
+    else if (state.hasCustomImage && state.newImage) return true
+    else return false
   }, [state.hasCustomImage, state.newImage])
 
   const previewImageUrl = !state.hasCustomImage

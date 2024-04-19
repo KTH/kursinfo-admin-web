@@ -53,7 +53,6 @@ function uncompressData(data, dataId = 'DATA') {
 
   const dataKeys = Object.keys(uncompressedData)
   dataKeys.forEach(key => {
-    // eslint-disable-next-line no-param-reassign
     data[key] = uncompressedData[key]
   })
   return data

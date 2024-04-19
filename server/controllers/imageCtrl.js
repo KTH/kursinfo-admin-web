@@ -20,7 +20,7 @@ async function saveImageToStorage(req, res, next) {
     return httpResponse.json(res, savedImageNameObj)
   } catch (error) {
     log.error('Exception from saveImageToStorage ', { error })
-    next(error)
+    return next(error)
   }
 }
 

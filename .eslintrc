@@ -1,5 +1,6 @@
 {
-  "extends": [
-    "@kth/eslint-config-kth"
-  ]
+  "extends": ["@kth/eslint-config-kth"],
+  "globals": {
+    "CKEDITOR": true
+  }
 }

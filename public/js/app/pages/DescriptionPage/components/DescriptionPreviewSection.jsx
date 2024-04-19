@@ -7,8 +7,9 @@ const DescriptionPreviewSection = ({ pageState, lang }) => {
   const [context] = useWebContext()
 
   const imageUrl = pageState.imageInput.previewImageUrl
-  const values = pageState.textInput.values
+  const { values } = pageState.textInput
   const courseTitle = parseCourseName(context.routeData.courseData, context.langIndex, lang)
+  const step1Labels = i18n.messages[context.langIndex].editDescription.step1
   const labels = i18n.messages[context.langIndex].editDescription.step3
 
   const isSwe = lang === 'sv'
@@ -22,7 +23,7 @@ const DescriptionPreviewSection = ({ pageState, lang }) => {
       <p id="page-sub-heading">{headers.page}</p>
 
       <div className="PreviewSection__imageSection">
-        <img src={imageUrl} className="PreviewSection__image" />
+        <img src={imageUrl} alt={step1Labels.image.alt} className="PreviewSection__image" />
         <div>
           {sellingText && (
             <div className="PreviewSection__textBlock" dangerouslySetInnerHTML={{ __html: sellingText }} />

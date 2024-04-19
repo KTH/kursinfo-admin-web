@@ -1,5 +1,5 @@
+import React from 'react'
 import i18n from '../../../../../i18n'
-import React, { useEffect } from 'react'
 
 const CKEditorConfigs = {
   startupFocus: true,
@@ -20,16 +20,14 @@ function useToggleCKEditor(id, { onChange, onInstanceReady }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   React.useEffect(() => {
-    if (isOpen) initEditor()
-  }, [isOpen])
-
-  const initEditor = () => {
-    if (!CKEDITOR.instances[id]) {
-      const editor = CKEDITOR.replace(id, CKEditorConfigs)
-      onInstanceReady && editor.on('instanceReady', ev => onInstanceReady(ev))
-      onChange && editor.on('change', ev => onChange(ev))
+    if (isOpen) {
+      if (!CKEDITOR.instances[id]) {
+        const editor = CKEDITOR.replace(id, CKEditorConfigs)
+        onInstanceReady && editor.on('instanceReady', ev => onInstanceReady(ev))
+        onChange && editor.on('change', ev => onChange(ev))
+      }
     }
-  }
+  }, [isOpen])
 
   const destroyEditor = () => {
     CKEDITOR.instances[id]?.destroy()

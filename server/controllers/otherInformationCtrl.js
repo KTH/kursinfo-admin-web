@@ -34,8 +34,8 @@ async function getOtherInformation(req, res, next) {
     const context = createOtherInformationWebContext({
       language: lang,
       userId: req.session.passport.user.ugKthid,
-      koppsData: koppsData,
-      courseInfo: courseInfo,
+      koppsData,
+      courseInfo,
     })
 
     renderCoursePage(req, res, context)
@@ -67,7 +67,7 @@ async function updateOtherInformation(req, res, next) {
     return res.sendStatus(200)
   } catch (error) {
     log.error('Error in otherInformationCtrl -> updateOtherInformation', { error })
-    next(error)
+    return next(error)
   }
 }
 

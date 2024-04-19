@@ -19,15 +19,13 @@ async function getCourseInfo(courseCode) {
       }
     }
 
-    if (!res.response.ok) {
-      throwGenericError()
-    }
-
-    if (res.body) {
+    if (!res.response.ok || !res.body) {
+      return throwGenericError()
+    } else {
       return res.body
     }
   } catch (err) {
-    throwGenericError()
+    return throwGenericError()
   }
 }
 
@@ -36,7 +34,7 @@ async function patchCourseInfo(courseCode, data) {
     const { client, paths } = api.kursinfoApi
     const uri = client.resolve(paths.patchCourseInfoByCourseCode.uri, { courseCode })
     const res = await client.patchAsync({
-      uri: uri,
+      uri,
       body: { courseCode, ...data },
     })
 
@@ -53,7 +51,7 @@ async function postCourseInfo(courseCode, data) {
     const { client, paths } = api.kursinfoApi
     const uri = client.resolve(paths.postCourseInfo.uri, { courseCode })
     const res = await client.postAsync({
-      uri: uri,
+      uri,
       body: { courseCode, ...data },
     })
 

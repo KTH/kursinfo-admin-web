@@ -23,8 +23,8 @@ function parseCourseName(title, langIndex, language) {
 const PageTitle = ({ courseTitleData, pageTitle }) => {
   const [context] = useWebContext()
   const language = context.lang
-  const langIndex = context.langIndex
-  const courseCode = courseTitleData.courseCode
+  const { langIndex } = context
+  const { courseCode } = courseTitleData
 
   const courseName = parseCourseName(courseTitleData, langIndex, language)
   return (

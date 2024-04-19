@@ -175,17 +175,13 @@ const oidc = new OpenIDConnect(server, passport, {
   callbackSilentLoginRoute: _addProxy('/auth/silent/callback'),
   defaultRedirect: _addProxy(''),
   failureRedirect: _addProxy(''),
-  // eslint-disable-next-line no-unused-vars
   extendUser: (user, claims) => {
     const { kthid, memberOf } = claims
 
-    // eslint-disable-next-line no-param-reassign
     user.isSuperUser = memberOf.includes(config.auth.superuserGroup)
     user.isKursinfoAdmin = memberOf.includes(config.auth.kursinfoAdmins)
 
-    // eslint-disable-next-line no-param-reassign
     user.ugKthid = kthid
-    // eslint-disable-next-line no-param-reassign
     user.memberOf = typeof memberOf === 'string' ? [memberOf] : memberOf
   },
 })
@@ -193,7 +189,6 @@ const oidc = new OpenIDConnect(server, passport, {
 // eslint-disable-next-line no-unused-vars
 server.get(_addProxy('/login'), oidc.login, (req, res, next) => res.redirect(_addProxy('')))
 
-// eslint-disable-next-line no-unused-vars
 server.get(_addProxy('/logout'), oidc.logout)
 /* ******************************
  * ******* CORTINA BLOCKS *******

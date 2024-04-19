@@ -15,8 +15,8 @@ const useOtherInformationPageState = steps => {
   const progress = useProgressBar(steps)
   const textInput = useWebContextTextInput()
 
-  const courseCode = context.routeData.courseData.courseCode
-  const hasChanges = textInput.hasChanges
+  const { courseCode } = context.routeData.courseData
+  const { hasChanges } = textInput
 
   return { progress, textInput, hasChanges, courseCode }
 }

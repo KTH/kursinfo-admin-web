@@ -14,13 +14,11 @@ const mockedContext = {
 }
 
 jest.mock('../validation')
-jest.mock('../../../context/WebContext', () => {
-  return {
-    useWebContext() {
-      return [mockedContext, jest.fn()]
-    },
-  }
-})
+jest.mock('../../../context/WebContext', () => ({
+  useWebContext() {
+    return [mockedContext, jest.fn()]
+  },
+}))
 
 const createEditorMock = html => ({
   getData: () => html,

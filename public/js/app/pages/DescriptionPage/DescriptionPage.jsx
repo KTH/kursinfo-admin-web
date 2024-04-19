@@ -17,7 +17,7 @@ const useDescriptionPageState = steps => {
   const textInput = useWebContextTextInput()
   const imageInput = useImageInput()
 
-  const courseCode = context.routeData.courseData.courseCode
+  const { courseCode } = context.routeData.courseData
   const hasChanges = textInput.hasChanges || imageInput.hasChanged
 
   return { progress, textInput, imageInput, hasChanges, courseCode }

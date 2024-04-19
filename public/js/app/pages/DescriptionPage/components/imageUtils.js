@@ -1,5 +1,14 @@
 import imageCompression from 'browser-image-compression'
 
+function createImageFormData(imageFile, courseCode) {
+  const formData = new FormData()
+  formData.append('courseCode', courseCode)
+  formData.append('file', imageFile)
+  formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
+  formData.append('pictureBy', 'Picture chosen by user')
+  return formData
+}
+
 async function compressFile(imageFile, courseCode) {
   const options = {
     initialQuality: 1,
@@ -18,15 +27,6 @@ async function compressFile(imageFile, courseCode) {
   return { imageFilePath, imageFormData }
 }
 
-function createImageFormData(imageFile, courseCode) {
-  const formData = new FormData()
-  formData.append('courseCode', courseCode)
-  formData.append('file', imageFile)
-  formData.append('fileExtension', imageFile.name.toLowerCase().split('.').pop())
-  formData.append('pictureBy', 'Picture chosen by user')
-  return formData
-}
-
 function uploadImage(context, courseCode, formData, onProgress) {
   const { hostUrl } = context.browserConfig
   const [saveImageUrl] = context.paths.storage.saveImage.uri.split(':')
@@ -34,14 +34,12 @@ function uploadImage(context, courseCode, formData, onProgress) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest()
     req.upload.addEventListener('progress', uploadEvent => {
-      console.log('progress', uploadEvent.lengthComputable)
       if (uploadEvent.lengthComputable) {
         const p = (uploadEvent.loaded / uploadEvent.total) * 100
         onProgress(p)
       }
     })
-    req.onreadystatechange = function () {
-      console.log('onreadystatechange', this.readyState)
+    req.onreadystatechange = function onUploadImageStateChange() {
       if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
           resolve({ imageName: this.response })

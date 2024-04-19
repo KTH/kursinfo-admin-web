@@ -83,10 +83,8 @@ module.exports.requireRole = (...roles) =>
 
     if (!hasBasicAuthorizedRole && !roles.includes('isSchoolAdmin')) return next(messageHaveNotRights(lang))
 
-    _isAdminOfCourseSchool(courseCode, user).then(isAdminOfCourseSchool => {
-      req.session.passport.user.roles.isSchoolAdmin = isAdminOfCourseSchool
-
-      if (isAdminOfCourseSchool) return next()
-      else return next(messageHaveNotRights(lang))
-    })
+    const isAdminOfCourseSchool = await _isAdminOfCourseSchool(courseCode, user)
+    req.session.passport.user.roles.isSchoolAdmin = isAdminOfCourseSchool
+    if (isAdminOfCourseSchool) return next()
+    else return next(messageHaveNotRights(lang))
   }
