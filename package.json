@@ -103,7 +103,7 @@
     "path": "^0.12.7",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
-    "sass-loader": "^13.3.3",
+    "sass-loader": "^14.2.1",
     "set-value": "^4.1.0",
     "terser-webpack-plugin": "^5.3.10",
     "webpack": "^5.91.0",
