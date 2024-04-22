@@ -19,7 +19,7 @@ function useWebContextTextInput() {
       const initialText = initialValues[key]?.replace(/\n/g, '') ?? ''
       return text.localeCompare(initialText) !== 0
     })
-  }, [values])
+  }, [context.routeData.values, values])
 
   const onChange = (field, editor) => {
     const htmlText = editor.getData()

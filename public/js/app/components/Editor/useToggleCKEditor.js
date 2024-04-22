@@ -27,7 +27,10 @@ function useToggleCKEditor(id, { onChange, onInstanceReady }) {
         onChange && editor.on('change', ev => onChange(ev))
       }
     }
-  }, [isOpen])
+    // eslint rule disabled for onChange and onInstanceReady, would be great if
+    // it wasn't needed, but should hopefully not be a problem to disable it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, isOpen])
 
   const destroyEditor = () => {
     CKEDITOR.instances[id]?.destroy()

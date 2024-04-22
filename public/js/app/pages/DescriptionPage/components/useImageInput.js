@@ -48,7 +48,7 @@ const useImageInput = () => {
     if (imageFromApi.hasCustomImage !== state.hasCustomImage) return true
     else if (state.hasCustomImage && state.newImage) return true
     else return false
-  }, [state.hasCustomImage, state.newImage])
+  }, [imageFromApi.hasCustomImage, state.hasCustomImage, state.newImage])
 
   const previewImageUrl = !state.hasCustomImage
     ? defaultImage.url
