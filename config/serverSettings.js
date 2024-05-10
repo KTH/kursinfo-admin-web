@@ -126,10 +126,6 @@ module.exports = {
     },
     redisOptions: unpackRedisConfig('REDIS_URI', devRedis),
   },
-  // APPLICATION INSIGHTS IN AZURE
-  appInsights: {
-    instrumentationKey: getEnv('APPINSIGHTS_INSTRUMENTATIONKEY', 'as'),
-  },
   fileStorage: {
     kursinfoStorage: {
       containerName: getEnv('STORAGE_CONTAINER_NAME', devStorageContainerName),

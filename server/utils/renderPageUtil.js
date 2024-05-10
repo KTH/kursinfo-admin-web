@@ -1,5 +1,4 @@
 const i18n = require('../../i18n')
-const serverConfig = require('../configuration.js').server
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { getLangIndex } = require('./langUtil')
 
@@ -20,7 +19,6 @@ function renderCoursePage(req, res, context) {
     compressedData,
     title: `${messages.title} | ${courseCode}`,
     description: messages.description,
-    instrumentationKey: serverConfig.appInsights.instrumentationKey,
   })
 }
 

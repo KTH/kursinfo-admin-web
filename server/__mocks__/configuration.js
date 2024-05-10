@@ -5,9 +5,6 @@ module.exports = {
     koppsApi: {},
     proxyPrefixPath: { uri: '/mockedProxyPrefixPath' },
     hostUrl: 'http://mockedHost',
-    appInsights: {
-      instrumentationKey: 'instrumentationKey',
-    },
   },
   browser: {},
 }
