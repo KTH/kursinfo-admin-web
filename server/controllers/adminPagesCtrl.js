@@ -55,7 +55,6 @@ async function getAdminStart(req, res, next) {
     res.render('course/index', {
       compressedData,
       debug: 'debug' in req.query,
-      instrumentationKey: serverConfig.appInsights.instrumentationKey,
       title: `${courseCode} | ${messages.title}`,
       description: messages.description,
       html: view,
