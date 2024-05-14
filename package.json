@@ -41,7 +41,7 @@
     "@kth/monitor": "^4.3.0",
     "@kth/server": "^4.1.0",
     "@kth/session": "^3.0.9",
-    "applicationinsights": "^2.9.5",
+    "applicationinsights": "^3.1.0",
     "axios": "^1.6.8",
     "body-parser": "^1.20.2",
     "browser-image-compression": "^2.0.2",
