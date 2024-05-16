@@ -56,7 +56,7 @@ module.exports = {
 
   // API keys
   apiKey: {
-    kursinfoApi: getEnv('API_KEY', devDefaults('1234')),
+    kursinfoApi: getEnv('KURSINFO_API_KEY', devDefaults('1234')),
   },
 
   // Authentication
@@ -70,7 +70,7 @@ module.exports = {
 
   // Service API's
   nodeApi: {
-    kursinfoApi: unpackNodeApiConfig('API_URI', devKursinfoApi),
+    kursinfoApi: unpackNodeApiConfig('KURSINFO_API_URI', devKursinfoApi),
   },
 
   redisOptions: unpackRedisConfig('REDIS_URI', devRedis), // TODO, CHECK IF IT IS NEEDED
