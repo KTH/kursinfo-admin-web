@@ -22,7 +22,7 @@ services:
       LOGGING_ACCESS_LOG: "true"
 
       # API runs on host
-      API_URI: "http://host.docker.internal:3001/api/kursinfo"
+      KURSINFO_API_URI: "http://host.docker.internal:3001/api/kursinfo"
 
       # API runs in ref
       KOPPS_URI: "https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000"

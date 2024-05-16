@@ -26,7 +26,7 @@ localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
 
 - Course introduction text for course information page, which can be edited by course coordinators and examiners.
-  (requires only: `API_KEY` kursinfo-api)
+  (requires only: `KURSINFO_API_KEY` kursinfo-api)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
@@ -102,7 +102,7 @@ Secrets during local development are ALWAYS stored in a `.env`-file in the root 
 IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
 
 ```
-API_KEY=[key you specified in kursinfo-api for this service]
+KURSINFO_API_KEY=[key you specified in kursinfo-api for this service]
 KOPPS_URI=https://[kopps api]/api/kopps/v2/?defaultTimeout=60000
 SESSION_SECRET=[something random]
 SESSION_KEY=[f.e. kursinfo-admin-web.sid]
@@ -206,7 +206,7 @@ npm run test
 
 ## Use 🐳
 
-`API_URI` in `docker-compose.yml` is configured for a local kursinfo-api, and might as well be changed to kursinfo-api in ref.
+`KURSINFO_API_URI` in `docker-compose.yml` is configured for a local kursinfo-api, and might as well be changed to kursinfo-api in ref.
 
 ```sh
 docker-compose up
