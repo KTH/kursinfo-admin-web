@@ -26,7 +26,6 @@ localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
 ```
 
 - Course introduction text for course information page, which can be edited by course coordinators and examiners.
-  (requires only: `KURSINFO_API_KEY` kursinfo-api)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/edit/:courseCode
@@ -97,31 +96,7 @@ Later you will use it as a _BLOB_SERVICE_SAS_URL_ in secrets together with a nam
 
 ### Secrets for Development
 
-Secrets during local development are ALWAYS stored in a `.env`-file in the root of your project.
-
-IMPORTANT: In Prod env, save URL:s in docker file but secrets in secrets.env
-
-```
-KURSINFO_API_KEY=[key you specified in kursinfo-api for this service]
-KOPPS_URI=https://[kopps api]/api/kopps/v2/?defaultTimeout=60000
-SESSION_SECRET=[something random]
-SESSION_KEY=[f.e. kursinfo-admin-web.sid]
-OIDC_APPLICATION_ID=<FROM ADFS>
-OIDC_CLIENT_SECRET=<FROM ADFS>
-OIDC_TOKEN_SECRET=<Random string>
-OIDC_CONFIGURATION_URL=<not needed if localhost>
-OIDC_CALLBACK_URL=<not needed if localhost>
-OIDC_CALLBACK_SILENT_URL=<not needed if localhost>
-OIDC_CALLBACK_LOGOUT_URL=<not needed if localhost>
-REDIS_URI=[connection string to redis]
-/*If you want to start your server on another port, add the following two variables, else use default ones from serversettings.js*/
-SERVER_PORT=[your port for the server]
-SERVER_HOST_URL=http://localhost:[SERVER_PORT]
-BLOB_SERVICE_SAS_URL=https://[blob storage address]/?sv=[date]&ss=b&srt=o&sp=rwcx&se=[date]&st=[date]&spr=https&sig=[generated signature]
-STORAGE_CONTAINER_NAME=kursinfo-image-container
-```
-
-These settings are also available in an `env.in` file.
+Secrets during local development are stored in a gitignored `.env` file (`env.in` can be used as template for your `.env` file). More details about environment variable setup and secrets can be found in [confluence](https://confluence.sys.kth.se/confluence/x/OYKBDQ).
 
 ### Install
 
