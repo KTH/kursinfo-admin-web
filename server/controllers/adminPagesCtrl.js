@@ -60,6 +60,7 @@ async function getAdminStart(req, res, next) {
       html: view,
       lang,
       paths: JSON.stringify(serverPaths), // don't remove it, it's needed for handlebars
+      toolbarUrl: serverConfig.toolbar.url,
       proxyPrefix,
     })
   } catch (error) {

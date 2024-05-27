@@ -19,9 +19,11 @@
 
   {{prefixScript '/static/vendor.js' 'head-scripts'}}
   {{prefixScript '/static/browserConfig' 'head-scripts'}}
-  <!--<script rel='preload' src="//www.kth.se/social/toolbar/widget.js"></script>-->
 
   {{{render 'head-scripts'}}}
+
+  <script src="{{toolbarUrl}}"></script>
+
 </head>
 
 <body>
