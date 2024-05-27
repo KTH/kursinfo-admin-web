@@ -49,3 +49,6 @@ slask_delete.txt
 # Cypress env
 cypress
 cypress.env.json
+
+# Dev notes
+notes*
