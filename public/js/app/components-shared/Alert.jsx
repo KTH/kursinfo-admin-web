@@ -1,5 +1,9 @@
-// https://intra.kth.se/style/en/components/alert
-
+/**
+ * https://intra.kth.se/style/en/components/alert
+ *
+ * Changelog:
+ * - 2024-05-?? - initial version (release of kth-style 10 public apps)
+ */
 import React from 'react'
 import PropTypes from 'prop-types'
 
