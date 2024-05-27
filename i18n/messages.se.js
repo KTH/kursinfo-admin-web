@@ -195,7 +195,7 @@ module.exports = {
   editOtherInformation: {
     pageHeader: 'Övrig information',
     step1: {
-      label: 'Redigera text',
+      title: 'Redigera text',
       intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på sidan Inför kursval.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
@@ -205,7 +205,7 @@ module.exports = {
       },
     },
     step2: {
-      label: 'Granska och publicera',
+      title: 'Granska och publicera',
       header: 'Granska',
       nextButton: 'Publicera',
       backButton: 'Redigera text',
@@ -220,7 +220,7 @@ module.exports = {
     pageHeader: 'Introduktion till kursen och kursupplägg',
 
     step1: {
-      label: 'Välj bild',
+      title: 'Välj bild',
       intro: 'I detta steg kan du välja mellan en standardbild eller ladda upp en egen.',
       nextButton: 'Redigera text',
       headerModal: {
@@ -253,7 +253,7 @@ module.exports = {
       },
     },
     step2: {
-      label: 'Redigera text',
+      title: 'Redigera text',
       intro: `Beskriv kortfattat kursinnehållet under ”Introduktion till kursen” och ge en översiktlig beskrivningen av hur undervisningen är upplagd under ”Kursupplägg”. Sidan visas på både svenska och engelska, så inkludera text på båda språken.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
@@ -266,7 +266,7 @@ module.exports = {
       },
     },
     step3: {
-      label: 'Granska och publicera',
+      title: 'Granska och publicera',
       nextButton: 'Publicera',
       backButton: 'Redigera text',
       headersSv: {

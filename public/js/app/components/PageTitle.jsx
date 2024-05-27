@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useWebContext } from '../context/WebContext'
 import { EMPTY } from '../util/constants'
+import PageHeading from '../components-shared/PageHeading'
 
 function parseCourseName(title, langIndex, language) {
   const courseCode = title?.courseCode
@@ -27,14 +28,7 @@ const PageTitle = ({ courseTitleData, pageTitle }) => {
   const { courseCode } = courseTitleData
 
   const courseName = parseCourseName(courseTitleData, langIndex, language)
-  return (
-    <header id="course-title" className="pageTitle col">
-      <span id="page-course-title" role="heading" aria-level="1">
-        <span className="t1">{pageTitle}</span>
-        <span className="t4">{courseCode && courseName}</span>
-      </span>
-    </header>
-  )
+  return <PageHeading heading={pageTitle} subHeading={courseCode && courseName} />
 }
 
 export { parseCourseName }

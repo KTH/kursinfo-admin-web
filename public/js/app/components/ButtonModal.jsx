@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap'
+import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
 import { goToStartPage } from '../util/links'
+import Button from '../components-shared/Button'
 
 function ButtonModal(props) {
   const [state, setState] = useState({ isOpen: false })
@@ -28,7 +29,7 @@ function ButtonModal(props) {
   const { btnLabel, children, course, disabled, type, id, modalLabels } = props
   const { header, body, btnCancel, btnConfirm } = modalLabels
   const btnStyle = classNames(
-    { 'btn-info-modal': type === 'info-icon' },
+    { 'btn-info-modal': type === 'info-icon' }, // TODO: karl: kth-style - modal button
     { secondary: type === 'cancel-with-modal' || type === 'cancel-without-modal' },
     { success: type === 'submit' },
     { danger: type === 'remove' }
@@ -38,7 +39,7 @@ function ButtonModal(props) {
     <span>
       <Button
         type="button"
-        color={btnStyle}
+        variant={btnStyle}
         className={btnStyle}
         disabled={disabled}
         onClick={type === 'cancel-without-modal' ? handleConfirm : toggle}
@@ -56,11 +57,11 @@ function ButtonModal(props) {
           <p dangerouslySetInnerHTML={{ __html: body }} />
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={toggle}>
+          <Button variant="secondary" onClick={toggle}>
             {btnCancel}
           </Button>
           {type === 'submit' || type === 'remove' || type.includes('cancel') ? (
-            <Button color="secondary" type={type} onClick={handleConfirm}>
+            <Button variant="secondary" type={type} onClick={handleConfirm}>
               {btnConfirm}
             </Button>
           ) : (

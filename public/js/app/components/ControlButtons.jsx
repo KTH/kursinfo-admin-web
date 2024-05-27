@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, Col } from 'reactstrap'
 
 import i18n from '../../../../i18n'
 import { useWebContext } from '../context/WebContext'
 import { ADMIN_ABOUT_COURSE, CANCEL_PARAMETER } from '../util/constants'
+import Button from '../components-shared/Button'
 import ButtonModal from './ButtonModal'
 
 export default function ControlButtons({ pageState, back, next }) {
@@ -18,14 +18,14 @@ export default function ControlButtons({ pageState, back, next }) {
 
   return (
     <div className="control-buttons">
-      <Col sm="4">
+      <div>
         {back && (
-          <Button className="back" onClick={() => pageState.progress.goToPrevious()}>
+          <Button variant="back" onClick={() => pageState.progress.goToPrevious()}>
             {backLabel}
           </Button>
         )}
-      </Col>
-      <Col sm="4">
+      </div>
+      <div>
         <ButtonModal
           type={hasChanges ? 'cancel-with-modal' : 'cancel-without-modal'}
           course={pageState?.courseCode}
@@ -33,8 +33,8 @@ export default function ControlButtons({ pageState, back, next }) {
           modalLabels={confirmModalsLabels.cancel}
           returnToUrl={`${ADMIN_ABOUT_COURSE}${pageState?.courseCode}${CANCEL_PARAMETER}`}
         />
-      </Col>
-      <Col sm="4">
+      </div>
+      <div>
         {next.confirmPublish ? (
           <ButtonModal
             type={'submit'}
@@ -45,11 +45,11 @@ export default function ControlButtons({ pageState, back, next }) {
             disabled={next.disabled}
           />
         ) : (
-          <Button className="next" color="success" onClick={next.onClick} disabled={next.disabled} href={next.href}>
+          <Button variant="next" onClick={next.onClick} disabled={next.disabled} href={next.href}>
             {nextLabel}
           </Button>
         )}
-      </Col>
+      </div>
     </div>
   )
 }

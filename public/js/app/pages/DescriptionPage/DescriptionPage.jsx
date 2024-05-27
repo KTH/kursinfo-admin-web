@@ -3,7 +3,7 @@ import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import PageTitle from '../../components/PageTitle'
 import KoppsErrorPage from '../../components/KoppsErrorPage'
-import ProgressBar, { useProgressBar } from '../../components/ProgressBar'
+import ProgressBar, { useProgressBar } from '../../components-shared/ProgressBar'
 import { useWebContextTextInput } from '../../components/WebContextTextInput/useWebContextTextInput'
 
 import DescriptionImageEdit from './components/DescriptionImageEdit'

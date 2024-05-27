@@ -199,7 +199,7 @@ module.exports = {
   editOtherInformation: {
     pageHeader: 'Supplementary information',
     step1: {
-      label: 'Edit text',
+      title: 'Edit text',
       intro: `Here you add any additional information that may be important for the student to know. The text will be displayed at the bottom of the page Before course selection.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
@@ -209,7 +209,7 @@ module.exports = {
       },
     },
     step2: {
-      label: 'Preview and publish',
+      title: 'Preview and publish',
       header: 'Preview',
       nextButton: 'Publish',
       backButton: 'Edit text',
@@ -223,7 +223,7 @@ module.exports = {
   editDescription: {
     pageHeader: 'Course introduction and course disposition',
     step1: {
-      label: 'Choose image',
+      title: 'Choose image',
       intro: 'In this step, you can choose between a standard image or upload your own.',
       nextButton: 'Edit text',
       headerModal: {
@@ -254,7 +254,7 @@ module.exports = {
       },
     },
     step2: {
-      label: 'Edit text',
+      title: 'Edit text',
       intro: `Describe briefly the course content under “Introduction to the course” and provide a brief overview of how the teaching is structured under “Course disposition.” The page is displayed in both Swedish and English, so include text in both languages.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
@@ -267,7 +267,7 @@ module.exports = {
       },
     },
     step3: {
-      label: 'Preview and publish',
+      title: 'Preview and publish',
       nextButton: 'Publish',
       backButton: 'Edit text',
       headersSv: {
