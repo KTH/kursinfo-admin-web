@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
+import Alert from '../components-shared/Alert'
 import { COURSE_INFO_IN_CANVAS } from '../util/constants'
 import i18n from '../../../../i18n'
 
@@ -14,7 +14,7 @@ const AlertReminderMsgNewPubMemo = ({ querySearchParams, lang = 'en' }) => {
   return (
     serviceAbbr === 'pmdata' &&
     doneAction === 'pub' && (
-      <Alert color="info" aria-live="polite">
+      <Alert type="info">
         <p>
           {pub_info}
           <a href={COURSE_INFO_IN_CANVAS[lang]} aria-label={ariaLabel}>

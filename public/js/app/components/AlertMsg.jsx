@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
+import Alert from '../components-shared/Alert'
 import { COURSE_INFO_URL, COURSE_PMDATA_URL, COURSE_UTVECKLING, ADMIN_COURSE_PM_DATA } from '../util/constants'
 
 const publicUrls = {
@@ -49,8 +49,7 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
     : null
 
   return (
-    <Alert color="success" aria-live="polite">
-      <h4>{alertMessages[serviceAbbr][doneAction]}</h4>
+    <Alert type="success" header={alertMessages[serviceAbbr][doneAction]}>
       {semester && <p>{`${alertMessages.semester}: ${semesterLabel}`}</p>}
       {courseRoundName && <p>{`${alertMessages.course_offering}: ${decodeURIComponent(courseRoundName)}`}</p>}
       {publishedActions.includes(doneAction) ? (

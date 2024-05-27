@@ -36,18 +36,21 @@ function ButtonModal(props) {
   )
 
   return (
-    <span>
-      <Button
-        type="button"
-        variant={btnStyle}
-        className={btnStyle}
-        disabled={disabled}
-        onClick={type === 'cancel-without-modal' ? handleConfirm : toggle}
-      >
-        {btnLabel}
-      </Button>
+    <>
+      {btnStyle === 'btn-info-modal' ? (
+        <button id={id} type="button" className={btnStyle} onClick={toggle} />
+      ) : (
+        <Button
+          type="button"
+          variant={btnStyle}
+          disabled={disabled}
+          onClick={type === 'cancel-without-modal' ? handleConfirm : toggle}
+        >
+          {btnLabel}
+        </Button>
+      )}
       <Modal isOpen={state.isOpen} toggle={toggle} id={id}>
-        <div className="modal-header h-4">
+        <div className="modal-header">
           <h4 className="modal-title">{header}</h4>
           <button type="button" className="btn-close" aria-label="Close" onClick={toggle}></button>
         </div>

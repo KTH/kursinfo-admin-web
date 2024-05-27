@@ -1,8 +1,8 @@
 import React from 'react'
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import { Alert } from 'reactstrap'
 
 import i18n from '../../../../../../i18n'
+import Alert from '../../../components-shared/Alert'
 import ControlButtons from '../../../components/ControlButtons'
 import { useWebContext } from '../../../context/WebContext'
 import { goToAdminStartPage } from '../../../util/links'
@@ -84,7 +84,7 @@ export default function DescriptionPreview({ pageState }) {
       )}
 
       {submitState.isError && (
-        <Alert color="danger">
+        <Alert type="warning">
           <p>{submitState.errorMessage}</p>
         </Alert>
       )}

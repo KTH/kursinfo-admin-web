@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
+import Alert from '../components-shared/Alert'
 import i18n from '../../../../i18n'
 
 const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
@@ -12,7 +12,7 @@ const AlertReminderMsg = ({ querySearchParams, lang = 'en' }) => {
   return (
     serviceAbbr === 'pmdata' &&
     doneAction === 'pub_changed' && (
-      <Alert color="info" aria-live="polite">
+      <Alert type="info">
         <p>{pub_changed_info}</p>
       </Alert>
     )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
+import Alert from '../components-shared/Alert'
 
 // &noMemo=CSAMH%20(%20Startdatum%202012-08-24,%20Svenska%20)
 const AlertMemoMsg = ({
@@ -24,8 +24,7 @@ const AlertMemoMsg = ({
 
   return (
     showAlert && (
-      <Alert color="info" aria-live="polite">
-        <h4>{noMemoHeader}</h4>
+      <Alert type="info" header={noMemoHeader}>
         {lang === 'sv' ? (
           <p>{`Använd funktionen: Kurs-PM nedan och publicera kurs-PM för ${semesterFriendly}, och kurstillfällen: ${decodedRoundNames}. Då kommer kurs-PM att visas på sidorna: Kursens utveckling och Kurs-PM.`}</p>
         ) : (
