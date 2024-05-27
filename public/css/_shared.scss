@@ -1,0 +1,166 @@
+// This file contains style shared (copied) between the admin apps of Om kursen apps (kurs-pm-admin-web, kurs-pm-data-admin-web, kursinfo-admin-web, kursutveckling-admin-web)
+
+@use '~@kth/style/scss/tokens/typography.scss';
+@use '~@kth/style/scss/tokens/colors.scss';
+
+/* App/layout
+ * Shared main layout spacing
+ */
+#app {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+.page-heading {
+  margin-bottom: 32px;
+}
+.progress-bar-container {
+  margin-bottom: 40px;
+}
+.page-header-wrapper {
+  margin-bottom: 32px;
+}
+.control-buttons {
+  margin-top: 48px;
+}
+
+/* Page heading
+ * Used by components-shared/PageHeading.jsx
+ */
+.page-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 0.25rem;
+
+  .page-heading__heading {
+    @include typography.font-heading-xl;
+  }
+  .page-heading__subHeading {
+    @include typography.font-heading-s;
+  }
+}
+
+/* Page header wrapper
+ * Used in kurs-pm-web and kurs-pm-admin-web to display meta data about selected kursomgång.
+ */
+.page-header-wrapper {
+  display: flex;
+  column-gap: 32px;
+
+  .page-header-container {
+    display: flex;
+    h4 {
+      margin: 0 0.3rem 0 0;
+      line-height: 1.5;
+      font-size: 1em;
+      &:after {
+        content: ':';
+      }
+    }
+  }
+  .no-wrap {
+    white-space: nowrap;
+  }
+}
+
+/* Control buttons 
+ * Button row at bottom of admin pages
+ */
+.control-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 20px 0;
+  border-top: 1px solid var(--color-border);
+
+  div {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    div {
+      width: calc(100% / 3);
+    }
+    div:nth-child(1) {
+      justify-content: flex-start;
+    }
+    div:nth-child(2) {
+      justify-content: center;
+    }
+    div:nth-child(3) {
+      justify-content: flex-end;
+    }
+  }
+
+  .kth-button {
+    vertical-align: middle;
+  }
+}
+
+/* Progress bar 
+ * Used by components-shared/ProgressBar.jsx
+ */
+.progress-bar-container {
+  .progress-bar {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .progress-bar-item {
+    border-bottom: 1px solid var(--color-border);
+    padding-left: 0;
+    margin-bottom: 10px;
+    flex: 1;
+    text-align: left;
+
+    &.progress-active {
+      font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+      text-align: center;
+
+      &:first-child {
+        text-align: left;
+      }
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  p {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+/* Button for info modals for headers
+ * Previously called FormHeaderAndInfo and title_and_info in different admin repos.
+ * Usage now: just include a button with class=btn-info-modal in h1,h2,h3
+ */
+h1,
+h2,
+h3 {
+  &:has(> .btn-info-modal) {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+
+    .btn-info-modal {
+      margin: 0;
+      height: 20px;
+      width: 20px;
+    }
+  }
+}
