@@ -21,6 +21,7 @@ function renderCoursePage(req, res, context) {
     title: `${messages.title} | ${courseCode}`,
     description: messages.description,
     toolbarUrl: serverConfig.toolbar.url,
+    proxyPrefix: serverConfig.proxyPrefixPath,
   })
 }
 
