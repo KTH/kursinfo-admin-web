@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'reactstrap'
+import Button from '../components-shared/Button'
 
 const FileInput = React.forwardRef((props, ref) => {
   const inputRef = React.useRef(null)
@@ -32,7 +32,7 @@ const FileInput = React.forwardRef((props, ref) => {
     <span className="btn-upload-file">
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label role="presentation" htmlFor={id} onClick={clickFileInput}>
-        <Button color="secondary" block>
+        <Button variant="secondary">
           <span>{btnLabel}</span>
         </Button>
       </label>

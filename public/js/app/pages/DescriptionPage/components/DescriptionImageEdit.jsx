@@ -1,5 +1,4 @@
 import React from 'react'
-import { Alert, Button } from 'reactstrap'
 
 import i18n from '../../../../../../i18n'
 import ButtonModal from '../../../components/ButtonModal'
@@ -7,6 +6,8 @@ import ControlButtons from '../../../components/ControlButtons'
 import FileInput from '../../../components/FileInput'
 import { useWebContext } from '../../../context/WebContext'
 import { INTRA_IMAGE_INFO } from '../../../util/constants'
+import Alert from '../../../components-shared/Alert'
+import Button from '../../../components-shared/Button'
 
 import { compressFile } from './imageUtils'
 
@@ -49,10 +50,10 @@ export default function DescriptionImageEdit({ pageState }) {
     <>
       <span className="Upload--Area col">
         {isDefaultImageSelected && imageFromApi.hasCustomImage && (
-          <Alert color="info">{texts.alertMessages.replace_api_with_default}</Alert>
+          <Alert type="info">{texts.alertMessages.replace_api_with_default}</Alert>
         )}
 
-        {imageInputState.error && <Alert color="danger">{texts.alertMessages[imageInputState.error]}</Alert>}
+        {imageInputState.error && <Alert type="warning">{texts.alertMessages[imageInputState.error]}</Alert>}
 
         <span className="title_and_info">
           <h2 data-testid="intro-heading">
@@ -112,7 +113,7 @@ export default function DescriptionImageEdit({ pageState }) {
             >
               {imageInputState.newImage && imageFromApi.hasCustomImage && (
                 <Button
-                  color="secondary"
+                  variant="secondary"
                   onClick={() => {
                     fileInputRef.current?.clearInput()
                     imageInputState.setImage(null)

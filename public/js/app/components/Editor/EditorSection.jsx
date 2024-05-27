@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'reactstrap'
 
 import i18n from '../../../../../i18n'
 
 import { useWebContext } from '../../context/WebContext'
+import Button from '../../components-shared/Button'
 import EditButton from '../EditButton'
 import { useToggleCKEditor } from './useToggleCKEditor'
 
@@ -43,7 +43,7 @@ const EditorSection = ({ name, title, validationError, value, onChange }) => {
 
         {isOpen && (
           <div className="EditorSection__buttons">
-            <Button onClick={closeEditor} color="secondary">
+            <Button onClick={closeEditor} variant="secondary">
               {messages.compontents.editorSection.close}
             </Button>
           </div>

@@ -20,7 +20,7 @@ export default function ControlButtons({ pageState, back, next }) {
     <div className="control-buttons">
       <div>
         {back && (
-          <Button variant="back" onClick={() => pageState.progress.goToPrevious()}>
+          <Button variant="previous" onClick={() => pageState.progress.goToPrevious()}>
             {backLabel}
           </Button>
         )}

@@ -11,7 +11,7 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPages
         aria-label={`${lang === 'en' ? 'Go to About course information ' : 'Gå till Om kursen SF1624 '}${courseCode}`}
         lang={lang}
       >
-        <a href={aboutCourseLink} className="link-back">
+        <a href={aboutCourseLink} className="kth-button back">
           {translate.about_course}
         </a>
       </nav>

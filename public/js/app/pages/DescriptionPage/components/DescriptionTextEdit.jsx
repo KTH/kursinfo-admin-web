@@ -1,7 +1,7 @@
 import React from 'react'
-import { Alert } from 'reactstrap'
 
 import i18n from '../../../../../../i18n'
+import Alert from '../../../components-shared/Alert'
 import ControlButtons from '../../../components/ControlButtons'
 import EditorSection from '../../../components/Editor/EditorSection'
 import { useWebContext } from '../../../context/WebContext'
@@ -20,9 +20,7 @@ export default function DescriptionTextEdit({ pageState }) {
       <span className="title_and_info">
         <h2>{texts.label}</h2>
       </span>
-      <Alert color="info" aria-live="polite" fade={false}>
-        {texts.alert}
-      </Alert>
+      <Alert type="info">{texts.alert}</Alert>
 
       <EditorSection title={texts.fields.sellingTextSv} {...getEditorSectionProps('sellingTextSv')} />
       <EditorSection title={texts.fields.sellingTextEn} {...getEditorSectionProps('sellingTextEn')} />

@@ -285,6 +285,11 @@ span.title_and_info {
   vertical-align: middle;
 }
 
+.btn-upload-file {
+  button {
+    width: 100%;
+  }
+}
 .btn-upload-file span::after {
   height: 1.3em;
 }
