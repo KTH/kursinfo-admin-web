@@ -11,6 +11,8 @@ module.exports = {
      */
     date_format_short: '%d-%b-%Y',
 
+    language_link_lang_sv: 'Svenska',
+
     /**
      * Error messages
      */

@@ -19,9 +19,11 @@ function renderCoursePage(req, res, context) {
     html: view,
     compressedData,
     title: `${messages.title} | ${courseCode}`,
+    lang: context.lang,
     description: messages.description,
     toolbarUrl: serverConfig.toolbar.url,
-    proxyPrefix: serverConfig.proxyPrefixPath,
+    theme: 'student-web',
+    proxyPrefix: serverConfig.proxyPrefixPath.uri,
   })
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='sv'>
+<html lang="{{lang}}">
 
 <head>
   <title>KTH | {{title}}</title>
@@ -10,9 +10,11 @@
   <link rel="shortcut icon" id="favicon" href="{{proxyPrefix}}/static/icon/favicon">
 
   {{#if canonicalUrl}}
-    <link rel='preload' href="{{canonicalUrl}}" rel="canonical">
+  <link href="{{canonicalUrl}}" rel="canonical">
   {{/if}}
+
   {{prefixStyle '/static/kth-style/css/kth-bootstrap.css' 'styles' 'screen'}}
+  {{prefixStyle '/assets/fonts.css' 'styles' 'screen'}}
   {{prefixStyle '/static/app.css' 'styles' 'screen'}}
 
   {{{render 'styles'}}}
@@ -28,9 +30,9 @@
 
 <body>
   {{> kthHeader }}
-  <div class="container main">
+  <div class="kth-content">
     <div class="row">
-      {{{body}}}
+        {{{body}}}
     </div>
   </div>
   {{{render 'scripts'}}}
