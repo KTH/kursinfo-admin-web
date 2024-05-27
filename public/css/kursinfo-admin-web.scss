@@ -21,6 +21,8 @@
 @use '~@kth/style/scss/components/local-navigation.scss';
 @use '~@kth/style/scss/components/kpm.scss';
 
+@import 'shared';
+
 //====Common style for both pages====
 $light-grey: #d4d4d4;
 $red: #e01f28;
