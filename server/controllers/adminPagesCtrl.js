@@ -61,6 +61,7 @@ async function getAdminStart(req, res, next) {
       lang,
       paths: JSON.stringify(serverPaths), // don't remove it, it's needed for handlebars
       toolbarUrl: serverConfig.toolbar.url,
+      theme: 'student-web',
       proxyPrefix,
     })
   } catch (error) {

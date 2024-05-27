@@ -1,17 +1,8 @@
-<header>
-  <div class="container-fluid">
-    <div class="container">
-      <div class="header-container__top">
-        {{{blocks.image}}}
-        {{{blocks.title}}}
-        <div class="block list links secondaryMenu" data-cid="1.260213" lang="sv-SE">
-          {{{blocks.language}}}
-        </div>
-      </div>
-      <div class="header-container__bottom">
-       
-      </div>
-    </div>
+<header class="kth-header {{{theme}}}">
+  <div class="kth-header__container">
+    {{> headerLogotype }}
+    <ul class="kth-header__tools">
+      <li>{{{languageLink lang}}}</li>
+    </ul>
   </div>
-  <div id="gradientBorder"></div>
 </header>
