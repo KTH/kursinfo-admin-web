@@ -38,9 +38,7 @@ export default function OtherInformationPreview({ pageState }) {
 
   return (
     <div>
-      <span className="title_and_info">
-        <h2>{texts.header}</h2>
-      </span>
+      <h2>{texts.header}</h2>
 
       <OtherInformationPreviewSection
         header={texts.fields.supplementaryInfoSv}

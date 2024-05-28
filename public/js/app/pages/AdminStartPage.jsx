@@ -33,7 +33,7 @@ function AdminStartPage() {
   }
 
   return (
-    <div key="kursinfo-container" className="kursinfo-main-page start-page col">
+    <div className="kursinfo-main-page start-page">
       <LinkToAboutCourseInformation
         courseCode={courseCode}
         lang={lang}

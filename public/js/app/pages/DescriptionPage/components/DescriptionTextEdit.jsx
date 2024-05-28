@@ -17,9 +17,7 @@ export default function DescriptionTextEdit({ pageState }) {
 
   return (
     <form>
-      <span className="title_and_info">
-        <h2>{texts.label}</h2>
-      </span>
+      <h2>{texts.title}</h2>
       <Alert type="info">{texts.alert}</Alert>
 
       <EditorSection title={texts.fields.sellingTextSv} {...getEditorSectionProps('sellingTextSv')} />

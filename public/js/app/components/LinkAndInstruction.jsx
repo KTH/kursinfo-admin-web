@@ -20,7 +20,7 @@ const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPages
 }
 
 export const TextAboutRights = ({ lang, translate }) => (
-  <div className="paragraphs introduction col">
+  <div className="introduction col">
     <p>{translate.instruction_p1}</p>
     <p>{translate.instruction_p2}</p>
     <p>
