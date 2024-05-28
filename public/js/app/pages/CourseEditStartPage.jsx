@@ -22,9 +22,9 @@ function CourseEditStartPage() {
   const targetLink = editOptions[selectedOption]
 
   return (
-    <div className="kursinfo-main-page edit-start-page">
+    <div className="kursinfo-main-page CourseEditStartPage">
       <PageTitle {...pageTitleProps} />
-      <div className="edit-start-page__intro">
+      <div className="CourseEditStartPage__intro">
         <p>{labels.intro}</p>
       </div>
 

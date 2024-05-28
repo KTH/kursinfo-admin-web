@@ -24,13 +24,6 @@
 @import 'shared';
 
 //====Common style for both pages====
-.kursinfo-main-page {
-  &.start-page {
-    nav > a {
-      padding-left: 5px;
-    }
-  }
-}
 
 h2 {
   margin-bottom: 16px;
@@ -57,80 +50,68 @@ h2 {
 }
 
 //====START ADMIN PAGE WITH CARDS====
-// TODO: karl: update start-page in own commit
 
-.AdminPage--Alert {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  .alert {
-    width: auto;
+.AdminStartPage {
+  .introduction {
+    @include prose.prose;
     p {
-      margin-bottom: 1.25rem;
+      max-width: unset;
     }
-  }
-  & + .AdminPage--Alert > .alert {
-    margin-top: -40px;
   }
 }
 
-// 4. Start page and cards style
-.AdminPage--ShowDescription {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 1rem;
+.AdminStartPage__cardContainer {
+  margin-top: 32px;
+  display: grid;
+  gap: 20px;
 
-  .card {
-    width: 100%;
-    margin: 15px 0.5em 1em 0;
-    .btn {
-      margin: 1em 0;
-    }
-    .btn:last-of-type {
-      margin-top: 1em;
-      margin-left: 1em;
-    }
-    &:last-of-type {
-      margin-right: 0;
-    }
-  }
-  .card-footer.text-right {
-    min-height: 8.2em;
-    text-align: right;
-    span {
-      display: block;
-    }
-  }
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    .card {
-      width: 65em;
-      min-width: 18em;
-      max-width: 30em;
-      align-content: flex-start;
-      margin-right: 1.2em;
-    }
-    .KursInfo--SellingText.card {
-      width: 65em;
-    }
-    .card-footer {
-      padding: 0.75rem 1rem 0.75rem 0.75rem;
-      .btn.btn-primary {
-        padding: 0.5rem 1rem;
-      }
-    }
-  }
+  grid-auto-flow: row;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+
   @media (min-width: 1024px) {
-    flex-wrap: nowrap;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .AdminStartPage__card {
+    padding: 20px;
+    border: 1px solid var(--color-border);
+  }
+
+  .AdminStartPage__cardTitle {
+    @include typography.font-heading-s;
+    margin-bottom: 20px;
+  }
+
+  .AdminStartPage__cardBody {
+    @include prose.prose;
+    > :first-child {
+      margin-block-start: 0;
+    }
+    > :last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  .AdminStartPage__cardFooter {
+    display: flex;
+    align-items: baseline;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    .AdminStartPage__uploadMemoLink {
+      width: 100%;
+      text-align: right;
+    }
   }
 }
 
 // === CourseEditStartPage ===
 
-.edit-start-page {
-  .edit-start-page__intro {
+.CourseEditStartPage {
+  .CourseEditStartPage__intro {
     margin-bottom: 40px;
   }
 }

@@ -1,26 +1,20 @@
 import React from 'react'
 import { COURSE_INFO_URL, USER_MANUAL_URL } from '../util/constants'
 
-const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPagesHref }) => {
+export const LinkToAboutCourseInformation = ({ courseCode, translate, lang, publicPagesHref }) => {
   const aboutCourseLink = `${publicPagesHref}${COURSE_INFO_URL}${courseCode}?l=${lang}`
 
   return (
-    <div className="navigation row">
-      <nav
-        className="main col"
-        aria-label={`${lang === 'en' ? 'Go to About course information ' : 'Gå till Om kursen SF1624 '}${courseCode}`}
-        lang={lang}
-      >
-        <a href={aboutCourseLink} className="kth-button back">
-          {translate.about_course}
-        </a>
-      </nav>
-    </div>
+    <nav>
+      <a href={aboutCourseLink} className="kth-button back">
+        {translate.about_course}
+      </a>
+    </nav>
   )
 }
 
 export const TextAboutRights = ({ lang, translate }) => (
-  <div className="introduction col">
+  <div className="introduction">
     <p>{translate.instruction_p1}</p>
     <p>{translate.instruction_p2}</p>
     <p>
@@ -32,5 +26,3 @@ export const TextAboutRights = ({ lang, translate }) => (
     </p>
   </div>
 )
-
-export default LinkToAboutCourseInformation
