@@ -52,7 +52,7 @@ function ButtonModal(props) {
       <Modal isOpen={state.isOpen} toggle={toggle} id={id}>
         <div className="modal-header">
           <h4 className="modal-title">{header}</h4>
-          <button type="button" className="btn-close" aria-label="Close" onClick={toggle}></button>
+          <button type="button" className="kth-icon-button close" aria-label="Close" onClick={toggle}></button>
         </div>
         <ModalBody>
           {children}

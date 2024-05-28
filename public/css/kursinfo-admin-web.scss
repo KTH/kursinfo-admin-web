@@ -24,75 +24,40 @@
 @import 'shared';
 
 //====Common style for both pages====
-$light-grey: #d4d4d4;
-$red: #e01f28;
-$bs-body-bg: #fff;
-
-%row {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-}
-%column {
-  display: flex;
-  flex-direction: column;
-}
-
-%responsive-table {
-  @media (max-width: 767px) {
-    /* Force table to not be like tables anymore */
-    .table table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
-      display: block;
-      max-width: 95%;
-    }
-    .table td {
-      /* Behave  like a "row" */
-      border: none;
-      border-bottom: 1px solid #fff;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
-
-#app {
-  width: 100%;
-  --bs-body-bg: #fff;
-}
 .kursinfo-main-page {
-  padding-bottom: 50px;
-  padding-top: 2em;
-  width: 100%;
-
-  .alert {
-    margin: 0;
-  }
-
   &.start-page {
-    padding-top: 15px;
     nav > a {
       padding-left: 5px;
     }
-    .paragraphs p {
-      font-size: 1rem;
-      max-width: 100%;
-    }
   }
 }
 
-.CourseEditStartPage {
-  p {
-    margin-bottom: 72px;
+h2 {
+  margin-bottom: 16px;
+}
+
+.kth-alert {
+  margin-bottom: 32px;
+}
+
+.form-intro-paragraph {
+  @include typography.font-heading-xs;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.modal-body {
+  @include prose.prose;
+  > :first-child {
+    margin-block-start: 0;
+  }
+  > :last-child {
+    margin-block-end: 0;
   }
 }
 
 //====START ADMIN PAGE WITH CARDS====
+// TODO: karl: update start-page in own commit
 
 .AdminPage--Alert {
   margin-left: 1rem;
@@ -110,7 +75,11 @@ $bs-body-bg: #fff;
 
 // 4. Start page and cards style
 .AdminPage--ShowDescription {
-  @extend %column;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+
   .card {
     width: 100%;
     margin: 15px 0.5em 1em 0;
@@ -157,41 +126,20 @@ $bs-body-bg: #fff;
     flex-wrap: nowrap;
   }
 }
-//common elements
-span.title_and_info {
-  @extend %row;
-  align-items: flex-start;
-  h2 {
-    margin-top: 0;
-  }
-}
-.title_and_info + p {
-  font-weight: 900;
-}
 
-.input-label-row {
-  @extend %row;
-  .form-group {
-    label:last-of-type {
-      font-size: 1.1rem;
-      font-weight: normal;
-    }
-    input[type='radio'],
-    input[type='checkbox'] {
-      margin-right: 0.5em;
-      margin-left: 0.5em;
-    }
+// === CourseEditStartPage ===
+
+.edit-start-page {
+  .edit-start-page__intro {
+    margin-bottom: 40px;
   }
-}
-#label-termsAgreement {
-  font-size: 1.1rem;
-  font-weight: normal;
 }
 
 //====UPLOAD PICTURE====
 
 .Upload--Area {
-  @extend %column;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: baseline;
   margin: 0;
@@ -201,11 +149,11 @@ span.title_and_info {
   }
 
   .error-area {
-    border: solid 1px $red !important;
+    border: solid 1px var(--color-error);
     border-radius: 0.25rem;
   }
   .error-label {
-    color: $red;
+    color: var(--color-error);
   }
 
   .image-area {
@@ -218,7 +166,7 @@ span.title_and_info {
 
     .empty-pic {
       display: flex;
-      background-color: $light-grey;
+      background-color: var(--color-background-alt);
       height: 225px;
       width: 300px;
       justify-content: center;
@@ -227,29 +175,20 @@ span.title_and_info {
       }
     }
   }
-  @media (min-width: 768px) {
-    .badge,
-    span.right {
-      margin-left: 0.5em;
-    }
-    span.left {
-      margin-right: 0.5em;
-    }
-  }
-  form + span {
-    margin-top: 30px;
-  }
 }
 
 //==== Preview Section ====
 
 .PreviewSection {
   margin-bottom: 130px;
+  @include prose.prose;
 
   .PreviewSection__textBlock {
-    list-style-position: inside;
-    p:last-of-type {
-      margin-bottom: 0;
+    & > :first-child {
+      margin-block-start: 0;
+    }
+    & > :last-child {
+      margin-block-end: 0;
     }
   }
 
@@ -264,20 +203,10 @@ span.title_and_info {
     }
   }
 
-  h1 {
-    margin: 0;
+  h2,
+  h3 {
+    margin-block-start: 0;
   }
-  h2 {
-    margin-top: 0;
-  }
-}
-
-#middle > div:first-of-type {
-  margin-bottom: 28px;
-}
-
-.btn-secondary {
-  background-color: #f6f6f6;
 }
 
 .btn-info-modal {
@@ -289,9 +218,13 @@ span.title_and_info {
   button {
     width: 100%;
   }
-}
-.btn-upload-file span::after {
-  height: 1.3em;
+  .btn-upload-file__labelWrapper {
+    width: 100%;
+    &::after {
+      float: right;
+      height: 1.25rem;
+    }
+  }
 }
 
 //==== EditButton ====
@@ -323,19 +256,23 @@ span.title_and_info {
 //==== EditorSection ====
 
 .EditorSection {
-  background: #f6f6f6;
+  background: var(--color-background-alt);
   padding: 16px;
   margin-top: 16px;
   margin-bottom: 16px;
+
+  .cke,
+  .cke_contents,
+  .cke_top,
+  .cke_bottom {
+    border-color: var(--color-background-alt);
+    background: var(--color-background);
+  }
 
   .EditorSection__heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    h3 {
-      margin: 0;
-    }
   }
 
   .EditorSection__body {
@@ -345,18 +282,28 @@ span.title_and_info {
     gap: 16px;
 
     .EditorSection__preview {
-      p:last-child {
-        margin-bottom: 0;
+      @include prose.prose;
+      p {
+        max-width: unset;
+      }
+      & > div > :first-child {
+        margin-block-start: 0;
+      }
+      & > div > :last-child {
+        margin-block-end: 0;
       }
     }
 
     .EditorSection__validationErrorLabel {
-      color: $red;
+      color: var(--color-error);
     }
 
     .EditorSection__buttons {
       display: flex;
       justify-content: flex-end;
+      .kth-button.secondary {
+        background-color: var(--color-background);
+      }
     }
   }
 }

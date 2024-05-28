@@ -48,20 +48,19 @@ export default function DescriptionImageEdit({ pageState }) {
 
   return (
     <>
-      <span className="Upload--Area col">
+      <span className="Upload--Area">
         {isDefaultImageSelected && imageFromApi.hasCustomImage && (
           <Alert type="info">{texts.alertMessages.replace_api_with_default}</Alert>
         )}
 
         {imageInputState.error && <Alert type="warning">{texts.alertMessages[imageInputState.error]}</Alert>}
 
-        <span className="title_and_info">
-          <h2 data-testid="intro-heading">
-            {texts.label}
-            <ButtonModal id="infoPic" type="info-icon" modalLabels={texts.headerModal} course={courseData.courseCode} />
-          </h2>
-        </span>
-        <p>{texts.image.choiceInfo}</p>
+        <h2 data-testid="intro-heading">
+          {texts.title}
+          <ButtonModal id="infoPic" type="info-icon" modalLabels={texts.headerModal} course={courseData.courseCode} />
+        </h2>
+
+        <p className="form-intro-paragraph">{texts.image.choiceInfo}</p>
 
         <form className="Picture--Options input-label-row">
           <div className="form-group" role="radiogroup">
@@ -128,11 +127,7 @@ export default function DescriptionImageEdit({ pageState }) {
         {imageInputState.newImage && (
           <form>
             <div className="form-group">
-              <div
-                className={`form-check form-group input-label-row ${
-                  imageInputState.error === 'approve_term' ? 'error-area' : ''
-                }`}
-              >
+              <div className={`form-check form-group ${imageInputState.error === 'approve_term' ? 'error-area' : ''}`}>
                 <input
                   type="checkbox"
                   onChange={event => imageInputState.onCheckTermsChanged(event.target.checked)}

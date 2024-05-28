@@ -33,7 +33,7 @@ const FileInput = React.forwardRef((props, ref) => {
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label role="presentation" htmlFor={id} onClick={clickFileInput}>
         <Button variant="secondary">
-          <span>{btnLabel}</span>
+          <span className="btn-upload-file__labelWrapper">{btnLabel}</span>
         </Button>
       </label>
       <input

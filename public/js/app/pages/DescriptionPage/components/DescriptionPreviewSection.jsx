@@ -1,5 +1,6 @@
 import React from 'react'
 import i18n from '../../../../../../i18n'
+import PageHeading from '../../../components-shared/PageHeading'
 import { parseCourseName } from '../../../components/PageTitle'
 import { useWebContext } from '../../../context/WebContext'
 
@@ -19,8 +20,7 @@ const DescriptionPreviewSection = ({ pageState, lang }) => {
 
   return (
     <div className="PreviewSection">
-      <h1>{courseTitle}</h1>
-      <p id="page-sub-heading">{headers.page}</p>
+      <PageHeading heading={courseTitle} subHeading={headers.page} />
 
       <div className="PreviewSection__imageSection">
         <img src={imageUrl} alt={step1Labels.image.alt} className="PreviewSection__image" />
