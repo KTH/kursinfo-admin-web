@@ -2,6 +2,12 @@ const { renderCoursePage } = require('../renderPageUtil')
 const { getServerSideFunctions } = require('../serverSideRendering')
 
 jest.mock('../serverSideRendering')
+jest.mock('../../configuration', () => ({
+  server: {
+    toolbar: { url: 'mockToolbarUri' },
+    proxyPrefixPath: { uri: 'mockproxyPrefixUri' },
+  },
+}))
 
 const testContext = {
   proxyPrefixPath: { uri: '/mockedProxyPrefixPath' },
@@ -43,6 +49,9 @@ describe('renderPageUtil', () => {
       expect.objectContaining({
         title: 'Administer About course | ABC123',
         description: expect.any(String),
+        toolbarUrl: 'mockToolbarUri',
+        theme: 'student-web',
+        proxyPrefix: 'mockproxyPrefixUri',
       })
     )
   })
