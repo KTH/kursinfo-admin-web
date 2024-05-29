@@ -29,10 +29,10 @@ function ButtonModal(props) {
   const { btnLabel, children, course, disabled, type, id, modalLabels } = props
   const { header, body, btnCancel, btnConfirm } = modalLabels
   const btnStyle = classNames(
-    { 'btn-info-modal': type === 'info-icon' }, // TODO: karl: kth-style - modal button
+    { 'btn-info-modal': type === 'info-icon' },
     { secondary: type === 'cancel-with-modal' || type === 'cancel-without-modal' },
     { success: type === 'submit' },
-    { danger: type === 'remove' }
+    { error: type === 'remove' }
   )
 
   return (
@@ -72,7 +72,7 @@ function ButtonModal(props) {
           )}
         </ModalFooter>
       </Modal>
-    </span>
+    </>
   )
 }
 export default ButtonModal
