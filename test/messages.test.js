@@ -34,7 +34,7 @@ const collectStuff = (object, doStuff, keysToIgnore = []) => {
   if ('object' === typeof object && !Array.isArray(object)) {
     for (const [key, val] of Object.entries(object)) {
       if (!keysToIgnore.find(v => v === key)) {
-        doStuff(data, key, val)
+        doStuff(data, key, val, keysToIgnore)
       }
     }
   }
@@ -47,11 +47,11 @@ const collectStuff = (object, doStuff, keysToIgnore = []) => {
  * @param key   Key name used for the current object
  * @param val   Current object to traverse in search of more keys
  */
-function doCollectKeys(data, key, val) {
+function doCollectKeys(data, key, val, keysToIgnore = []) {
   data.push(key)
   if (Array.isArray(val)) return
   if ('object' === typeof val) {
-    data.push(...collectKeys(val))
+    data.push(...collectKeys(val, keysToIgnore))
   }
 }
 
@@ -71,8 +71,11 @@ function doCollectStringValues(data, _, val) {
 }
 
 describe('Message keys', () => {
-  const keysToIgnore = ['courseImage'] // courseImage has keys which vary with language, i.e. will always differ
-
+  const keysToIgnore = [
+    'courseImage', // courseImage has keys which vary with language, i.e. will always differ
+    'language_link_lang_en', // only in swedish
+    'language_link_lang_sv', // only in english
+  ]
   test('The same keys are present in both Swedish and English', () => {
     const svKeys = collectKeys(sv, keysToIgnore).sort()
     const enKeys = collectKeys(en, keysToIgnore).sort()
