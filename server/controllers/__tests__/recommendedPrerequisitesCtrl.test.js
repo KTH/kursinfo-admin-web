@@ -17,7 +17,7 @@ const data = {
   sellingTextSv: 'do not send to api',
 }
 
-describe('recommendedPrerequisitesCtrl - updaterecommendedPrerequisites', () => {
+describe('recommendedPrerequisitesCtrl - updateRecommendedPrerequisites', () => {
   it('should call kursinfoApi with PATCH when courseinfo exists', async () => {
     getCourseInfo.mockResolvedValueOnce({ recommendedPrerequisites: { sv: '', en: '' } })
 
