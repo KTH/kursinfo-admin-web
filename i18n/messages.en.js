@@ -192,9 +192,33 @@ module.exports = {
     header: 'Choose part to edit',
     options: {
       description: 'Image, course introduction and course disposition',
+      recommendedPrerequisites: 'Recommended prerequisites',
       otherInformation: 'Supplementary information',
     },
     nextButton: 'Edit',
+  },
+  editRecommendedPrerequisites: {
+    pageHeader: 'Recommended prerequisites',
+    step1: {
+      title: 'Edit text',
+      intro: `Here you add any additional information that may be important for the student to know. The text will be displayed at the bottom of the page Before course selection.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
+      nextButton: 'Preview',
+      fields: {
+        recommendedPrerequisitesSv: 'Recommended prerequisites (SW)',
+        recommendedPrerequisitesEn: 'Recommended prerequisites (EN)',
+      },
+    },
+    step2: {
+      title: 'Preview and publish',
+      header: 'Preview',
+      nextButton: 'Publish',
+      backButton: 'Edit text',
+      fields: {
+        recommendedPrerequisitesSv: 'Rekommenderade förkunskaper',
+        recommendedPrerequisitesEn: 'Recommended prerequisites',
+      },
+    },
   },
   editOtherInformation: {
     pageHeader: 'Supplementary information',

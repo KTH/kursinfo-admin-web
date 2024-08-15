@@ -12,5 +12,6 @@ module.exports = {
   EditCourseStartCtrl: require('./editCourseStartCtrl'),
   DescriptionCtrl: require('./descriptionCtrl'),
   OtherInformationCtrl: require('./otherInformationCtrl'),
+  RecommendedPrerequisitesCtrl: require('./recommendedPrerequisitesCtrl'),
   ImageCtrl: require('./imageCtrl'),
 }

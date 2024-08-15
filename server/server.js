@@ -229,6 +229,7 @@ const {
   EditCourseStartCtrl,
   DescriptionCtrl,
   OtherInformationCtrl,
+  RecommendedPrerequisitesCtrl,
 } = require('./controllers')
 // use own requireRole because it has better error and role management
 const { requireRole } = require('./requireRole')
@@ -310,6 +311,21 @@ appRoute.post(
   oidc.login,
   requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   OtherInformationCtrl.updateOtherInformation
+)
+// Recommended prerequisites
+appRoute.get(
+  'course.editRecommendedPrerequisites',
+  _addProxy('/edit/:courseCode/recommendedPrerequisites'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  RecommendedPrerequisitesCtrl.getRecommendedPrerequisites
+)
+appRoute.post(
+  'course.updateRecommendedPrerequisites',
+  _addProxy('/api/:courseCode/recommendedPrerequisites'),
+  oidc.login,
+  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  RecommendedPrerequisitesCtrl.updateRecommendedPrerequisites
 )
 
 server.use('/', appRoute.getRouter())
