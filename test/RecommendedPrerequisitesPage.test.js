@@ -89,4 +89,11 @@ describe('Recommended prerequisites page', () => {
     )
     done()
   })
+  test('Has correct second heading', done => {
+    const { getAllByRole } = renderPage()
+    const allH1Headers = getAllByRole('heading', { level: 2 })
+    expect(allH1Headers.length).toBe(1)
+    expect(allH1Headers[0]).toHaveTextContent(/^Redigera text/, '\n', /^Granska och publicera/)
+    done()
+  })
 })
