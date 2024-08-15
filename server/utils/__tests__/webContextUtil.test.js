@@ -48,6 +48,7 @@ describe('webContextUtil - editStart', () => {
     expect(context.routeData.editOptions).toMatchObject({
       description: expect.stringContaining('/edit/ABC321/description'),
       otherInformation: expect.stringContaining('/edit/ABC321/otherInformation'),
+      recommendedPrerequisites: expect.stringContaining('/edit/ABC321/recommendedPrerequisites'),
     })
   })
 })
