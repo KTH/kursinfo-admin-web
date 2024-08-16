@@ -38,6 +38,11 @@ const mockWebContext = {
     isExaminator: false,
     isTeacher: false,
   },
+  langIndex: 1,
+  routeData: {
+    values: '',
+    courseData: '',
+  },
 }
 
 export default mockWebContext
