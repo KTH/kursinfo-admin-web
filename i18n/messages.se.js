@@ -198,7 +198,9 @@ module.exports = {
     pageHeader: 'Rekommenderade förkunskaper',
     step1: {
       title: 'Redigera text',
-      intro: `Här lägger du in övrig information som kan vara viktig för studenten att veta. Texten kommer att visas längst ner på sidan Inför kursval.`,
+      intro: `Rubriken ”Rekommenderade förkunskaper” ska beskriva vilka kunskaper och färdigheter (utöver behörighetskraven) som studenterna behöver för att kunna ta till sig kursen. 
+              Studenterna kan använda informationen för att förbereda sig för kursen eller som underlag för om de ska välja kursen eller inte.
+              Ange helst explicita kunskaper och färdigheter och inte bara kursnamn, till exempel ”programmering i Python” eller ”gränsvärdesberäkningar”.`,
       alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
       nextButton: 'Granska',
       fields: {

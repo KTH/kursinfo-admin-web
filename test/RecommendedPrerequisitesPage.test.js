@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { WebContextProvider } from '../public/js/app/context/WebContext'
 import RecommendedPrerequisitesPage from '../public/js/app/pages/RecommendedPrerequisitesPage'
 import mockWebContext from './mocks/mockWebContext'
@@ -14,6 +14,8 @@ jest.mock('react-router-dom', () => ({
   useSearchParams: () => [null],
 }))
 
+const mockHandleClick = jest.fn()
+
 const renderPage = () =>
   render(
     <WebContextProvider
@@ -26,7 +28,10 @@ const renderPage = () =>
   )
 
 describe('Recommended prerequisites page', () => {
-  beforeAll(() => mockClientFunctionsToWebContext())
+  beforeAll(() => {
+    mockClientFunctionsToWebContext()
+    mockHandleClick.mockClear()
+  })
 
   afterAll(() => {
     jest.clearAllMocks()
@@ -36,7 +41,6 @@ describe('Recommended prerequisites page', () => {
     const allH1Headers = getAllByRole('heading', { level: 1 })
     expect(allH1Headers.length).toBe(1)
     expect(allH1Headers[0]).toHaveTextContent(/^Rekommenderade förkunskaper/)
-    // expect(allH1Headers[0]).toHaveTextContent(/^Rekommenderade förkunskaper SF1624 Algebra och geometri 7,5 hp/)
     done()
   })
   test('Has correct second heading', done => {

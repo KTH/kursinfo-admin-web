@@ -201,7 +201,9 @@ module.exports = {
     pageHeader: 'Recommended prerequisites',
     step1: {
       title: 'Edit text',
-      intro: `Here you add any additional information that may be important for the student to know. The text will be displayed at the bottom of the page Before course selection.`,
+      intro: `The heading “Recommended prerequisites” should describe what knowledge and skills (in addition to the eligibility requirements) the students need to be able to take the course. 
+              Students can use the information to prepare for the course or as a basis for choosing the course or not.
+              Preferably state explicit knowledge and skills and not just course names, for example “programming in Python” or “boundary value calculations”.`,
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       fields: {
