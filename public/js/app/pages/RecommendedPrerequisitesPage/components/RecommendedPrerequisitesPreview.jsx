@@ -26,7 +26,7 @@ export default function RecommendedPrerequisitesPreview({ pageState }) {
       isError: false,
     })
     try {
-      await context.doUpsertOtherInformation(courseCode, textInputValues)
+      await context.doUpsertRecommendedPrerequisites(courseCode, textInputValues)
       goToAdminStartPage(courseCode, context.lang, 'pub')
     } catch (err) {
       setSubmitState({
