@@ -1,18 +1,21 @@
 <a href='https://www.kth.se/student/studier?l={{language}}' class='kth-logotype'>
   <figure>
-    <img
-      class='blue'
-      alt='Till KTH:s startsida'
-      width='64'
-      height='64'
-      src='{{{proxyPrefix}}}/assets/logotype/logotype-blue.svg'
-    />
-    <img
-      class='white'
-      alt='Till KTH:s startsida'
-      width='64'
-      height='64'
-      src='{{{proxyPrefix}}}/assets/logotype/logotype-white.svg'
-    />
+    {{#if (eq theme 'external')}}
+      <img
+        class='white'
+        alt='Till KTH:s startsida'
+        width='64'
+        height='64'
+        src='{{{proxyPrefix}}}/assets/logotype/logotype-white.svg'
+      />
+    {{else}}
+      <img
+        class='blue'
+        alt='Till KTH:s startsida'
+        width='64'
+        height='64'
+        src='{{{proxyPrefix}}}/assets/logotype/logotype-blue.svg'
+      />
+    {{/if}}
   </figure>
 </a>
