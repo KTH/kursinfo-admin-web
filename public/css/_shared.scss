@@ -10,15 +10,6 @@
 #app {
   padding-top: 32px;
   padding-bottom: 32px;
-  .kth-local-navigation--mobile {
-    display: block;
-    width: auto;
-    padding: 0;
-
-    @media (min-width: 992px) {
-      display: none;
-    }
-  }
 }
 .page-heading {
   margin-bottom: 32px;
