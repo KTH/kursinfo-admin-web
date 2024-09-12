@@ -6,7 +6,7 @@ const language = require('@kth/kth-node-web-common/lib/language')
 const i18n = require('../../i18n')
 const { getLangIndex } = require('../utils/langUtil')
 const { HttpError } = require('../HttpError')
-const { filteredKoppsData } = require('../apiCalls/koppsApi')
+const { filteredLadokData } = require('../apiCalls/ladokApi')
 const { renderCoursePage } = require('../utils/renderPageUtil')
 const { createEditCourseStartWebContext } = require('../utils/webContextUtil.js')
 
@@ -21,16 +21,16 @@ async function getEditCourseStart(req, res, next) {
     const courseCode = extractCourseCodeOrThrow(req)
     const lang = language.getLanguage(res)
     const langIndex = getLangIndex(lang)
-    const koppsData = await filteredKoppsData(courseCode, lang)
+    const ladokData = await filteredLadokData(courseCode, lang)
 
-    if (koppsData.apiError && koppsData.statusCode === 404) {
+    if (ladokData.apiError && ladokData.statusCode === 404) {
       throw new HttpError(404, i18n.messages[langIndex].messages.error_not_found)
     }
 
     const context = createEditCourseStartWebContext({
       language: lang,
       userId: req.session.passport.user.ugKthid,
-      koppsData,
+      ladokData,
     })
 
     renderCoursePage(req, res, context)

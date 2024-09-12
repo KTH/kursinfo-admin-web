@@ -14,24 +14,24 @@ function addBaseData(context, args) {
   context.browserConfig = browserConfig
 }
 
-function addCourseData(context, koppsData) {
+function addCourseData(context, ladokData) {
   context.routeData = context.routeData ?? {}
 
   context.routeData.courseData = {
-    courseCode: koppsData?.courseTitleData?.courseCode,
-    courseTitle: koppsData?.courseTitleData?.courseTitle,
-    courseCredits: koppsData?.courseTitleData?.courseCredits,
+    courseCode: ladokData?.courseTitleData?.courseCode,
+    courseTitle: ladokData?.courseTitleData?.courseTitle,
+    courseCredits: ladokData?.courseTitleData?.courseCredits,
   }
 
   // setting courseCode to context root for easier access in frontend than context.routeData.courseData
-  context.courseCode = koppsData?.courseTitleData?.courseCode
-  context.koppsApiError = koppsData?.apiError
+  context.courseCode = ladokData?.courseTitleData?.courseCode
+  context.ladokApiError = ladokData?.apiError
 }
 
 function createEditCourseStartWebContext(args) {
   const context = {}
   addBaseData(context, args)
-  addCourseData(context, args.koppsData)
+  addCourseData(context, args.ladokData)
 
   const { courseCode } = context.routeData.courseData
   context.routeData.editOptions = {
@@ -45,7 +45,7 @@ function createOtherInformationWebContext(args) {
   const context = {}
 
   addBaseData(context, args)
-  addCourseData(context, args.koppsData)
+  addCourseData(context, args.ladokData)
 
   const { courseInfo } = args
   context.routeData.values = {
@@ -60,7 +60,7 @@ function createDescriptionWebContext(args) {
   const context = {}
 
   addBaseData(context, args)
-  addCourseData(context, args.koppsData)
+  addCourseData(context, args.ladokData)
 
   const { courseInfo } = args
   context.routeData.values = {
@@ -71,7 +71,7 @@ function createDescriptionWebContext(args) {
   }
 
   const [, { courseImage }] = i18n.messages
-  const defaultImageName = courseImage[args.koppsData?.mainSubject] ?? courseImage.default
+  const defaultImageName = courseImage[args.ladokData?.mainSubject] ?? courseImage.default
   const customImageName = courseInfo.imageInfo
   const hasCustomImage = !!customImageName
 

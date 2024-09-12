@@ -16,8 +16,8 @@ function AdminStartPage() {
   const [context] = useWebContext()
   const [querySearchParams] = useSearchParams()
 
-  const { koppsData, publicHostUrl, userRoles, lang } = context
-  const { courseTitleData } = koppsData
+  const { ladokData, publicHostUrl, userRoles, lang } = context
+  const { courseTitleData } = ladokData
   const { courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
   const visibilityLevel =
@@ -28,7 +28,7 @@ function AdminStartPage() {
 
   const pageTitleProps = { courseTitleData, pageTitle: pageTitles.administrate }
 
-  if (context.koppsApiError) {
+  if (context.ladokApiError) {
     return <KoppsErrorPage pageTitleProps={pageTitleProps} />
   }
 

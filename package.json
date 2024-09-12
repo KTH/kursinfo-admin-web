@@ -62,6 +62,7 @@
     "kth-style": "^10.3.3",
     "lint-staged": "^15.2.5",
     "locale": "^0.1.0",
+    "om-kursen-ladok-client": "file:../studadm-om-kursen-packages/packages/om-kursen-ladok-client",
     "os": "^0.1.2",
     "passport": "^0.7.0",
     "prop-types": "^15.8.1",
