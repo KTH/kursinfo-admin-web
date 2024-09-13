@@ -28,7 +28,7 @@ module.exports = {
     contact_support: 'Kontakta',
     for_questions: 'vid frågor.',
     friendly_message_have_not_rights: 'Du saknar behörighet att använda Om kursens administrationsverktyg',
-    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda som examinator, kursansvarig eller lärare för kursen i Kopps.`,
+    message_have_not_rights: `Du saknar behörighet att använda Om kursens administrationsverktyg. Behörighet ges per automatik till de som är inlagda som examinator, kursansvarig eller lärare för kursen i Ladok.`,
     message_have_not_rights_link_pre_text: 'Det är möjligt att',
     message_have_not_rights_link_href:
       'https://intra.kth.se/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
@@ -41,7 +41,7 @@ module.exports = {
     service_name: 'Kursinfo-admin-web',
     title: 'Administrera Om kursen',
     description: `Här kan du, som kursansvarig eller examinator för kursen, administrera den information på platsen 
-    ”Om kursen” som inte hämtas från KOPPS. I dagsläget är det endast ”Introduktion till kursen” som administreras här.`,
+    ”Om kursen” som inte hämtas från LADOK. I dagsläget är det endast ”Introduktion till kursen” som administreras här.`,
     example_message_key: 'Här är en svensk översättning på en label',
 
     button_label_example: 'Klicka här för att skicka data till servern!',
@@ -66,7 +66,7 @@ module.exports = {
     instruction_p1:
       'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval, skapa och publicera kurs-PM samt ladda upp och publicera Kursanalys och kursdata.',
     instruction_p2:
-      'På Om kursens sidor finns även information som hämtats från Kopps. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Kopps.',
+      'På Om kursens sidor finns även information som hämtats från Ladok. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Ladok.',
     instruction_p3_start:
       'Vilka funktioner man har tillgång till i Om kursens administrationsverktyg beror på vilken behörighet man har.',
     instruction_p3_link_label: 'Instruktioner och information om behörighet för Om kursen hittar du på intranätet',
@@ -149,7 +149,7 @@ module.exports = {
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
       storage_api_error: `Det gick inte att publicera den bild du valt. 
       Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.`,
-      kopps_api_down: `Det går för närvarande inte att hämta information från KOPPS. 
+      ladok_api_down: `Det går för närvarande inte att hämta information från LADOK. 
         Det kan antingen bero på att kurskoden är felaktig eller på kommunikationsfel.`,
     },
     course_short_semester: {

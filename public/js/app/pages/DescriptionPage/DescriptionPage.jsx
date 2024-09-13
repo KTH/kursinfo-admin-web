@@ -2,7 +2,7 @@ import React from 'react'
 import i18n from '../../../../../i18n'
 import { useWebContext } from '../../context/WebContext'
 import PageTitle from '../../components/PageTitle'
-import KoppsErrorPage from '../../components/KoppsErrorPage'
+import LadokErrorPage from '../../components/LadokErrorPage'
 import ProgressBar, { useProgressBar } from '../../components-shared/ProgressBar'
 import { useWebContextTextInput } from '../../components/WebContextTextInput/useWebContextTextInput'
 
@@ -33,7 +33,7 @@ function DescriptionPage() {
   const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageHeader }
 
   if (context.ladokApiError) {
-    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+    return <LadokErrorPage pageTitleProps={pageTitleProps} />
   }
 
   return (

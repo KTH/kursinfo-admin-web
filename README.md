@@ -19,7 +19,6 @@ Firstly, the app displays en entrance page for services to organize information 
 The app consists of several pages:
 
 - Administrate start page with menu and cards to show what can be changed by course coordinators and examiners.
-  (requires no api keys, only kopps url)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
@@ -46,10 +45,10 @@ localhost:3000/kursinfoadmin/kurser/kurs/_monitor_images
 
 ### API:s
 
-Application is fetching data from KOPPS-API for:
+Application is fetching data from Ladok middleware for:
 
 - Course title
-- Introduction text from Kopps
+- Introduction text from Ladok
 
 Application is fetching data from kursinfo-api to show:
 

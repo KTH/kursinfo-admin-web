@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import i18n from '../../../../i18n'
 import Button from '../components-shared/Button'
 import PageTitle from '../components/PageTitle'
-import KoppsErrorPage from '../components/KoppsErrorPage'
+import LadokErrorPage from '../components/LadokErrorPage'
 import { LinkToAboutCourseInformation, TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
@@ -29,7 +29,7 @@ function AdminStartPage() {
   const pageTitleProps = { courseTitleData, pageTitle: pageTitles.administrate }
 
   if (context.ladokApiError) {
-    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+    return <LadokErrorPage pageTitleProps={pageTitleProps} />
   }
 
   return (
