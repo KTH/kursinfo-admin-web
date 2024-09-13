@@ -15,7 +15,7 @@ function CourseEditStartPage() {
   const { courseData, editOptions } = context.routeData
   const pageTitleProps = { courseTitleData: courseData, pageTitle: labels.pageHeader }
 
-  if (context.koppsApiError) {
+  if (context.ladokApiError) {
     return <KoppsErrorPage pageTitleProps={pageTitleProps} />
   }
 

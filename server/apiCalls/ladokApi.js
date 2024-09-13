@@ -3,27 +3,33 @@
 const { createApiClient } = require('om-kursen-ladok-client')
 const serverConfig = require('../configuration').server
 
-async function getLadokCourseData(courseCode) {
+async function getLadokCourseData(courseCode, lang) {
   const client = createApiClient(serverConfig.ladokMellanlagerApi)
-  const course = await client.getLatestCourseVersion(courseCode)
-  return course
-}
-
-const filteredLadokData = async (courseCode, lang) => {
-  const { apiError, huvudomraden, benamning, kod, omfattning, statusCode } = await getLadokCourseData(courseCode)
+  const course = await client.getLatestCourseVersion(courseCode, lang)
+  const { apiError, huvudomraden, benamning, kod, schoolCode, omfattning, statusCode } = course
   return {
     apiError,
-    mainSubject: lang == 'sv' ? huvudomraden[0].sv : huvudomraden[0].en,
+    mainSubject: huvudomraden[0].name,
     courseTitleData: {
       courseCode: kod,
-      courseTitle: lang == 'sv' ? benamning.sv : benamning.en,
+      courseTitle: benamning,
       courseCredits: omfattning,
+      schoolCode,
     },
     statusCode,
   }
 }
 
+async function getCourseSchoolCode(courseCode) {
+  try {
+    const { schoolCode } = await getLadokCourseData(courseCode)
+    return schoolCode
+  } catch (err) {
+    return err
+  }
+}
+
 module.exports = {
-  filteredLadokData,
   getLadokCourseData,
+  getCourseSchoolCode,
 }

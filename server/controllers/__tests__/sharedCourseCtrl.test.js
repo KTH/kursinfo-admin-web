@@ -1,4 +1,4 @@
-const { filteredLadokData } = require('../../apiCalls/ladokApi')
+const { getLadokCourseData } = require('../../apiCalls/ladokApi')
 const { getCourseInfo, patchCourseInfo } = require('../../apiCalls/kursInfoApi')
 const { renderCoursePage } = require('../../utils/renderPageUtil')
 const {
@@ -38,7 +38,7 @@ describe.each([
 
   it('should call next for any thorwn error', async () => {
     const error = new Error('an error')
-    filteredLadokData.mockImplementationOnce(() => {
+    getLadokCourseData.mockImplementationOnce(() => {
       throw error
     })
 
@@ -51,7 +51,7 @@ describe.each([
   if (!skipKursinfoTests) {
     it('should call kursinfoApi with courseCode', async () => {
       const courseCode = 'ABC123'
-      filteredLadokData.mockResolvedValueOnce({})
+      getLadokCourseData.mockResolvedValueOnce({})
       await reqHandler(endpoint, { params: { courseCode } })
       expect(getCourseInfo).toHaveBeenCalledWith(courseCode)
     })
@@ -61,12 +61,12 @@ describe.each([
     const courseCode = 'ABC123'
     const lang = 'en'
     await reqHandler(endpoint, { params: { courseCode } }, { lang })
-    expect(filteredLadokData).toHaveBeenCalledWith(courseCode, lang)
+    expect(getLadokCourseData).toHaveBeenCalledWith(courseCode, lang)
   })
 
   it('should call renderCoursePage', async () => {
     const mockWebContext = { mockProp: 'WebContext123' }
-    filteredLadokData.mockResolvedValueOnce({})
+    getLadokCourseData.mockResolvedValueOnce({})
     createWebContext.mockReturnValueOnce(mockWebContext)
 
     const { req, res } = await reqHandler(endpoint, { params: { courseCode: 'abc123' } })
@@ -83,7 +83,7 @@ describe.each([
     const ladokInfo = { mockProp: 'ladokInfo123' }
 
     getCourseInfo.mockResolvedValueOnce(courseInfo)
-    filteredLadokData.mockResolvedValueOnce(ladokInfo)
+    getLadokCourseData.mockResolvedValueOnce(ladokInfo)
 
     await reqHandler(endpoint, { params: { courseCode } }, { lang, userId })
 
@@ -96,7 +96,7 @@ describe.each([
   })
 
   it('should call next with HttpError if course code it not found in ladok', async () => {
-    filteredLadokData.mockResolvedValueOnce({
+    getLadokCourseData.mockResolvedValueOnce({
       apiError: true,
       statusCode: 404,
     })

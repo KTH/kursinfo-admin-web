@@ -30,7 +30,7 @@ function OtherInformationPage() {
   const pageState = useOtherInformationPageState([labels.step1, labels.step2])
   const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageHeader }
 
-  if (context.koppsApiError) {
+  if (context.ladokApiError) {
     return <KoppsErrorPage pageTitleProps={pageTitleProps} />
   }
 
