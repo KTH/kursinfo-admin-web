@@ -5,7 +5,6 @@ const { reqHandler } = require('../testHelpers')
 jest.mock('../../server')
 jest.mock('../../configuration')
 jest.mock('../../apiCalls/kursInfoApi')
-jest.mock('../../apiCalls/koppsApi')
 jest.mock('../../utils/webContextUtil')
 
 const courseCode = 'ABC123'

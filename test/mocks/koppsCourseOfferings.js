@@ -1,7 +1,7 @@
 const mockSemester = '20181'
 const mockEarliestSemester = mockSemester
 
-const mockKoppsCourseOfferingsResponse = {
+const mockCourseOfferingsResponse = {
   body: [
     // 1. Empty object
     {
@@ -195,7 +195,7 @@ const mockOfferingsWithoutAnalysis = [
 export {
   mockEarliestSemester,
   mockSemester,
-  mockKoppsCourseOfferingsResponse,
+  mockCourseOfferingsResponse,
   mockAnalysisOfferings,
   mockSemestersInAnalyses,
   mockMemoOfferings,

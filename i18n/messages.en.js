@@ -154,8 +154,8 @@ module.exports = {
       api_error: 'Failed to save text due to technical issues. Copy text and try again later',
       storage_api_error:
         'Failed to save the image you chose, due to technical issues mightly. Go back to “1. Choose image” and change the image. Then try to Publish again.',
-      kopps_api_down:
-        'Failed to get data from KOPPS for now therefore some information is missing. Or course code is mispelled.',
+      ladok_api_down:
+        'Failed to get data from LADOK for now therefore some information is missing. Or course code is mispelled.',
     },
     course_short_semester: {
       1: 'Spring ',

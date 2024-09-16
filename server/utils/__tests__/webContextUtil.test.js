@@ -10,7 +10,7 @@ jest.mock('../../configuration')
 jest.mock('../../server')
 
 const mockUserId = 'userId'
-const mockKoppsData = {
+const mockLadokData = {
   courseTitleData: {
     courseCode: 'ABC321',
     courseTitle: 'TestCourseTitle',
@@ -27,17 +27,17 @@ const mockCourseInfo = {
 
 const testArgsStart = {
   userId: mockUserId,
-  koppsData: mockKoppsData,
+  ladokData: mockLadokData,
 }
 
 const testArgsDescription = {
   userId: mockUserId,
-  koppsData: mockKoppsData,
+  ladokData: mockLadokData,
   courseInfo: mockCourseInfo,
 }
 const testArgsOtherInformation = {
   userId: mockUserId,
-  koppsData: mockKoppsData,
+  ladokData: mockLadokData,
   courseInfo: mockCourseInfo,
 }
 
@@ -77,12 +77,12 @@ describe('webContextUtil - description', () => {
 
   it('should set default image info', async () => {
     const args = testArgsDescription
-    args.koppsData.mainSubject = 'Bioteknik'
+    args.ladokData.mainSubject = 'Bioteknik'
     const context1 = createDescriptionWebContext(args)
     expect(context1.routeData.defaultImage.imageName).toBe('Picture_by_MainFieldOfStudy_02_Biotechnology.jpg')
     expect(context1.routeData.defaultImage.url).toContain('Picture_by_MainFieldOfStudy_02_Biotechnology.jpg')
 
-    args.koppsData.mainSubject = 'unknownSubject'
+    args.ladokData.mainSubject = 'unknownSubject'
     const context2 = createDescriptionWebContext(args)
     expect(context2.routeData.defaultImage.imageName).toBe('Picture_by_MainFieldOfStudy_26_Default_picture.jpg')
     expect(context2.routeData.defaultImage.url).toContain('Picture_by_MainFieldOfStudy_26_Default_picture.jpg')
@@ -164,26 +164,26 @@ describe.each([
     const context = func(args)
     expect(context.routeData).toBeDefined()
     expect(context.routeData.courseData).toMatchObject({
-      courseCode: mockKoppsData.courseTitleData.courseCode,
-      courseTitle: mockKoppsData.courseTitleData.courseTitle,
-      courseCredits: mockKoppsData.courseTitleData.courseCredits,
+      courseCode: mockLadokData.courseTitleData.courseCode,
+      courseTitle: mockLadokData.courseTitleData.courseTitle,
+      courseCredits: mockLadokData.courseTitleData.courseCredits,
     })
-    expect(context.koppsApiError).toBeFalsy()
+    expect(context.ladokApiError).toBeFalsy()
   })
 
   it('should set course code', () => {
     const context = func(args)
-    expect(context.courseCode).toBe(mockKoppsData.courseTitleData.courseCode)
+    expect(context.courseCode).toBe(mockLadokData.courseTitleData.courseCode)
   })
 
-  it('should set kopps api error flag', () => {
+  it('should set Ladok api error flag', () => {
     const context = func({
       ...args,
-      koppsData: {
+      ladokData: {
         apiError: true,
         statusCode: 500,
       },
     })
-    expect(context.koppsApiError).toBeTrue()
+    expect(context.ladokApiError).toBeTrue()
   })
 })

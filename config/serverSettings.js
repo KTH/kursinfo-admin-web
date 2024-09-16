@@ -7,13 +7,7 @@
  * *************************************************
  *
  */
-const {
-  getEnv,
-  devDefaults,
-  unpackKOPPSConfig,
-  unpackRedisConfig,
-  unpackNodeApiConfig,
-} = require('kth-node-configuration')
+const { getEnv, devDefaults, unpackRedisConfig, unpackNodeApiConfig } = require('kth-node-configuration')
 const { safeGet } = require('safe-utils')
 
 // DEFAULT SETTINGS used for dev, if you want to override these for you local environment, use env-vars in .env
@@ -21,7 +15,6 @@ const devPort = devDefaults(3000)
 const devSsl = devDefaults(false)
 const devUrl = devDefaults('http://localhost:' + devPort)
 const devKursinfoApi = devDefaults('https://api-r.referens.sys.kth.se/api/kursinfo?defaultTimeout=10000') // required=true&
-const devKoppsApi = devDefaults('https://api-r.referens.sys.kth.se/api/kopps/v2/?defaultTimeout=60000') // required=true&
 const devSessionKey = devDefaults('kursinfo-admin-web.sid')
 const devSessionUseRedis = devDefaults(true)
 const devRedis = devDefaults('redis://localhost:6379/')
@@ -58,7 +51,18 @@ module.exports = {
   apiKey: {
     kursinfoApi: getEnv('KURSINFO_API_KEY', devDefaults('1234')),
   },
-
+  // TODO(Ladok-POC): Replace devDefaults and add values to ref/prod.parameters.json when final mellanlager is deployed
+  ladokMellanlagerApi: {
+    clientId: getEnv('LADOK_AUTH_CLIENT_ID', devDefaults('fc1c0e6e-c17b-4b1c-9e34-003ca528740f')),
+    clientSecret: getEnv('LADOK_AUTH_CLIENT_SECRET', null),
+    tokenUrl: getEnv(
+      'LADOK_AUTH_TOKEN_URL',
+      devDefaults('https://login.microsoftonline.com/acd7f330-d613-48d9-85f2-258b1ac4a015/oauth2/v2.0/token')
+    ),
+    scope: getEnv('LADOK_AUTH_SCOPE', devDefaults('api://97fe6696-a7b2-4f7f-adce-726426e35c1c/.default')),
+    baseUrl: getEnv('LADOK_BASE_URL', devDefaults('https://apim-mellanlagring2.azure-api.net')),
+    ocpApimSupscriptionKey: getEnv('LADOK_OCP_APIM_SUBSCRIPTION_KEY', null),
+  },
   // Authentication
   auth: {
     // app.kursinfo.superuser = personer tillagda där ska kunna lägga till folk som adminanvändare
@@ -66,7 +70,6 @@ module.exports = {
     superuserGroup: 'app.kursinfo.superuser',
     kursinfoAdmins: 'app.kursinfo.kursinfo-admins',
   },
-  koppsApi: unpackKOPPSConfig('KOPPS_URI', devKoppsApi),
 
   // Service API's
   nodeApi: {
@@ -100,10 +103,6 @@ module.exports = {
     level: 'debug',
   },
   cache: {
-    koppsApi: {
-      redis: unpackRedisConfig('REDIS_URI', devRedis),
-      expireTime: getEnv('KOPPS_API_CACHE_EXPIRE_TIME', 60 * 60), // 60 minuteS
-    },
     cortinaBlock: {
       redis: unpackRedisConfig('REDIS_URI', devRedis),
       redisKey: 'CortinaBlock_kursinfo-admin-web_',

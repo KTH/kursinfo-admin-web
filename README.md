@@ -19,7 +19,6 @@ Firstly, the app displays en entrance page for services to organize information 
 The app consists of several pages:
 
 - Administrate start page with menu and cards to show what can be changed by course coordinators and examiners.
-  (requires no api keys, only kopps url)
 
 ```
 localhost:3000/kursinfoadmin/kurser/kurs/:courseCode
@@ -46,18 +45,15 @@ localhost:3000/kursinfoadmin/kurser/kurs/_monitor_images
 
 ### API:s
 
-Application is fetching data from KOPPS-API for:
+Application is fetching data from Ladok middleware for:
 
 - Course title
-- Introduction text from Kopps
+- Introduction text from Ladok
 
 Application is fetching data from kursinfo-api to show:
 
 - Introduction text if it has been edited before and exists in kursinfo-api
 
-#### Use Cache for Kopps API and for kursinfo-web
-
-REDIS_URI used is to cache a response from kopps api because it is used as a start page for other microservices and will be used intensively by user while going from one service to another. Though it should be avoided to cache kursinfo-api, or only for a short time.
 
 ### Related projects
 

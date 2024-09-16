@@ -149,7 +149,7 @@ module.exports = {
       api_error: 'Det gick inte att spara texten på grund av teknisk fel. Kopiera texten och försök igen senare',
       storage_api_error: `Det gick inte att publicera den bild du valt. 
       Gå tillbaka till ”Välj bild” för att byta bild. Prova sedan att ”Publicera”.`,
-      kopps_api_down: `Det går för närvarande inte att hämta information från KOPPS. 
+      ladok_api_down: `Det går för närvarande inte att hämta information från LADOK. 
         Det kan antingen bero på att kurskoden är felaktig eller på kommunikationsfel.`,
     },
     course_short_semester: {

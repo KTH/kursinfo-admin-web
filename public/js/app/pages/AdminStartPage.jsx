@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import i18n from '../../../../i18n'
 import Button from '../components-shared/Button'
 import PageTitle from '../components/PageTitle'
-import KoppsErrorPage from '../components/KoppsErrorPage'
+import LadokErrorPage from '../components/LadokErrorPage'
 import { LinkToAboutCourseInformation, TextAboutRights } from '../components/LinkAndInstruction'
 import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
@@ -16,8 +16,8 @@ function AdminStartPage() {
   const [context] = useWebContext()
   const [querySearchParams] = useSearchParams()
 
-  const { koppsData, publicHostUrl, userRoles, lang } = context
-  const { courseTitleData } = koppsData
+  const { ladokData, publicHostUrl, userRoles, lang } = context
+  const { courseTitleData } = ladokData
   const { courseCode } = courseTitleData
   const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
   const visibilityLevel =
@@ -28,8 +28,8 @@ function AdminStartPage() {
 
   const pageTitleProps = { courseTitleData, pageTitle: pageTitles.administrate }
 
-  if (context.koppsApiError) {
-    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  if (context.ladokApiError) {
+    return <LadokErrorPage pageTitleProps={pageTitleProps} />
   }
 
   return (

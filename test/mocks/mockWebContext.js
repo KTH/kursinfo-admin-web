@@ -1,6 +1,6 @@
 const mockWebContext = {
-  koppsData: {
-    koppsText: {
+  ladokData: {
+    ladokText: {
       sv: 'Algebra och geometri',
       en: 'Ingen information tillagd',
     },
