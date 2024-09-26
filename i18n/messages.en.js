@@ -207,7 +207,7 @@ module.exports = {
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       fields: {
-        recommendedPrerequisitesSv: 'Recommended prerequisites (SW)',
+        recommendedPrerequisitesSv: 'Recommended prerequisites (SV)',
         recommendedPrerequisitesEn: 'Recommended prerequisites (EN)',
       },
     },
@@ -230,7 +230,7 @@ module.exports = {
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       fields: {
-        supplementaryInfoSv: 'Supplementary information (SW)',
+        supplementaryInfoSv: 'Supplementary information (SV)',
         supplementaryInfoEn: 'Supplementary information (EN)',
       },
     },
@@ -286,9 +286,9 @@ module.exports = {
       nextButton: 'Preview',
       backButton: 'Choose image',
       fields: {
-        sellingTextSv: 'Introduction to the course (SW)',
+        sellingTextSv: 'Introduction to the course (SV)',
         sellingTextEn: 'Introduction to the course (EN)',
-        courseDispositionSv: 'Course disposition (SW)',
+        courseDispositionSv: 'Course disposition (SV)',
         courseDispositionEn: 'Course disposition (EN)',
       },
     },
