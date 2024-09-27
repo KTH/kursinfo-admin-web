@@ -71,6 +71,8 @@ function createDescriptionWebContext(args) {
   }
 
   const [, { courseImage }] = i18n.messages
+  // TODO: How should the image be set? A course can have several main subjects in Ladok
+  // which creates a string like this for example: "Matematik, Teknik". Image will always result in default now
   const defaultImageName = courseImage[args.ladokData?.mainSubject] ?? courseImage.default
   const customImageName = courseInfo.imageInfo
   const hasCustomImage = !!customImageName
