@@ -8,12 +8,9 @@ async function getLadokCourseData(courseCode, lang) {
   const course = await client.getLatestCourseVersion(courseCode, lang)
   const { apiError, huvudomraden, benamning, kod, schoolCode, omfattning, statusCode } = course
 
-  const mainSubjectsArray = huvudomraden.map(subject => subject.name)
-  const mainSubjects = mainSubjectsArray.join()
-
   return {
     apiError,
-    mainSubjects,
+    mainSubject: huvudomraden[0].name,
     courseTitleData: {
       courseCode: kod,
       courseTitle: benamning,
