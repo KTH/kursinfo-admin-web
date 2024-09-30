@@ -7,6 +7,7 @@ async function getLadokCourseData(courseCode, lang) {
   const client = createApiClient(serverConfig.ladokMellanlagerApi)
   const course = await client.getLatestCourseVersion(courseCode, lang)
   const { apiError, huvudomraden, benamning, kod, schoolCode, omfattning, statusCode } = course
+
   return {
     apiError,
     mainSubject: huvudomraden[0].name,
