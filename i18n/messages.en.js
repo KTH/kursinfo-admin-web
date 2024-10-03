@@ -182,6 +182,11 @@ module.exports = {
     courseDev_decs_p1:
       'Publish course analysis and course data for a completed course offering or edit a published course analysis.',
     courseDev_decs_p2: 'A published course analysis with course data is displayed on the page: Course development.',
+    courseDev_decs_alert_title: 'Please note!',
+    courseDev_decs_alert_p1:
+      'In mid-December 2024, this tool for publishing and editing course analysis and course data will be discontinued. Last use is for courses taken during period 1 in HT24. Thereafter, from period 2 in HT24, the course analysis is filled in and published in Canvas.',
+    courseDev_decs_alert_p2: 'Read about the new automated system in Canvas here:',
+    courseDev_decs_alert_p2_link: 'New IT system support for course evaluation and course analysis',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
   },
