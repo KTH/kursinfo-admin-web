@@ -1,12 +1,11 @@
 import React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import '@babel/runtime/regenerator'
-import mockWebContext from './mocks/mockWebContext'
-import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
-
 import AdminStartPage from '../public/js/app/pages/AdminStartPage'
 import { WebContextProvider } from '../public/js/app/context/WebContext'
+import mockWebContext from './mocks/mockWebContext'
+import { mockClientFunctionsToWebContext } from './mocks/mockClientFunctionsToWebContext'
 
 jest.mock('../public/js/app/client-context/addClientFunctionsToWebContext')
 

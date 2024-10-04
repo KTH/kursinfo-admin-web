@@ -55,6 +55,12 @@ function doUpsertItem(courseCode, values) {
   return doPostApiCall(url, data)
 }
 
+function doUpsertRecommendedPrerequisites(courseCode, values) {
+  const url = this.buildApiUrl(this.paths.course.updateRecommendedPrerequisites.uri, { courseCode })
+  const data = { ...values, user: this.user }
+  return doPostApiCall(url, data)
+}
+
 function doUpsertOtherInformation(courseCode, values) {
   const url = this.buildApiUrl(this.paths.course.updateOtherInformation.uri, { courseCode })
   const data = { ...values, user: this.user }
@@ -65,6 +71,7 @@ function addClientFunctionsToWebContext() {
   const functions = {
     buildApiUrl,
     doUpsertItem,
+    doUpsertRecommendedPrerequisites,
     doUpsertOtherInformation,
   }
   return functions

@@ -10,7 +10,7 @@ const { filteredKoppsData } = require('../apiCalls/koppsApi')
 const { getCourseInfo, patchCourseInfo, postCourseInfo } = require('../apiCalls/kursInfoApi')
 
 const { renderCoursePage } = require('../utils/renderPageUtil')
-const { createOtherInformationWebContext } = require('../utils/webContextUtil')
+const { createRecommendedPrerequisitesWebContext } = require('../utils/webContextUtil')
 
 function extractCourseCodeOrThrow(req) {
   const { courseCode } = req.params
@@ -18,7 +18,7 @@ function extractCourseCodeOrThrow(req) {
   return courseCode
 }
 
-async function getOtherInformation(req, res, next) {
+async function getRecommendedPrerequisites(req, res, next) {
   try {
     const courseCode = extractCourseCodeOrThrow(req)
     const lang = language.getLanguage(res)
@@ -30,7 +30,7 @@ async function getOtherInformation(req, res, next) {
     }
 
     const courseInfo = await getCourseInfo(courseCode)
-    const context = createOtherInformationWebContext({
+    const context = createRecommendedPrerequisitesWebContext({
       language: lang,
       userId: req.session.passport.user.ugKthid,
       koppsData,
@@ -39,20 +39,20 @@ async function getOtherInformation(req, res, next) {
 
     renderCoursePage(req, res, context)
   } catch (error) {
-    log.error('Error in otherInformationCtrl -> getOtherInformation', { error })
+    log.error('Error in recommendedPrerequisitesCtrl -> getRecommendedPrerequisites', { error })
     next(error)
   }
 }
 
-async function updateOtherInformation(req, res, next) {
+async function updateRecommendedPrerequisites(req, res, next) {
   try {
     const courseCode = extractCourseCodeOrThrow(req)
     const courseInfo = await getCourseInfo(courseCode)
 
     const data = {
-      supplementaryInfo: {
-        sv: req.body.supplementaryInfoSv,
-        en: req.body.supplementaryInfoEn,
+      recommendedPrerequisites: {
+        sv: req.body.recommendedPrerequisitesSv,
+        en: req.body.recommendedPrerequisitesEn,
       },
       lastChangedBy: req.session.passport.user.ugKthid,
     }
@@ -65,12 +65,12 @@ async function updateOtherInformation(req, res, next) {
 
     return res.sendStatus(200)
   } catch (error) {
-    log.error('Error in otherInformationCtrl -> updateOtherInformation', { error })
+    log.error('Error in recommendedPrerequisitesCtrl -> updateRecommendedPrerequisites', { error })
     return next(error)
   }
 }
 
 module.exports = {
-  getOtherInformation,
-  updateOtherInformation,
+  getRecommendedPrerequisites,
+  updateRecommendedPrerequisites,
 }
