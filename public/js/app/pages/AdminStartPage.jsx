@@ -9,8 +9,15 @@ import AlertMsg from '../components/AlertMsg'
 import AlertReminderMsg from '../components/AlertReminderMsg'
 import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo'
 import { useWebContext } from '../context/WebContext'
-import { ADMIN_COURSE_UTV, ADMIN_COURSE_PM, ADMIN_COURSE_PM_DATA, ADMIN_ABOUT_COURSE } from '../util/constants'
+import {
+  ADMIN_COURSE_UTV,
+  ADMIN_COURSE_PM,
+  ADMIN_COURSE_PM_DATA,
+  ADMIN_ABOUT_COURSE,
+  NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL,
+} from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
+import Alert from '../components-shared/Alert'
 
 function AdminStartPage() {
   const [context] = useWebContext()
@@ -100,6 +107,15 @@ function AdminStartPage() {
               <div className="AdminStartPage__cardBody">
                 <p>{startCards.courseDev_decs_p1}</p>
                 <p>{startCards.courseDev_decs_p2}</p>
+                <Alert header={startCards.courseDev_decs_alert_title} type="info">
+                  <p>{startCards.courseDev_decs_alert_p1}</p>
+                  <p>
+                    {startCards.courseDev_decs_alert_p2}{' '}
+                    <a lang={lang} href={NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL[lang]}>
+                      {startCards.courseDev_decs_alert_p2_link}
+                    </a>
+                  </p>
+                </Alert>
               </div>
             </div>
             <div className="AdminStartPage__cardFooter">
