@@ -30,8 +30,8 @@
     "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'"
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.18.0",
-    "@babel/runtime": "^7.24.6",
+    "@azure/storage-blob": "^12.25.0",
+    "@babel/runtime": "^7.25.9",
     "@kth/api-call": "^4.1.0",
     "@kth/appinsights": "^0.4.0",
     "@kth/kth-node-passport-oidc": "^5.2.0",
@@ -75,13 +75,13 @@
     "safe-utils": "^1.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.6",
-    "@babel/core": "^7.24.6",
-    "@babel/plugin-transform-runtime": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
-    "@babel/preset-react": "^7.24.6",
-    "@kth/eslint-config-kth": "^3.4.0",
-    "@kth/kth-ckeditor-build": "^4.0.13",
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.25.9",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "^7.25.9",
+    "@babel/preset-react": "^7.25.9",
+    "@kth/eslint-config-kth": "^3.5.0",
+    "@kth/kth-ckeditor-build": "^4.0.14",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^14.3.1",
     "@types/jest": "^29.5.12",
