@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, fireEvent } from '@testing-library/react'
-import React from 'react'
-import { act } from 'react-dom/test-utils'
+import React, { act } from 'react'
 import { addClientFunctionsToWebContext } from '../public/js/app/client-context/addClientFunctionsToWebContext'
 import { WebContextProvider } from '../public/js/app/context/WebContext'
 import DescriptionPage from '../public/js/app/pages/DescriptionPage'
