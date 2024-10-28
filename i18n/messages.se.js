@@ -179,7 +179,7 @@ module.exports = {
     courseDev_decs_p2: 'Publicerade kursanalyser och kursdata visas på sidan: Kursens utveckling.',
     courseDev_decs_alert_title: 'Observera!',
     courseDev_decs_alert_p1:
-      'Under mitten av december 2024 avvecklas det här verktyget för publicering och redigering av kursanalyser och kursdata. Sista användning är för kurser som gått under period 1 i HT24. Efter det, från period 2 i HT24, fylls kursanalys i och publiceras i Canvas.',
+      'I mars 2025 avvecklas det här verktyget för publicering och redigering av kursanalys och kursdata. Sista användning är för kurser som gått under läsperiod 2 i HT24. Från läsperiod 3 i VT25 fylls kursanalys i och publiceras i Canvas. Kursdata och del av kursanalys publiceras också automatiskt på Om kursen.',
     courseDev_decs_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här:',
     courseDev_decs_alert_p2_link: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
     courseDev_btn_edit: 'Ändra publicerad',
