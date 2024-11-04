@@ -116,7 +116,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User: only responsible. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(ONLY_RESPONSIBLE)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
@@ -126,7 +126,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User: only examinator. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(ONLY_EXAMINATOR)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
@@ -136,7 +136,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User: only superuser. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(ONLY_SUPERUSER)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
@@ -146,7 +146,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User has two roles: teacher and superuser. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(TEACHER_AND_SUPERUSER)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
@@ -156,7 +156,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User has two roles: teacher and examinator. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(TEACHER_AND_EXAMINATOR)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)
@@ -166,7 +166,7 @@ describe('User roles for this course <AdminStartPage>', () => {
   test('User has two roles: teacher and resonsible. Show all cards: course memo, course description and course analysis', done => {
     const { getAllByRole } = renderEditPage(TEACHER_AND_RESPONSIBLE)
     const allH4Headers = getAllByRole('heading', { level: 4 })
-    expect(allH4Headers.length).toBe(3)
+    expect(allH4Headers.length).toBe(4)
     expect(allH4Headers[0]).toHaveTextContent(/^Sidan Inför kursval/)
     expect(allH4Headers[1]).toHaveTextContent(/^Kurs-PM/)
     expect(allH4Headers[2]).toHaveTextContent(/^Kursanalys och kursdata/)

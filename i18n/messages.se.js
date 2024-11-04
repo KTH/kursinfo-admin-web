@@ -1,5 +1,6 @@
 // Please make sure to use the correct quotes:
 // - in Swedish, use closing double quote (” ,\u201d) both before and after the text to be quoted,
+
 // - in English, use opening double quote (“, \u201c) before and closing double quote (” \u201d) after the text.
 module.exports = {
   shortNames: ['sv', 'se'],
@@ -176,6 +177,11 @@ module.exports = {
     courseDev_decs_p1:
       'Publicera kursanalys och kursdata för en avslutad kursomgång eller ändra en redan publicerad kursanalys.',
     courseDev_decs_p2: 'Publicerade kursanalyser och kursdata visas på sidan: Kursens utveckling.',
+    courseDev_decs_alert_title: 'Observera!',
+    courseDev_decs_alert_p1:
+      'I mars 2025 avvecklas det här verktyget för publicering och redigering av kursanalys och kursdata. Sista användning är för kurser som gått under läsperiod 2 i HT24. Från läsperiod 3 i VT25 fylls kursanalys i och publiceras i Canvas. Kursdata och del av kursanalys publiceras också automatiskt på Om kursen.',
+    courseDev_decs_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här:',
+    courseDev_decs_alert_p2_link: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
     courseDev_btn_edit: 'Ändra publicerad',
     courseDev_btn_new: 'Publicera ny',
   },
@@ -187,11 +193,37 @@ module.exports = {
     header: 'Välj del att redigera',
     options: {
       description: 'Bild, introduktion till kursen och kursupplägg',
+      recommendedPrerequisites: 'Rekommenderade förkunskaper',
       otherInformation: 'Övrig information',
     },
     nextButton: 'Redigera',
   },
 
+  editRecommendedPrerequisites: {
+    pageHeader: 'Rekommenderade förkunskaper',
+    step1: {
+      title: 'Redigera text',
+      intro: `Rubriken ”Rekommenderade förkunskaper” ska beskriva vilka kunskaper och färdigheter (utöver behörighetskraven) som studenterna behöver för att kunna ta till sig kursen. 
+              Studenterna kan använda informationen för att förbereda sig för kursen eller som underlag för om de ska välja kursen eller inte.
+              Ange helst explicita kunskaper och färdigheter och inte bara kursnamn, till exempel ”programmering i Python” eller ”gränsvärdesberäkningar”.`,
+      alert: `Observera att texterna visas för samtliga kurstillfällen. Om kursen ges vid flera tillfällen samma termin kan du behöva anpassa texten. Ange max 2000 tecken per text.`,
+      nextButton: 'Granska',
+      fields: {
+        recommendedPrerequisitesSv: 'Rekommenderade förkunskaper (SV)',
+        recommendedPrerequisitesEn: 'Rekommenderade förkunskaper (EN)',
+      },
+    },
+    step2: {
+      title: 'Granska och publicera',
+      header: 'Granska',
+      nextButton: 'Publicera',
+      backButton: 'Redigera text',
+      fields: {
+        recommendedPrerequisitesSv: 'Rekommenderade förkunskaper',
+        recommendedPrerequisitesEn: 'Recommended prerequisites',
+      },
+    },
+  },
   editOtherInformation: {
     pageHeader: 'Övrig information',
     step1: {

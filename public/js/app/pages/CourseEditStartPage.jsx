@@ -6,7 +6,7 @@ import LadokErrorPage from '../components/LadokErrorPage'
 import PageTitle from '../components/PageTitle'
 import { useWebContext } from '../context/WebContext'
 
-const options = ['description', 'otherInformation']
+const options = ['description', 'recommendedPrerequisites', 'otherInformation']
 
 function CourseEditStartPage() {
   const [selectedOption, setSelectedOption] = React.useState(options[0])

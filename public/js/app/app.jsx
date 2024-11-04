@@ -10,6 +10,7 @@ import AdminStartPage from './pages/AdminStartPage'
 import DescriptionPage from './pages/DescriptionPage'
 import CourseEditStartPage from './pages/CourseEditStartPage'
 import OtherInformationPage from './pages/OtherInformationPage'
+import RecommendedPrerequisitesPage from './pages/RecommendedPrerequisitesPage'
 import '../../css/kursinfo-admin-web.scss'
 
 function appFactory(applicationStore, context) {
@@ -17,6 +18,7 @@ function appFactory(applicationStore, context) {
     <WebContextProvider configIn={context}>
       <SiteHeaderUrlWrapper>
         <Routes>
+          <Route exact path="/edit/:courseCode/recommendedPrerequisites" element={<RecommendedPrerequisitesPage />} />
           <Route exact path="/edit/:courseCode/otherInformation" element={<OtherInformationPage />} />
           <Route exact path="/edit/:courseCode/description" element={<DescriptionPage />} />
           <Route exact path="/edit/:courseCode" element={<CourseEditStartPage />} />

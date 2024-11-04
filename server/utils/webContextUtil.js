@@ -32,10 +32,10 @@ function createEditCourseStartWebContext(args) {
   const context = {}
   addBaseData(context, args)
   addCourseData(context, args.ladokData)
-
   const { courseCode } = context.routeData.courseData
   context.routeData.editOptions = {
     description: serverPaths.course.editDescription.uri.replace(':courseCode', courseCode),
+    recommendedPrerequisites: serverPaths.course.editRecommendedPrerequisites.uri.replace(':courseCode', courseCode),
     otherInformation: serverPaths.course.editOtherInformation.uri.replace(':courseCode', courseCode),
   }
   return context
@@ -51,6 +51,20 @@ function createOtherInformationWebContext(args) {
   context.routeData.values = {
     supplementaryInfoSv: courseInfo.supplementaryInfo?.sv ?? '',
     supplementaryInfoEn: courseInfo.supplementaryInfo?.en ?? '',
+  }
+
+  return context
+}
+function createRecommendedPrerequisitesWebContext(args) {
+  const context = {}
+
+  addBaseData(context, args)
+  addCourseData(context, args.koppsData)
+
+  const { courseInfo } = args
+  context.routeData.values = {
+    recommendedPrerequisitesSv: courseInfo.recommendedPrerequisites?.sv ?? '',
+    recommendedPrerequisitesEn: courseInfo.recommendedPrerequisites?.en ?? '',
   }
 
   return context
@@ -91,6 +105,7 @@ function createDescriptionWebContext(args) {
 
 module.exports = {
   createEditCourseStartWebContext,
+  createRecommendedPrerequisitesWebContext,
   createOtherInformationWebContext,
   createDescriptionWebContext,
 }
