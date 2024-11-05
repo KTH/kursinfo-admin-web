@@ -21,7 +21,7 @@
 @use '~@kth/style/scss/components/local-navigation.scss';
 @use '~@kth/style/scss/components/kpm.scss';
 
-@import 'shared';
+@use 'shared';
 
 //====Common style for both pages====
 
@@ -92,8 +92,24 @@ h2 {
     }
     > :last-child {
       margin-block-end: 0;
-    }
+    }    
   }
+
+  .kth-alert.info {
+    h4 {
+      margin: 0;
+    }
+
+    p {
+      margin-block: .5rem;
+      > :first-child {
+        margin-block-start: 0;
+      }
+      > :last-child {
+        margin-block-end: 0;
+      }
+    }
+  } 
 
   .AdminStartPage__cardFooter {
     display: flex;

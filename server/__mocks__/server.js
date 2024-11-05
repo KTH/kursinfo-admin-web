@@ -7,6 +7,9 @@ module.exports = {
       editOtherInformation: {
         uri: `/mockBase/edit/:courseCode/otherInformation`,
       },
+      editRecommendedPrerequisites: {
+        uri: `/mockBase/edit/:courseCode/recommendedPrerequisites`,
+      },
     },
   }),
 }

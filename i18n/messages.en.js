@@ -182,6 +182,11 @@ module.exports = {
     courseDev_decs_p1:
       'Publish course analysis and course data for a completed course offering or edit a published course analysis.',
     courseDev_decs_p2: 'A published course analysis with course data is displayed on the page: Course development.',
+    courseDev_decs_alert_title: 'Please note!',
+    courseDev_decs_alert_p1:
+      'In March 2025, this tool for publishing and editing course analysis and course data will be discontinued. Last use is for courses taken during study period 2 in Autumn 2024. From study period 3 in Spring 2025, course analysis is filled in and published in Canvas. Course data and part of the course analysis are also published automatically on About course.',
+    courseDev_decs_alert_p2: 'Read about the new automated system in Canvas here:',
+    courseDev_decs_alert_p2_link: 'New IT system support for course evaluation and course analysis',
     courseDev_btn_edit: 'Edit published',
     courseDev_btn_new: 'Publish new',
   },
@@ -192,9 +197,35 @@ module.exports = {
     header: 'Choose part to edit',
     options: {
       description: 'Image, course introduction and course disposition',
+      recommendedPrerequisites: 'Recommended prerequisites',
       otherInformation: 'Supplementary information',
     },
     nextButton: 'Edit',
+  },
+  editRecommendedPrerequisites: {
+    pageHeader: 'Recommended prerequisites',
+    step1: {
+      title: 'Edit text',
+      intro: `The heading “Recommended prerequisites” should describe what knowledge and skills (in addition to the eligibility requirements) the students need to be able to take the course. 
+              Students can use the information to prepare for the course or as a basis for choosing the course or not.
+              Preferably state explicit knowledge and skills and not just course names, for example “programming in Python” or “boundary value calculations”.`,
+      alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
+      nextButton: 'Preview',
+      fields: {
+        recommendedPrerequisitesSv: 'Recommended prerequisites (SV)',
+        recommendedPrerequisitesEn: 'Recommended prerequisites (EN)',
+      },
+    },
+    step2: {
+      title: 'Preview and publish',
+      header: 'Preview',
+      nextButton: 'Publish',
+      backButton: 'Edit text',
+      fields: {
+        recommendedPrerequisitesSv: 'Rekommenderade förkunskaper',
+        recommendedPrerequisitesEn: 'Recommended prerequisites',
+      },
+    },
   },
   editOtherInformation: {
     pageHeader: 'Supplementary information',
@@ -204,7 +235,7 @@ module.exports = {
       alert: `Note that the texts are displayed for all course offerings. If the course is offered at multiple times in the same semester, you may need to customize the text. Specify a maximum of 2000 characters per text.`,
       nextButton: 'Preview',
       fields: {
-        supplementaryInfoSv: 'Supplementary information (SW)',
+        supplementaryInfoSv: 'Supplementary information (SV)',
         supplementaryInfoEn: 'Supplementary information (EN)',
       },
     },
@@ -260,9 +291,9 @@ module.exports = {
       nextButton: 'Preview',
       backButton: 'Choose image',
       fields: {
-        sellingTextSv: 'Introduction to the course (SW)',
+        sellingTextSv: 'Introduction to the course (SV)',
         sellingTextEn: 'Introduction to the course (EN)',
-        courseDispositionSv: 'Course disposition (SW)',
+        courseDispositionSv: 'Course disposition (SV)',
         courseDispositionEn: 'Course disposition (EN)',
       },
     },
