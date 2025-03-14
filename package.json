@@ -34,6 +34,7 @@
     "@babel/runtime": "^7.25.9",
     "@kth/api-call": "^4.1.0",
     "@kth/appinsights": "^0.4.0",
+    "@kth/cortina-block": "^7.0.0",
     "@kth/kth-node-passport-oidc": "^5.2.0",
     "@kth/kth-node-response": "^1.0.8",
     "@kth/kth-node-web-common": "^9.3.1",
