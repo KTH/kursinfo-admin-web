@@ -114,7 +114,7 @@
     "glob-parent": "6.0.2"
   },
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "jshintConfig": {
     "maxerr": 5
