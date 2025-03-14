@@ -68,7 +68,7 @@ We must try to make changes that affect the template projects in the template pr
 
 ## Prerequisites
 
-- node 18
+- node 20
 
 ### Blob storage. Generate Shared access signature
 
