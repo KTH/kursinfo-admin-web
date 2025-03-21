@@ -103,34 +103,15 @@ function AdminStartPage() {
         {visibilityLevel === 'all' && (
           <>
             <div className="AdminStartPage__card">
-              <h4 className="AdminStartPage__cardTitle">{startCards.courseDev_hd}</h4>
-              <div className="AdminStartPage__cardBody">
-                <p>{startCards.courseDev_decs_p1}</p>
-                <p>{startCards.courseDev_decs_p2}</p>
-                <Alert header={startCards.courseDev_decs_alert_title} type="info">
-                  <p>{startCards.courseDev_decs_alert_p1}</p>
-                  <p>
-                    {startCards.courseDev_decs_alert_p2}{' '}
-                    <a lang={lang} href={NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL[lang]}>
-                      {startCards.courseDev_decs_alert_p2_link}
-                    </a>
-                  </p>
-                </Alert>
-              </div>
-            </div>
-            <div className="AdminStartPage__cardFooter">
-              <Button
-                variant="primary"
-                href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=n&serv=admin&title=${courseTitleData.courseTitle}_${courseTitleData.courseCredits}`}
-              >
-                {startCards.courseDev_btn_new}
-              </Button>
-              <Button
-                variant="primary"
-                href={`${ADMIN_COURSE_UTV}${courseCode}?l=${lang}&status=p&serv=admin&title=${courseTitleData.courseTitle}_${courseTitleData.courseCredits}`}
-              >
-                {startCards.courseDev_btn_edit}
-              </Button>
+              <Alert header={startCards.courseDev_decs_alert_title} type="info">
+                <p>{startCards.courseDev_decs_alert_p1}</p>
+                <p>
+                  {startCards.courseDev_decs_alert_p2}{' '}
+                  <a lang={lang} href={NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL[lang]}>
+                    {startCards.courseDev_decs_alert_p2_link}
+                  </a>
+                </p>
+              </Alert>
             </div>
           </>
         )}
