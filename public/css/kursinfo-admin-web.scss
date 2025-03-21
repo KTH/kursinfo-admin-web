@@ -78,6 +78,19 @@ h2 {
   .AdminStartPage__card {
     padding: 20px;
     border: 1px solid var(--color-border);
+
+    &:has(.kth-alert) {
+      padding: 0;
+    }
+  
+    .kth-alert {
+      height: 100%;
+      margin-bottom: 0;
+  
+      h4 {
+        align-content: center;
+      }
+    }
   }
 
   .AdminStartPage__cardTitle {
