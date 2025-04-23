@@ -65,7 +65,7 @@ module.exports = {
     about_course: 'Om kursen',
     administrate: 'Administrera Om kursen',
     instruction_p1:
-      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval, skapa och publicera kurs-PM samt ladda upp och publicera Kursanalys och kursdata.',
+      'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval samt skapa och publicera kurs-PM.',
     instruction_p2:
       'På Om kursens sidor finns även information som hämtats från Kopps. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle, inklusive vem som är examinator, kurs­ansvarig, lärare och lärarassistenter för kursen. Denna information redigeras i Kopps.',
     instruction_p3_start:
