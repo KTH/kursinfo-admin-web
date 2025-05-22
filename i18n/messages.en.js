@@ -66,7 +66,7 @@ module.exports = {
     about_course: 'About course',
     administrate: 'Administer About course',
     instruction_p1:
-      'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. You can edit some information on the page Before course selection, create and publish Course memo and publish Course analysis and course data.',
+      'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. You can edit some information on the page Before course selection and create and publish Course memo.',
     instruction_p2:
       'About course also contains information retrieved from Kopps. It is the course syllabus, the course common information and the administrative course instances/course offerings, including examiner, course coordinator, teacher and teacher assistants. This information is edited in Kopps.',
     instruction_p3_start:
@@ -178,17 +178,11 @@ module.exports = {
     coursePM_link_upload_memo: 'Upload course memo as PDF',
     coursePM_btn_edit: 'Edit published',
     coursePM_btn_new: 'Create, publish',
-    courseDev_hd: 'Course analysis and course data',
-    courseDev_decs_p1:
-      'Publish course analysis and course data for a completed course offering or edit a published course analysis.',
-    courseDev_decs_p2: 'A published course analysis with course data is displayed on the page: Course development.',
-    courseDev_decs_alert_title: 'Please note!',
+    courseDev_decs_alert_title: 'Course analysis and course data have moved!',
     courseDev_decs_alert_p1:
       'In March 2025, this tool for publishing and editing course analysis and course data will be discontinued. Last use is for courses taken during study period 2 in Autumn 2024. From study period 3 in Spring 2025, course analysis is filled in and published in Canvas. Course data and part of the course analysis are also published automatically on About course.',
     courseDev_decs_alert_p2: 'Read about the new automated system in Canvas here:',
     courseDev_decs_alert_p2_link: 'New IT system support for course evaluation and course analysis',
-    courseDev_btn_edit: 'Edit published',
-    courseDev_btn_new: 'Publish new',
   },
   editCourseStart: {
     pageHeader: 'Before course selection',

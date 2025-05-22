@@ -1,6 +1,6 @@
 'use strict'
 
-const { createApiClient } = require('om-kursen-ladok-client')
+const { createApiClient } = require('@kth/om-kursen-ladok-client')
 const serverConfig = require('../configuration').server
 
 async function getLadokCourseData(courseCode, lang) {
