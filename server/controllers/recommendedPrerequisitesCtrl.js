@@ -25,7 +25,7 @@ async function getRecommendedPrerequisites(req, res, next) {
     const langIndex = getLangIndex(lang)
 
     const ladokData = await getLadokCourseData(courseCode, lang)
-    if (koppsData.apiError && koppsData.statusCode === 404) {
+    if (ladokData.apiError && ladokData.statusCode === 404) {
       throw new HttpError(404, i18n.messages[langIndex].messages.error_not_found)
     }
 

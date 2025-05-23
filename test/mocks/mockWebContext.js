@@ -8,7 +8,7 @@ const mockWebContext = {
     courseTitleData: {
       courseCode: 'SF1624',
       courseTitle: 'Algebra och geometri',
-      courseCredits: 7.5,
+      courseCredits: '7,5 hp',
       apiError: false,
     },
     lang: 'sv',

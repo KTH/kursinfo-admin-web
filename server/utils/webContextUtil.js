@@ -59,7 +59,7 @@ function createRecommendedPrerequisitesWebContext(args) {
   const context = {}
 
   addBaseData(context, args)
-  addCourseData(context, args.koppsData)
+  addCourseData(context, args.ladokData)
 
   const { courseInfo } = args
   context.routeData.values = {

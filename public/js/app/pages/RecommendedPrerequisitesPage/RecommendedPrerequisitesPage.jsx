@@ -29,7 +29,7 @@ function RecommendedPrerequisitesPage() {
   const pageState = useRecommendedPrerequisitesPageState([labels.step1, labels.step2])
   const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageHeader }
 
-  if (context.koppsApiError) {
+  if (context.ladokApiError) {
     return <LadokErrorPage pageTitleProps={pageTitleProps} />
   }
 
