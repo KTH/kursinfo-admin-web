@@ -5,7 +5,7 @@ const { hasGroup } = require('@kth/kth-node-passport-oidc')
 const log = require('@kth/log')
 
 const i18n = require('../i18n')
-const koppsCourseData = require('./apiCalls/koppsApi')
+const ladokCourseData = require('./apiCalls/ladokApi')
 
 function _hasThisTypeGroup(courseCode, courseInitials, user, employeeType) {
   // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
@@ -35,15 +35,15 @@ async function _isAdminOfCourseSchool(courseCode, user) {
   const userSchools = schools().filter(schoolCode => userGroups.includes(`app.kursinfo.${schoolCode}`))
 
   if (userSchools.length === 0) return false
-  const courseSchoolCode = await koppsCourseData.getCourseSchool(courseCode)
-  log.debug('Fetched courseSchoolCode to define user role', { courseSchoolCode, userSchools })
+  const courseSchoolCode = await ladokCourseData.getCourseSchoolCode(courseCode)
 
-  if (courseSchoolCode === 'missing_school_code' || courseSchoolCode === 'kopps_get_fails') {
+  if (!courseSchoolCode) {
     log.info('Has problems with fetching school code to define if user is a school admin', {
       message: courseSchoolCode,
     })
     return false
   }
+  log.debug('Fetched courseSchoolCode to define user role', { courseSchoolCode, userSchools })
 
   const hasSchoolCodeInAdminGroup = userSchools.includes(courseSchoolCode.toLowerCase())
   log.debug('User admin role', { hasSchoolCodeInAdminGroup })

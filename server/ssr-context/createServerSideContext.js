@@ -17,7 +17,7 @@ function setUserRolesForThisCourse(roles = {}) {
  */
 function createServerSideContext() {
   const context = {
-    koppsData: {},
+    ladokData: {},
 
     user: '',
     apiError: '',

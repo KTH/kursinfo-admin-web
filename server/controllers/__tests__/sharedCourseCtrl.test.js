@@ -1,4 +1,4 @@
-const { filteredKoppsData } = require('../../apiCalls/koppsApi')
+const { getLadokCourseData } = require('../../apiCalls/ladokApi')
 const { getCourseInfo, patchCourseInfo } = require('../../apiCalls/kursInfoApi')
 const { renderCoursePage } = require('../../utils/renderPageUtil')
 const {
@@ -16,7 +16,7 @@ const { reqHandler } = require('../testHelpers')
 jest.mock('../../server')
 jest.mock('../../configuration')
 jest.mock('../../apiCalls/kursInfoApi')
-jest.mock('../../apiCalls/koppsApi')
+jest.mock('../../apiCalls/ladokApi')
 jest.mock('../../utils/renderPageUtil')
 jest.mock('../../utils/webContextUtil')
 
@@ -38,7 +38,7 @@ describe.each([
 
   it('should call next for any thorwn error', async () => {
     const error = new Error('an error')
-    filteredKoppsData.mockImplementationOnce(() => {
+    getLadokCourseData.mockImplementationOnce(() => {
       throw error
     })
 
@@ -51,22 +51,22 @@ describe.each([
   if (!skipKursinfoTests) {
     it('should call kursinfoApi with courseCode', async () => {
       const courseCode = 'ABC123'
-      filteredKoppsData.mockResolvedValueOnce({})
+      getLadokCourseData.mockResolvedValueOnce({})
       await reqHandler(endpoint, { params: { courseCode } })
       expect(getCourseInfo).toHaveBeenCalledWith(courseCode)
     })
   }
 
-  it('should call koppsApi with courseCode and lang', async () => {
+  it('should call ladokApi with courseCode and lang', async () => {
     const courseCode = 'ABC123'
     const lang = 'en'
     await reqHandler(endpoint, { params: { courseCode } }, { lang })
-    expect(filteredKoppsData).toHaveBeenCalledWith(courseCode, lang)
+    expect(getLadokCourseData).toHaveBeenCalledWith(courseCode, lang)
   })
 
   it('should call renderCoursePage', async () => {
     const mockWebContext = { mockProp: 'WebContext123' }
-    filteredKoppsData.mockResolvedValueOnce({})
+    getLadokCourseData.mockResolvedValueOnce({})
     createWebContext.mockReturnValueOnce(mockWebContext)
 
     const { req, res } = await reqHandler(endpoint, { params: { courseCode: 'abc123' } })
@@ -80,23 +80,23 @@ describe.each([
     const userId = 'user321'
 
     const courseInfo = { mockProp: 'courseInfo123' }
-    const koppsInfo = { mockProp: 'koppsInfo123' }
+    const ladokInfo = { mockProp: 'ladokInfo123' }
 
     getCourseInfo.mockResolvedValueOnce(courseInfo)
-    filteredKoppsData.mockResolvedValueOnce(koppsInfo)
+    getLadokCourseData.mockResolvedValueOnce(ladokInfo)
 
     await reqHandler(endpoint, { params: { courseCode } }, { lang, userId })
 
     expect(createWebContext).toHaveBeenCalledWith({
       language: lang,
       userId,
-      koppsData: koppsInfo,
+      ladokData: ladokInfo,
       courseInfo: !skipKursinfoTests ? courseInfo : undefined,
     })
   })
 
-  it('should call next with HttpError if course code it not found in kopps', async () => {
-    filteredKoppsData.mockResolvedValueOnce({
+  it('should call next with HttpError if course code it not found in ladok', async () => {
+    getLadokCourseData.mockResolvedValueOnce({
       apiError: true,
       statusCode: 404,
     })

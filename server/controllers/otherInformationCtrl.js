@@ -6,7 +6,7 @@ const language = require('@kth/kth-node-web-common/lib/language')
 const i18n = require('../../i18n')
 const { getLangIndex } = require('../utils/langUtil')
 const { HttpError } = require('../HttpError')
-const { filteredKoppsData } = require('../apiCalls/koppsApi')
+const { getLadokCourseData } = require('../apiCalls/ladokApi')
 const { getCourseInfo, patchCourseInfo, postCourseInfo } = require('../apiCalls/kursInfoApi')
 
 const { renderCoursePage } = require('../utils/renderPageUtil')
@@ -24,8 +24,8 @@ async function getOtherInformation(req, res, next) {
     const lang = language.getLanguage(res)
     const langIndex = getLangIndex(lang)
 
-    const koppsData = await filteredKoppsData(courseCode, lang)
-    if (koppsData.apiError && koppsData.statusCode === 404) {
+    const ladokData = await getLadokCourseData(courseCode, lang)
+    if (ladokData.apiError && ladokData.statusCode === 404) {
       throw new HttpError(404, i18n.messages[langIndex].messages.error_not_found)
     }
 
@@ -33,7 +33,7 @@ async function getOtherInformation(req, res, next) {
     const context = createOtherInformationWebContext({
       language: lang,
       userId: req.session.passport.user.ugKthid,
-      koppsData,
+      ladokData,
       courseInfo,
     })
 

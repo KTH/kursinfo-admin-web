@@ -2,7 +2,7 @@
 
 const log = require('@kth/log')
 const language = require('@kth/kth-node-web-common/lib/language')
-const { filteredKoppsData } = require('../apiCalls/koppsApi')
+const { getLadokCourseData } = require('../apiCalls/ladokApi')
 const browserConfig = require('../configuration').browser
 const serverConfig = require('../configuration').server
 const i18n = require('../../i18n')
@@ -32,13 +32,12 @@ async function getAdminStart(req, res, next) {
     /* ------- Settings ------- */
     webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     webContext.setUserRolesForThisCourse(userRoles)
-    // Load koppsData
-    const koppsData = await filteredKoppsData(courseCode, lang)
-    if (koppsData.apiError && koppsData.statusCode === 404) {
+    const ladokData = await getLadokCourseData(courseCode, lang)
+    if (ladokData.apiError && ladokData.statusCode === 404) {
       throw new HttpError(404, messages.error_not_found)
     }
-    webContext.koppsApiError = koppsData.apiError
-    webContext.koppsData = koppsData
+    webContext.ladokApiError = ladokData.apiError
+    webContext.ladokData = ladokData
     webContext.courseCode = courseCode
 
     const compressedData = getCompressedData(webContext)

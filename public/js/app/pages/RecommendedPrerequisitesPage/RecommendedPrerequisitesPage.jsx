@@ -2,7 +2,7 @@ import React from 'react'
 
 import i18n from '../../../../../i18n'
 import PageTitle from '../../components/PageTitle'
-import KoppsErrorPage from '../../components/KoppsErrorPage'
+import LadokErrorPage from '../../components/LadokErrorPage'
 import ProgressBar, { useProgressBar } from '../../components-shared/ProgressBar'
 import { useWebContextTextInput } from '../../components/WebContextTextInput/useWebContextTextInput'
 import { useWebContext } from '../../context/WebContext'
@@ -29,8 +29,8 @@ function RecommendedPrerequisitesPage() {
   const pageState = useRecommendedPrerequisitesPageState([labels.step1, labels.step2])
   const pageTitleProps = { courseTitleData: context.routeData.courseData, pageTitle: labels.pageHeader }
 
-  if (context.koppsApiError) {
-    return <KoppsErrorPage pageTitleProps={pageTitleProps} />
+  if (context.ladokApiError) {
+    return <LadokErrorPage pageTitleProps={pageTitleProps} />
   }
 
   return (
