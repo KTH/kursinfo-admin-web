@@ -83,7 +83,7 @@ describe('<AdminStartPage> (and subordinates)', () => {
 
     allLinks[4].click()
     await waitFor(() => {
-      //stay one the same page
+      //stay on the same page
       const allH1Headers = getAllByRole('heading', { level: 1 })
       expect(allH1Headers.length).toBe(1)
       expect(allH1Headers[0]).toHaveTextContent(/^Administrera Om kursenSF1624 Algebra och geometri 7,5 hp/)

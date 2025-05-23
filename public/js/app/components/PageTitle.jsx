@@ -11,14 +11,7 @@ function parseCourseName(title, langIndex, language) {
   if (!courseCredits && !courseCode && !courseTitle) return ''
   if (courseCode && !courseCredits && !courseTitle) return courseCode
 
-  const credits =
-    courseCredits !== EMPTY[langIndex] && courseCredits.toString().indexOf('.') < 0
-      ? courseCredits + '.0'
-      : courseCredits || ''
-  const creditUnit = language === 'en' ? `${credits} credits` : `${credits.toString().replace('.', ',')} hp`
-
-  const courseName = `${courseCode} ${courseTitle} ${creditUnit}`
-  return courseName
+  return `${courseCode} ${courseTitle} ${courseCredits}`
 }
 
 const PageTitle = ({ courseTitleData, pageTitle }) => {

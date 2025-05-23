@@ -14,7 +14,7 @@ async function getLadokCourseData(courseCode, lang) {
     courseTitleData: {
       courseCode: kod,
       courseTitle: benamning,
-      courseCredits: omfattning,
+      courseCredits: omfattning.formattedWithUnit,
       schoolCode,
     },
     statusCode,
