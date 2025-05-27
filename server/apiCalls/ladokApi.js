@@ -10,7 +10,7 @@ async function getLadokCourseData(courseCode, lang) {
 
   return {
     apiError,
-    mainSubject: huvudomraden[0].name,
+    mainSubject: huvudomraden?.[0].name,
     courseTitleData: {
       courseCode: kod,
       courseTitle: benamning,
