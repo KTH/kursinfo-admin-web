@@ -19,7 +19,7 @@
     "docker:run": "bash ./docker-run-image.sh dev",
     "docker:start-dev": "npm run docker:build && npm run docker:run",
     "//": "Gulp installs css and javascript",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint \"{public,server}/**/*.{js,jsx}\"",
     "test": "npx cross-env NODE_ENV=test jest test --passWithNoTests",
     "test-file": "cross-env NODE_ENV=test jest test ./test/CourseDescriptionEditor --watch",
