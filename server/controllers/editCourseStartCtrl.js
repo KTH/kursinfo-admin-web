@@ -29,7 +29,7 @@ async function getEditCourseStart(req, res, next) {
 
     const context = createEditCourseStartWebContext({
       language: lang,
-      userId: req.session.passport.user.ugKthid,
+      userId: req.session.passport.user.kthId,
       ladokData,
     })
 

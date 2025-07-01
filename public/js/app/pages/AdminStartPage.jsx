@@ -26,9 +26,9 @@ function AdminStartPage() {
   const { ladokData, publicHostUrl, userRoles, lang } = context
   const { courseTitleData } = ladokData
   const { courseCode } = courseTitleData
-  const { isCourseResponsible, isExaminator, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
+  const { isCourseCoordinator, isExaminer, isKursinfoAdmin, isSuperUser, isSchoolAdmin } = userRoles
   const visibilityLevel =
-    isCourseResponsible || isExaminator || isKursinfoAdmin || isSuperUser || isSchoolAdmin ? 'all' : 'onlyMemo'
+    isCourseCoordinator || isExaminer || isKursinfoAdmin || isSuperUser || isSchoolAdmin ? 'all' : 'onlyMemo'
   const { pageTitles, startCards } = i18n.messages[lang === 'en' ? 0 : 1]
 
   const publicPagesHref = publicHostUrl?.replace('.se/', '.se')

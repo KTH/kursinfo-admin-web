@@ -32,7 +32,7 @@ async function getDescription(req, res, next) {
 
     const context = createDescriptionWebContext({
       language: lang,
-      userId: req.session.passport.user.ugKthid,
+      userId: req.session.passport.user.kthId,
       ladokData,
       courseInfo,
     })
@@ -59,7 +59,7 @@ async function updateDescription(req, res, next) {
         en: req.body.courseDispositionEn,
       },
       imageInfo: req.body.imageName,
-      lastChangedBy: req.session.passport.user.ugKthid,
+      lastChangedBy: req.session.passport.user.kthId,
     }
 
     if (courseInfo.notFound) {

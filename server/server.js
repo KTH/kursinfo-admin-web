@@ -167,10 +167,11 @@ const oidc = new OpenIDConnect(server, passport, {
   extendUser: (user, claims) => {
     const { kthid, memberOf } = claims
 
+    user.kthId = kthid
+
     user.isSuperUser = memberOf.includes(config.auth.superuserGroup)
     user.isKursinfoAdmin = memberOf.includes(config.auth.kursinfoAdmins)
 
-    user.ugKthid = kthid
     user.memberOf = typeof memberOf === 'string' ? [memberOf] : memberOf
   },
 })
@@ -250,8 +251,8 @@ appRoute.get(
   _addProxy('/:courseCode'),
   oidc.login,
   requireRole(
-    'isCourseResponsible',
-    'isExaminator',
+    'isCourseCoordinator',
+    'isExaminer',
     'isCourseTeacher',
     'isSuperUser',
     'isKursinfoAdmin',
@@ -265,7 +266,7 @@ appRoute.get(
   'course.editStartPage',
   _addProxy('/edit/:courseCode'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   EditCourseStartCtrl.getEditCourseStart
 )
 
@@ -274,14 +275,14 @@ appRoute.get(
   'course.editDescription',
   _addProxy('/edit/:courseCode/description'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   DescriptionCtrl.getDescription
 )
 appRoute.post(
   'course.updateDescription',
   _addProxy('/edit/:courseCode/description'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   DescriptionCtrl.updateDescription
 )
 
@@ -290,7 +291,7 @@ appRoute.post(
   'storage.saveImage',
   _addProxy('/storage/saveImage/:courseCode/:published'),
   oidc.silentLogin,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   ImageCtrl.saveImageToStorage
 )
 
@@ -299,14 +300,14 @@ appRoute.get(
   'course.editOtherInformation',
   _addProxy('/edit/:courseCode/otherInformation'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   OtherInformationCtrl.getOtherInformation
 )
 appRoute.post(
   'course.updateOtherInformation',
   _addProxy('/api/:courseCode/otherInformation'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   OtherInformationCtrl.updateOtherInformation
 )
 // Recommended prerequisites
@@ -314,14 +315,14 @@ appRoute.get(
   'course.editRecommendedPrerequisites',
   _addProxy('/edit/:courseCode/recommendedPrerequisites'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   RecommendedPrerequisitesCtrl.getRecommendedPrerequisites
 )
 appRoute.post(
   'course.updateRecommendedPrerequisites',
   _addProxy('/api/:courseCode/recommendedPrerequisites'),
   oidc.login,
-  requireRole('isCourseResponsible', 'isExaminator', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
+  requireRole('isCourseCoordinator', 'isExaminer', 'isSuperUser', 'isKursinfoAdmin', 'isSchoolAdmin'),
   RecommendedPrerequisitesCtrl.updateRecommendedPrerequisites
 )
 

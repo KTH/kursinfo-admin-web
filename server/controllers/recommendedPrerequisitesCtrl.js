@@ -32,7 +32,7 @@ async function getRecommendedPrerequisites(req, res, next) {
     const courseInfo = await getCourseInfo(courseCode)
     const context = createRecommendedPrerequisitesWebContext({
       language: lang,
-      userId: req.session.passport.user.ugKthid,
+      userId: req.session.passport.user.kthId,
       ladokData,
       courseInfo,
     })
@@ -54,7 +54,7 @@ async function updateRecommendedPrerequisites(req, res, next) {
         sv: req.body.recommendedPrerequisitesSv,
         en: req.body.recommendedPrerequisitesEn,
       },
-      lastChangedBy: req.session.passport.user.ugKthid,
+      lastChangedBy: req.session.passport.user.kthId,
     }
 
     if (courseInfo.notFound) {

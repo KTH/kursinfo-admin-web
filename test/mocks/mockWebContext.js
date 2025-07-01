@@ -33,9 +33,9 @@ const mockWebContext = {
   publicHostUrl: 'https://www.kth.se/',
   isStandardImageChosen: true,
   userRoles: {
-    isCourseResponsible: true,
+    isCourseCoordinator: true,
     isSuperUser: false,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: false,
   },
   langIndex: 1,

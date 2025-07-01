@@ -18,63 +18,63 @@ jest.mock('react-router-dom', () => ({
 
 const ONLY_TEACHER = {
   userRoles: {
-    isCourseResponsible: false,
+    isCourseCoordinator: false,
     isSuperUser: false,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: true,
   },
 }
 
 const ONLY_RESPONSIBLE = {
   userRoles: {
-    isCourseResponsible: true,
+    isCourseCoordinator: true,
     isSuperUser: false,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: false,
   },
 }
 
 const ONLY_EXAMINATOR = {
   userRoles: {
-    isCourseResponsible: false,
+    isCourseCoordinator: false,
     isSuperUser: false,
-    isExaminator: true,
+    isExaminer: true,
     isTeacher: false,
   },
 }
 
 const ONLY_SUPERUSER = {
   userRoles: {
-    isCourseResponsible: false,
+    isCourseCoordinator: false,
     isSuperUser: true,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: false,
   },
 }
 
 const TEACHER_AND_SUPERUSER = {
   userRoles: {
-    isCourseResponsible: false,
+    isCourseCoordinator: false,
     isSuperUser: true,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: true,
   },
 }
 
 const TEACHER_AND_EXAMINATOR = {
   userRoles: {
-    isCourseResponsible: false,
+    isCourseCoordinator: false,
     isSuperUser: false,
-    isExaminator: true,
+    isExaminer: true,
     isTeacher: true,
   },
 }
 
 const TEACHER_AND_RESPONSIBLE = {
   userRoles: {
-    isCourseResponsible: true,
+    isCourseCoordinator: true,
     isSuperUser: false,
-    isExaminator: false,
+    isExaminer: false,
     isTeacher: true,
   },
 }
