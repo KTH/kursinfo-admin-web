@@ -68,7 +68,7 @@ module.exports = {
     instruction_p1:
       'Here in the administration tool for About course there are three functions for editing some of the information that is displayed on About course. You can edit some information on the page Before course selection and create and publish Course memo.',
     instruction_p2:
-      'About course also contains information retrieved from Ladok. It is the course syllabus, the course common information and the administrative course instances/course offerings. Examiner, course coordinator, and teacher is fetched from Kopps.',
+      'About course also contains information retrieved from Ladok. It is the course syllabus, the course common information and the administrative course instances/course offerings. Examiner, course coordinator, and teacher is fetched from UG Admin.',
     instruction_p3_start:
       'What functions you have access to in the administration tool for About course depends on which role you have in the system.',
     instruction_p3_link_label: 'Instructions and information about access to About course ',

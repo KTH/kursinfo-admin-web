@@ -67,7 +67,7 @@ module.exports = {
     instruction_p1:
       'Här i Om kursens administrationsverktyg finns tre funktioner för att redigera en del av den information som visas på sidorna för Om kursen. Du kan redigera viss information på sidan Inför kursval samt skapa och publicera kurs-PM.',
     instruction_p2:
-      'På Om kursens sidor finns även information som hämtats från Ladok. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle. Examinator, kurs­ansvarig och lärare hämtas från Kopps.',
+      'På Om kursens sidor finns även information som hämtats från Ladok. Det är kurs­plan, kurs­gemensam information och kurs­tillfälle. Examinator, kurs­ansvarig och lärare hämtas från UG Admin.',
     instruction_p3_start:
       'Vilka funktioner man har tillgång till i Om kursens administrationsverktyg beror på vilken behörighet man har.',
     instruction_p3_link_label: 'Instruktioner och information om behörighet för Om kursen hittar du på intranätet',
