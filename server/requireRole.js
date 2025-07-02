@@ -1,33 +1,15 @@
 'use strict'
 
 const language = require('@kth/kth-node-web-common/lib/language')
-const { hasGroup } = require('@kth/kth-node-passport-oidc')
 const log = require('@kth/log')
 
 const i18n = require('../i18n')
 const ladokCourseData = require('./apiCalls/ladokApi')
-
-function _hasThisTypeGroup(courseCode, courseInitials, user, employeeType) {
-  // 'edu.courses.SF.SF1624.20192.1.courseresponsible'
-  // 'edu.courses.SF.SF1624.20182.9.teachers'
-
-  const groups = user.memberOf
-  const startWith = `edu.courses.${courseInitials}.${courseCode}.` // TODO: What to do with years 20192. ?
-  const endWith = `.${employeeType}`
-  if (groups && groups.length > 0) {
-    for (let i = 0; i < groups.length; i++) {
-      if (groups[i].indexOf(startWith) >= 0 && groups[i].indexOf(endWith) >= 0) {
-        return true
-      }
-    }
-  }
-  return false
-}
+const { getEmployeeRoleForCourse } = require('./apiCalls/ugRestApi')
 
 const schools = () => ['abe', 'eecs', 'itm', 'cbh', 'sci']
 
 async function _isAdminOfCourseSchool(courseCode, user) {
-  // app.kursinfo.***
   const { memberOf: userGroups } = user
 
   if (!userGroups || userGroups?.length === 0) return false
@@ -37,18 +19,15 @@ async function _isAdminOfCourseSchool(courseCode, user) {
   if (userSchools.length === 0) return false
   const courseSchoolCode = await ladokCourseData.getCourseSchoolCode(courseCode)
 
-  if (!courseSchoolCode) {
+  if (courseSchoolCode === 'missing_school_code' || courseSchoolCode === 'ladok_get_fails') {
     log.info('Has problems with fetching school code to define if user is a school admin', {
       message: courseSchoolCode,
     })
     return false
   }
-  log.debug('Fetched courseSchoolCode to define user role', { courseSchoolCode, userSchools })
 
   const hasSchoolCodeInAdminGroup = userSchools.includes(courseSchoolCode.toLowerCase())
   log.debug('User admin role', { hasSchoolCodeInAdminGroup })
-
-  // think about missing course code
 
   return hasSchoolCodeInAdminGroup
 }
@@ -58,33 +37,42 @@ const messageHaveNotRights = lang => ({
   message: i18n.message('message_have_not_rights', lang),
 })
 
-module.exports.requireRole = (...roles) =>
+module.exports.requireRole = (...requiredRoles) =>
   async function _hasCourseAcceptedRoles(req, res, next) {
     const lang = language.getLanguage(res)
-
     const { user = {} } = req.session.passport
+
     const courseCode = req.params.courseCode.toUpperCase()
-    const courseInitials = courseCode.slice(0, 2)
-    // TODO: Add date for courseresponsible
-    const basicUserCourseRoles = {
-      isCourseResponsible: _hasThisTypeGroup(courseCode, courseInitials, user, 'courseresponsible'),
-      isCourseTeacher: _hasThisTypeGroup(courseCode, courseInitials, user, 'teachers'),
-      isExaminator: hasGroup(`edu.courses.${courseInitials}.${courseCode}.examiner`, user),
+
+    // Determine the user's role in the course as a whole (not a specific round)
+    const { isCourseCoordinator, isCourseTeacher, isExaminer } = await getEmployeeRoleForCourse(user.kthId, courseCode)
+
+    // Build a full list of role flags
+    const roles = {
+      isCourseCoordinator,
+      isCourseTeacher,
+      isExaminer,
       isKursinfoAdmin: user.isKursinfoAdmin,
       isSuperUser: user.isSuperUser,
-      isSchoolAdmin: null,
+      isSchoolAdmin: null, // Will be resolved below if needed
     }
 
-    req.session.passport.user.roles = basicUserCourseRoles
+    req.session.passport.user.roles = roles
 
-    // If we don't have one of these then access is forbidden
-    const hasBasicAuthorizedRole = roles.reduce((prev, curr) => prev || basicUserCourseRoles[curr], false)
-    if (hasBasicAuthorizedRole) return next()
+    // Check if the user has at least one of the required roles
+    const isAuthorized = requiredRoles.some(role => roles[role])
+    if (isAuthorized) return next()
 
-    if (!hasBasicAuthorizedRole && !roles.includes('isSchoolAdmin')) return next(messageHaveNotRights(lang))
+    // If the required roles do NOT include school admin, deny access
+    if (!requiredRoles.includes('isSchoolAdmin')) {
+      return next(messageHaveNotRights(lang))
+    }
 
-    const isAdminOfCourseSchool = await _isAdminOfCourseSchool(courseCode, user)
-    req.session.passport.user.roles.isSchoolAdmin = isAdminOfCourseSchool
-    if (isAdminOfCourseSchool) return next()
+    // Otherwise, check whether the user is a school admin for the given course
+    const isScoolAdmin = await _isAdminOfCourseSchool(courseCode, user)
+    req.session.passport.user.roles.isSchoolAdmin = isScoolAdmin
+
+    // Allow or deny access based on school admin status
+    if (isScoolAdmin) return next()
     else return next(messageHaveNotRights(lang))
   }

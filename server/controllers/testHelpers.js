@@ -14,7 +14,7 @@ async function reqHandler(
   req.session = req.session ?? {
     passport: {
       user: {
-        ugKthid: extra.userId,
+        kthId: extra.userId,
       },
     },
   }

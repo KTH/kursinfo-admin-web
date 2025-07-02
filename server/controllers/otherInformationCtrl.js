@@ -32,7 +32,7 @@ async function getOtherInformation(req, res, next) {
     const courseInfo = await getCourseInfo(courseCode)
     const context = createOtherInformationWebContext({
       language: lang,
-      userId: req.session.passport.user.ugKthid,
+      userId: req.session.passport.user.kthId,
       ladokData,
       courseInfo,
     })
@@ -54,7 +54,7 @@ async function updateOtherInformation(req, res, next) {
         sv: req.body.supplementaryInfoSv,
         en: req.body.supplementaryInfoEn,
       },
-      lastChangedBy: req.session.passport.user.ugKthid,
+      lastChangedBy: req.session.passport.user.kthId,
     }
 
     if (courseInfo.notFound) {
