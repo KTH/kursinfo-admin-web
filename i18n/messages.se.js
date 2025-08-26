@@ -177,7 +177,7 @@ module.exports = {
     courseDev_decs_alert_p1:
       'I mars 2025 avvecklas det här verktyget för publicering och redigering av kursanalys och kursdata. Sista användning är för kurser som gått under läsperiod 2 i HT24. Från läsperiod 3 i VT25 fylls kursanalys i och publiceras i Canvas. Kursdata och del av kursanalys publiceras också automatiskt på Om kursen.',
     courseDev_decs_alert_p2: 'Läs om det nya automatiserade systemet i Canvas här:',
-    courseDev_decs_alert_p2_link: 'Nytt IT-systemstöd för kursvärdering och kursanalys',
+    courseDev_decs_alert_p2_link: 'Kursanalys och kursutveckling',
   },
 
   editCourseStart: {

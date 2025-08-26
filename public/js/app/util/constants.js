@@ -22,6 +22,6 @@ export const COURSE_INFO_IN_CANVAS = {
 }
 
 export const NEW_COURSE_ANALYSIS_ADMIN_TOOL_URL = {
-  en: 'https://intra.kth.se/en/utbildning/systemstod/kursvardering-och-kursanalys/nytt-it-systemstod-for-kursvardering-och-kursanalys-1.1300051',
-  sv: 'https://intra.kth.se/utbildning/systemstod/kursvardering-och-kursanalys/nytt-it-systemstod-for-kursvardering-och-kursanalys-1.1300051',
+  en: 'https://intra.kth.se/en/utbildning/systemstod/kursvardering-och-kursutveckling/kursanalys-och-kursutveckling-1.1338135',
+  sv: 'https://intra.kth.se/utbildning/systemstod/kursvardering-och-kursutveckling/kursanalys-och-kursutveckling-1.1338135',
 }
