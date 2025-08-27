@@ -182,7 +182,7 @@ module.exports = {
     courseDev_decs_alert_p1:
       'In March 2025, this tool for publishing and editing course analysis and course data will be discontinued. Last use is for courses taken during study period 2 in Autumn 2024. From study period 3 in Spring 2025, course analysis is filled in and published in Canvas. Course data and part of the course analysis are also published automatically on About course.',
     courseDev_decs_alert_p2: 'Read about the new automated system in Canvas here:',
-    courseDev_decs_alert_p2_link: 'New IT system support for course evaluation and course analysis',
+    courseDev_decs_alert_p2_link: 'Course analysis and course development',
   },
   editCourseStart: {
     pageHeader: 'Before course selection',
