@@ -13,7 +13,7 @@ async function getLadokCourseData(courseCode, lang) {
     mainSubject: huvudomraden?.[0].name,
     courseTitleData: {
       courseCode: kod,
-      courseTitle: benamning,
+      courseTitle: benamning.name,
       courseCredits: omfattning.formattedWithUnit,
       schoolCode,
     },
