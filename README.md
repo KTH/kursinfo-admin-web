@@ -183,9 +183,9 @@ npm run test
 docker-compose up
 ```
 
-## Editor CKEDITOR and gulp
+## Editor CKEDITOR
 
-@kth/kth-ckeditor-build package is used for editor. It uses gulp file to be built in /dist folder.
+@kth/kth-ckeditor-build package is used for editor. We copy it to the /dist folder using bash.
 
 ## Author
 

@@ -9,7 +9,6 @@ ENV TZ Europe/Stockholm
 COPY ["config", "config"]
 COPY ["public", "public"]
 COPY ["i18n", "i18n"]
-COPY ["gulpfile.js", "gulpfile.js"]
 COPY [".babelrc", ".babelrc"]
 COPY [".eslintrc", ".eslintrc"]
 COPY ["package.json", "package.json"]
@@ -19,7 +18,6 @@ COPY ["package-lock.json", "package-lock.json"]
 COPY ["app.js", "app.js"]
 COPY ["server", "server"]
 
-# Copy source files, so changes does not trigger gulp.
 COPY ["build.sh", "build.sh"]
 COPY ["webpack.config.js", "webpack.config.js"]
 
