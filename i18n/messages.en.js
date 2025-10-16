@@ -28,7 +28,7 @@ module.exports = {
     contact_support: 'Contact',
     for_questions: 'if you have any questions.',
     friendly_message_have_not_rights: "You don't have permission to use About course's administration tool",
-    message_have_not_rights: `You don't have permission to use About course's administration tool. Permission is automatically given to those who are added as an examiner, course coordinator or teacher for the course in UG Admin.`,
+    message_have_not_rights: `You don't have permission to use About course's administration tool. Permission is automatically given to those who are added as an examiner, course coordinator or teacher for the course in UPL/Ladok.`,
     message_have_not_rights_link_pre_text: 'It is possible',
     message_have_not_rights_link_href:
       'https://intra.kth.se/en/utbildning/systemstod/om-kursen/behorighet-for-om-kursen-1.1051642',
