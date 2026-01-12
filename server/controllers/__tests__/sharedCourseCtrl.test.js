@@ -10,8 +10,8 @@ const {
 const { getDescription, updateDescription } = require('../descriptionCtrl')
 const { getOtherInformation, updateOtherInformation } = require('../otherInformationCtrl')
 const { getEditCourseStart } = require('../editCourseStartCtrl')
-
 const { reqHandler } = require('../testHelpers')
+const { HttpError } = require('../../HttpError')
 
 jest.mock('../../server')
 jest.mock('../../configuration')
@@ -95,18 +95,11 @@ describe.each([
     })
   })
 
-  it('should call next with HttpError if course code it not found in ladok', async () => {
-    getLadokCourseData.mockResolvedValueOnce({
-      apiError: true,
-      statusCode: 404,
-    })
+  it('should call next with HttpError if course code is not found in ladok', async () => {
+    const httpError = new HttpError(404, 'Not Found')
+    getLadokCourseData.mockRejectedValueOnce(httpError)
     const { next } = await reqHandler(endpoint, { params: { courseCode: 'ABC123' } })
-    expect(next).toHaveBeenCalledWith(
-      expect.objectContaining({
-        status: 404,
-        isHttpError: true,
-      })
-    )
+    expect(next).toHaveBeenCalledWith(httpError)
   })
 })
 

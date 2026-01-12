@@ -1,31 +1,24 @@
-<!-- javascript for this view. -->
-{{#extend 'scripts'}}
-  <script>
-    window.StatusCode = ({{status}}
-    || 500)
-  </script>
-{{/extend}}
-
 <div class='errorMain'>
   {{{blocks.image}}}
   <h1>{{status}}</h1>
   <h3>{{friendly}}</h3>
   {{#if (isUnauthorized status)}}
-    <p>{{i18n 'message_have_not_rights' lang}}</p>
-    <p>{{i18n 'message_have_not_rights_link_pre_text' lang}}
-      <a href={{i18n 'message_have_not_rights_link_href' lang}}>{{i18n 'message_have_not_rights_link_text' lang}}</a>.
-      {{i18n 'message_have_not_rights_link_after_text' lang}}</p>
-    <p>
-      {{i18n 'contact_support' lang}}
-      <a href='mailto:it-support@kth.se'>it-support@kth.se</a>
-      {{i18n 'for_questions' lang}}
-    </p>
+  <p>{{i18n 'message_have_not_rights' lang}}</p>
+  <p>{{i18n 'message_have_not_rights_link_pre_text' lang}}
+    <a href={{i18n 'message_have_not_rights_link_href' lang}}>{{i18n 'message_have_not_rights_link_text' lang}}</a>.
+    {{i18n 'message_have_not_rights_link_after_text' lang}}
+  </p>
+  <p>
+    {{i18n 'contact_support' lang}}
+    <a href='mailto:it-support@kth.se'>it-support@kth.se</a>
+    {{i18n 'for_questions' lang}}
+  </p>
   {{/if}}
 
   <div class='card card-body bg-light'>
     <p class='kthLovesGeeks'>HTTP {{status}}: {{message}}</p>
     {{#if error.stack}}
-      <pre>{{error.stack}}</pre>
+    <pre class="error-text">{{error.stack}}</pre>
     {{/if}}
   </div>
 </div>
