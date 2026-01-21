@@ -12,7 +12,6 @@ const serverPaths = require('../server').getPaths()
 const { getServerSideFunctions } = require('../utils/serverSideRendering')
 const { getLangIndex } = require('../utils/langUtil')
 const { createServerSideContext } = require('../ssr-context/createServerSideContext')
-const { HttpError } = require('../HttpError')
 
 async function getAdminStart(req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
@@ -32,10 +31,9 @@ async function getAdminStart(req, res, next) {
     /* ------- Settings ------- */
     webContext.setBrowserConfig(browserConfig, serverPaths, serverConfig.hostUrl)
     webContext.setUserRolesForThisCourse(userRoles)
+
     const ladokData = await getLadokCourseData(courseCode, lang)
-    if (ladokData.apiError && ladokData.statusCode === 404) {
-      throw new HttpError(404, messages.error_not_found)
-    }
+
     webContext.ladokApiError = ladokData.apiError
     webContext.ladokData = ladokData
     webContext.courseCode = courseCode
