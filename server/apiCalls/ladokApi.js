@@ -33,7 +33,10 @@ async function getLadokCourseData(courseCode, lang) {
 
 async function getCourseSchoolCode(courseCode) {
   try {
-    const { schoolCode } = await getLadokCourseData(courseCode)
+    const ladokCourseData = await getLadokCourseData(courseCode)
+    if (!ladokCourseData || ladokCourseData.statusCode !== 200) return 'ladok_get_fails'
+    const { schoolCode } = ladokCourseData.courseTitleData
+    if (!schoolCode) return 'missing_school_code'
     return schoolCode
   } catch (err) {
     return err
