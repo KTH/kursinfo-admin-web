@@ -36,14 +36,18 @@ const AlertMsg = ({ querySearchParams, courseCode, translate = {}, lang = 'en', 
     ver,
     memoendpoint: memoEndPoint,
     ladokRound,
+    source,
   } = querySearchParams
+  const { alertMessages, course_short_semester: shortSemester } = translate
+  if (source && source.includes('missingMemoDraft')) {
+    return <Alert type="error" header={alertMessages.memoMissing} />
+  }
   if (!services.includes(serviceAbbr)) return null
   if (!actions.includes(doneAction)) return null
   const publicServiceHostUrl =
     querySearchParams && serviceAbbr
       ? `${publicPagesHref}${publicUrls[serviceAbbr]}`
       : `${publicPagesHref}${COURSE_INFO_URL}`
-  const { alertMessages, course_short_semester: shortSemester } = translate
   const semesterLabel = semester
     ? `${shortSemester[semester.toString().substring(4, 5)]} ${semester.toString().substring(0, 4)}`
     : null
