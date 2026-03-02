@@ -51,7 +51,7 @@ function AdminStartPage() {
       <PageTitle {...pageTitleProps} />
 
       <TextAboutRights lang={lang} translate={pageTitles} />
-      <AlertMissingMemoMsg querySearchParams={fetchParameters(querySearchParams)} translate={pageTitles} />
+      <AlertMissingMemoMsg querySearchParams={fetchParameters(querySearchParams)} lang={lang} translate={pageTitles} />
       <AlertMsg
         courseCode={courseCode}
         querySearchParams={fetchParameters(querySearchParams)}

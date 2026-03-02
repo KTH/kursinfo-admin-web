@@ -13,6 +13,8 @@ module.exports = {
 
     language_link_lang_sv: 'Svenska',
 
+    missing_translation: 'There is a missing translation for this text',
+
     /**
      * Error messages
      */
