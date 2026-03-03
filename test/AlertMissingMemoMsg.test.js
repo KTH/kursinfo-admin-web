@@ -11,24 +11,10 @@ const TEST_QUERY_MISSING_DRAFT = {
 const { getByRole } = screen
 
 describe('English. Component <AlertMissingMemoMsg> renders alert if user is missing a memo draft', () => {
-  test('renders alert message if user does not have a draft', done => {
-    const lang = 'en'
-    const { pageTitles } = i18n.messages[lang === 'en' ? 0 : 1]
-    render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} translate={pageTitles} />)
+  test.each(['Test', 'Test 2'])('renders alert message %s', message => {
+    render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} message={message} />)
     const alertHeader = getByRole('alert')
-    expect(alertHeader).toHaveTextContent('The course memo you are looking for is missing a draft')
-    done()
-  })
-})
-
-describe('Swedish. Component <AlertMissingMemoMsg> renders alert if user is missing a memo draft', () => {
-  test('renders alert message if user does not have a draft', done => {
-    const lang = 'sv'
-    const { pageTitles } = i18n.messages[lang === 'en' ? 0 : 1]
-    render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} translate={pageTitles} />)
-    const alertHeader = getByRole('alert')
-    expect(alertHeader).toHaveTextContent('Det kurs-PM du söker saknar ett utkast')
-    done()
+    expect(alertHeader).toHaveTextContent(message)
   })
 })
 
@@ -43,31 +29,15 @@ describe('Component <AlertMissingMemoMsg> edge cases', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  test('returns null if source does not include missingMemoDraft', () => {
-    const { container } = render(
-      <AlertMissingMemoMsg
-        querySearchParams={{ source: 'otherSource' }}
-        translate={{ alertMessages: { memoMissing: 'Should not show' } }}
-      />
-    )
+  test('returns null if message is null', () => {
+    const { container } = render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} message={null} />)
     expect(container).toBeEmptyDOMElement()
   })
 
-  test('handles missing translate prop gracefully', () => {
-    const lang = 'en'
-    render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} lang={lang} />)
-    const alert = getByRole('alert')
-    expect(alert).toBeInTheDocument()
-    expect(alert).toHaveTextContent(i18n.messages[lang === 'en' ? 0 : 1].messages.missing_translation)
-  })
-
-  test('handles missing alertMessages.memoMissing gracefully', () => {
-    const lang = 'en'
-    render(
-      <AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} lang={lang} translate={{ alertMessages: {} }} />
+  test('returns null if source does not include missingMemoDraft', () => {
+    const { container } = render(
+      <AlertMissingMemoMsg querySearchParams={{ source: 'otherSource' }} message={'Should not show'} />
     )
-    const alert = getByRole('alert')
-    expect(alert).toBeInTheDocument()
-    expect(alert).toHaveTextContent(i18n.messages[lang === 'en' ? 0 : 1].messages.missing_translation)
+    expect(container).toBeEmptyDOMElement()
   })
 })

@@ -14,8 +14,6 @@ module.exports = {
 
     language_link_lang_en: 'English',
 
-    missing_translation: 'Det saknas en översättning för den här texten',
-
     /**
      * Error messages
      */
