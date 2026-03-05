@@ -10,7 +10,7 @@ const TEST_QUERY_MISSING_DRAFT = {
 
 const { getByRole } = screen
 
-describe('English. Component <AlertMissingMemoMsg> renders alert if user is missing a memo draft', () => {
+describe('Component <AlertMissingMemoMsg> renders alert if user is missing a memo draft', () => {
   test.each(['Test', 'Test 2'])('renders alert message %s', message => {
     render(<AlertMissingMemoMsg querySearchParams={TEST_QUERY_MISSING_DRAFT} message={message} />)
     const alertHeader = getByRole('alert')
