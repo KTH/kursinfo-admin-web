@@ -10,7 +10,6 @@ import AlertReminderMsg from '../components/AlertReminderMsg'
 import AlertReminderMsgNewPubMemo from '../components/AlertReminderMsgNewPubMemo'
 import { useWebContext } from '../context/WebContext'
 import {
-  ADMIN_COURSE_UTV,
   ADMIN_COURSE_PM,
   ADMIN_COURSE_PM_DATA,
   ADMIN_ABOUT_COURSE,
@@ -18,6 +17,7 @@ import {
 } from '../util/constants'
 import { fetchParameters } from '../util/fetchUrlParams'
 import Alert from '../components-shared/Alert'
+import AlertMissingMemoMsg from '../components/AlertMissingMemoMsg'
 
 function AdminStartPage() {
   const [context] = useWebContext()
@@ -51,7 +51,10 @@ function AdminStartPage() {
       <PageTitle {...pageTitleProps} />
 
       <TextAboutRights lang={lang} translate={pageTitles} />
-
+      <AlertMissingMemoMsg
+        querySearchParams={fetchParameters(querySearchParams)}
+        message={pageTitles.alertMessages.memoMissing}
+      />
       <AlertMsg
         courseCode={courseCode}
         querySearchParams={fetchParameters(querySearchParams)}

@@ -96,6 +96,7 @@ module.exports = {
     },
     alertMessages: {
       noMemoHeader: '... men det saknas ett publicerat kurs-PM',
+      memoMissing: 'Det kurs-PM du söker saknar ett utkast',
       kutv: {
         save: 'Utkast för kursanalys och kursdata har sparats',
         s_msg: 'Du hittar det sparade utkastet under Kursanalys och kursdata/ Publicera ny',
