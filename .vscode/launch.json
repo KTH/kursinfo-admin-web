@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Debug server",
+      "port": 9229,
+      "restart": true,
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/om-kursen-ladok-client/dist/**/*.js",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/ladok-attributvarde-utils/dist/**/*.js",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/ladok-mellanlager-client/dist/**/*.js",
+        "${workspaceFolder}/../studadm-om-kursen-packages/node_modules/@kth/ladok-attributvarde-utils/dist/**/*.js",
+        "${workspaceFolder}/../studadm-om-kursen-packages/node_modules/@kth/ladok-mellanlager-client/dist/**/*.js"
+      ],
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/om-kursen-ladok-client/**",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/ladok-attributvarde-utils/**",
+        "${workspaceFolder}/../studadm-om-kursen-packages/packages/ladok-mellanlager-client/**",
+        "${workspaceFolder}/../studadm-om-kursen-packages/node_modules/@kth/ladok-attributvarde-utils/**",
+        "${workspaceFolder}/../studadm-om-kursen-packages/node_modules/@kth/ladok-mellanlager-client/**"
+      ]
+    }
+  ]
+}
