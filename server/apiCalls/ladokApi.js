@@ -9,7 +9,7 @@ const HTTP_CODE_400 = 400
 
 async function getLadokCourseData(courseCode, lang) {
   const client = createApiClient(serverConfig.ladokMellanlagerApi)
-  const course = await client.getLatestCourseVersion(courseCode, lang)
+  const course = await client.getLatestCourseVersionIncludingCancelled(courseCode, lang)
   const { apiError, huvudomraden, benamning, kod, schoolCode, omfattning, statusCode } = course
 
   if (statusCode >= HTTP_CODE_400 || apiError) {
