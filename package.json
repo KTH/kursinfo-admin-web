@@ -25,7 +25,10 @@
     "test-watch": "jest --watch",
     "docker": "npm install --development && npm run build && npm prune --production",
     "start": "bash -c 'cat /KTH_NODEJS; NODE_ENV=production node app.js'",
-    "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'"
+    "start-dev": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon app.js\"'",
+    "start-dev-debug": "bash -c 'NODE_ENV=development concurrently --kill-others -n build,app \"npm run build-dev\" \"nodemon --inspect app.js\"'",
+    "use-local-oklc": "npm install file:../studadm-om-kursen-packages/packages/om-kursen-ladok-client --no-save",
+    "use-published-oklc": "npm ci"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.31.0",
