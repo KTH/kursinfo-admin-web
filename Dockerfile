@@ -1,4 +1,4 @@
-FROM kthregistry.azurecr.io/kth-nodejs-20:latest
+FROM kthregistry.azurecr.io/kth-nodejs-22:latest
 LABEL maintainer="KTH-studadm studadm.developers@kth.se"
 
 WORKDIR /application
